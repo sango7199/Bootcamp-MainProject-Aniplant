@@ -13,5 +13,13 @@ public class MainController {
         mav.setViewName("pages/index");
         return mav;
     }
+    
+//    @GetMapping("/login")
+//    public ModelAndView main() {
+//    	ModelAndView mav = new ModelAndView();
+//        mav.setViewName("user/login");
+//        return mav;
+//    }
 
 }
+
