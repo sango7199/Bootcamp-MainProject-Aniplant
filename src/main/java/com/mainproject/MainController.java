@@ -14,12 +14,6 @@ public class MainController {
         return mav;
     }
     
-//    @GetMapping("/login")
-//    public ModelAndView main() {
-//    	ModelAndView mav = new ModelAndView();
-//        mav.setViewName("user/login");
-//        return mav;
-//    }
 
 }
 
