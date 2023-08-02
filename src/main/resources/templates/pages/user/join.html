@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>회원가입</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <style>
     .logo_aniplant .link {
         background-image: url("../static/img/aniplant_logo01.png");
@@ -43,7 +44,42 @@
             <li><input type="radio" id="genderIdentity2" name="female" value="F"><label for="genderIdentity2">여자</label></li>
         </ul>
         <button type="button" id="join_btn" class="btn_submit">회원가입</button>
-    </form>
-</div>
+        </form>
+    </div>
 </body>
+<script>
+    // JS(jQuery)를 사용하여 form 데이터를 AJAX post 요청으로 회원가입 데이터 전송하는 로직
+    $(document).ready(function() {
+        $("#join_btn").click(function() {
+            // 전화번호 세 자리로 구분하는 로직
+            var telInput = $("#telInput").val();
+            var telParts = telInput.split("-");
+            
+            var formData = {
+                id: $("#idInput").val(),
+                pwd: $("#passwordInput").val(),
+                email: $("#emailInput").val(),
+                nickname: $("#nicknameInput").val(),
+                name: $("#nameInput").val(),
+                birth: $("#birthInput").val(),
+                countury_code: telParts[0],
+                first_hp: telParts[1] ,
+                second_hp: telParts[2],
+                gender: $("input[name='male']:checked").val() || $("input[name='female']:checked").val()
+            };
+
+            $.ajax({
+                url: "/api/register",
+                type: "POST",
+                data: formData,
+                success: function(response) {
+                    window.location.href = "join-complete.html";
+                },
+                error: function(xhr, status, error) {
+                    alert("회원가입 중 오류가 발생했습니다.");
+                }
+            });
+        });
+    });
+</script>
 </html>
