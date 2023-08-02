@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원가입</title>
+  <style>
+    .logo_aniplant .link {
+        background-image: url("../static/img/aniplant_logo01.png");
+        background-repeat: no-repeat;
+        background-size: 200px 100px;
+        background-position: center;
+        display: block;
+        width: 200px;
+        height: 100px;
+    }
+    .blind {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+    }
+  </style>
+</head>
+<body>
+    <h1 class="logo_aniplant">
+        <a href="www.naver.com" class="link"></a>
+        <span class="blind">애니플랜트</span>
+    </h1>
+    <div class="content">
+        <form id="join_form" name="join_form" method="post" action="">
+        <input type="text" id="idInput" name="id" placeholder="아이디"><br>
+        <input type="password" id="passwordInput" name="password" placeholder="비밀번호"><br>
+        <input type="password" id="passwordConfirmInput" name="password_confirm" placeholder="비밀번호 확인"><br>
+        <input type="email" id="emailInput" name="email" placeholder="[선택] 비밀번호 분실 시 확인용 이메일"><br>
+        <input type="text" id="nicknameInput" name="nickname" placeholder="닉네임" value maxlength="10"><br>
+        <input type="text" id="nameInput" name="name" placeholder="이름" value maxlength="8"><br>
+        <input type="date" id="birthInput" name="birth" placeholder="생년월일 8자리" value maxlength="10"><br>
+        <input type="tel" id="telInput" name="tel" placeholder="'-'를 포함한 휴대전화번호" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"><br>
+        <ul class="gender_list">
+            <li><input type="radio" id="genderIdentity1" name="male" value="M"><label for="genderIdentity1">남자</label></li>
+            <li><input type="radio" id="genderIdentity2" name="female" value="F"><label for="genderIdentity2">여자</label></li>
+        </ul>
+        <button type="button" id="join_btn" class="btn_submit">회원가입</button>
+    </form>
+</div>
+</body>
+</html>
