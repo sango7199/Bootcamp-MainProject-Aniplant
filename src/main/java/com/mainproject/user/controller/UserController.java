@@ -1,5 +1,10 @@
 package com.mainproject.user.controller;
 
-public interface UserController {
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.servlet.ModelAndView;
+
+public interface UserController {
+	public ModelAndView registerUser(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }
