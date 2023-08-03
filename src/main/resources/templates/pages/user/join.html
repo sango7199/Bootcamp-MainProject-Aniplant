@@ -22,52 +22,202 @@
         overflow: hidden;
         clip: rect(0 0 0 0);
     }
+    .error {
+        color: red;
+        font-size: 12px;
+    }
   </style>
 </head>
 <body>
     <h1 class="logo_aniplant">
-        <a href="www.naver.com" class="link"></a>
+        <a href="" class="link"></a>
         <span class="blind">애니플랜트</span>
     </h1>
     <div class="content">
         <form id="join_form" name="join_form" method="post" action="">
-        <input type="text" id="idInput" name="id" placeholder="아이디"><br>
-        <input type="password" id="passwordInput" name="password" placeholder="비밀번호"><br>
-        <input type="password" id="passwordConfirmInput" name="password_confirm" placeholder="비밀번호 확인"><br>
-        <input type="email" id="emailInput" name="email" placeholder="[선택] 비밀번호 분실 시 확인용 이메일"><br>
-        <input type="text" id="nicknameInput" name="nickname" placeholder="닉네임" value maxlength="10"><br>
-        <input type="text" id="nameInput" name="name" placeholder="이름" value maxlength="8"><br>
-        <input type="date" id="birthInput" name="birth" placeholder="생년월일 8자리" value maxlength="10"><br>
-        <input type="tel" id="telInput" name="tel" placeholder="'-'를 포함한 휴대전화번호" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"><br>
+        <input type="text" id="idInput" name="id" placeholder="아이디"><button type="button" id="checkId" class="check_btn">중복 확인</button><span id="idError" class="error"></span><br>
+        <input type="password" id="passwordInput" name="password" placeholder="비밀번호"><span id="passwordError" class="error"></span><br>
+        <input type="password" id="passwordConfirmInput" name="password_confirm" placeholder="비밀번호 확인"><span id="passwordConfirmError" class="error"></span><span id="passwordCheckError" class="error"></span><br>
+        <input type="email" id="emailInput" name="email" placeholder="[선택] 비밀번호 분실 시 확인용 이메일"><span id="emailError" class="error"></span><br>
+        <input type="text" id="nicknameInput" name="nickname" placeholder="닉네임" value maxlength="10"><button type="button" id="checkNickname" class="check_btn">중복 확인</button><span id="nicknameError" class="error"></span><br>
+        <input type="text" id="nameInput" name="name" placeholder="이름" value maxlength="8"><span id="nameError" class="error"></span><br>
+        <input type="date" id="birthInput" name="birth" placeholder="생년월일 8자리" value maxlength="10"><span id="birthError" class="error"></span><br>
+        <input type="tel" id="telInput" name="tel" placeholder="'-'를 포함한 휴대전화번호" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"><span id="telError" class="error"></span><br>
         <ul class="gender_list">
             <li><input type="radio" id="genderIdentity1" name="male" value="M"><label for="genderIdentity1">남자</label></li>
             <li><input type="radio" id="genderIdentity2" name="female" value="F"><label for="genderIdentity2">여자</label></li>
         </ul>
+        <span id="genderError" class="error"></span><br>
         <button type="button" id="join_btn" class="btn_submit">회원가입</button>
         </form>
     </div>
 </body>
 <script>
+    var isIdChecked = false;
+    var isNicknameChecked = false;
+    
+    // 아이디 중복 확인 로직
+    $("#checkId").click(function() {
+        var id = $("#idInput").val();
+        if (!id) {
+            $("#idError").text("아이디를 입력해주세요.");
+            return;
+        }
+        $.ajax({
+            url: "/api/check-id",
+            type: "POST",
+            data: { id: id },
+            success: function(response) {
+                if (response.isDuplicate) {
+                    $("#idError").text("이미 사용중인 아이디입니다.");
+                } else {
+                    $("#idError").text("사용 가능한 아이디입니다.");
+                    isIdChecked = true;
+                }
+            }
+        });
+    });
+
+    // 닉네임 중복 확인 로직
+    $("#checkNickname").click(function() {
+        var nickname = $("#nicknameInput").val();
+        if (!nickname) {
+            $("#nicknameError").text("닉네임을 입력해주세요.");
+            return;
+        }
+        $.ajax({
+            url: "/api/check-nickname",
+            type: "POST",
+            data: { nickname: nickname },
+            success: function(response) {
+                if (response.isDuplicate) {
+                    $("#nicknameError").text("이미 사용중인 닉네임입니다.");
+                } else {
+                    $("#nicknameError").text("사용 가능한 닉네임입니다.");
+                    isNicknameChecked = true;
+                }
+            }
+        });
+    });
+
     // JS(jQuery)를 사용하여 form 데이터를 AJAX post 요청으로 회원가입 데이터 전송하는 로직
     $(document).ready(function() {
         $("#join_btn").click(function() {
+            // 아이디,닉네임 중복 체크
+            if (!isIdChecked) {
+                $("#idError").text("아이디 중복 확인을 해주세요.");
+                return;
+            }
+            if (!isNicknameChecked) {
+                $("#nicknameError").text("닉네임 중복 확인을 해주세요.");
+                return;
+            }
             // 전화번호 세 자리로 구분하는 로직
             var telInput = $("#telInput").val();
             var telParts = telInput.split("-");
+
+            // 필수 입력 필드 체크 로직
+            var id = $("#idInput").val();
+            var pwd = $("#passwordInput").val();
+            var pwd_confirm = $("#passwordConfirmInput").val();
+            var email = $("#emailInput").val();
+            var nickname = $("#nicknameInput").val();
+            var name = $("#nameInput").val();
+            var birth = $("#birthInput").val();
+            var countury_code = telParts[0];
+            var first_hp = telParts[1] ;
+            var second_hp = telParts[2];
+            var gender = $("input[name='male']:checked").val() || $("input[name='female']:checked").val();
+            
+            // 필수 입력창이 비어있다면 오류 메시지를 표시
+            if (!id) {
+                $("#idError").text("아이디를 입력해주세요.");
+                return;
+            } else {
+                $("#idError").text("");
+            }
+
+            if (!pwd) {
+                $("#passwordError").text("비밀번호를 입력해주세요.");
+                return;
+            } else {
+                $("#passwordError").text("");
+            }
+
+            if (!pwd_confirm) {
+                $("#passwordConfirmError").text("비밀번호 확인을 입력해주세요.");
+                return;
+            } else {
+                $("#passwordConfirmError").text("");
+            }
+
+            if (pwd !== pwd_confirm) { // 비밀번호 일치 확인
+                $("#passwordCheckError").text("비밀번호가 일치하지 않습니다.");
+                return;
+            } else {
+                $("#passwordCheckError").text("");
+            }
+
+            if (email) {
+                var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+                if (!emailPattern.test(email)) {
+                    $("#emailError").text("유효한 이메일 형식이 아닙니다.");
+                    return;
+                } else {
+                    $("#emailError").text("");
+                }
+            }
+
+            if (!nickname) {
+                $("#nicknameError").text("닉네임을 입력해주세요.");
+                return;
+            } else {
+                $("#nicknameError").text("");
+            }
+
+            if (!name) {
+                $("#nameError").text("이름을 입력해주세요.");
+                return;
+            } else {
+                $("#nameError").text("");
+            }
+
+            if (!birth) {
+                $("#birthError").text("생년월일을 입력해주세요.");
+                return;
+            } else {
+                $("#birthError").text("");
+            }
+
+            if (!telInput) {
+                $("#telError").text("생년월일을 입력해주세요.");
+                return;
+            } else {
+                $("#telError").text("");
+            }
+
+            if (!gender) { 
+                $("#genderError").text("성별을 선택해 주세요.");
+                return;
+            } else {
+                $("#genderError").text("");
+            }
             
             var formData = {
-                id: $("#idInput").val(),
-                pwd: $("#passwordInput").val(),
-                email: $("#emailInput").val(),
-                nickname: $("#nicknameInput").val(),
-                name: $("#nameInput").val(),
-                birth: $("#birthInput").val(),
+                id: id,
+                pwd: pwd,
+                email: email,
+                nickname: nickname,
+                name: name,
+                birth: birth,
                 countury_code: telParts[0],
                 first_hp: telParts[1] ,
                 second_hp: telParts[2],
-                gender: $("input[name='male']:checked").val() || $("input[name='female']:checked").val()
+                gender: gender,
             };
 
+            // AJAX post 요청 로직
             $.ajax({
                 url: "/api/register",
                 type: "POST",
