@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mainproject.user.service.UserService;
@@ -33,7 +35,7 @@ public class UserControllerImpl implements UserController {
 	}
 	
 	@Override // 회원가입 로직
-	@RequestMapping(value = {"/api/register"}, method = RequestMethod.POST)
+	@PostMapping("/api/register")
 	public ResponseEntity<String> registerUser(@RequestBody UserVO userVO) {
 	    try {
 	        userService.registerUser(userVO);
@@ -41,6 +43,20 @@ public class UserControllerImpl implements UserController {
 	    } catch (Exception e) {
 	        return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 	    }
+	}
+	
+	@Override // 아이디 중복 체크 로직
+	@PostMapping("/api/check-id")
+	public ResponseEntity<Boolean> checkId(@RequestParam("id") String id) {
+		 boolean isDuplicate = userService.isIdDuplicate("ID", id);
+		 return new ResponseEntity<>(isDuplicate, HttpStatus.OK);
+	}
+	
+	@Override // 닉네임 중복 체크 로직
+	@PostMapping("/api/check-nickname")
+	public ResponseEntity<Boolean> checkNickname(@RequestParam("nickname") String nickname) {
+		 boolean isDuplicate = userService.isIdDuplicate("Nickname",nickname);
+		 return new ResponseEntity<>(isDuplicate, HttpStatus.OK);
 	}
 	
 }

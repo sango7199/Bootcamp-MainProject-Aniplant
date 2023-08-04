@@ -12,8 +12,13 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDAO userDAO;
 	
-	@Override
+	@Override // 회원가입 로직
 	public void registerUser(UserVO userVO) throws DataAccessException {
 		userDAO.registerUser(userVO);
+	}
+	
+	@Override // 회원가입 아이디 중복 검사 로직
+	public boolean isIdDuplicate(String field, String value) {
+		return userDAO.isDuplicate(field, value);
 	}
 }

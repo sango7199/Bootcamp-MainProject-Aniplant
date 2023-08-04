@@ -6,4 +6,5 @@ import com.mainproject.user.vo.UserVO;
 
 public interface UserService {
 	public void registerUser(UserVO userVO) throws DataAccessException;
+	public boolean isIdDuplicate(String field, String value);
 }

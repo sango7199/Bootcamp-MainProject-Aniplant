@@ -44,8 +44,8 @@
         <input type="date" id="birthInput" name="birth" placeholder="생년월일 8자리" value maxlength="10"><span id="birthError" class="error"></span><br>
         <input type="tel" id="telInput" name="tel" placeholder="'-'를 포함한 휴대전화번호" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"><span id="telError" class="error"></span><br>
         <ul class="gender_list">
-            <li><input type="radio" id="genderIdentity1" name="male" value="M"><label for="genderIdentity1">남자</label></li>
-            <li><input type="radio" id="genderIdentity2" name="female" value="F"><label for="genderIdentity2">여자</label></li>
+            <li><input type="radio" id="genderIdentity1" name="gender" value="M"><label for="genderIdentity1">남자</label></li>
+            <li><input type="radio" id="genderIdentity2" name="gender" value="F"><label for="genderIdentity2">여자</label></li>
         </ul>
         <span id="genderError" class="error"></span><br>
         <button type="button" id="join_btn" class="btn_submit">회원가입</button>
@@ -127,7 +127,7 @@
             var country_code = telParts[0];
             var first_hp = telParts[1] ;
             var second_hp = telParts[2];
-            var gender = $("input[name='male']:checked").val() || $("input[name='female']:checked").val();
+            var gender = $("input[name='gender']:checked").val();
             
             // 필수 입력창이 비어있다면 오류 메시지를 표시
             if (!id) {

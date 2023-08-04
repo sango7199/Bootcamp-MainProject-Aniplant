@@ -30,5 +30,12 @@
         VALUES (#{user_num}, #{id}, #{pwd}, #{name}, #{nickname}, #{email}, #{birth}, #{country_code}, #{first_hp}, #{second_hp}, #{gender}, #{is_admin}, #{created_at})
     </insert>
 
-
+	<select id="checkIdDuplicate" resultType="int">
+    	SELECT COUNT(*) FROM TB_USER WHERE id = #{id}
+	</select>
+	
+	<select id="checkNicknameDuplicate" resultType="int">
+    	SELECT COUNT(*) FROM TB_USER WHERE ${field} = #{value}
+	</select>
+	
 </mapper>
