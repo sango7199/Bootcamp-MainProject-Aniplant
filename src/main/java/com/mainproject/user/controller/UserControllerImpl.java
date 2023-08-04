@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mainproject.user.service.UserService;
@@ -59,4 +60,27 @@ public class UserControllerImpl implements UserController {
 		 return new ResponseEntity<>(isDuplicate, HttpStatus.OK);
 	}
 	
+	@Override // 로그인 페이지 이동
+	@RequestMapping(value = {"/user/login.do"}, method = RequestMethod.GET)
+	public ModelAndView viewLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(viewName);
+		return mav;
+		
+	}
+	
+
+	
+	//로그인 로직 구현
+	@PostMapping("/api/login")
+	@ResponseBody
+	public String login(@RequestParam String id, @RequestParam String pwd) {
+		UserVO user = userService.login(id, pwd);
+		
+		if(user != null) {
+			return "success";
+		}
+		return "failure";
+	}
 }

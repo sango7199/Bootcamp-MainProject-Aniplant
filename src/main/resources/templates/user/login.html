@@ -4,18 +4,56 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>로그인</title>
-  <link rel="stylesheet" th:href="@{/login.css}" />
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link rel="stylesheet" th:href="@{/css/login.css}" />
 </head>
 <body>
   <div class="login-container">
     <h1>로그인</h1>
-    <form>
+    <form onsubmit="return validateForm()">
         <input type="text" id="id" name="id" placeholder="아이디를 입력하세요">
  
-        <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요">
+        <input type="password" id="pwd" name="pwd" placeholder="비밀번호를 입력하세요">
 
-        <button type="submit">로그인</button>
+        <button id="login-button" type="submit">로그인</button>
     </form>
 </div>
+
+<script>
+
+	//아이디와 비밀번호 필수입력 알림창
+	function validateForm() {
+    var idInput = document.getElementById("id");
+    var passwordInput = document.getElementById("pwd");
+
+    if (idInput.value.trim() === "" || passwordInput.value.trim() === "") {
+        alert("아이디와 비밀번호를 모두 입력하세요.");
+        return false;
+    }
+
+    return true;
+}
+
+//로그인 정보가 맞는지 확인하는 로직
+$(document).ready(function(){
+	$("#login-button").click(function(){
+		var id = $("#id").val();
+		var password = $("#pwd").val();
+
+		$.ajax({
+			url: "/api/login",
+			type : "POST",
+			data: {id: id, pwd: pwd},
+			success: function(response) {
+				if (response ==="success"){
+					window.location.href = "login-complete.html"
+				}else{
+					alert("잘못된 아이디이거나, 비밀번호가 틀렸습니다.");
+				}
+			}
+		});
+	});
+});
+</script>
 </body>
 </html>

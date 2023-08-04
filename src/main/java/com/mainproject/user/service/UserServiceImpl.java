@@ -12,13 +12,32 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDAO userDAO;
 	
-	@Override // íšŒì›ê°€ì… ë¡œì§
+	@Override // È¸¿ø°¡ÀÔ ·ÎÁ÷
 	public void registerUser(UserVO userVO) throws DataAccessException {
 		userDAO.registerUser(userVO);
 	}
 	
-	@Override // íšŒì›ê°€ì… ì•„ì´ë”” ì¤‘ë³µ ê²€ì‚¬ ë¡œì§
+	@Override // È¸¿ø°¡ÀÔ ¾ÆÀÌµğ Áßº¹ °Ë»ç ·ÎÁ÷
 	public boolean isIdDuplicate(String field, String value) {
 		return userDAO.isDuplicate(field, value);
 	}
+	
+	@Override //·Î±×ÀÎ ·ÎÁ÷
+	public UserVO loginUser(UserVO userVO) throws Exception{
+		return userDAO.loginUser(userVO);
+	}
+	
+	//·Î±×ÀÎ ·ÎÁ÷ ±¸Çö
+	
+	@Override
+	public UserVO login(String id, String pwd) {
+		UserVO user = userDAO.getUserById(id);
+		
+		if(user != null &&user.getPwd().equals(pwd)) {
+			return user;
+		}
+		return null;
+	}
+	
+	
 }

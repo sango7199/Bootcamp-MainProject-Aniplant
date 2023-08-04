@@ -7,4 +7,12 @@ import com.mainproject.user.vo.UserVO;
 public interface UserDAO {
 	public int registerUser(UserVO userVO) throws DataAccessException;
 	public boolean isDuplicate(String field, String id) throws DataAccessException;
+	
+	
+	public UserVO loginUser(UserVO userVO) throws DataAccessException;
+	
+	
+	//로그인 로직 구현
+	public UserVO getUserById(String id);
+
 }
