@@ -11,5 +11,5 @@ import com.mainproject.user.vo.UserVO;
 
 public interface UserController {
 	public ModelAndView viewJoin(HttpServletRequest request, HttpServletResponse response) throws Exception;
-//	public ResponseEntity<?> registerUser(@RequestBody UserVO userVO);
+	public ResponseEntity<String> registerUser(@RequestBody UserVO userVO);
 }

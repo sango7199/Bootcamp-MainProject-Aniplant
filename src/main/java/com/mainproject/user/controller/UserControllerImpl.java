@@ -4,8 +4,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,7 +23,7 @@ public class UserControllerImpl implements UserController {
 	@Autowired
 	UserVO userVO;
 	
-	@Override
+	@Override // 회원가입 페이지 이동
 	@RequestMapping(value = {"/user/join.do"}, method = RequestMethod.GET)
 	public ModelAndView viewJoin(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
@@ -30,11 +32,15 @@ public class UserControllerImpl implements UserController {
 		return mav;
 	}
 	
-//	@Override
-//	@RequestMapping(value = {"/api/register"}, method = RequestMethod.POST)
-//	public ResponseEntity<?> registerUser(@RequestBody UserVO userVO) {
-//		
-//		return 0;
-//	}
+	@Override // 회원가입 로직
+	@RequestMapping(value = {"/api/register"}, method = RequestMethod.POST)
+	public ResponseEntity<String> registerUser(@RequestBody UserVO userVO) {
+	    try {
+	        userService.registerUser(userVO);
+	        return new ResponseEntity<>("success", HttpStatus.OK);
+	    } catch (Exception e) {
+	        return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+	}
 	
 }

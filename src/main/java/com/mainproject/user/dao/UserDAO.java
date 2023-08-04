@@ -1,5 +1,9 @@
 package com.mainproject.user.dao;
 
-public interface UserDAO {
+import org.springframework.dao.DataAccessException;
 
+import com.mainproject.user.vo.UserVO;
+
+public interface UserDAO {
+	public int registerUser(UserVO userVO) throws DataAccessException;
 }
