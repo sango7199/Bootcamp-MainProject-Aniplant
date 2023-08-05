@@ -204,6 +204,9 @@
                 $("#genderError").text("");
             }
             
+            var created_at = Math.floor(+ new Date() / 1000); // 현재 날짜와 시간 저장
+			var is_admin = "User";
+            
             var formData = {
                 id: id,
                 pwd: pwd,
@@ -215,13 +218,18 @@
                 first_hp: telParts[1] ,
                 second_hp: telParts[2],
                 gender: gender,
+                created_at: created_at,
+                is_admin: is_admin,
             };
-
-            // AJAX post 요청 로직
+			
+           console.log(formData);
+            
+         	// AJAX post 요청 로직
             $.ajax({
                 url: "/api/register",
                 type: "POST",
-                data: formData,
+                contentType: "application/json",
+                data: JSON.stringify(formData),
                 success: function(response) {
                     window.location.href = "join-complete.html";
                 },
