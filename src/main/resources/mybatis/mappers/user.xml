@@ -31,11 +31,13 @@
     </insert>
 
 	<select id="checkIdDuplicate" resultType="int">
-    	SELECT COUNT(*) FROM TB_USER WHERE id = #{id}
+    	SELECT COUNT(*) FROM TB_USER WHERE ID = #{value}
 	</select>
-	
+
 	<select id="checkNicknameDuplicate" resultType="int">
-    	SELECT COUNT(*) FROM TB_USER WHERE ${field} = #{value}
+   		SELECT COUNT(*) FROM TB_USER WHERE Nickname = #{value}
 	</select>
+
+	
 	
 </mapper>

@@ -6,5 +6,6 @@ import com.mainproject.user.vo.UserVO;
 
 public interface UserDAO {
 	public int registerUser(UserVO userVO) throws DataAccessException;
-	public boolean isDuplicate(String field, String id) throws DataAccessException;
+	public boolean isIdDuplicate(String value) throws DataAccessException;
+	public boolean isNicknameDuplicate(String value) throws DataAccessException;
 }

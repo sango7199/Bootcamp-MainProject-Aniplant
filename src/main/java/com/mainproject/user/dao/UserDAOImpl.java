@@ -21,11 +21,14 @@ public class UserDAOImpl implements UserDAO {
 	}
 	
 	@Override // 회원가입 아이디 중복 검사 로직
-	public boolean isDuplicate(String field, String value) throws DataAccessException {
-		Map<String, Object> params = new HashMap<>();
-	    params.put("field", field);
-	    params.put("value", value);
-		int count = sqlSession.selectOne("mapper.user.checkIdDuplicate", params);
+	public boolean isIdDuplicate(String value) throws DataAccessException {
+		int count = sqlSession.selectOne("mapper.user.checkIdDuplicate", value);
+		return count > 0;
+	}
+	
+	@Override // 회원가입 닉네임 중복 검사 로직
+	public boolean isNicknameDuplicate(String value) throws DataAccessException {
+		int count = sqlSession.selectOne("mapper.user.checkNicknameDuplicate", value);
 		return count > 0;
 	}
 }

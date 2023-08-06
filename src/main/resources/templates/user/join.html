@@ -73,11 +73,16 @@
                 } else {
                     $("#idError").text("사용 가능한 아이디입니다.");
                     isIdChecked = true;
+                    console.log(response.isDuplicate);
                 }
             }
         });
     });
-
+    $("#idInput").change(function() {
+        isIdChecked = false;
+        $("#idError").text("");
+    });
+    
     // 닉네임 중복 확인 로직
     $("#checkNickname").click(function() {
         var nickname = $("#nicknameInput").val();
@@ -95,23 +100,36 @@
                 } else {
                     $("#nicknameError").text("사용 가능한 닉네임입니다.");
                     isNicknameChecked = true;
+                    console.log(response.isDuplicate);
                 }
             }
         });
     });
-
+    $("#nicknameInput").change(function() {
+        isNicknameChecked = false;
+        $("#nicknameError").text("");
+    });
+    
     // JS(jQuery)를 사용하여 form 데이터를 AJAX post 요청으로 회원가입 데이터 전송하는 로직
     $(document).ready(function() {
         $("#join_btn").click(function() {
+        	var isValid = true
+        	
             // 아이디,닉네임 중복 체크
             if (!isIdChecked) {
                 $("#idError").text("아이디 중복 확인을 해주세요.");
-                return;
+                isValid = false;  
+            } else {
+                $("#idError").text("");
             }
+        	
             if (!isNicknameChecked) {
                 $("#nicknameError").text("닉네임 중복 확인을 해주세요.");
-                return;
+                isValid = false;
+            } else {
+                $("#passwordError").text("");
             }
+            
             // 전화번호 세 자리로 구분하는 로직
             var telInput = $("#telInput").val();
             var telParts = telInput.split("-");
@@ -132,28 +150,34 @@
             // 필수 입력창이 비어있다면 오류 메시지를 표시
             if (!id) {
                 $("#idError").text("아이디를 입력해주세요.");
-                return;
+                isValid = false;
             } else {
                 $("#idError").text("");
             }
 
             if (!pwd) {
                 $("#passwordError").text("비밀번호를 입력해주세요.");
-                return;
+                isValid = false;
             } else {
-                $("#passwordError").text("");
+                var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/;
+                if (!passwordPattern.test(pwd)) {
+                    $("#passwordError").text("비밀번호는 최소 10자리 이며, 영문 대소문자, 숫자, 특수문자를 포함해야 합니다.");
+                    isValid = false;
+                } else {
+                    $("#passwordError").text("");
+                }
             }
 
             if (!pwd_confirm) {
                 $("#passwordConfirmError").text("비밀번호 확인을 입력해주세요.");
-                return;
+                isValid = false;
             } else {
                 $("#passwordConfirmError").text("");
             }
 
             if (pwd !== pwd_confirm) { // 비밀번호 일치 확인
                 $("#passwordCheckError").text("비밀번호가 일치하지 않습니다.");
-                return;
+                isValid = false;
             } else {
                 $("#passwordCheckError").text("");
             }
@@ -163,7 +187,7 @@
 
                 if (!emailPattern.test(email)) {
                     $("#emailError").text("유효한 이메일 형식이 아닙니다.");
-                    return;
+                    isValid = false;
                 } else {
                     $("#emailError").text("");
                 }
@@ -171,37 +195,41 @@
 
             if (!nickname) {
                 $("#nicknameError").text("닉네임을 입력해주세요.");
-                return;
+                isValid = false;
             } else {
                 $("#nicknameError").text("");
             }
 
             if (!name) {
                 $("#nameError").text("이름을 입력해주세요.");
-                return;
+                isValid = false;
             } else {
                 $("#nameError").text("");
             }
 
             if (!birth) {
                 $("#birthError").text("생년월일을 입력해주세요.");
-                return;
+                isValid = false;
             } else {
                 $("#birthError").text("");
             }
 
             if (!telInput) {
-                $("#telError").text("생년월일을 입력해주세요.");
-                return;
+                $("#telError").text("전화번호를 입력해주세요.");
+                isValid = false;
             } else {
                 $("#telError").text("");
             }
 
             if (!gender) { 
                 $("#genderError").text("성별을 선택해 주세요.");
-                return;
+                isValid = false;
             } else {
                 $("#genderError").text("");
+            }
+            
+            if (!isValid) {  // 추가된 코드: 유효성 검사에 실패하면 함수를 빠져나옴
+                return;
             }
             
             var date = new Date();

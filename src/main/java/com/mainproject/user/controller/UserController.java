@@ -1,5 +1,7 @@
 package com.mainproject.user.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,8 +15,8 @@ import com.mainproject.user.vo.UserVO;
 public interface UserController {
 	public ModelAndView viewJoin(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity<String> registerUser(@RequestBody UserVO userVO);
-	public ResponseEntity<Boolean> checkId(@RequestParam("id") String id);
-	public ResponseEntity<Boolean> checkNickname(@RequestParam("nickname") String nickname);
+	public ResponseEntity<Map<String, Boolean>> checkId(@RequestParam("id") String id);
+	public ResponseEntity<Map<String, Boolean>> checkNickname(@RequestParam("nickname") String nickname);
 	public ModelAndView viewJoinComplete(@RequestParam("name") String name, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	
 }

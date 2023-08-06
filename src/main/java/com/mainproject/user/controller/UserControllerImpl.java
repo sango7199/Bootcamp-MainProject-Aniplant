@@ -1,5 +1,8 @@
 package com.mainproject.user.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -47,16 +50,20 @@ public class UserControllerImpl implements UserController {
 	
 	@Override // 아이디 중복 체크 로직
 	@PostMapping("/api/check-id")
-	public ResponseEntity<Boolean> checkId(@RequestParam("id") String id) {
-		 boolean isDuplicate = userService.isIdDuplicate("ID", id);
-		 return new ResponseEntity<>(isDuplicate, HttpStatus.OK);
+	public ResponseEntity<Map<String, Boolean>> checkId(@RequestParam("id") String id) {
+		boolean isDuplicate = userService.isIdDuplicate(id);
+	    Map<String, Boolean> response = new HashMap<>();
+	    response.put("isDuplicate", isDuplicate);
+	    return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
 	@Override // 닉네임 중복 체크 로직
 	@PostMapping("/api/check-nickname")
-	public ResponseEntity<Boolean> checkNickname(@RequestParam("nickname") String nickname) {
-		 boolean isDuplicate = userService.isIdDuplicate("Nickname",nickname);
-		 return new ResponseEntity<>(isDuplicate, HttpStatus.OK);
+	public ResponseEntity<Map<String, Boolean>> checkNickname(@RequestParam("nickname") String nickname) {
+		 boolean isDuplicate = userService.isNicknameDuplicate(nickname);
+		 Map<String, Boolean> response = new HashMap<>();
+		 response.put("isDuplicate", isDuplicate);
+		 return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
 	@Override // 회원가입 완료 페이지 이동
