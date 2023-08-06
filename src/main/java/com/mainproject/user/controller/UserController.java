@@ -18,5 +18,5 @@ public interface UserController {
 	public ResponseEntity<Map<String, Boolean>> checkId(@RequestParam("id") String id);
 	public ResponseEntity<Map<String, Boolean>> checkNickname(@RequestParam("nickname") String nickname);
 	public ModelAndView viewJoinComplete(@RequestParam("name") String name, HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
+	public ModelAndView viewLogin(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

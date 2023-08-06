@@ -1,8 +1,5 @@
 package com.mainproject.user.dao;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -31,4 +28,9 @@ public class UserDAOImpl implements UserDAO {
 		int count = sqlSession.selectOne("mapper.user.checkNicknameDuplicate", value);
 		return count > 0;
 	}
+	
+	@Override // 해당 username(ID)를 가진 사용자의 모든 정보 조회
+    public UserVO getUserByUsername(String username) throws DataAccessException {
+		return sqlSession.selectOne("mapper.user.getUserByUsername", username);
+    }
 }

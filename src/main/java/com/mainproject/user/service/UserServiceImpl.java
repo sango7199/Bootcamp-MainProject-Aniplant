@@ -13,12 +13,12 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDAO userDAO;
 	
-	 private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	
 	@Override // 회원가입 로직
 	public void registerUser(UserVO userVO) throws DataAccessException {
-		 String encodedPassword = passwordEncoder.encode(userVO.getPwd());
-		 userVO.setPwd(encodedPassword);
+		String encodedPassword = passwordEncoder.encode(userVO.getPwd()); // 비밀번호 암호화
+		userVO.setPwd(encodedPassword);
 		userDAO.registerUser(userVO);
 	}
 	
@@ -31,4 +31,7 @@ public class UserServiceImpl implements UserService {
 	public boolean isNicknameDuplicate(String value) {
 		return userDAO.isNicknameDuplicate(value);
 	}
+	
+	// 로그인 로직
+	
 }

@@ -76,4 +76,13 @@ public class UserControllerImpl implements UserController {
 		return mav;
 	}
 	
+	@Override // 로그인 페이지 이동
+	@RequestMapping(value = {"/user/login.do"}, method = RequestMethod.GET)
+	public ModelAndView viewLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(viewName);
+		return mav;
+	}
+	
 }
