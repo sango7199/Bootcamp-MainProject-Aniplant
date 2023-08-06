@@ -59,4 +59,14 @@ public class UserControllerImpl implements UserController {
 		 return new ResponseEntity<>(isDuplicate, HttpStatus.OK);
 	}
 	
+	@Override // 회원가입 완료 페이지 이동
+	@RequestMapping(value = {"/user/join-complete.do"}, method = RequestMethod.GET)
+	public ModelAndView viewJoinComplete(@RequestParam("name") String name, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(viewName);
+		mav.addObject("name", name);
+		return mav;
+	}
+	
 }

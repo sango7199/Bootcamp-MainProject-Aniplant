@@ -15,4 +15,6 @@ public interface UserController {
 	public ResponseEntity<String> registerUser(@RequestBody UserVO userVO);
 	public ResponseEntity<Boolean> checkId(@RequestParam("id") String id);
 	public ResponseEntity<Boolean> checkNickname(@RequestParam("nickname") String nickname);
+	public ModelAndView viewJoinComplete(@RequestParam("name") String name, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
 }
