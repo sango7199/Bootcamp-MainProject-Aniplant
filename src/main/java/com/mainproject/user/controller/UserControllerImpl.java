@@ -106,7 +106,7 @@ public class UserControllerImpl implements UserController {
 	
 	@Override // 로그인 로직
 	@PostMapping("/api/login")
-	public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest, HttpSession session) {
+	public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest, HttpSession session, HttpServletRequest request) {
 	    String username = loginRequest.getId();
 	    String password = loginRequest.getPwd();
 	    
@@ -122,8 +122,18 @@ public class UserControllerImpl implements UserController {
 	    securityContext.setAuthentication(authentication);
 	    session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
 
-	    return ResponseEntity.ok().body("로그인에 성공하였습니다.");
+	    // 로그인 성공 후 redirectUrl 생성
+	    String referer = (String) session.getAttribute("previousPage");
+	    if (referer == null || referer.isBlank()) {
+	        referer = "/index.do";  // 기본 URL 설정
+	    }
+
+	    Map<String, String> result = new HashMap<>();
+	    result.put("redirectUrl", referer);
+
+	    return ResponseEntity.ok(result);
 	}
+
 	
 	@Override // 로그아웃 로직
 	@GetMapping("/api/logout")
@@ -135,5 +145,13 @@ public class UserControllerImpl implements UserController {
 	    return ResponseEntity.ok().body("로그아웃에 성공하였습니다.");
 	}
 	
+	@Override // 권한 설정 테스트 페이지 이동
+	@RequestMapping(value = {"/admin/test.do"}, method = RequestMethod.GET)
+	public ModelAndView viewAdminTest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(viewName);
+		return mav;
+	}
 
 }
