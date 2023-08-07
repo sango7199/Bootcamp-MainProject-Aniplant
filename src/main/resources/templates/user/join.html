@@ -30,7 +30,7 @@
 </head>
 <body>
     <h1 class="logo_aniplant">
-        <a href="" class="link"></a>
+        <a href="/index.do" class="link"></a>
         <span class="blind">애니플랜트</span>
     </h1>
     <div class="content">
@@ -232,7 +232,7 @@
                 $("#genderError").text("");
             }
             
-            if (!isValid) {  // 추가된 코드: 유효성 검사에 실패하면 함수를 빠져나옴
+            if (!isValid) {  // 유효성 검사에 실패하면 함수를 빠져나옴
                 return;
             }
             
@@ -260,7 +260,8 @@
 			
            // console.log(formData);
             
-         	// AJAX post 요청 로직
+         	// AJAX 회원가입 post 요청 로직
+            $(this).prop("disabled", true);  // 회원가입 버튼 비활성화
             $.ajax({
                 url: "/api/register",
                 type: "POST",
@@ -271,6 +272,9 @@
                 },
                 error: function(xhr, status, error) {
                     alert("회원가입 중 오류가 발생했습니다.");
+                },
+                complete: function() {
+                  $("#join_btn").prop("disabled", false);  // 회원가입 버튼 활성화
                 }
             });
         });
