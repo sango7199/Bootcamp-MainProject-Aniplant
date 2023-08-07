@@ -38,7 +38,7 @@
    		SELECT COUNT(*) FROM TB_USER WHERE Nickname = #{value}
 	</select>
 
-	<select id="getUserByUsername" parameterType="userVO" resultType="userVO">
+	<select id="getUserByUsername" parameterType="String" resultType="userVO">
         SELECT * FROM TB_USER WHERE ID = #{username}
     </select>
 	
