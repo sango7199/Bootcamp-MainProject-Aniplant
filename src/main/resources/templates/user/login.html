@@ -3,99 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>애니플랜트 : 로그인</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <style>
-    .logo_aniplant .link {
-        background-image: url("/img/aniplant_logo01.png");
-        background-repeat: no-repeat;
-        background-size: 200px 100px;
-        background-position: center;
-        display: block;
-        width: 200px;
-        height: 100px;
-    }
-    .blind {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-        clip: rect(0 0 0 0);
-    }
-    .error {
-        color: red;
-        font-size: 12px;
-    }
-  </style>
+  <title>로그인</title>
+  <link rel="stylesheet" th:href="@{/login.css}" />
 </head>
 <body>
-  <h1 class="logo_aniplant">
-    <a href="/index.do" class="link"></a>
-    <span class="blind">애니플랜트</span>
-  </h1>
-  <div class="content">
+  <div class="login-container">
+    <h1>로그인</h1>
     <form>
-        <input type="text" id="loginID" name="username" placeholder="아이디"><span id="idError" class="error"></span><br>
-        <input type="password" id="loginPWD" name="password" placeholder="비밀번호"><span id="pwdError" class="error"></span><br>
-        <button type="button" id="login_btn" class="btn_submit">로그인</button><span id="loginError" class="error"></span><br>
+        <input type="text" id="id" name="id" placeholder="아이디를 입력하세요">
+ 
+        <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요">
+
+        <button type="submit">로그인</button>
     </form>
-    <div><a href="/user/join.do">회원가입</a></div>
 </div>
 </body>
-<script>
-	$(document).ready(function(){
-    	$("#login_btn").click(function(){
-          var isValid = true // 유효성 검사
-
-          var id = $("#loginID").val();
-          var pwd = $("#loginPWD").val();
-
-          if (!id) {
-                $("#idError").text("아이디를 입력해주세요.");
-                isValid = false;
-          } else {
-                $("#idError").text("");
-          }
-
-          if (!pwd) {
-                $("#pwdError").text("비밀번호를 입력해주세요.");
-                isValid = false;
-          } else {
-                $("#pwdError").text("");
-          }
-          
-          if (!isValid) {  // 유효성 검사에 실패하면 함수를 빠져나옴
-                return;
-            }
-
-          var formData = {
-            id: id,
-            pwd: pwd
-          };
-          
-
-          // AJAX 로그인 post 요청 로직
-          $(this).prop("disabled", true);  // 로그인 버튼 비활성화
-          $.ajax({
-                url: "/api/login",
-                type: "POST",
-                contentType: "application/json",
-                data: JSON.stringify(formData),
-                success: function(response) {
-                  window.location.href = response.redirectUrl;
-                },
-                error: function(xhr, status, error) {
-                  if (xhr.status == 401) {  // HTTP 상태 코드 401: Unauthorized
-                        $("#loginError").text("아이디 또는 비밀번호가 잘못되었습니다.");
-                    } else {
-                        $("#loginError").text("로그인 중 오류가 발생했습니다.");
-                    }
-                },
-                complete: function() {
-                  $("#login_btn").prop("disabled", false);  // 로그인 버튼 활성화
-                }
-          });
-    	});
-  	});
-</script>
 </html>

@@ -179,5 +179,8 @@ public class UserVO {
 
 	public void setDeleted_reason(String deleted_reason) {
 		this.deleted_reason = deleted_reason;
-	}	
+	}
+	
+	
+	
 }
