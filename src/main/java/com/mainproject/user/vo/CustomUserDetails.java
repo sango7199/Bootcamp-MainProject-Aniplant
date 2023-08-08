@@ -23,9 +23,9 @@ public class CustomUserDetails implements UserDetails {
     
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(
-                new SimpleGrantedAuthority(user.getIs_admin())
-        );
+    	 String rolePrefix = "ROLE_";
+    	    String role = rolePrefix + user.getIs_admin().toUpperCase(); // "ROLE_ADMIN" 또는 "ROLE_USER" 등으로 변환
+    	    return Collections.singleton(new SimpleGrantedAuthority(role));
     }
 
     @Override
