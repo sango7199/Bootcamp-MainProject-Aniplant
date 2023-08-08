@@ -20,8 +20,8 @@ public class SecurityConfig {
             .csrf().disable()  // CSRF protection을 비활성화. AJAX를 사용할 때 필요한 설정
             .authorizeRequests()
             	.antMatchers("/login.do", "/join.do").permitAll() // 회원가입, 로그인 페이지 허용
-                .antMatchers("/admin/**").hasAnyAuthority("ADMIN", "PRIVACY_ADMIN") // /admin은 관리자만 가능하도록 설정
-                .antMatchers("/privacy_admin/**").hasAuthority("PRIVACY_ADMIN") // /privacy_admin은 개인정보 관리자만 가능하도록 설정
+                .antMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_PRIVACY_ADMIN") // /admin은 관리자만 가능하도록 설정
+                .antMatchers("/privacy_admin/**").hasAuthority("ROLE_PRIVACY_ADMIN") // /privacy_admin은 개인정보 관리자만 가능하도록 설정
                 .antMatchers("/my").authenticated() // /my는 인증이 되어야 접속 가능
                 .anyRequest().permitAll()
             .and()
