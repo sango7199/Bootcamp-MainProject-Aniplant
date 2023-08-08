@@ -5,8 +5,8 @@
 
 <configuration>
 	<typeAliases>
-		<typeAlias type="com.mainproject.model.userVo"  alias="userVo" />
-		<typeAlias type="com.mainproject.model.categoryVo"  alias="categoryVo" />
-		<typeAlias type="com.mainproject.model.boardVo"  alias="boardVo" />
+		<typeAlias type="com.mainproject.user.vo.UserVO"  alias="userVO" />
+ 		<typeAlias type="com.mainproject.category.vo.CategoryVO"  alias="categoryVO" />
+		<typeAlias type="com.mainproject.board.vo.BoardVO"  alias="boardVO" />
 	</typeAliases>
 </configuration>
