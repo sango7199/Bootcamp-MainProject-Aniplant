@@ -32,7 +32,10 @@ public class SecurityConfig {
             	.failureForwardUrl("/fail") // 로그인 실패 URL 설정
             .and()
             	.logout()
-            	.logoutUrl("/user/logout.do"); // 로그아웃 URL 설정
+            	.logoutUrl("/user/logout.do") // 로그아웃 URL 설정
+            .and()
+            .exceptionHandling()
+        		.accessDeniedPage("/error/403"); // 접근 권한 없음 : error 403 페이지 
         return http.build();
     }
 	
