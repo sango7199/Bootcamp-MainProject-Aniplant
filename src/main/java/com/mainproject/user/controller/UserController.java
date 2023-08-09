@@ -27,5 +27,6 @@ public interface UserController {
 	public ModelAndView viewAdminTest(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView viewMyprofile(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity<?> confirmPWD(@RequestParam("pwd") String pwd, Principal principal);
-	public ModelAndView viewMyInfoUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView viewMyInfoUpdate(Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ResponseEntity<?> updateUser(UserVO userVO, Principal principal);
 }

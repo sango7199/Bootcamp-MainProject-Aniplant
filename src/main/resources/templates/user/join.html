@@ -237,7 +237,7 @@
             }
             
             var date = new Date();
-            date.setHours(date.getHours() + 9); // 한국은 UTC로부터 +9시간이므로 9를 더해
+            date.setHours(date.getHours() + 9); // 한국은 UTC로부터 +9시간이므로 9를 더함
             var timestamp = date.toISOString();
             var created_at = timestamp
             
@@ -263,7 +263,7 @@
          	// AJAX 회원가입 post 요청 로직
             $(this).prop("disabled", true);  // 회원가입 버튼 비활성화
             $.ajax({
-                url: "/api/register",
+                url: "/api/register-user",
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(formData),

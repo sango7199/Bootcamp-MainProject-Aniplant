@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mainproject.user.dao.UserDAO;
 import com.mainproject.user.service.UserDetailsServiceImpl;
 import com.mainproject.user.service.UserService;
 import com.mainproject.user.vo.LoginRequest;
@@ -60,7 +61,7 @@ public class UserControllerImpl implements UserController {
 	}
 	
 	@Override // 회원가입 로직
-	@PostMapping("/api/register")
+	@PostMapping("/api/register-user")
 	public ResponseEntity<String> registerUser(@RequestBody UserVO userVO) {
 	    try {
 	        userService.registerUser(userVO);
@@ -176,7 +177,7 @@ public class UserControllerImpl implements UserController {
 	}
 	
 	@Override // 회원정보 관리 비밀번호 확인 로직
-	@PostMapping("/api/confirmPWD")
+	@PostMapping("/api/confirmUser")
 	public ResponseEntity<?> confirmPWD(@RequestParam("pwd") String pwd, Principal principal) {
 	    // 현재 로그인된 사용자 정보 가져오기
 	    String currentUsername = principal.getName();
@@ -195,12 +196,38 @@ public class UserControllerImpl implements UserController {
 	    }
 	}
 	
-	@Override // 회원정보 수정하기 form 페이지
+	@Override // 회원정보 수정하기 form 페이지 로드 로직
 	@RequestMapping(value = {"/mypage/my-info-update.do"}, method = RequestMethod.GET)
-	public ModelAndView viewMyInfoUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView viewMyInfoUpdate(Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
+		String username = principal.getName();
+		UserVO user = userService.getUserByUsername(username);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(viewName);
+		mav.addObject("user", user);
 		return mav;
+	}
+	
+	@Override // 회원정보 수정 로직
+	@PostMapping("/api/update-user")
+	public ResponseEntity<?> updateUser(@RequestBody UserVO userVO, Principal principal) {
+	    String currentUsername = principal.getName();
+//	    System.out.println(currentUsername);
+	    // 현재 로그인된 사용자의 정보를 가져옴
+	    UserVO currentUser = userService.getUserByUsername(currentUsername);
+//	    System.out.println(currentUser);
+
+//	    // 현재 로그인된 사용자의 정보만 수정 가능하도록 체크
+//	    if (!currentUser.getId().equals(userVO.getId())) {
+//	        return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+//	    }
+
+	    try {
+	        userService.updateUser(userVO);
+	        return new ResponseEntity<>("success", HttpStatus.OK);
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	        return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
 	}
 }

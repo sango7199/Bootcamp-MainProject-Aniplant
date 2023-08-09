@@ -13,6 +13,10 @@
             flex-direction: row; 
             align-items: start;
         }
+        .error {
+            color: red;
+            font-size: 12px;
+        }
 	</style>
 </th:block>
 <!-- 해당 페이지 고유 스크립트 추가 -->
@@ -36,8 +40,9 @@
                 }
 
                 $(this).prop("disabled", true);  // 수정하기 버튼 비활성화
+                // 사용자 본인인지 확인하는 비밀번호 확인 로직
                 $.ajax({
-                    url: "/api/confirmPWD",
+                    url: "/api/confirmUser",
                     type: "POST",
                     data: { pwd: pwd_confirm },
                     success: function(response) { // .content 부분만 다른 페이지의 .content 부분을 불러와서 변경

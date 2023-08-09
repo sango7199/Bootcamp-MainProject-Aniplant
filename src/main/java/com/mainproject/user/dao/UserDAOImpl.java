@@ -33,4 +33,14 @@ public class UserDAOImpl implements UserDAO {
     public UserVO getUserByUsername(String username) throws DataAccessException {
 		return sqlSession.selectOne("mapper.user.getUserByUsername", username);
     }
+	
+	@Override // 회원 정보 수정 로직 (비밀번호 변경)
+	public void updateUserWithPassword(UserVO userVO) throws DataAccessException {
+		sqlSession.update("mapper.user.updateUserWithPassword",userVO);
+	}
+	
+	@Override // 회원 정보 수정 로직 (비밀번호 미변경)
+	public void updateUserWithoutPassword(UserVO userVO) throws DataAccessException {
+		sqlSession.update("mapper.user.updateUserWithoutPassword",userVO);
+	}
 }

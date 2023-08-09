@@ -8,4 +8,6 @@ public interface UserService {
     public void registerUser(UserVO userVO) throws DataAccessException;
     public boolean isIdDuplicate(String value);
     public boolean isNicknameDuplicate(String value);
+    public UserVO getUserByUsername(String username) throws DataAccessException;
+    public void updateUser(UserVO userVO) throws DataAccessException;
 }
