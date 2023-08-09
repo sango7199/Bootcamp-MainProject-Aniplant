@@ -1,5 +1,6 @@
 package com.mainproject.user.controller;
 
+import java.security.Principal;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,4 +25,7 @@ public interface UserController {
 	public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest, HttpSession session, HttpServletRequest request);
 	public ResponseEntity<?> logout(HttpSession session);
 	public ModelAndView viewAdminTest(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView viewMyprofile(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ResponseEntity<?> confirmPWD(@RequestParam("pwd") String pwd, Principal principal);
+	public ModelAndView viewMyInfoUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }
