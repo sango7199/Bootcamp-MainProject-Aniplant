@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{layout/defaultLayout}"><!--헤더 푸터--> 
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>게시글 쓰기</title>
+</head>
+
+<!-- 해당 페이지 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+    <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+</th:block>
+<!-- 해당 페이지 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+    <!--    <script th:src="@{/js/page/home.js}"></script>-->
+</th:block>
+
+<body>
+  <!-- Content -->
+<div layout:fragment="content" class="container">
+  <!-- sidebar fragment 사용 -->
+  <div th:replace="sidebar/article :: articleSidebar"></div>
+  <div class="content">
+    
+  </div>
+</div>
+</body>
+</html>
