@@ -4,8 +4,9 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8" />
-    <title>Aniplant</title>
     <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1, user-scalable=yes,initial-scale=1.0" />
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">애니플랜트</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- content script -->
     <th:block layout:fragment="css"></th:block>
     <!-- content script -->

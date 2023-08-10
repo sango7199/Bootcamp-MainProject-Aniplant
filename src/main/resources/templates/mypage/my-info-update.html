@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<!-- 페이지의 제목 설정 -->
+<head>
+    <title>회원 정보 수정</title>
+</head>
+
+<!-- 해당 페이지 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+	<style>
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+	</style>
+</th:block>
+
+<body>
+	<div class="content">
+		<h2>회원 정보 수정</h2>
+		<div class="content">
+			<form id="update_form" name="update_form" method="post" action="">
+				<input type="text" id="idUpdateInput" name="id" th:value="${user.id}" disabled><br> 
+				<input type="password" id="passwordUpdateInput" name="password" placeholder="변경 시 비밀번호를 입력해주세요"><span id="passwordError" class="error"></span><br>
+                <input type="password" id="passwordUpdateConfirmInput" name="password_confirm" placeholder="비밀번호 확인"><span id="passwordConfirmError" class="error"></span><span id="passwordCheckError" class="error"></span><br>
+                <input type="email" id="emailUpdateInput" name="email" placeholder="비밀번호 분실 시 확인용 이메일" th:value="${user.email}"><span id="emailError" class="error"></span><br>
+                <input type="text" id="nicknameUpdateInput" name="nickname" placeholder="닉네임" maxlength="10" th:value="${user.nickname}"><button type="button" id="checkNickname" class="check_btn">중복 확인</button><span id="nicknameError" class="error"></span><br>
+                <input type="text" id="nameUpdateInput" name="name" th:value="${user.name}" disabled><br> 
+                <input type="text" id="birthUpdateInput" name="birth" th:value="${#dates.format(user.birth, 'yyyy-MM-dd')}" disabled><br> 
+                <input type="tel" id="telUpdateInput" name="tel" placeholder="'-'를 포함한 휴대전화번호" th:value="${user.country_code + '-' + user.first_hp + '-' + user.second_hp}"><span id="telError" class="error"></span><br>
+				<ul class="gender_list">
+					<li><input type="radio" id="genderIdentity1" name="gender" value="M" th:checked="${user.gender == 'M'}" disabled><label for="genderIdentity1">남자</label></li>
+                    <li><input type="radio" id="genderIdentity2" name="gender" value="F" th:checked="${user.gender == 'F'}" disabled><label for="genderIdentity2">여자</label></li>
+				</ul>
+				<button type="button" id="update_btn" class="btn_submit">내 정보 수정하기</button>
+			</form>
+            <hr>
+            <h3>회원 탈퇴</h3>
+            <button type="button" id="withdrawal_btn" class="btn_submit">회원 탈퇴하기</button>
+		</div>
+	</div>
+</body>
+<script>
+    $(document).ready(function() {
+
+        var originalNickname = $("#nicknameUpdateInput").val();
+        var isNicknameChanged = false;
+        var isNicknameChecked = false;
+        var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/;
+        var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        var telPattern = /^[0-9]{3}-[0-9]{4}-[0-9]{4}$/;
+        var originalTel = $("#telUpdateInput").attr("th:value");
+        var userNum = [[${user.user_num}]];
+        
+        // 닉네임 변경 확인
+        $("#nicknameUpdateInput").change(function() {
+            var currentNickname = $(this).val();
+            if (currentNickname !== originalNickname) {
+                isNicknameChanged = true;
+            }
+            isNicknameChecked = false;
+            $("#nicknameError").text("");
+        });
+
+        // 닉네임 중복 체크
+        $("#checkNickname").click(function() {
+            var currentNickname = $("#nicknameUpdateInput").val();
+            if (!currentNickname) {
+                $("#nicknameError").text("닉네임을 입력해주세요.");
+                return;
+            }
+
+            $.ajax({
+                url: "/api/check-nickname",
+                type: "POST",
+                data: { nickname: currentNickname },
+                success: function(response) {
+                    if (response.isDuplicate) {
+                        $("#nicknameError").text("이미 사용중인 닉네임입니다.");
+                    } else {
+                        $("#nicknameError").text("사용 가능한 닉네임입니다.");
+                        isNicknameChecked = true;
+                    }
+                }
+            });
+        });
+
+        // 수정 버튼 클릭시 로직
+        $("#update_btn").click(function() {
+            var isValid = true;
+
+            // 비밀번호 유효성 검사
+            var pwd = $("#passwordUpdateInput").val();
+            var pwd_confirm = $("#passwordUpdateConfirmInput").val();
+            if (pwd) {
+                if (!passwordPattern.test(pwd)) {
+                    $("#passwordError").text("비밀번호는 최소 10자리 이며, 영문 대소문자, 숫자, 특수문자를 포함해야 합니다.");
+                    isValid = false;
+                } else {
+                    $("#passwordError").text("");
+                }
+                if (!pwd_confirm) {
+                    $("#passwordConfirmError").text("비밀번호 확인을 입력해주세요.");
+                    isValid = false;
+                } else if (pwd !== pwd_confirm) {
+                    $("#passwordCheckError").text("비밀번호가 일치하지 않습니다.");
+                    isValid = false;
+                } else {
+                    $("#passwordConfirmError").text("");
+                    $("#passwordCheckError").text("");
+                }
+            }
+
+            // 이메일 유효성 검사
+            var email = $("#emailUpdateInput").val();
+            if (email && !emailPattern.test(email)) {
+                $("#emailError").text("유효한 이메일 형식이 아닙니다.");
+                isValid = false;
+            } else {
+                $("#emailError").text("");
+            }
+
+            // 닉네임 변경 및 중복 확인
+            if (isNicknameChanged && !isNicknameChecked) {
+                $("#nicknameError").text("닉네임이 변경되었습니다. 중복 확인을 해주세요.");
+                isValid = false;
+            }
+
+            // 전화번호 유효성 검사
+            var telInput = $("#telUpdateInput").val();
+            if (telInput !== originalTel) {
+                if (!telInput) {
+                    $("#telError").text("전화번호를 입력해주세요.");
+                    isValid = false;
+                } else if (!telPattern.test(telInput)) {
+                    $("#telError").text("유효한 전화번호 형식이 아닙니다.");
+                    isValid = false;
+                } else {
+                    $("#telError").text("");
+                }
+            }
+
+            if (!isValid) {
+                return;  // 유효성 검사 실패시 함수 종료
+            }
+            
+        	// 전화번호 세 자리로 구분하는 로직
+            var telInput = $("#telUpdateInput").val();
+            var telParts = telInput.split("-");
+            
+            // 현재 날짜와 시간을 timestamp로 입력하는 로직
+            var date = new Date();
+            date.setHours(date.getHours() + 9); // 한국은 UTC로부터 +9시간이므로 9를 더함
+            var timestamp = date.toISOString();
+            var updated_at = timestamp
+
+            var formData = { // 전송할 formData
+            	user_num: userNum,
+                email: $("#emailUpdateInput").val(),
+                nickname: $("#nicknameUpdateInput").val(),
+                birth: $("#birthUpdateInput").val() + "T00:00:00",
+                country_code: telParts[0],
+                first_hp: telParts[1],
+                second_hp: telParts[2],
+                updated_user_num: userNum,
+                updated_at: updated_at
+            };
+
+            // 비밀번호가 변경되었을 경우에만 formData에 저장
+            if (pwd) {
+                formData.pwd = pwd;
+            }
+			
+         	// AJAX 회원정보 수정 post 요청 로직
+            $(this).prop("disabled", true);  // 정보 수정 버튼 비활성화
+            $.ajax({
+                url: "/api/update-user",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(formData),
+                success: function(response) {
+                    alert("회원정보가 수정되었습니다.");
+                    // console.log(formData);
+                    window.location.href = "/mypage/my-info-management.do";
+                },
+                error: function(xhr, status, error) {
+                    alert("회원 정보 수정 중 오류가 발생했습니다.");
+                },
+                complete: function() {
+                  $("#update_btn").prop("disabled", false);  // 정보 수정 버튼 활성화
+                }
+            });
+
+            
+        });
+
+        // 회원 탈퇴 페이지로 이동
+        $("#withdrawal_btn").click(function() {
+            window.location.href = "/mypage/my-info-delete.do";
+        });
+    });
+</script>
+
+</html>

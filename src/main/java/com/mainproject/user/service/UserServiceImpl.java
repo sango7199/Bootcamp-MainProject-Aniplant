@@ -35,4 +35,21 @@ public class UserServiceImpl implements UserService {
 	public boolean isNicknameDuplicate(String value) {
 		return userDAO.isNicknameDuplicate(value);
 	}
+	
+	@Override // 회원 ID로 회원정보 조회 로직
+	public UserVO getUserByUsername(String username) throws DataAccessException {
+		return userDAO.getUserByUsername(username);
+	}
+	
+	@Override // 회원 정보 수정 로직
+	public void updateUser(UserVO userVO) throws DataAccessException {
+		// 비밀번호 변경점으로 분기 처리
+		if (userVO.getPwd() != null && !userVO.getPwd().isEmpty()) { // 변경했다면
+	        String encodedPassword = passwordEncoder.encode(userVO.getPwd());
+	        userVO.setPwd(encodedPassword);
+	        userDAO.updateUserWithPassword(userVO);
+	    } else { // 변경하지 않았다면
+	        userDAO.updateUserWithoutPassword(userVO);
+	    }
+	}
 }

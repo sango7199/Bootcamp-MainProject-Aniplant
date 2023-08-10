@@ -9,4 +9,6 @@ public interface UserDAO {
 	public boolean isIdDuplicate(String value) throws DataAccessException;
 	public boolean isNicknameDuplicate(String value) throws DataAccessException;
 	public UserVO getUserByUsername(String username) throws DataAccessException;
+	public void updateUserWithPassword(UserVO userVO) throws DataAccessException;
+	public void updateUserWithoutPassword(UserVO userVO) throws DataAccessException;
 }
