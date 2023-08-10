@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>애니플랜트 : 로그인</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <style>
+    .logo_aniplant .link {
+        background-image: url("/img/aniplant_logo01.png");
+        background-repeat: no-repeat;
+        background-size: 200px 100px;
+        background-position: center;
+        display: block;
+        width: 200px;
+        height: 100px;
+    }
+    .blind {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+    }
+    .error {
+        color: red;
+        font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <h1 class="logo_aniplant">
+    <a href="/index.do" class="link"></a>
+    <span class="blind">애니플랜트</span>
+  </h1>
+  <div class="content">
+    <form>
+        <input type="text" id="loginID" name="username" placeholder="아이디"><span id="idError" class="error"></span><br>
+        <input type="password" id="loginPWD" name="password" placeholder="비밀번호"><span id="pwdError" class="error"></span><br>
+        <button type="button" id="login_btn" class="btn_submit">로그인</button><span id="loginError" class="error"></span><br>
+    </form>
+    <div><a href="/user/join.do">회원가입</a></div>
+</div>
+</body>
+</html>

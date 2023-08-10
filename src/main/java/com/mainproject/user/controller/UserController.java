@@ -24,4 +24,6 @@ public interface UserController {
 	public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest, HttpSession session, HttpServletRequest request);
 	public ResponseEntity<?> logout(HttpSession session);
 	public ModelAndView viewAdminTest(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView viewPetJoin(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
 }
