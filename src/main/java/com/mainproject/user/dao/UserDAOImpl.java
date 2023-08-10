@@ -39,7 +39,7 @@ public class UserDAOImpl implements UserDAO {
 		sqlSession.update("mapper.user.updateUserWithPassword",userVO);
 	}
 	
-	@Override // 회원 정보 수정 로직 (비밀번호 미변경)
+	@Override// 회원 정보 수정 로직 (비밀번호 미변경)
 	public void updateUserWithoutPassword(UserVO userVO) throws DataAccessException {
 		sqlSession.update("mapper.user.updateUserWithoutPassword",userVO);
 	}
