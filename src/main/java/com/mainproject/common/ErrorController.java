@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/error")
 public class ErrorController {
 	
-	@GetMapping("/403") // 403 ì—ëŸ¬ í˜ì´ì§€
+	@GetMapping("/403") // 403 ¿À·ù ÆäÀÌÁö
 	public ModelAndView handle403(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView();
@@ -20,7 +20,7 @@ public class ErrorController {
 		return mav;
 	}
 	
-	@GetMapping("/404") // 404 ì—ëŸ¬ í˜ì´ì§€ 
+	@GetMapping("/404") // 404 ¿À·ù ÆäÀÌÁö
 	public ModelAndView handle404(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView();

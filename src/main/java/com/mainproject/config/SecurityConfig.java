@@ -17,32 +17,32 @@ public class SecurityConfig {
 	@Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf().disable()  // CSRF protectionì„ ë¹„í™œì„±í™”. AJAXë¥¼ ì‚¬ìš©í•  ë•Œ í•„ìš”í•œ ì„¤ì •
+            .csrf().disable()  // CSRF º¸È£¸¦ °í·ÁÇÏ¿© AJAX¸¦ »ç¿ëÇÏ´Â ¹æ¹ı¿¡ ´ëÇÑ ¼³Á¤
             .authorizeRequests()
-            	.antMatchers("/login.do", "/join.do").permitAll() // íšŒì›ê°€ì…, ë¡œê·¸ì¸ í˜ì´ì§€ í—ˆìš©
-                .antMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_PRIVACY_ADMIN") // /adminì€ ê´€ë¦¬ìë§Œ ê°€ëŠ¥í•˜ë„ë¡ ì„¤ì •
-                .antMatchers("/privacy_admin/**").hasAuthority("ROLE_PRIVACY_ADMIN") // /privacy_adminì€ ê°œì¸ì •ë³´ ê´€ë¦¬ìë§Œ ê°€ëŠ¥í•˜ë„ë¡ ì„¤ì •
-                .antMatchers("/my").authenticated() // /myëŠ” ì¸ì¦ì´ ë˜ì–´ì•¼ ì ‘ì† ê°€ëŠ¥
+            	.antMatchers("/login.do", "/join.do").permitAll() // »ç¿ëÀÚ°¡ÀÔ, ·Î±×ÀÎ ÆäÀÌÁö È°¿ë
+                .antMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_PRIVACY_ADMIN") // /admin °èÁ¤À¸·Î ·Î±×ÀÎÇÏ¿© ¼³Á¤
+                .antMatchers("/privacy_admin/**").hasAuthority("ROLE_PRIVACY_ADMIN") // /privacy_admin °èÁ¤À¸·Î Á¤º¸ ¼³Á¤À» À§ÇØ ·Î±×ÀÎÇÏ¿© ¼³Á¤
+                .antMatchers("/my").authenticated() // /my°¡ ÁÁÀº ÀÏÀÌ »ı±â±æ ¹Ù¶ø´Ï´Ù
                 .anyRequest().permitAll()
             .and()
-            .formLogin() // form ì„ í†µí•œ login í™œì„±í™”
-            	.loginPage("/user/login.do") // ë¡œê·¸ì¸ í˜ì´ì§€ URL ì„¤ì •, ë¯¸ì„¤ì • ì‹œ Default ë¡œê·¸ì¸ í™”ë©´
-            	// .loginProcessingUrl("/api/login") // ë¡œê·¸ì¸ ì²˜ë¦¬í•  URL (ì™œì¸ì§€ ëª¨ë¥´ê² ìŒ ì‘ë™ì•ˆí•¨;)
-            	.defaultSuccessUrl("/index.do") // ë¡œê·¸ì¸ ì„±ê³µì‹œ ê¸°ë³¸ URL
-            	.failureForwardUrl("/fail") // ë¡œê·¸ì¸ ì‹¤íŒ¨ URL ì„¤ì •
+            .formLogin() // ÆûÀ» ÀÛ¼ºÇÏ¿© ·Î±×ÀÎ Ã³¸®
+            	.loginPage("/user/login.do") // ·Î±×ÀÎ ÆäÀÌÁö URL ¼³Á¤, ½ÇÆĞ ÆäÀÌÁö ¼³Á¤ ½Ã Default ·Î±×ÀÎ ÆäÀÌÁö·Î ÀÌµ¿
+            	// .loginProcessingUrl("/api/login") // ·Î±×ÀÎ Ã³¸®ÇÒ URL (·Î±×ÀÎ ÈÄ ¿ø·¡ ¿äÃ»ÆäÀÌÁö·Î ÀÌµ¿;)
+            	.defaultSuccessUrl("/index.do") // ·Î±×ÀÎ ¼º°ø ÈÄ ±âº» URL
+            	.failureForwardUrl("/fail") // ·Î±×ÀÎ ½ÇÆĞ ½Ã URL ¼³Á¤
             .and()
             	.logout()
-            	.logoutUrl("/user/logout.do") // ë¡œê·¸ì•„ì›ƒ URL ì„¤ì •
+            	.logoutUrl("/user/logout.do") // ·Î±×ÀÎ URL ¼³Á¤
             .and()
             .exceptionHandling()
-        		.accessDeniedPage("/error/403"); // ì ‘ê·¼ ê¶Œí•œ ì—†ìŒ : error 403 í˜ì´ì§€ 
+        		.accessDeniedPage("/error/403"); // Á¢±Ù ±ÇÇÑ ¾øÀ½: error 403 ÆäÀÌÁö
         return http.build();
     }
 	
 	@Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // ë¹„ë°€ë²ˆí˜¸ë¥¼ ì•ˆì „í•˜ê²Œ ì•”í˜¸í™”í•˜ê¸° ìœ„í•´ BCryptPasswordEncoder ì‚¬ìš©
-    }
+        return new BCryptPasswordEncoder(); //ºñ¹Ğ¹øÈ£¸¦ ¾ÈÀüÇÏ°Ô ÀúÀåÇÏ±â À§ÇØ BCryptPasswordEncoder¸¦ »ç¿ëÇÏ¿© ÇØ½Ã Ã³¸®¸¦ ÇØ¾ß ÇÕ´Ï´Ù
+    }                                              
 	
 }
 
