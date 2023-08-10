@@ -41,6 +41,34 @@
 	<select id="getUserByUsername" parameterType="String" resultType="userVO">
         SELECT * FROM TB_USER WHERE ID = #{username}
     </select>
+    
+    <update id="updateUserWithPassword" parameterType="userVO">
+    	UPDATE TB_USER
+        SET
+            email = #{email},
+            nickname = #{nickname},
+            birth= #{birth},
+            first_hp = #{first_hp},
+            second_hp = #{second_hp},
+            updated_at = #{updated_at},
+            pwd = #{pwd},
+            updated_at = #{updated_at},
+            updated_user_num = #{updated_user_num}
+        WHERE user_num = #{user_num}
+    </update>
 	
+	<update id="updateUserWithoutPassword" parameterType="userVO">
+		UPDATE TB_USER
+        SET
+            email = #{email},
+            nickname = #{nickname},
+            birth= #{birth},
+            country_code = #{country_code},
+            first_hp = #{first_hp},
+            second_hp = #{second_hp},
+            updated_at = #{updated_at},
+            updated_user_num = #{updated_user_num}
+        WHERE user_num = #{user_num}
+    </update>
 	
 </mapper>
