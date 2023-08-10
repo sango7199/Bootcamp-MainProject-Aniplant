@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>회원 탈퇴</title>
+</head>
+
+<body>
+	<div class="content">
+        <div class="content">
+            <h2>회원 탈퇴</h2>
+            <h4>탈퇴 전 안내사항</h4>
+            <p>회원 탈퇴 시 모든 정보가 삭제됩니다. 이는 되돌릴 수 없으므로 주의해 주세요.</p>
+            <label for="withdrawal_reason">탈퇴 사유:</label><br>
+            <textarea id="withdrawal_reason" name="reason" rows="4" cols="50" placeholder="탈퇴 사유를 작성해주세요."></textarea><br>
+            <button type="button" id="withdrawal_btn" class="btn_submit">회원 탈퇴하기</button>
+		</div>
+	</div>
+</body>
+<script>
+    // 탈퇴하기 기능
+    $(document).ready(function() {
+        $("#withdrawal_btn").click(function() {
+            var isConfirmed = confirm("정말 탈퇴하시겠습니까?");
+            if (isConfirmed) {
+                alert("탈퇴가 완료되었습니다.");
+                window.location.href = "/api/withdrawal"; // 탈퇴 로직
+            }
+        });
+    });
+</script>
+
+</html>

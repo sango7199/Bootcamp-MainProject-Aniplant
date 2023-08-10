@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <!--mypage-sidebar-->
+    <div th:fragment="mypageSidebar" class="sidebar">
+        <ul class="sidebar-menu">
+            <a href="/mypage/profile.do">마이페이지</a>
+            <li><a href="">반려친구 관리</a></li>
+            <li><a href="">일정 관리</a>
+                <ul>
+                    <li><a href="#!">일정 관리</a></li>
+                    <li><a href="#!">일정 카테고리 관리</a></li>
+                </ul>
+            </li>
+            <li><a href="/mypage/my-info-management.do">나의 정보 관리</a></li>
+        </ul>
+        <a href="">문의</a>
+    </div>
+</body>
+</html>
