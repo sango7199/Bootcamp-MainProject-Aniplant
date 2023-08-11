@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.mainproject.board.vo.BoardVO;
 
-@Repository("boardDAO")
+@Repository
 public class BoardDAOImpl implements BoardDAO {
 	@Autowired
 	private SqlSession sqlSession;
@@ -20,4 +20,5 @@ public class BoardDAOImpl implements BoardDAO {
 		articlesList = sqlSession.selectList("mapper.board.selectAllArticlesList");
 		return articlesList;
 	}
+
 }

@@ -26,17 +26,16 @@ import com.mainproject.board.vo.BoardVO;
 public class BoardControllerImpl  implements BoardController{
 	@Autowired
 	private BoardService boardService;
-//	@Autowired
-//	private BoardVO boardVO;
 	
 	@Override
-	@RequestMapping(value= "/board/listArticles.do", method = RequestMethod.GET)
+	@RequestMapping(value= "board/listArticles.do", method = RequestMethod.GET)
 	public ModelAndView listArticles(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String)request.getAttribute("viewName");
 		List articlesList = boardService.listArticles();
 		ModelAndView mav = new ModelAndView(viewName);
 		mav.addObject("articlesList", articlesList);
-		return mav;	
+		return mav;
+		
 	}
 	
 

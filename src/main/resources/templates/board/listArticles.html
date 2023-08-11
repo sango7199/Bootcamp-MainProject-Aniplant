@@ -10,7 +10,31 @@ layout:decorate="~{layout/defaultLayout}">
 </head>
 <!-- 해당 페이지 고유 CSS 추가 -->
 <th:block layout:fragment="css">
-      <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+  <style>
+		.container {
+            display: flex;
+            flex-direction: row; 
+            align-items: start;
+        }
+         .pagination {
+  			display: flex;
+  			align-items: center;
+  			justify-content: center;
+ 			 margin-top: 20px;
+		}
+
+		.page-number,#prev,#next {
+  			margin: 0 5px;
+  			padding: 5px 10px;
+ 			 border: 1px solid #ccc;
+  			cursor: pointer;
+		}
+
+		.page-number.active {
+  			background-color: #ccc;
+		}
+        
+	</style>
 </th:block>
 <!-- 해당 페이지 고유 스크립트 추가 -->
 <th:block layout:fragment="script"> 
@@ -23,43 +47,30 @@ layout:decorate="~{layout/defaultLayout}">
   <!-- sidebar fragment 사용 -->
   <div th:replace="sidebar/article :: articleSidebar"></div>
   
-  <div class="content">
-    <select name="select" id="select">
-    <option value="제목" >제목</option>
-    <option value="등록자 아이디">등록자 아이디</option>
-    <option value="내용">내용</option>
-    <option value="제목/내용">제목/내용</option>
-    <option value="닉네임">닉네임</option>
-  </select>
-  <input type="text" name="searchInput" id="searchInput">
-  <button id="searchButton">검색</button>
-  
-<!-- 동물 -->
-<div class="animallist">
-  <div id="동물">
-  <h1>동물 게시판</h1>
-  <div class="boradlist-container">
-		<table class="boradlist">
-			<tr>
-				<th><b>번호</b></th>
-				<th><b>제목</b></th>
-				<th><b>작성자</b></th>
-				<th><b>조회수</b></th>
-				<th><b>추천</b></th>
-				<th><b>비추천</b></th>
-				<th><b>작성일</b></th>
-			</tr>
 
-      <tr align="center" th:each="items : ${articleList}">
-        <td th:text="${items.post_num}"></td>
-        <td th:text="${items.title}"></td>
-        <td th:text="${items.create_user_num}"></td>
-        <td th:text="${items.views}"></td>
-        <td th:text="${items.good}"></td>
-        <td th:text="${items.bad}"></td>
-        <td th:text="${items.created_at}"></td>
+  <div class="content">
+    <h1>동물 게시판</h1>
+      <table >
+         <tr>
+            <th><b>번호</b></th>
+            <th><b>제목</b></th>
+            <th><b>작성자</b></th>
+            <th><b>조회수</b></th>
+            <th><b>추천</b></th>
+            <th><b>비추천</b></th>
+            <th><b>작성일</b></th>
+         </tr>
+
+      <tr align="center" th:each="board : ${articlesList}">
+        <td th:text="${board.post_num}"></td>
+        <td th:text="${board.title}"></td>
+        <td th:text="${board.created_user_num}"></td>
+        <td th:text="${board.views}"></td>
+        <td th:text="${board.good}"></td>
+        <td th:text="${board.bad}"></td>
+        <td th:text="${board.created_at}"></td>
     </tr>
-		</table>
+      </table>
 
     <div class="pagination">
       <button id="prev">◀</button>
@@ -69,15 +80,17 @@ layout:decorate="~{layout/defaultLayout}">
       </div>
       <button id="next">▶</button>
     </div>
-	</div>
+    
+   </div>
 </div>
+<!-- 동물 끝 -->
+
 </div>
 
 </div>
 
 
 <script th:inline="javascript">
-  /*<![CDATA[*/
 
   //버튼 이동
   const prevButton = document.getElementById('prev');
