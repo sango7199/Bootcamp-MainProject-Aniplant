@@ -110,49 +110,66 @@ public class UserControllerImpl implements UserController {
 	
 	@Override // 로그인 로직
 	@PostMapping("/api/login")
-	public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest, HttpSession session, HttpServletRequest request) {
-		Authentication currentAuthentication = SecurityContextHolder.getContext().getAuthentication();
-		
-		if (!(currentAuthentication instanceof AnonymousAuthenticationToken)) {
-	        // 이미 로그인된 상태라면 원하는 메시지나 리다이렉트 URL을 반환
-	        Map<String, String> result = new HashMap<>();
-	        result.put("message", "이미 로그인된 상태입니다.");
-	        return ResponseEntity.ok(result);
-	    } else { 
-		    String username = loginRequest.getId();
-		    String password = loginRequest.getPwd();
-		    
-		    // 사용자의 입력을 검증하고 인증된 사용자 정보를 생성
-		    UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(username);
-		    if (userDetails == null || !passwordEncoder.matches(password, userDetails.getPassword())) {
-		        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("아이디 또는 비밀번호가 잘못되었습니다.");
-		    }
-		    
-		    // 탈퇴한 회원 확인
-	        UserVO user = userService.getUserByUsername(username);
-	        if (user.isIs_deleted()) {  // is_deleted 필드를 확인
-	            Map<String, String> result = new HashMap<>();
-	            result.put("message", "이미 탈퇴한 계정입니다. 다른 계정으로 로그인 해주세요.");
-	            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(result);
-	        }
-		    
-		    // 인증된 사용자 정보를 세션에 저장
-		    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-		    SecurityContext securityContext = SecurityContextHolder.getContext();
-		    securityContext.setAuthentication(authentication);
-		    session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
-	
-		    // 로그인 성공 후 redirectUrl 생성
-		    String referer = (String) session.getAttribute("previousPage");
-		    if (referer == null || referer.isBlank()) {
-		        referer = "/index.do";  // 기본 URL 설정
-		    }
-		    
-		    Map<String, String> result = new HashMap<>();
-		    result.put("redirectUrl", referer);
-		    
-		    return ResponseEntity.ok(result); 
+	public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest, HttpSession session) {
+	    // 현재 인증 상태를 가져옴
+	    Authentication currentAuthentication = SecurityContextHolder.getContext().getAuthentication();
+
+	    // 이미 로그인된 상태인지 확인
+	    if (!(currentAuthentication instanceof AnonymousAuthenticationToken)) {
+	        return createResponse("message", "이미 로그인된 상태입니다.", HttpStatus.OK);
 	    }
+
+	    String username = loginRequest.getId();
+	    String password = loginRequest.getPwd();
+
+	    // 사용자 정보를 DB에서 가져옴
+	    UserVO user = userService.getUserByUsername(username);
+
+	    // DB에 해당 사용자가 없으면 오류 반환
+	    if (user == null) {
+	        return createResponse("message", "아이디 또는 비밀번호가 잘못되었습니다.", HttpStatus.UNAUTHORIZED);
+	    }
+
+	    // 사용자의 인증 정보를 가져옴
+	    UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(username);
+
+	    // 아이디와 비밀번호가 일치하지 않는 경우
+	    if (userDetails == null || !passwordEncoder.matches(password, userDetails.getPassword())) {
+	        userService.increaseLoginFailCount(username);
+	        
+	        // 로그인 5회 이상 실패 처리
+	        if (user.getFail_count() + 1 >= 5) {
+	            return createResponse("message", "로그인을 5회 이상 실패하였습니다. 잠시 후 다시 시도해주세요.", HttpStatus.FORBIDDEN);
+	        }
+	        return createResponse("message", "아이디 또는 비밀번호가 잘못되었습니다.", HttpStatus.UNAUTHORIZED);
+	    }
+	    
+	    userService.resetLoginFailCount(username);
+	    
+	    // 탈퇴한 회원인 경우
+	    if (user.isIs_deleted()) {
+	        return createResponse("message", "이미 탈퇴한 계정입니다. 다른 계정으로 로그인 해주세요.", HttpStatus.FORBIDDEN);
+	    }
+	    
+	    // 인증된 사용자 정보를 세션에 저장
+	    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+	    SecurityContext securityContext = SecurityContextHolder.getContext();
+	    securityContext.setAuthentication(authentication);
+	    session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
+	    
+	    // 로그인 성공 후 리다이렉트할 URL을 결정
+	    String referer = (String) session.getAttribute("previousPage");
+	    if (referer == null || referer.isBlank()) {
+	        referer = "/index.do";  // 기본 URL 설정
+	    }
+	    return createResponse("redirectUrl", referer, HttpStatus.OK);
+	}
+	
+	// 로그인 response 메소드
+	private ResponseEntity<Map<String, String>> createResponse(String key, String value, HttpStatus status) {
+	    Map<String, String> result = new HashMap<>();
+	    result.put(key, value);
+	    return new ResponseEntity<>(result, status);
 	}
 
 	

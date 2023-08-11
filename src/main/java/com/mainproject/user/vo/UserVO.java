@@ -24,7 +24,8 @@ public class UserVO {
 	private int deleted_user_num;
 	private Timestamp deleted_at;
 	private String deleted_reason;
-	
+	private int fail_count;
+
 	public UserVO() {
 		
 	}
@@ -179,5 +180,13 @@ public class UserVO {
 
 	public void setDeleted_reason(String deleted_reason) {
 		this.deleted_reason = deleted_reason;
-	}	
+	}
+	
+	public int getFail_count() {
+		return fail_count;
+	}
+
+	public void setFail_count(int fail_count) {
+		this.fail_count = fail_count;
+	}
 }

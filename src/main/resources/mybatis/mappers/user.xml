@@ -80,5 +80,17 @@
             is_deleted = #{is_deleted}
         WHERE user_num = #{user_num}
     </update>
+
+	<update id="increaseLoginFailCount" parameterType="String">
+		UPDATE TB_USER
+		SET fail_count = fail_count + 1
+		WHERE id = #{username};
+	</update>
+	
+	<update id="resetLoginFailCount" parameterType="String">
+		UPDATE TB_USER
+		SET fail_count = 0
+		WHERE id = #{username};
+	</update>
 	
 </mapper>
