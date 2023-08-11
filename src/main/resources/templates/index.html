@@ -16,5 +16,8 @@
 <!-- Content -->
 <div layout:fragment="content">
     <h1>Content</h1>
-    메인화면입니다~
+    <h2>메인화면입네다!!</h2>
+    <div><a th:if="${!isLoggedIn}" href="/user/login.do">로그인</a>
+        <a th:if="${isLoggedIn}" href="/user/logout.do">로그아웃</a>
+        <a href="/user/join.do">회원가입</a></div>
 </div>

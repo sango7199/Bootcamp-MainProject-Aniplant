@@ -39,7 +39,7 @@
                     return;
                 }
 
-                $(this).prop("disabled", true);  // 수정하기 버튼 비활성화
+                $(this).prop("disabled", true);  // 탈퇴하기 버튼 비활성화
                 
                 // 사용자 본인인지 확인하는 비밀번호 확인 로직
                 $.ajax({
@@ -48,7 +48,7 @@
                     data: { pwd: pwd_confirm },
                     success: function(response) { // .content 부분만 다른 페이지의 .content 부분을 불러와서 변경
                     	if (response.status === 'success') {
-                    		$('.content').load("/mypage/my-info-update.do");
+                    		$('.content').load("/mypage/my-info-delete.do");
                     	}
                     },
                     error: function(xhr, status, error) {
@@ -59,7 +59,7 @@
                         }
                     },
                     complete: function() {
-                        $("#confirm_btn").prop("disabled", false);  // 수정하기 버튼 활성화
+                        $("#confirm_btn").prop("disabled", false);  // 탈퇴하기 버튼 활성화
                     }
                 });
             });
@@ -72,11 +72,11 @@
 	<!-- sidebar fragment 사용 -->
 	<div th:replace="sidebar/mypage :: mypageSidebar"></div>
 	<div class="content">
-		<h2>나의 정보 관리</h2>
+		<h2>나의 계정 탈퇴</h2>
 		<form id="confrim_form" name="confirm_form" method="post" action="">
             <h5>계정 본인 확인을 위한 비밀번호 확인</h5>
 			<input type="password" id="pwdInput" name="password_confirm" placeholder="비밀번호를 입력해주세요."><span id="confirmError" class="error"></span><br>
-			<button type="button" id="confirm_btn" class="btn_submit">수정하기</button>
+			<button type="button" id="confirm_btn" class="btn_submit">탈퇴하기</button>
 		</form>
 	</div>
 </div>
