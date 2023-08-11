@@ -70,5 +70,15 @@
             updated_user_num = #{updated_user_num}
         WHERE user_num = #{user_num}
     </update>
+    
+    <update id="deleteUser" parameterType="userVO">
+		UPDATE TB_USER
+        SET
+            deleted_at = #{deleted_at},
+            deleted_reason = #{deleted_reason},
+            deleted_user_num = #{deleted_user_num},
+            is_deleted = #{is_deleted}
+        WHERE user_num = #{user_num}
+    </update>
 	
 </mapper>

@@ -29,10 +29,12 @@ public class SecurityConfig {
             	.loginPage("/user/login.do") // 로그인 페이지 URL 설정, 미설정 시 Default 로그인 화면
             	// .loginProcessingUrl("/api/login") // 로그인 처리할 URL (왜인지 모르겠음 작동안함;)
             	.defaultSuccessUrl("/index.do") // 로그인 성공시 기본 URL
-            	.failureForwardUrl("/fail") // 로그인 실패 URL 설정
             .and()
             	.logout()
             	.logoutUrl("/user/logout.do") // 로그아웃 URL 설정
+            	.logoutSuccessUrl("/index.do") // 로그아웃 성공 시 이동할 URL 지정
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
             .and()
             .exceptionHandling()
         		.accessDeniedPage("/error/403"); // 접근 권한 없음 : error 403 페이지 

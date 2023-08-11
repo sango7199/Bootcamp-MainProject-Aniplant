@@ -87,9 +87,12 @@
                 error: function(xhr, status, error) {
                   if (xhr.status == 401) {  // HTTP 상태 코드 401: Unauthorized
                         $("#loginError").text("아이디 또는 비밀번호가 잘못되었습니다.");
-                    } else {
+                  } else if (xhr.status == 403) {  // HTTP 상태 코드 403: Forbidden
+                        var response = JSON.parse(xhr.responseText);
+                        $("#loginError").text(response.message);
+                  } else {
                         $("#loginError").text("로그인 중 오류가 발생했습니다.");
-                    }
+                  }
                 },
                 complete: function() {
                   $("#login_btn").prop("disabled", false);  // 로그인 버튼 활성화

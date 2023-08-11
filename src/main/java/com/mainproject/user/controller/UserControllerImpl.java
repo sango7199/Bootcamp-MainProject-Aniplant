@@ -127,7 +127,15 @@ public class UserControllerImpl implements UserController {
 		    if (userDetails == null || !passwordEncoder.matches(password, userDetails.getPassword())) {
 		        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("아이디 또는 비밀번호가 잘못되었습니다.");
 		    }
-	
+		    
+		    // 탈퇴한 회원 확인
+	        UserVO user = userService.getUserByUsername(username);
+	        if (user.isIs_deleted()) {  // is_deleted 필드를 확인
+	            Map<String, String> result = new HashMap<>();
+	            result.put("message", "이미 탈퇴한 계정입니다. 다른 계정으로 로그인 해주세요.");
+	            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(result);
+	        }
+		    
 		    // 인증된 사용자 정보를 세션에 저장
 		    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 		    SecurityContext securityContext = SecurityContextHolder.getContext();
@@ -212,18 +220,48 @@ public class UserControllerImpl implements UserController {
 	@PostMapping("/api/update-user")
 	public ResponseEntity<?> updateUser(@RequestBody UserVO userVO, Principal principal) {
 	    String currentUsername = principal.getName();
-//	    System.out.println(currentUsername);
 	    // 현재 로그인된 사용자의 정보를 가져옴
 	    UserVO currentUser = userService.getUserByUsername(currentUsername);
-//	    System.out.println(currentUser);
 
-//	    // 현재 로그인된 사용자의 정보만 수정 가능하도록 체크
-//	    if (!currentUser.getId().equals(userVO.getId())) {
-//	        return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
-//	    }
+	    // 현재 로그인된 사용자의 정보만 수정 가능하도록 체크
+	    if (!currentUser.getId().equals(userVO.getId())) {
+	        return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+	    }
 
 	    try {
 	        userService.updateUser(userVO);
+	        return new ResponseEntity<>("success", HttpStatus.OK);
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	        return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+	}
+	
+	@Override // 회원정보 탈퇴하기 form 페이지 로드 로직
+	@RequestMapping(value = {"/mypage/my-info-delete.do"}, method = RequestMethod.GET)
+	public ModelAndView viewMyInfoDelete(Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		String username = principal.getName();
+		UserVO user = userService.getUserByUsername(username);
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(viewName);
+		mav.addObject("user", user);
+		return mav;
+	}
+	
+	@Override // 회원 탈퇴 로직
+	@PostMapping("/api/delete-user")
+	public ResponseEntity<?> deleteUser(@RequestBody UserVO userVO, Principal principal) {
+	    String currentUsername = principal.getName();
+	    // 현재 로그인된 사용자의 정보를 가져옴
+	    UserVO currentUser = userService.getUserByUsername(currentUsername);
+
+	    // 현재 로그인된 사용자의 정보만 수정 가능하도록 체크
+	    if (!currentUser.getId().equals(userVO.getId())) {
+	        return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+	    }
+	    try {
+	        userService.deleteUser(userVO);
 	        return new ResponseEntity<>("success", HttpStatus.OK);
 	    } catch (Exception e) {
 	    	e.printStackTrace();

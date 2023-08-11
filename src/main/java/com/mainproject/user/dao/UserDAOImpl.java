@@ -43,4 +43,9 @@ public class UserDAOImpl implements UserDAO {
 	public void updateUserWithoutPassword(UserVO userVO) throws DataAccessException {
 		sqlSession.update("mapper.user.updateUserWithoutPassword",userVO);
 	}
+	
+	@Override // 회원 탈퇴 로직
+	public void deleteUser(UserVO userVO) throws DataAccessException {
+		sqlSession.update("mapper.user.deleteUser", userVO);
+	}
 }

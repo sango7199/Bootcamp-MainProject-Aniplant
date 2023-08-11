@@ -52,4 +52,9 @@ public class UserServiceImpl implements UserService {
 	        userDAO.updateUserWithoutPassword(userVO);
 	    }
 	}
+	
+	@Override // 회원 탈퇴 로직
+	public void deleteUser(UserVO userVO) throws DataAccessException {
+		userDAO.deleteUser(userVO);
+	}
 }
