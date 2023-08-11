@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/defaultLayout}">
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+	<!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+	<!--    <script th:src="@{/js/page/home.js}"></script>-->
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content">
+	<h1 class="logo_aniplant">
+		<a href="/index.do" class="link"></a> <span class="blind">애니플랜트</span>
+	</h1>
+	<h2>카테고리 리스트</h2>
+	<div class="content">
+		<table>
+			<tr>
+				<th>카테고리 번호</th>
+				<th>상위 카테고리 번호</th>
+				<th>카테고리 이름</th>
+			</tr>
+			<tr th:each="category : ${categoriesList}">
+				<td th:text="${category.category_num}"></td>
+				<td th:text="${category.parent_category_num}"></td>
+				<td th:text="${category.name}"></td>
+			</tr>
+		</table>
+	</div>
+</div>

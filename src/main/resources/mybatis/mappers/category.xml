@@ -3,17 +3,22 @@
    	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.category">
-  <resultMap id="categryResultMap" type="categoryVO">
-        <result property="parent_category_num" column="parent_category_num"/>
-        <result property="name" column="name"/>
-        <result property="read_permission" column="read_permission"/>
-        <result property="write_permission" column="write_permission"/>
-        <result property="created_user_num" column="created_user_num"/>
-        <result property="created_at" column="created_at"/>
-        <result property="updated_user_num" column="updated_user_num"/>
-        <result property="updated_at" column="updated_at"/>
-        <result property="is_deleted" column="is_deleted"/>
-        <result property="deleted_user_num" column="deleted_user_num"/>
-        <result property="deleted_at" column="deleted_at"/>
-        </resultMap>
+	<resultMap id="categryResultMap" type="categoryVO">
+		<result property="parent_category_num"
+			column="parent_category_num" />
+		<result property="name" column="name" />
+		<result property="read_permission" column="read_permission" />
+		<result property="write_permission" column="write_permission" />
+		<result property="created_user_num" column="created_user_num" />
+		<result property="created_at" column="created_at" />
+		<result property="updated_user_num" column="updated_user_num" />
+		<result property="updated_at" column="updated_at" />
+		<result property="is_deleted" column="is_deleted" />
+		<result property="deleted_user_num" column="deleted_user_num" />
+		<result property="deleted_at" column="deleted_at" />
+	</resultMap>
+
+	<select id="selectAllCategoriesList" resultMap="categryResultMap">
+		SELECT * FROM TB_CATEGORY ORDER BY Created_At DESC
+	</select>
 </mapper> 
