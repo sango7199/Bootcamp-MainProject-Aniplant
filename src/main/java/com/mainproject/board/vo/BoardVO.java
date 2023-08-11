@@ -7,6 +7,9 @@ public class BoardVO {
 	private int category_num;
 	private String title;
 	private String content;
+	private int views;
+	private int good;
+	private int bad;
 	private int created_user_num;
 	private Timestamp created_at;
 	private int updated_user_num;
@@ -15,7 +18,24 @@ public class BoardVO {
 	private int deleted_user_num;
 	private Timestamp deleted_at;
 	
-	public BoardVO() {
+	public BoardVO(int post_num,int category_num, String title ,String content, int views,int good,
+			int bad, int created_user_num, Timestamp created_at, int updated_user_num,
+			Timestamp updated_at,boolean is_deleted,int deleted_user_num,Timestamp deleted_at ) {
+		this.post_num = post_num;
+		this.category_num = category_num;
+		this.title = title;
+		this.content = content;
+		this.views = views;
+		this.good = good;
+		this.bad = bad;
+		this.created_user_num = created_user_num;
+		this.created_at = created_at;
+		this.updated_user_num = updated_user_num;
+		this.updated_at = updated_at;
+		this.is_deleted = is_deleted;
+		this.deleted_user_num = deleted_user_num;
+		this.deleted_at = deleted_at;
+		
 		
 	}
 
@@ -49,6 +69,29 @@ public class BoardVO {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public int getViews() {
+		return views;
+	}
+
+	public void setViews(int views) {
+		this.views = views;
+	}
+
+	public int getGood() {
+		return good;
+	}
+
+	public void setGood(int good) {
+		this.good = good;
+	}
+
+	public int getBad() {
+		return bad;
+	}
+
+	public void setBad(int bad) {
+		this.bad = bad;
 	}
 
 	public int getCreated_user_num() {
