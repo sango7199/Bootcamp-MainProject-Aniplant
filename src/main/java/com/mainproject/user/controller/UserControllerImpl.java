@@ -32,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.mainproject.user.dao.UserDAO;
 import com.mainproject.user.service.UserDetailsServiceImpl;
 import com.mainproject.user.service.UserService;
+import com.mainproject.user.service.captcha.CaptchaService;
 import com.mainproject.user.vo.LoginRequest;
 import com.mainproject.user.vo.UserVO;
 
@@ -50,6 +51,9 @@ public class UserControllerImpl implements UserController {
 	
 	@Autowired
 	UserVO userVO;
+	
+	@Autowired
+	CaptchaService captchaService;
 	
 	@Override // 회원가입 페이지 이동
 	@RequestMapping(value = {"/user/join.do"}, method = RequestMethod.GET)
@@ -139,7 +143,10 @@ public class UserControllerImpl implements UserController {
 	        
 	        // 로그인 5회 이상 실패 처리
 	        if (user.getFail_count() + 1 >= 5) {
-	            return createResponse("message", "로그인을 5회 이상 실패하였습니다. 잠시 후 다시 시도해주세요.", HttpStatus.FORBIDDEN);
+	            Map<String, String> responseMap = new HashMap<>();
+	            responseMap.put("message", "로그인을 5회 이상 실패하였습니다.");
+	            responseMap.put("captchaRequired", "true");
+	            return new ResponseEntity<>(responseMap, HttpStatus.FORBIDDEN);
 	        }
 	        return createResponse("message", "아이디 또는 비밀번호가 잘못되었습니다.", HttpStatus.UNAUTHORIZED);
 	    }
@@ -172,6 +179,23 @@ public class UserControllerImpl implements UserController {
 	    return new ResponseEntity<>(result, status);
 	}
 
+	@Override // captcha 이미지 생성 로직
+	@RequestMapping(value = "/api/captcha-image", method = RequestMethod.GET)
+	public ResponseEntity<?> getCaptchaImage() {
+	    try {
+	        String captchaKey = captchaService.generateCaptchaKey();
+	        String captchaImage = captchaService.getCaptchaImageAsBase64(captchaKey);
+
+	        Map<String, String> response = new HashMap<>();
+	        response.put("captchaKey", captchaKey);
+	        response.put("captchaImage", captchaImage);
+
+	        return new ResponseEntity<>(response, HttpStatus.OK);
+	    } catch (Exception e) {
+	        return new ResponseEntity<>("CAPTCHA 이미지를 가져오는 중 오류 발생", HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+	}
+	
 	
 	@Override // 로그아웃 로직
 	@GetMapping("/api/logout")

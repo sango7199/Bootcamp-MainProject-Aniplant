@@ -8,10 +8,6 @@
 			color: red;
 			font-size: 12px;
 		}
-		
-		#otherReasons {
-			display: none;
-		} 
 	</style>
 </th:block>
 
@@ -29,7 +25,7 @@
 			<label> <input type="radio" name="withdrawalReason" value="다른 사이트나 앱 이용">다른 사이트나 앱 이용</label><br>
 			<label> <input type="radio" name="withdrawalReason" value="이용하지 않는 서비스">이용하지 않는 서비스</label><br>
 			<label> <input type="radio" name="withdrawalReason" id="radioOtherReasons" value="기타 사유">기타 사유</label><br>
-			<textarea id="otherReasons" name="otherReasons" rows="4" cols="50" placeholder="기타 탈퇴 사유를 작성해주세요."></textarea><br>
+			<textarea id="otherReasons" name="otherReasons" rows="4" cols="50" placeholder="기타 탈퇴 사유를 작성해주세요." style="display: none;"></textarea><br>
 			<div id="withdrawalError" class="error"></div>
 			<button type="button" id="withdrawal_btn" class="btn_submit">계정 탈퇴하기</button>
 		</form>
