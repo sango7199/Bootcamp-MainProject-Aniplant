@@ -1,4 +1,4 @@
-package com.mainproject.user.service.captcha;
+package com.mainproject.captcha;
 
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Base64;
+import java.util.stream.Collectors;
 
 @Service
 public class CaptchaService {
@@ -74,4 +75,34 @@ public class CaptchaService {
             throw new RuntimeException("CAPTCHA 이미지 가져오는 중 오류 발생: " + e.getMessage(), e);
         }
     } 
+    
+    // 네이버 캡챠 API - 입력값 비교
+    public boolean checkCaptchaKeyResult(String key, String value) {
+        try {
+            String code = "1"; // 키 발급시 0, 캡차 이미지 비교시 1로 세팅
+            String apiURL = "https://naveropenapi.apigw.ntruss.com/captcha/v1/nkey?code=" + code + "&key=" + key + "&value=" + value;
+
+            URL url = new URL(apiURL);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.setRequestProperty("X-NCP-APIGW-API-KEY-ID", CLIENT_ID);
+            con.setRequestProperty("X-NCP-APIGW-API-KEY", CLIENT_SECRET);
+            
+            int responseCode = con.getResponseCode();
+            
+            // try-with-resources문으로 리소스 자동으로 닫기
+            if (responseCode == 200) { // 정상 호출
+                try (BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
+                    String response = br.lines().collect(Collectors.joining());
+                    JSONObject jsonResponse = new JSONObject(response);
+                    return jsonResponse.getBoolean("result");
+                }
+            } else {
+                throw new RuntimeException("CAPTCHA 검증 실패: 응답 코드 " + responseCode);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("CAPTCHA 검증 중 오류 발생: " + e.getMessage(), e);
+        }
+    }
+
 }

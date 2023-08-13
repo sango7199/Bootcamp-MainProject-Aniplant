@@ -26,16 +26,6 @@
         color: red;
         font-size: 12px;
     }
-    #captchaRefresh_btn {
-	    background-image: url("/img/captcha-refresh.png");  /* 이미지 경로는 실제 경로로 변경해야 합니다. */
-	    background-size: contain;  /* 이미지가 버튼 안에 맞게 크기를 조절합니다. */
-	    background-repeat: no-repeat;  /* 이미지가 반복되지 않게 합니다. */
-	    background-position: center;  /* 이미지를 버튼의 중앙에 배치합니다. */
-	    width: 40px;  /* 버튼의 너비를 설정합니다. 필요에 따라 조절할 수 있습니다. */
-	    height: 40px;  /* 버튼의 높이를 설정합니다. 필요에 따라 조절할 수 있습니다. */
-	    border: none;  /* 버튼의 테두리를 없앱니다. */
-	    cursor: pointer;  /* 마우스 커서가 버튼 위에 있을 때 손가락 모양으로 보이게 합니다. */
-	}
   </style>
 </head>
 <body>
@@ -47,19 +37,28 @@
     <form>
         <input type="text" id="loginID" name="username" placeholder="아이디"><span id="idError" class="error"></span><br>
         <input type="password" id="loginPWD" name="password" placeholder="비밀번호"><span id="pwdError" class="error"></span><br>
-        <div id="captchaProtection" style="display:none;">
-	        <h5>비밀번호를 5회 이상 잘못 입력하시면,<br>정보보호를 위해 자동입력방지 문자를 함께 입력하셔야합니다.<h5>
-	        <h6>아래 이미지를 보이는 대로 입력해주세요.</h6>
-	        <img id="captchaImage" src="" alt="CAPTCHA"><br>
-			<input type="text" id="captchaInput" placeholder="자동입력 방지문자">
-			<button type="button" id="captchaRefresh_btn"></button>
-		</div>
+        <div id="captchaDiv"></div>
         <button type="button" id="login_btn" class="btn_submit">로그인</button><span id="loginError" class="error"></span><br>
     </form>
     <div><a href="/user/join.do">회원가입</a></div>
 </div>
 </body>
 <script>
+	// 캡챠 HTML을 제공하는 메소드
+	function getCaptcha() {
+	    $.ajax({
+	        url: "/api/captcha-load", 
+	        type: "GET",
+	        success: function(captchaResponse) {
+	            // 캡차 불러오기
+	            $("#captchaDiv").load(captchaResponse.captchaUrl);
+	        },
+	        error: function() {
+	            $("#loginError").text("캡챠를 불러오는 데 실패했습니다. 다시 시도해주세요.");
+	        }
+	    });
+	}
+	
 	$(document).ready(function(){
     	$("#login_btn").click(function(){
           var isValid = true // 유효성 검사
@@ -90,7 +89,6 @@
             pwd: pwd
           };
           
-
        	  // AJAX 로그인 post 요청 로직
           $(this).prop("disabled", true);  // 로그인 버튼 비활성화
           $.ajax({
@@ -109,41 +107,14 @@
                   var response = JSON.parse(xhr.responseText);
                   $("#loginError").text(response.message);
                   if (response.captchaRequired) { // 로그인 5회 이상 실패 시
-                      // CAPTCHA 이미지와 입력 필드 출력
-                      $("#captchaProtection").show();
-                      $.ajax({ // CAPTCHA 이미지 요청
-                          url: "/api/captcha-image",
-                          type: "GET",
-                          success: function(captchaResponse) {
-                              // 예를 들어, 서버에서 이미지를 base64 형식으로 보내면 다음과 같이 처리할 수 있습니다.
-                              var captchaImage = "data:image/png;base64," + captchaResponse.captchaImage;
-                              $("#captchaImage").attr("src", captchaImage);
-                          },
-                          error: function() {
-                              $("#loginError").text("CAPTCHA 이미지를 가져오는 데 실패했습니다.");
-                          }
-                      });
+                      // chaptcha AJAX 요청
+                      getCaptcha();
                   }
               },
               complete: function() {
                   $("#login_btn").prop("disabled", false);  // 로그인 버튼 활성화
               }
           });
-    	});
-    	
-    	// captcha 이미지 새로고침 로직
-    	$("#captchaRefresh_btn").click(function() {
-    	    $.ajax({
-    	        url: "/api/captcha-image",
-    	        type: "GET",
-    	        success: function(captchaResponse) {
-    	            var captchaImage = "data:image/png;base64," + captchaResponse.captchaImage;
-    	            $("#captchaImage").attr("src", captchaImage);
-    	        },
-    	        error: function() {
-    	            $("#loginError").text("CAPTCHA 이미지를 새로고침하는 데 실패했습니다.");
-    	        }
-    	    });
     	});
   	});
 </script>

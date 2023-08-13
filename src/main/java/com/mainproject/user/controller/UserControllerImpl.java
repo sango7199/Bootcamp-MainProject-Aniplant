@@ -29,10 +29,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mainproject.captcha.CaptchaService;
 import com.mainproject.user.dao.UserDAO;
 import com.mainproject.user.service.UserDetailsServiceImpl;
 import com.mainproject.user.service.UserService;
-import com.mainproject.user.service.captcha.CaptchaService;
 import com.mainproject.user.vo.LoginRequest;
 import com.mainproject.user.vo.UserVO;
 
@@ -51,9 +51,6 @@ public class UserControllerImpl implements UserController {
 	
 	@Autowired
 	UserVO userVO;
-	
-	@Autowired
-	CaptchaService captchaService;
 	
 	@Override // 회원가입 페이지 이동
 	@RequestMapping(value = {"/user/join.do"}, method = RequestMethod.GET)
@@ -141,13 +138,14 @@ public class UserControllerImpl implements UserController {
 	    if (userDetails == null || !passwordEncoder.matches(password, userDetails.getPassword())) {
 	        userService.increaseLoginFailCount(username);
 	        
-	        // 로그인 5회 이상 실패 처리
-	        if (user.getFail_count() + 1 >= 5) {
+	     // 로그인 5회 이상 실패 처리
+	        if (user.getFail_count() >= 5) {
 	            Map<String, String> responseMap = new HashMap<>();
 	            responseMap.put("message", "로그인을 5회 이상 실패하였습니다.");
 	            responseMap.put("captchaRequired", "true");
 	            return new ResponseEntity<>(responseMap, HttpStatus.FORBIDDEN);
 	        }
+
 	        return createResponse("message", "아이디 또는 비밀번호가 잘못되었습니다.", HttpStatus.UNAUTHORIZED);
 	    }
 	    
@@ -178,24 +176,6 @@ public class UserControllerImpl implements UserController {
 	    result.put(key, value);
 	    return new ResponseEntity<>(result, status);
 	}
-
-	@Override // captcha 이미지 생성 로직
-	@RequestMapping(value = "/api/captcha-image", method = RequestMethod.GET)
-	public ResponseEntity<?> getCaptchaImage() {
-	    try {
-	        String captchaKey = captchaService.generateCaptchaKey();
-	        String captchaImage = captchaService.getCaptchaImageAsBase64(captchaKey);
-
-	        Map<String, String> response = new HashMap<>();
-	        response.put("captchaKey", captchaKey);
-	        response.put("captchaImage", captchaImage);
-
-	        return new ResponseEntity<>(response, HttpStatus.OK);
-	    } catch (Exception e) {
-	        return new ResponseEntity<>("CAPTCHA 이미지를 가져오는 중 오류 발생", HttpStatus.INTERNAL_SERVER_ERROR);
-	    }
-	}
-	
 	
 	@Override // 로그아웃 로직
 	@GetMapping("/api/logout")
@@ -229,9 +209,7 @@ public class UserControllerImpl implements UserController {
 	@PostMapping("/api/confirmUser")
 	public ResponseEntity<?> confirmPWD(@RequestParam("pwd") String pwd, Principal principal) {
 	    // 현재 로그인된 사용자 정보 가져오기
-	    String currentUsername = principal.getName();
-	    
-	    UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(currentUsername);
+		UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(getCurrentUser(principal).getId());
 
 	    if (passwordEncoder.matches(pwd, userDetails.getPassword())) {
 	        Map<String, Object> response = new HashMap<>();
@@ -249,8 +227,8 @@ public class UserControllerImpl implements UserController {
 	@RequestMapping(value = {"/mypage/my-info-update.do"}, method = RequestMethod.GET)
 	public ModelAndView viewMyInfoUpdate(Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
-		String username = principal.getName();
-		UserVO user = userService.getUserByUsername(username);
+		// 현재 로그인된 사용자 정보 가져오기
+		UserVO user = getCurrentUser(principal);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(viewName);
 		mav.addObject("user", user);
@@ -260,9 +238,8 @@ public class UserControllerImpl implements UserController {
 	@Override // 회원정보 수정 로직
 	@PostMapping("/api/update-user")
 	public ResponseEntity<?> updateUser(@RequestBody UserVO userVO, Principal principal) {
-	    String currentUsername = principal.getName();
 	    // 현재 로그인된 사용자의 정보를 가져옴
-	    UserVO currentUser = userService.getUserByUsername(currentUsername);
+	    UserVO currentUser = getCurrentUser(principal);
 
 	    // 현재 로그인된 사용자의 정보만 수정 가능하도록 체크
 	    if (!currentUser.getId().equals(userVO.getId())) {
@@ -282,8 +259,8 @@ public class UserControllerImpl implements UserController {
 	@RequestMapping(value = {"/mypage/my-info-delete.do"}, method = RequestMethod.GET)
 	public ModelAndView viewMyInfoDelete(Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
-		String username = principal.getName();
-		UserVO user = userService.getUserByUsername(username);
+		// 현재 로그인된 사용자의 정보를 가져옴
+		UserVO user = getCurrentUser(principal);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(viewName);
 		mav.addObject("user", user);
@@ -293,9 +270,8 @@ public class UserControllerImpl implements UserController {
 	@Override // 회원 탈퇴 로직
 	@PostMapping("/api/delete-user")
 	public ResponseEntity<?> deleteUser(@RequestBody UserVO userVO, Principal principal) {
-	    String currentUsername = principal.getName();
 	    // 현재 로그인된 사용자의 정보를 가져옴
-	    UserVO currentUser = userService.getUserByUsername(currentUsername);
+	    UserVO currentUser = getCurrentUser(principal);
 
 	    // 현재 로그인된 사용자의 정보만 수정 가능하도록 체크
 	    if (!currentUser.getId().equals(userVO.getId())) {
@@ -308,5 +284,11 @@ public class UserControllerImpl implements UserController {
 	    	e.printStackTrace();
 	        return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 	    }
+	}
+	
+	// 현재 로그인된 사용자 정보 가져오는 메소드
+	private UserVO getCurrentUser(Principal principal) {
+	    String currentUsername = principal.getName();
+	    return userService.getUserByUsername(currentUsername);
 	}
 }
