@@ -1,12 +1,35 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+				xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="UTF-8">
 </head>
 <!--headerFragment 선언-->
 <body>
 	<div th:fragment="headerFragment">
-    	<h1>Header Section</h1>
+		<header>
+			<!-- 로고 영역 -->
+	    	<h1 class="logo_aniplant">
+	    		<a href="/index.do" class="link"><img class="logo-main" src="/img/aniplant_logo02.png"></a>
+	    		<a href="" class="link"><img class="logo-sub"src=""></a>
+	  		</h1>
+			<!-- 검색창 영역 -->
+			<div id="search_area">
+				<form id="search_form" name="search_form" method="get" action="">
+					<input type="text" name="search_input" placeholder="통합 검색">
+					<button type="button" id="search_btn" class="btn_submit"></button>
+				</form>
+			</div>
+			<!-- 사용자 계정 영역 -->
+			<div id="user_area">
+				<!--로그인 및 회원가입-->
+				<button type="button" id="loginLink_btn" class="user_btn" th:if="${!isLoggedIn}"><img src="/img/login.png">로그인</button>
+				<button type="button" id="joinLink_btn" class="user_btn" th:if="${!isLoggedIn}"><img src="/img/join.png">회원가입</button>
+				<!--로그아웃 버튼-->
+				<p id="login_nickname" th:if="${isLoggedIn}" th:text="${#authentication.principal.nickname} + 님">Nickname님</p>
+				<button type="button" id="logoutLink_btn" class="user_btn" th:if="${isLoggedIn}"><img src="/img/logout.png">로그아웃</button>
+			</div>
+	  	</header>
 	</div>
 </body>
 </html>

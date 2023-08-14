@@ -1,0 +1,94 @@
+/* header start-point */
+a {
+    text-decoration: none; /* 밑줄 제거 */
+    color: inherit; /* 글자 색상을 상속받게 설정 */
+}
+a:hover {
+    text-decoration: none; /* 호버 상태에서 밑줄 제거 */
+}
+a:visited {
+    color: inherit; /* 방문한 링크의 색상을 상속받게 설정 */
+}
+
+header {
+    display: flex;
+    align-content: row;
+	align-items: center;
+	justify-content: space-between;
+}
+.logo_aniplant {
+	margin: 0px;
+}
+.logo-main {
+    width: 200px;
+}
+.logo-sub {
+    width: 100px;
+}
+#search_area {
+	border: 2px solid #14b8a6;
+	border-radius: 20px;
+	transition: box-shadow 0.3s ease;
+	padding: 10px;
+	width: 400px;
+	height: 42px;
+}
+#search_area:hover {
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+#search_form {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1px;
+}
+#search_form input[type="text"] {
+	flex-grow: 1;
+	margin-right: 10px;
+	border: none;
+	border-radius: 5px;
+	outline: none;
+	height: 100%;
+	font-size: 17px;
+    padding: 10px 15px 10px 8px; 
+    height: auto;
+}
+#search_btn {
+	background-image: url('/img/btn-search.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-color: #ffffff;
+	width: 40px;
+	height: 40px;
+	border: none;
+	cursor: pointer;
+}
+.user_area {
+	margin: 20px;
+}
+.user_btn {
+	background-color: #14b8a6;
+	font-size: 15px;
+	color: #ffffff;
+	padding: 6px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+.user_btn:hover {
+    filter: brightness(0.9);
+}
+.user_btn img {
+    width: 20px; 
+    height: 20px; 
+    vertical-align: middle; 
+    margin-right: 5px;
+}
+#login_nickname {
+	font-weight: bold;
+	text-align: left;
+	margin: 10px 0px 10px;
+}
+/* #43ea83 #14b8a6 */
+/* header end-point */

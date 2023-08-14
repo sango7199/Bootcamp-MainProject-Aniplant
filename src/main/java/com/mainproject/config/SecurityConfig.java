@@ -23,6 +23,7 @@ public class SecurityConfig {
                 .antMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_PRIVACY_ADMIN") // /admin은 관리자만 가능하도록 설정
                 .antMatchers("/privacy_admin/**").hasAuthority("ROLE_PRIVACY_ADMIN") // /privacy_admin은 개인정보 관리자만 가능하도록 설정
                 .antMatchers("/mypage/**").authenticated() // /my는 인증이 되어야 접속 가능
+                .antMatchers("/css/**", "/js/**", "/img/**").permitAll() // CSS, JS, 이미지 파일에 대한 요청을 허용
                 .anyRequest().permitAll()
             .and()
             .formLogin() // form 을 통한 login 활성화
@@ -42,6 +43,8 @@ public class SecurityConfig {
         return http.build();
     }
 	
+
+    
 	@Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(); // 비밀번호를 안전하게 암호화하기 위해 BCryptPasswordEncoder 사용
