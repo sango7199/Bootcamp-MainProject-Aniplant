@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var loginBtn = document.getElementById('loginLink_btn');
     var joinBtn = document.getElementById('joinLink_btn');
     var logoutBtn = document.getElementById('logoutLink_btn');
+    var mypageBtn = document.getElementById('mypageLink_btn');
 
     if (loginBtn) {
         loginBtn.addEventListener('click', function() {
@@ -16,6 +17,11 @@ document.addEventListener("DOMContentLoaded", function() {
     if (logoutBtn) {
         logoutBtn.addEventListener('click', function() {
             window.location.href = '/user/logout.do';
+        });
+    }
+    if (mypageBtn) {
+        mypageBtn.addEventListener('click', function() {
+            window.location.href = '/mypage/profile.do';
         });
     }
 });

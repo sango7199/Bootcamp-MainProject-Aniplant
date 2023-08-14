@@ -19,11 +19,11 @@ public class SecurityConfig {
         http
             .csrf().disable()  // CSRF protection을 비활성화. AJAX를 사용할 때 필요한 설정
             .authorizeRequests()
+            	.antMatchers("/css/**", "/js/**", "/img/**").permitAll() // CSS, JS, 이미지 파일에 대한 요청을 허용
             	.antMatchers("/login.do", "/join.do").permitAll() // 회원가입, 로그인 페이지 허용
                 .antMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_PRIVACY_ADMIN") // /admin은 관리자만 가능하도록 설정
                 .antMatchers("/privacy_admin/**").hasAuthority("ROLE_PRIVACY_ADMIN") // /privacy_admin은 개인정보 관리자만 가능하도록 설정
                 .antMatchers("/mypage/**").authenticated() // /my는 인증이 되어야 접속 가능
-                .antMatchers("/css/**", "/js/**", "/img/**").permitAll() // CSS, JS, 이미지 파일에 대한 요청을 허용
                 .anyRequest().permitAll()
             .and()
             .formLogin() // form 을 통한 login 활성화
