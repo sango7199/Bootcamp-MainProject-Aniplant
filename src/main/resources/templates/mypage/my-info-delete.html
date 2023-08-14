@@ -1,5 +1,5 @@
 <!-- 페이지의 제목 설정 -->
-	<title>회원 탈퇴</title>
+	<title>계정 탈퇴</title>
 
 <!-- 해당 페이지 고유 CSS 추가 -->
 <th:block layout:fragment="css">
@@ -8,17 +8,13 @@
 			color: red;
 			font-size: 12px;
 		}
-		
-		#otherReasons {
-			display: none;
-		} 
 	</style>
 </th:block>
 
 	<div class="content">
-		<h2>회원 탈퇴</h2>
+		<h2>계정 탈퇴</h2>
 		<h4>탈퇴 전 안내사항</h4>
-		<p>회원 탈퇴 시 모든 정보가 삭제됩니다. 이는 되돌릴 수 없으므로 주의해 주세요.</p>
+		<p>계정 탈퇴 시 모든 정보가 삭제됩니다. 이는 되돌릴 수 없으므로 주의해 주세요.</p>
 		<form id="withdrawal_form">
 			<h3>탈퇴 사유 선택</h3>
 			<label> <input type="radio" name="withdrawalReason" value="사이트 사용의 어려움">사이트 사용의 어려움</label><br> 
@@ -29,9 +25,9 @@
 			<label> <input type="radio" name="withdrawalReason" value="다른 사이트나 앱 이용">다른 사이트나 앱 이용</label><br>
 			<label> <input type="radio" name="withdrawalReason" value="이용하지 않는 서비스">이용하지 않는 서비스</label><br>
 			<label> <input type="radio" name="withdrawalReason" id="radioOtherReasons" value="기타 사유">기타 사유</label><br>
-			<textarea id="otherReasons" name="otherReasons" rows="4" cols="50" placeholder="기타 탈퇴 사유를 작성해주세요."></textarea><br>
+			<textarea id="otherReasons" name="otherReasons" rows="4" cols="50" placeholder="기타 탈퇴 사유를 작성해주세요." style="display: none;"></textarea><br>
 			<div id="withdrawalError" class="error"></div>
-			<button type="button" id="withdrawal_btn" class="btn_submit">회원 탈퇴하기</button>
+			<button type="button" id="withdrawal_btn" class="btn_submit">계정 탈퇴하기</button>
 		</form>
 	</div>
 	
@@ -108,7 +104,7 @@
 					contentType: "application/json",
 	                data: JSON.stringify(formData),
 	                success: function(response) {
-	                    alert("회원 탈퇴가 완료되었습니다.");
+	                    alert("계정 탈퇴가 완료되었습니다.");
 	                    $.ajax({ // 로그아웃 요청 
 	                        url: "/api/logout",
 	                        type: "GET",
@@ -122,10 +118,10 @@
 	                    });
 	                },
 	                error: function(xhr, status, error) {
-	                    alert("회원 탈퇴 중 오류가 발생했습니다.");
+	                    alert("계정 탈퇴 중 오류가 발생했습니다.");
 	                },
 	                complete: function() {
-	                  $("#withdrawal_btn").prop("disabled", false);  // 회원 탈퇴 버튼 활성화
+	                  $("#withdrawal_btn").prop("disabled", false);  // 계정 탈퇴 버튼 활성화
 	                }
 	            });
 			}

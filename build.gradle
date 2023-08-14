@@ -68,6 +68,10 @@ dependencies {
 	
 	// Spring Security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	
+	// JSON
+	implementation 'org.json:json:20210307'
+	
 }
 
 tasks.named('test') {
