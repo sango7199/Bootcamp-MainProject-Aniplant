@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,7 +33,7 @@ public class CaptchaController {
 	}
 
 	// captcha 페이지 로드 로직
-	@RequestMapping(value = { "/captcha.do" }, method = RequestMethod.GET)
+	@GetMapping("/captcha.do")
 	public ModelAndView viewJoin(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView();
@@ -40,7 +42,7 @@ public class CaptchaController {
 	}
 
 	// captcha 이미지 생성 로직
-	@RequestMapping(value = "/api/captcha-image", method = RequestMethod.GET)
+	@GetMapping("/api/captcha-image")
 	public ResponseEntity<?> getCaptchaImage() {
 		try {
 			String captchaKey = captchaService.generateCaptchaKey();
@@ -55,5 +57,17 @@ public class CaptchaController {
 			return new ResponseEntity<>("CAPTCHA 이미지를 가져오는 중 오류 발생", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-
+	
+	// captcha 입력값 비교 로직
+	@PostMapping("/api/captcha-check")
+	public ResponseEntity<?> checkCaptchaInput(@RequestBody Map<String, String> requestData) {
+	    String key = requestData.get("key");
+	    String value = requestData.get("value");
+	    boolean isValid = captchaService.checkCaptchaKeyResult(key, value);
+	    
+	    Map<String, Boolean> response = new HashMap<>();
+	    response.put("valid", isValid);
+	    
+	    return new ResponseEntity<>(response, HttpStatus.OK);
+	}
 }

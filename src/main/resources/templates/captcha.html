@@ -66,6 +66,8 @@
 	$(document).ready(function() {
         fetchCaptchaImage(); // captcha 이미지 요청 메소드
         var captchaCheckComplete = false; // captcha 체크 변수
+        $("#captchaCheck_btn").prop("disabled", false); // 버튼 활성화
+        $("#captchaRefresh_btn").prop("disabled", false); // 버튼 활성화
 	});
 	// captcha 이미지 요청 로직
 	function fetchCaptchaImage() {
@@ -75,7 +77,7 @@
 	        success: function(captchaResponse) {
 	            var captchaImage = "data:image/png;base64," + captchaResponse.captchaImage;
 	            console.log(captchaResponse.captchaKey);
-	            $("#captchaImage").attr("src", captchaImage);
+	            $("#captchaImage").attr("src", captchaImage).data("key", captchaResponse.captchaKey);
 	        },
 	        error: function() {
 	            $("#loginError").text("CAPTCHA 이미지를 가져오는 데 실패했습니다.");
@@ -84,19 +86,43 @@
 	}
 	// captcha 이미지 새로고침 로직
 	$("#captchaRefresh_btn").click(function() {
+		refreshCaptcha();
+		$("#captchaError").text('');
+	});
+	function refreshCaptcha() {
 		$("#captchaInput").val('');
 		fetchCaptchaImage(); // CAPTCHA 이미지 요청 메소드
-	});
+	}
+	
 	
 	// captcha 입력값 비교 로직
 	$("#captchaCheck_btn").click(function() {
-		// 여기에 실제 captcha 검증 로직을 넣으면 됩니다.
-        captchaCheckComplete = true; // 임시로 true로 설정
-		
-        if (captchaCheckComplete) {
-            $("#captchaProtection").addClass("captcha-success");
-        } else {
-            $("#captchaProtection").removeClass("captcha-success");
+    var captchaInputValue = $("#captchaInput").val(); // 사용자 입력 값
+    var captchaKey = $("#captchaImage").data("key"); // 이미지 요청시 받아온 captcha key
+    $.ajax({
+        url: "/api/captcha-check",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({ value: captchaInputValue, key: captchaKey }),
+        success: function(response) {
+            if (response.valid) {
+                captchaCheckComplete = true;
+                $("#captchaProtection").addClass("captcha-success");
+                $("#captchaError").text("인증에 성공하였습니다.");
+                $("#captchaError").css("color", "#4CAF50");
+                $("#captchaCheck_btn").prop("disabled", true); // 버튼 비활성화
+                $("#captchaRefresh_btn").prop("disabled", true); // 버튼 비활성화
+                captchaRequired = false; // captcha 적용 페이지 변수 제어
+            } else {
+                captchaCheckComplete = false;
+                $("#captchaProtection").removeClass("captcha-success");
+                $("#captchaError").text("입력한 CAPTCHA 값이 잘못되었습니다.");
+                refreshCaptcha();
+            }
+        },
+        error: function() {
+            $("#captchaError").text("CAPTCHA 검증 중 오류가 발생했습니다.");
         }
-	});
+    });
+});
 </script>

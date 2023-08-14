@@ -59,6 +59,8 @@
 	    });
 	}
 	
+	var captchaRequired = false;
+	
 	$(document).ready(function(){
     	$("#login_btn").click(function(){
           var isValid = true // 유효성 검사
@@ -78,6 +80,13 @@
                 isValid = false;
           } else {
                 $("#pwdError").text("");
+          }
+          
+          if (captchaRequired) {
+        	  $("#loginError").text("캡챠 인증을 먼저 완료해주세요.");
+        	  isValid = false;
+          }  else {
+        	  $("#loginError").text("");
           }
           
           if (!isValid) {  // 유효성 검사에 실패하면 함수를 빠져나옴
@@ -107,6 +116,7 @@
                   var response = JSON.parse(xhr.responseText);
                   $("#loginError").text(response.message);
                   if (response.captchaRequired) { // 로그인 5회 이상 실패 시
+                	  captchaRequired = response.captchaRequired;
                       // chaptcha AJAX 요청
                       getCaptcha();
                   }
