@@ -28,7 +28,10 @@
 				<!--로그아웃 버튼-->
 				<div class="profile-group" th:if="${isLoggedIn}">
 					<img id="profile_img" src="/img/profile-default.png">
-					<p id="login_nickname" th:text="${#authentication.principal.nickname} + 님">Nickname님</p>
+					<div class="user-group">
+						<img id="rank" src="/img/man-admin.png">
+						<p id="login_nickname" th:text="${#authentication.principal.nickname} + 님">Nickname님</p>
+					</div>
 				</div>
 				<div class="btn-group" th:if="${isLoggedIn}">
 					<button type="button" id="mypageLink_btn" class="user_btn"><img src="/img/user.png">마이페이지</button>

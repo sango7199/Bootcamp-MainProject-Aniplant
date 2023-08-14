@@ -93,10 +93,21 @@ header {
     width: 100%;
     padding: 5px 0;
 }
+.user-group {
+	display: flex;
+	flex-direction: row;
+	align-items: center;     
+    justify-content: center;
+}
+#rank {
+	width: 18px;
+	height: 18px;
+	margin: 5px 0px 8px;
+}
 #login_nickname {
 	font-weight: bold;
 	text-align: left;
-	margin: 5px 0px 5px;
+	margin: 5px 2px 5px;
 }
 .btn-group {
     display: flex;
