@@ -9,19 +9,19 @@
 	<div th:fragment="headerFragment">
 		<header>
 			<!-- 로고 영역 -->
-	    	<h1 class="logo_aniplant">
+	    	<h1 class="logo-area">
 	    		<a href="/index.do" class="link"><img class="logo-main" src="/img/aniplant_logo02.png"></a>
 	    		<a href="" class="link"><img class="logo-sub"src=""></a>
 	  		</h1>
 			<!-- 검색창 영역 -->
-			<div id="search_area">
+			<div class="search-area">
 				<form id="search_form" name="search_form" method="get" action="">
 					<input type="text" name="search_input" placeholder="통합 검색">
 					<button type="button" id="search_btn" class="btn_submit"></button>
 				</form>
 			</div>
 			<!-- 사용자 계정 영역 -->
-			<div id="user_area" th:classappend="${!isLoggedIn} ? 'not-logged-in' : ''">
+			<div class="user-area" th:classappend="${!isLoggedIn} ? 'not-logged-in' : ''">
 				<!--로그인 및 회원가입-->
 				<button type="button" id="loginLink_btn" class="user_btn" th:if="${!isLoggedIn}"><img src="/img/login.png">  로그인</button>
 				<button type="button" id="joinLink_btn" class="user_btn" th:if="${!isLoggedIn}"><img src="/img/join.png">회원가입</button>
