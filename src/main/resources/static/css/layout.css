@@ -15,6 +15,9 @@ header {
     align-content: row;
 	align-items: center;
 	justify-content: space-between;
+	width: 1024px;
+	height: 210px;
+	margin: 0 auto; 
 }
 .logo_aniplant {
 	margin: 0px;
@@ -80,7 +83,7 @@ header {
     width: 270px;  
     height: 40px; 
 }
-#profile_img {
+#profile-img {
 	width: 80;
 	height: 80px;
 	padding: 5px;
@@ -99,12 +102,12 @@ header {
 	align-items: center;     
     justify-content: center;
 }
-#rank {
+#rank-img {
 	width: 18px;
 	height: 18px;
 	margin: 5px 0px 8px;
 }
-#login_nickname {
+#login-nickname {
 	font-weight: bold;
 	text-align: left;
 	margin: 5px 2px 5px;

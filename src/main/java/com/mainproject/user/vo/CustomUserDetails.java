@@ -14,11 +14,13 @@ public class CustomUserDetails implements UserDetails {
     private final String username;
     private final String password;
     private final UserVO user;
+//    private final UserRank rank;
 
     public CustomUserDetails(UserVO user) {
         this.user = user;
         this.username = user.getId();
         this.password = user.getPwd();
+//        this.rank = user.getRank();
     }
     
     @Override
@@ -40,6 +42,10 @@ public class CustomUserDetails implements UserDetails {
     
     public String getNickname() {
         return user.getNickname();
+    }
+    
+    public UserRank getRank() {
+        return user.getRank();
     }
 
     @Override

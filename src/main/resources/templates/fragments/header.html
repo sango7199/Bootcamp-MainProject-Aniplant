@@ -27,10 +27,10 @@
 				<button type="button" id="joinLink_btn" class="user_btn" th:if="${!isLoggedIn}"><img src="/img/join.png">회원가입</button>
 				<!--로그아웃 버튼-->
 				<div class="profile-group" th:if="${isLoggedIn}">
-					<img id="profile_img" src="/img/profile-default.png">
+					<img id="profile-img" src="/img/profile-default-m.png">
 					<div class="user-group">
-						<img id="rank" src="/img/man-admin.png">
-						<p id="login_nickname" th:text="${#authentication.principal.nickname} + 님">Nickname님</p>
+						<img id="rank-img" th:src="${#authentication.principal.rank.imagePath}">
+						<p id="login-nickname" th:text="${#authentication.principal.nickname} + 님">Nickname님</p>
 					</div>
 				</div>
 				<div class="btn-group" th:if="${isLoggedIn}">
