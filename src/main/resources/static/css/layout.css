@@ -207,7 +207,7 @@ footer {
 }
 .footer-menu li, .footer-info li, .team-info li {
 	font-size: 12px;
-	padding: 0px 15px;
+	padding: 2px 15px;
 	border-right: 1px solid rgba(0, 0, 0, 0.3);
 	list-style-type: none;
 }
@@ -227,7 +227,6 @@ footer {
 	align-items: center;
 }
 .footer-info li:hover {
-    text-decoration: underline;
     box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
 	transform: scale(1.03);
     transition: transform 0.3s, box-shadow 0.3s;
