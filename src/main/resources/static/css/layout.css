@@ -193,4 +193,59 @@ nav div {
 /* nav end-point */
 
 /* footer start-point */
+footer {
+	padding: 20px;
+	background-color: rgba(255, 255, 255, 0.7);
+	border-top: 1px solid #14b8a6;
+}
+.footer-menu, .footer-info, .team-info{
+	list-style-type: none;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	margin-bottom: 20px;
+}
+.footer-menu li, .footer-info li, .team-info li {
+	font-size: 12px;
+	padding: 0px 15px;
+	border-right: 1px solid rgba(0, 0, 0, 0.3);
+	list-style-type: none;
+}
+.footer-info li {
+    border: none;
+}
+.footer-menu li:hover {
+    text-decoration: underline;
+}
+.footer-info {
+	text-align: center;
+	margin-bottom: 10px;
+}
+.footer-info li {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.footer-info li:hover {
+    text-decoration: underline;
+    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+	transform: scale(1.03);
+    transition: transform 0.3s, box-shadow 0.3s;
+	border-radius: 10px;
+}
+.footer-info img {
+	width: 50px;
+	margin-right: 2px;
+}
+.team-info li {
+	font-size: 14px;
+}
+.footer-menu li:last-of-type, .footer-info li:last-of-type, .team-info li:last-of-type {
+    border-right: none;
+}
+.footer-copyright {
+	text-align: center;
+	font-size: 12px;
+	color: #888;
+}
 /* footer end-point */
