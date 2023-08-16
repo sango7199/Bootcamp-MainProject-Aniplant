@@ -309,6 +309,9 @@ footer {
     font-size: 0.9em; 
     padding-left: 20px; 
 }
+.menu-title {
+	font-weight: 800;
+}
 .contact-us {
 	border-top: 1px solid #c1ece7;
     margin-top: 15px;

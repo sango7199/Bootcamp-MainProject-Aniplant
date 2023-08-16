@@ -130,9 +130,13 @@ input[type="tel"]:focus {
 }
 
 .gender_list li {
-    width: 50%;
+    width: 49%;
     box-sizing: border-box;
     float: left;
+    margin-right: 2%;
+}
+.gender_list li:last-child {
+    margin-right: 0;
 }
 
 .gender_list li::marker {
