@@ -9,8 +9,8 @@
     	<nav>
 			<ul class="list-area">
 				<li><a href="/board/pets/main.do" th:classappend="${#httpServletRequest.requestURI.startsWith('/board/pets')} ? 'active' : ''">반려동물 게시판</a></li>
-				<li><a href="/board/free/main.do" th:classappend="${#httpServletRequest.requestURI.startsWith('/board/free')} ? 'active' : ''">자유게시판</a></li>
 				<li><a href="/board/plants/main.do" th:classappend="${#httpServletRequest.requestURI.startsWith('/board/plants')} ? 'active' : ''">반려식물 게시판</a></li>
+				<li><a href="/board/free/main.do" th:classappend="${#httpServletRequest.requestURI.startsWith('/board/free')} ? 'active' : ''">자유게시판</a></li>
 				<li><a href="/news/main.do" th:classappend="${#httpServletRequest.requestURI.startsWith('/news')} ? 'active' : ''">뉴스</a></li>
 			</ul>
 			<div>
