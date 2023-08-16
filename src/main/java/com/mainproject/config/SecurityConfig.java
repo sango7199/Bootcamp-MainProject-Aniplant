@@ -19,6 +19,7 @@ public class SecurityConfig {
         http
             .csrf().disable()  // CSRF protection을 비활성화. AJAX를 사용할 때 필요한 설정
             .authorizeRequests()
+            	.antMatchers("/css/**", "/js/**", "/img/**").permitAll() // CSS, JS, 이미지 파일에 대한 요청을 허용
             	.antMatchers("/login.do", "/join.do").permitAll() // 회원가입, 로그인 페이지 허용
                 .antMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_PRIVACY_ADMIN") // /admin은 관리자만 가능하도록 설정
                 .antMatchers("/privacy_admin/**").hasAuthority("ROLE_PRIVACY_ADMIN") // /privacy_admin은 개인정보 관리자만 가능하도록 설정
@@ -42,6 +43,8 @@ public class SecurityConfig {
         return http.build();
     }
 	
+
+    
 	@Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(); // 비밀번호를 안전하게 암호화하기 위해 BCryptPasswordEncoder 사용

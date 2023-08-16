@@ -25,6 +25,7 @@ public class UserVO {
 	private Timestamp deleted_at;
 	private String deleted_reason;
 	private int fail_count;
+	private UserRank rank;
 
 	public UserVO() {
 		
@@ -188,5 +189,13 @@ public class UserVO {
 
 	public void setFail_count(int fail_count) {
 		this.fail_count = fail_count;
+	}
+	
+	public UserRank getRank() {
+	    return rank;
+	}
+
+	public void setRank(UserRank rank) {
+	    this.rank = rank;
 	}
 }
