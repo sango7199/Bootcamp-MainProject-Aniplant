@@ -128,7 +128,7 @@ public class UserControllerImpl implements UserController {
 
 	    // DB에 해당 사용자가 없으면 오류 반환
 	    if (user == null) {
-	        return createResponse("message", "아이디 또는 비밀번호가 잘못되었습니다.", HttpStatus.UNAUTHORIZED);
+	        return createResponse("message", "로그인 정보가 올바르지 않습니다. 다시 확인해주세요.", HttpStatus.UNAUTHORIZED);
 	    }
 
 	    // 사용자의 인증 정보를 가져옴

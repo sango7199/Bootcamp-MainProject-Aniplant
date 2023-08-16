@@ -5,28 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>애니플랜트 : 로그인</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <style>
-    .logo_aniplant .link {
-        background-image: url("/img/aniplant_logo01.png");
-        background-repeat: no-repeat;
-        background-size: 200px 100px;
-        background-position: center;
-        display: block;
-        width: 200px;
-        height: 100px;
-    }
-    .blind {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-        clip: rect(0 0 0 0);
-    }
-    .error {
-        color: red;
-        font-size: 12px;
-    }
-  </style>
+  <link rel="stylesheet" th:href="@{/css/login.css}"/>
 </head>
 <body>
   <h1 class="logo_aniplant">
@@ -35,13 +14,14 @@
   </h1>
   <div class="content">
     <form id="login_form" name="login_form" method="post" action="">
-        <input type="text" id="loginID" name="username" placeholder="아이디"><span id="idError" class="error"></span><br>
-        <input type="password" id="loginPWD" name="password" placeholder="비밀번호"><span id="pwdError" class="error"></span><br>
-        <div id="captchaDiv"></div>
-        <button type="button" id="login_btn" class="btn_submit">로그인</button><span id="loginError" class="error"></span><br>
+        <div class="id-area"><img class="login-img" src="/img/id.png"><input type="text" id="loginID" name="username" placeholder="아이디"></div>
+        <div class="password-area"><img class="login-img" src="/img/password.png"><input type="password" id="loginPWD" name="password" placeholder="비밀번호"></div>
+        <div id="captcha-area"></div>
+        <div id="loginError" class="error"></div>
+        <button type="button" id="login_btn" class="btn_submit">로그인</button><br>
     </form>
-    <div><a href="/user/join.do">회원가입</a></div>
-</div>
+  </div>
+  <div class="join-link"><a href="/user/join.do">회원가입</a></div>
 </body>
 <script>
 	// 캡챠 HTML을 제공하는 메소드
@@ -51,7 +31,7 @@
 	        type: "GET",
 	        success: function(captchaResponse) {
 	            // 캡차 불러오기
-	            $("#captchaDiv").load(captchaResponse.captchaUrl);
+	            $("#captcha-area").load(captchaResponse.captchaUrl);
 	        },
 	        error: function() {
 	            $("#loginError").text("캡챠를 불러오는 데 실패했습니다. 다시 시도해주세요.");
@@ -62,32 +42,38 @@
 	var captchaRequired = false;
 	
 	$(document).ready(function(){
+        // 로그인 input 이미지 변경 로직
+        $("#loginID").on('focus', function() {
+            $(".id-area img").attr("src", "/img/id2.png");
+        });
+        $("#loginID").on('blur', function() {
+            $(".id-area img").attr("src", "/img/id.png");
+        });
+        $("#loginPWD").on('focus', function() {
+            $(".password-area img").attr("src", "/img/password2.png");
+        });
+        $("#loginPWD").on('blur', function() {
+            $(".password-area img").attr("src", "/img/password.png");
+        });
+
     	$("#login_btn").click(function(){
           var isValid = true // 유효성 검사
 
           var id = $("#loginID").val();
           var pwd = $("#loginPWD").val();
 
-          if (!id) {
-                $("#idError").text("아이디를 입력해주세요.");
-                isValid = false;
-          } else {
-                $("#idError").text("");
-          }
+          $("#loginError").text("");
 
-          if (!pwd) {
-                $("#pwdError").text("비밀번호를 입력해주세요.");
+          if (!id) {
+            $("#loginError").text("아이디를 입력해주세요.");
+            isValid = false;
+            } else if (!pwd) {
+                $("#loginError").text("비밀번호를 입력해주세요.");
                 isValid = false;
-          } else {
-                $("#pwdError").text("");
-          }
-          
-          if (captchaRequired) {
-        	  $("#loginError").text("캡챠 인증을 먼저 완료해주세요.");
-        	  isValid = false;
-          }  else {
-        	  $("#loginError").text("");
-          }
+            } else if (captchaRequired) {
+                $("#loginError").text("캡챠 인증을 먼저 완료해주세요.");
+                isValid = false;
+            }
           
           if (!isValid) {  // 유효성 검사에 실패하면 함수를 빠져나옴
                 return;
