@@ -25,7 +25,7 @@
       justify-content: center;
       align-items: center;
       width: 100%;
-      height: 500px;
+      height: 700px;
       background: linear-gradient(120deg, #14b8a6, #43ea83);
     }
 
@@ -35,8 +35,7 @@
       border-radius: 15px;
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
       text-align: center;
-      width: 80%;
-      max-width: 500px;
+      width: auto;
     }
 
     h1 {
@@ -44,6 +43,8 @@
       margin-bottom: 20px;
       color: #333;
       font-weight: bold;
+      white-space: nowrap;
+      max-width: 100%;
     }
 
     .join-link {
@@ -293,7 +294,7 @@
   <div class="content">
     <!-- canvas 요소 추가 -->
     <canvas id="canvas"></canvas>
-    <h1 th:text="'회원가입이 완료되었습니다! ' + ${name} + '님, 환영합니다!'">
+    <h1 th:text="'회원가입이 완료되었습니다! ' + ${name} + '님, 환영합니다🎉'">
       회원가입이 완료되었습니다!
     </h1>
     <div><a class="join-link" href="/user/login.do">로그인 페이지로 이동</a></div>
