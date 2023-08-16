@@ -14,8 +14,8 @@
   </h1>
   <div class="content">
     <form id="login_form" name="login_form" method="post" action="">
-        <div class="id-area"><img class="login-img" src="/img/id.png"><input type="text" id="loginID" name="username" placeholder="아이디"></div>
-        <div class="password-area"><img class="login-img" src="/img/password.png"><input type="password" id="loginPWD" name="password" placeholder="비밀번호"></div>
+        <div class="id-area"><img class="input-img" src="/img/id.png"><input type="text" id="loginID" name="username" placeholder="아이디"></div>
+        <div class="password-area"><img class="input-img" src="/img/password.png"><input type="password" id="loginPWD" name="password" placeholder="비밀번호"></div>
         <div id="captcha-area"></div>
         <div id="loginError" class="error"></div>
         <button type="button" id="login_btn" class="btn_submit">로그인</button><br>
@@ -54,6 +54,20 @@
         });
         $("#loginPWD").on('blur', function() {
             $(".password-area img").attr("src", "/img/password.png");
+        });
+
+        $("#loginID").on('keypress', function(event) {
+            if (event.which == 13) {  // 13은 엔터키의 코드
+                event.preventDefault();  // 기본 이벤트(폼 제출)를 막음
+                $("#loginPWD").focus();  // 비밀번호 입력창으로 포커스를 이동
+            }
+        });
+
+        $("#loginPWD").on('keypress', function(event) {
+            if (event.which == 13) {  // 13은 엔터키의 코드
+                event.preventDefault();  // 기본 이벤트(폼 제출)를 막음
+                $("#login_btn").click();  // login_btn의 클릭 이벤트를 트리거
+            }
         });
 
     	$("#login_btn").click(function(){

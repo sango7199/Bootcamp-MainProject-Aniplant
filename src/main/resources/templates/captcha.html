@@ -10,55 +10,23 @@
 
 <!-- 해당 페이지 고유 CSS 추가 -->
 <th:block layout:fragment="css">
-	<style>
-		.error {
-			color: red;
-			font-size: 12px;
-		}
-		#captchaRefresh_btn {
-		    background-image: url("/img/captcha-refresh.png");  /* 이미지 경로는 실제 경로로 변경해야 합니다. */
-		    background-size: contain;  /* 이미지가 버튼 안에 맞게 크기를 조절합니다. */
-		    background-repeat: no-repeat;  /* 이미지가 반복되지 않게 합니다. */
-		    background-position: center;  /* 이미지를 버튼의 중앙에 배치합니다. */
-		    width: 40px;  /* 버튼의 너비를 설정합니다. 필요에 따라 조절할 수 있습니다. */
-		    height: 40px;  /* 버튼의 높이를 설정합니다. 필요에 따라 조절할 수 있습니다. */
-		    border: none;  /* 버튼의 테두리를 없앱니다. */
-		    cursor: pointer;  /* 마우스 커서가 버튼 위에 있을 때 손가락 모양으로 보이게 합니다. */
-		}
-		#captchaCheck_btn {
-			background-image: url("/img/captcha-check.png");  /* 이미지 경로는 실제 경로로 변경해야 합니다. */
-		    background-size: contain;  /* 이미지가 버튼 안에 맞게 크기를 조절합니다. */
-		    background-repeat: no-repeat;  /* 이미지가 반복되지 않게 합니다. */
-		    background-position: center;  /* 이미지를 버튼의 중앙에 배치합니다. */
-		    width: 40px;  /* 버튼의 너비를 설정합니다. 필요에 따라 조절할 수 있습니다. */
-		    height: 40px;  /* 버튼의 높이를 설정합니다. 필요에 따라 조절할 수 있습니다. */
-		    border: none;  /* 버튼의 테두리를 없앱니다. */
-		    cursor: pointer;  /* 마우스 커서가 버튼 위에 있을 때 손가락 모양으로 보이게 합니다. */
-		}
-		
-		#captchaProtection {
-	        border: 2px solid red;
-	        padding: 10px;
-			box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.2);
-       		border-radius: 10px;
-       		transition: border-color 0.3s ease;
-    	}
-	    #captchaProtection.captcha-success {
-	        border-color: #4CAF50;
-	    }
-	</style>
+	<link rel="stylesheet" th:href="@{/css/captcha.css}"/>
 </th:block>
 
 <!-- 테스트를 위해서 넣어둠 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 	<div id="captchaProtection">
-		<h5>정보보호를 위해 자동입력방지 문자를 함께 입력해주세요.<h5>
-		<h6>아래 이미지를 보이는 대로 입력해주세요.</h6>
-		<img id="captchaImage" src="" alt="CAPTCHA"><br>
-		<input type="text" id="captchaInput" placeholder="자동입력 방지문자">
-		<button type="button" id="captchaCheck_btn"></button>
-		<button type="button" id="captchaRefresh_btn"></button><br>
+		<div class="captcha-message">
+			<p id="captcha-message1">정보보호를 위해 자동입력방지 문자를 인증해주세요.</p>
+			<p id="captcha-message2">아래 이미지를 보이는 대로 입력해주세요.</p>
+		</div>
+		<img id="captchaImage" src="" alt="CAPTCHA">
+		<div class="captcha-container">
+			<div class="captcha-area"><img class="input-img" src="/img/captcha-input.png"><input type="text" id="captchaInput" placeholder="자동입력 방지문자"></div>
+			<button type="button" id="captchaCheck_btn" class="captcha-btn"></button>
+			<button type="button" id="captchaRefresh_btn" class="captcha-btn"></button>
+		</div>
 		<div id="captchaError" class="error"></div>
 	</div>
 	
@@ -68,6 +36,19 @@
         var captchaCheckComplete = false; // captcha 체크 변수
         $("#captchaCheck_btn").prop("disabled", false); // 버튼 활성화
         $("#captchaRefresh_btn").prop("disabled", false); // 버튼 활성화
+		// captcha input 이미지 변경 로직
+        $("#captchaInput").on('focus', function() {
+            $(".captcha-area img").attr("src", "/img/captcha-input2.png");
+        });
+        $("#captchaInput").on('blur', function() {
+            $(".captcha-area img").attr("src", "/img/captcha-input.png");
+        });
+		$("#captchaInput").on('keypress', function(event) {
+		if (event.which == 13) {  // 13은 엔터키의 코드
+			event.preventDefault();  // 기본 이벤트(폼 제출)를 막음
+			$("#captchaCheck_btn").click();  // captchaCheck_btn의 클릭 이벤트를 트리거
+		}
+	});
 	});
 	// captcha 이미지 요청 로직
 	function fetchCaptchaImage() {
@@ -76,7 +57,7 @@
 	        type: "GET",
 	        success: function(captchaResponse) {
 	            var captchaImage = "data:image/png;base64," + captchaResponse.captchaImage;
-	            console.log(captchaResponse.captchaKey);
+	            // console.log(captchaResponse.captchaKey);
 	            $("#captchaImage").attr("src", captchaImage).data("key", captchaResponse.captchaKey);
 	        },
 	        error: function() {
@@ -108,6 +89,7 @@
             if (response.valid) {
                 captchaCheckComplete = true;
                 $("#captchaProtection").addClass("captcha-success");
+				$("#captchaInput").addClass("captcha-success");
                 $("#captchaError").text("인증에 성공하였습니다.");
                 $("#captchaError").css("color", "#4CAF50");
                 $("#captchaCheck_btn").prop("disabled", true); // 버튼 비활성화
