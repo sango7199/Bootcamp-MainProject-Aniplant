@@ -46,7 +46,7 @@ body {
   background-color: #128f89;
 }
 
-.error {
+#loginError {
   color: red;
   font-size: 13px;
   margin-bottom: 10px;
