@@ -18,15 +18,6 @@ public class MainController {
     public ModelAndView viewMain (HttpServletRequest request, HttpServletResponse response) throws Exception {
     	String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView();
-		
-		// 로그인 로그아웃 체크로 임시로 추가했습니다
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    if (!(auth instanceof AnonymousAuthenticationToken)) {
-	        mav.addObject("isLoggedIn", true);
-	    } else {
-	        mav.addObject("isLoggedIn", false);
-	    }
-	    
 		mav.setViewName(viewName);
 		return mav;
     }

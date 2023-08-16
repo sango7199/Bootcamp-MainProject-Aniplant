@@ -1,0 +1,128 @@
+<!-- 테스트를 위해서 넣어둠 -->
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      
+
+<!-- 페이지의 제목 설정 -->
+	<title>captcha-image</title>
+
+<!-- 해당 페이지 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+	<style>
+		.error {
+			color: red;
+			font-size: 12px;
+		}
+		#captchaRefresh_btn {
+		    background-image: url("/img/captcha-refresh.png");  /* 이미지 경로는 실제 경로로 변경해야 합니다. */
+		    background-size: contain;  /* 이미지가 버튼 안에 맞게 크기를 조절합니다. */
+		    background-repeat: no-repeat;  /* 이미지가 반복되지 않게 합니다. */
+		    background-position: center;  /* 이미지를 버튼의 중앙에 배치합니다. */
+		    width: 40px;  /* 버튼의 너비를 설정합니다. 필요에 따라 조절할 수 있습니다. */
+		    height: 40px;  /* 버튼의 높이를 설정합니다. 필요에 따라 조절할 수 있습니다. */
+		    border: none;  /* 버튼의 테두리를 없앱니다. */
+		    cursor: pointer;  /* 마우스 커서가 버튼 위에 있을 때 손가락 모양으로 보이게 합니다. */
+		}
+		#captchaCheck_btn {
+			background-image: url("/img/captcha-check.png");  /* 이미지 경로는 실제 경로로 변경해야 합니다. */
+		    background-size: contain;  /* 이미지가 버튼 안에 맞게 크기를 조절합니다. */
+		    background-repeat: no-repeat;  /* 이미지가 반복되지 않게 합니다. */
+		    background-position: center;  /* 이미지를 버튼의 중앙에 배치합니다. */
+		    width: 40px;  /* 버튼의 너비를 설정합니다. 필요에 따라 조절할 수 있습니다. */
+		    height: 40px;  /* 버튼의 높이를 설정합니다. 필요에 따라 조절할 수 있습니다. */
+		    border: none;  /* 버튼의 테두리를 없앱니다. */
+		    cursor: pointer;  /* 마우스 커서가 버튼 위에 있을 때 손가락 모양으로 보이게 합니다. */
+		}
+		
+		#captchaProtection {
+	        border: 2px solid red;
+	        padding: 10px;
+			box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.2);
+       		border-radius: 10px;
+       		transition: border-color 0.3s ease;
+    	}
+	    #captchaProtection.captcha-success {
+	        border-color: #4CAF50;
+	    }
+	</style>
+</th:block>
+
+<!-- 테스트를 위해서 넣어둠 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+	<div id="captchaProtection">
+		<h5>정보보호를 위해 자동입력방지 문자를 함께 입력해주세요.<h5>
+		<h6>아래 이미지를 보이는 대로 입력해주세요.</h6>
+		<img id="captchaImage" src="" alt="CAPTCHA"><br>
+		<input type="text" id="captchaInput" placeholder="자동입력 방지문자">
+		<button type="button" id="captchaCheck_btn"></button>
+		<button type="button" id="captchaRefresh_btn"></button><br>
+		<div id="captchaError" class="error"></div>
+	</div>
+	
+<script>
+	$(document).ready(function() {
+        fetchCaptchaImage(); // captcha 이미지 요청 메소드
+        var captchaCheckComplete = false; // captcha 체크 변수
+        $("#captchaCheck_btn").prop("disabled", false); // 버튼 활성화
+        $("#captchaRefresh_btn").prop("disabled", false); // 버튼 활성화
+	});
+	// captcha 이미지 요청 로직
+	function fetchCaptchaImage() {
+	    $.ajax({
+	        url: "/api/captcha-image",
+	        type: "GET",
+	        success: function(captchaResponse) {
+	            var captchaImage = "data:image/png;base64," + captchaResponse.captchaImage;
+	            console.log(captchaResponse.captchaKey);
+	            $("#captchaImage").attr("src", captchaImage).data("key", captchaResponse.captchaKey);
+	        },
+	        error: function() {
+	            $("#loginError").text("CAPTCHA 이미지를 가져오는 데 실패했습니다.");
+	        }
+	    });
+	}
+	// captcha 이미지 새로고침 로직
+	$("#captchaRefresh_btn").click(function() {
+		refreshCaptcha();
+		$("#captchaError").text('');
+	});
+	function refreshCaptcha() {
+		$("#captchaInput").val('');
+		fetchCaptchaImage(); // CAPTCHA 이미지 요청 메소드
+	}
+	
+	
+	// captcha 입력값 비교 로직
+	$("#captchaCheck_btn").click(function() {
+    var captchaInputValue = $("#captchaInput").val(); // 사용자 입력 값
+    var captchaKey = $("#captchaImage").data("key"); // 이미지 요청시 받아온 captcha key
+    $.ajax({
+        url: "/api/captcha-check",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({ value: captchaInputValue, key: captchaKey }),
+        success: function(response) {
+            if (response.valid) {
+                captchaCheckComplete = true;
+                $("#captchaProtection").addClass("captcha-success");
+                $("#captchaError").text("인증에 성공하였습니다.");
+                $("#captchaError").css("color", "#4CAF50");
+                $("#captchaCheck_btn").prop("disabled", true); // 버튼 비활성화
+                $("#captchaRefresh_btn").prop("disabled", true); // 버튼 비활성화
+                captchaRequired = false; // captcha 적용 페이지 변수 제어
+            } else {
+                captchaCheckComplete = false;
+                $("#captchaProtection").removeClass("captcha-success");
+                $("#captchaError").text("입력한 CAPTCHA 값이 잘못되었습니다.");
+                refreshCaptcha();
+            }
+        },
+        error: function() {
+            $("#captchaError").text("CAPTCHA 검증 중 오류가 발생했습니다.");
+        }
+    });
+});
+</script>

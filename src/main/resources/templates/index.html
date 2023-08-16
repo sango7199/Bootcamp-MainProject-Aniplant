@@ -5,19 +5,13 @@
       layout:decorate="~{layout/defaultLayout}">
 
 <!-- index.html 고유 CSS 추가 -->
-<th:block layout:fragment="css">
-    <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
-</th:block>
+<th:block layout:fragment="css"></th:block>
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
     <!--    <script th:src="@{/js/page/home.js}"></script>-->
 </th:block>
 
 <!-- Content -->
-<div layout:fragment="content">
+<div layout:fragment="content" class="container">
     <h1>Content</h1>
-    <h2>메인화면입네다!!</h2>
-    <div><a th:if="${!isLoggedIn}" href="/user/login.do">로그인</a>
-        <a th:if="${isLoggedIn}" href="/user/logout.do">로그아웃</a>
-        <a href="/user/join.do">회원가입</a></div>
 </div>

@@ -22,7 +22,7 @@ public interface UserController {
 	public ResponseEntity<Map<String, Boolean>> checkNickname(@RequestParam("nickname") String nickname);
 	public ModelAndView viewJoinComplete(@RequestParam("name") String name, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView viewLogin(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest, HttpSession session, HttpServletRequest request);
+	public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest, HttpSession session) throws Exception;
 	public ResponseEntity<?> logout(HttpSession session);
 	public ModelAndView viewAdminTest(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView viewMyprofile(HttpServletRequest request, HttpServletResponse response) throws Exception;
