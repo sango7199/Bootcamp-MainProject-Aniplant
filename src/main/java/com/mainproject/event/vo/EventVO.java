@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 public class EventVO {
 	
 	private int event_num;
-	private String tile;
-	private Timestamp stared_at;
+	private String title;
+	private Timestamp started_at;
 	private Timestamp ended_at;
 	private String location;
 	private String type;
@@ -17,13 +17,13 @@ public class EventVO {
 	private Timestamp created_at;
 	private int updated_user_num;
 	private Timestamp updated_at; 
-	private boolean is_deleted;
-	private int deleted_user_num;
+	private boolean is_deleted; 
+	private Integer deleted_user_num;
 	private Timestamp deleted_at;
 	
-	public EventVO() {
-	
-	}
+	public EventVO() { 
+	 
+	} 
 
 	public int getEvent_num() {
 		return event_num;
@@ -33,20 +33,20 @@ public class EventVO {
 		this.event_num = event_num;
 	}
 
-	public String getTile() {
-		return tile;
+	public String getTitle() {
+		return title;
+	} 
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
-	public void setTile(String tile) {
-		this.tile = tile;
+	public Timestamp getStarted_at() {
+		return started_at;
 	}
 
-	public Timestamp getStared_at() {
-		return stared_at;
-	}
-
-	public void setStared_at(Timestamp stared_at) {
-		this.stared_at = stared_at;
+	public void setStarted_at(Timestamp started_at) {
+		this.started_at = started_at; 
 	}
 
 	public Timestamp getEnded_at() {
@@ -70,9 +70,9 @@ public class EventVO {
 	}
 
 	public void setType(String type) {
-		this.type = type;
+		this.type = type; 
 	}
-
+ 
 	public String getIs_admin() {
 		return is_admin;
 	}
@@ -121,13 +121,13 @@ public class EventVO {
 		this.is_deleted = is_deleted;
 	}
 
-	public int getDeleted_user_num() {
-		return deleted_user_num;
-	}
+	public Integer getDeleted_user_num() { // 반환 타입도 Integer로 변경
+        return deleted_user_num;
+    }
 
-	public void setDeleted_user_num(int deleted_user_num) {
-		this.deleted_user_num = deleted_user_num;
-	}
+	public void setDeleted_user_num(Integer deleted_user_num) { // 파라미터 타입도 Integer로 변경
+        this.deleted_user_num = deleted_user_num;
+    } 
 
 	public Timestamp getDeleted_at() {
 		return deleted_at;
@@ -136,5 +136,5 @@ public class EventVO {
 	public void setDeleted_at(Timestamp deleted_at) {
 		this.deleted_at = deleted_at;
 	}
-
+ 
 }

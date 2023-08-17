@@ -42,7 +42,7 @@
 	</div>
 </body>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function() { 
 
         var originalNickname = $("#nicknameUpdateInput").val();
         var isNicknameChanged = false;
@@ -51,7 +51,7 @@
         var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         var telPattern = /^[0-9]{3}-[0-9]{4}-[0-9]{4}$/;
         var originalTel = $("#telUpdateInput").attr("th:value");
-        var userNum = [[${user.user_num}]];
+        var userNum = [['${user.user_num}']];
         
         // 닉네임 변경 확인
         $("#nicknameUpdateInput").change(function() {
@@ -63,7 +63,7 @@
             $("#nicknameError").text("");
         });
 
-        // 닉네임 중복 체크
+        // 닉네임 중복 체크 
         $("#checkNickname").click(function() {
             var currentNickname = $("#nicknameUpdateInput").val();
             if (!currentNickname) {
@@ -84,7 +84,7 @@
                     }
                 }
             });
-        });
+        }); 
 
         // 수정 버튼 클릭시 로직
         $("#update_btn").click(function() {

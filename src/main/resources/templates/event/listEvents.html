@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Event List</title>
+</head>
+<body>
+<style>
+    .button {
+        display: inline-block;
+        padding: 5px 20px;  
+        background-color: #888888;  
+        color: white;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px; 
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 40%;  
+    }
+
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align:  center; 
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+</style> 
+
+<h2>일정 관리</h2> 
+<table> 
+    <thead> 
+        <tr>
+            <th>번호</th> 
+            <th>제목</th>
+            <th>장소</th>
+            <th>종료일</th> 
+            
+        </tr> 
+    </thead> 
+    <tbody> 
+   
+        <tr th:each="event : ${eventsList}"> 
+            <td th:text="${event.event_num}"></td>
+            <td><a th:href="@{/event/viewEvent(eventTitle=${event.title})}" th:text="${event.title}">일정 보기</a></td>
+            <td th:text="${event.location}"></td> 
+            <td th:text="${event.ended_at}"></td> 
+        </tr>
+        
+        <tr>
+             <a class="button" th:href="@{/event/createEventForm}">일정 등록</a>    
+        </tr>
+    </tbody> 
+</table>
+</body>
+</html>

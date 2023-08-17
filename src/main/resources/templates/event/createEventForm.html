@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>일정 등록</title>
+</head>
+<body>
+    <h2>일정 등록</h2> 
+     
+    <form th:action="@{/event/createEvent}" th:object="${event}" method="post">
+        <label for="title">제목:</label>
+        <input type="text" id="title" name="title" th:field="*{title}" required><br>
+        
+        <label for="started_at">시작일:</label>
+        <input type="datetime-local" id="started_at_input" required><br>  
+        
+        <label for="ended_at">종료일:</label>
+        <input type="datetime-local" id="ended_at_input" required><br>
+        
+        <label for="location">장소:</label> 
+        <input type="text" id="location" name="location" th:field="*{location}" required><br>
+        
+        <label for="type">내용:</label>
+        <input type="text" id="type" name="type" th:field="*{type}" required><br>
+        
+        <button type="submit">등록</button>  
+    </form>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const startedAtInput = document.querySelector("#started_at_input");
+            const endedAtInput = document.querySelector("#ended_at_input");
+            
+            startedAtInput.addEventListener("change", function() {
+                const selectedDateTime = new Date(this.value);
+                const timestamp = selectedDateTime.getTime();
+                document.querySelector("#started_at").value = timestamp;
+            });
+            
+            endedAtInput.addEventListener("change", function() {
+                const selectedDateTime = new Date(this.value);
+                const timestamp = selectedDateTime.getTime();
+                document.querySelector("#ended_at").value = timestamp;
+            });
+        });
+    </script>  
+</body> 
+</html>

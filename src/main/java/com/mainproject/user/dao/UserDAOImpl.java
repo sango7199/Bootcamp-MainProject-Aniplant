@@ -12,34 +12,34 @@ public class UserDAOImpl implements UserDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	@Override // »ç¿ëÀÚ µî·Ï »ç¿ëÀÚ Á¤º¸ ÀÔ·Â ¹Ş±â
+	@Override // ì‚¬ìš©ì ë“±ë¡ ì‚¬ìš©ì ì •ë³´ ì…ë ¥ ë°›ê¸°
 	public int registerUser(UserVO userVO) throws DataAccessException {
 		return sqlSession.insert("mapper.user.registerUser", userVO);
 	}
 	
-	@Override // »ç¿ëÀÚ °¡ÀÔ ¾ÆÀÌµğ Áßº¹ È®ÀÎ ÀÔ·Â
+	@Override // ì‚¬ìš©ì ê°€ì… ì•„ì´ë”” ì¤‘ë³µ í™•ì¸ ì…ë ¥
 	public boolean isIdDuplicate(String value) throws DataAccessException {
 		int count = sqlSession.selectOne("mapper.user.checkIdDuplicate", value);
 		return count > 0;
 	}
 	
-	@Override // »ç¿ëÀÚ °¡ÀÔ Á¤º¸ ÀÔ·Â Áßº¹ È®ÀÎ
+	@Override // ì‚¬ìš©ì ê°€ì… ì •ë³´ ì…ë ¥ ì¤‘ë³µ í™•ì¸
 	public boolean isNicknameDuplicate(String value) throws DataAccessException {
 		int count = sqlSession.selectOne("mapper.user.checkNicknameDuplicate", value);
 		return count > 0;
-	}
+	}  
 	
-	@Override //Æ¯Á¤ username(ID)À» ÀÔ·ÂÇÑ »ç¿ëÀÚÀÇ ¸ğµç Á¤º¸ Á¶È¸
+	@Override //íŠ¹ì • username(ID)ì„ ì…ë ¥í•œ ì‚¬ìš©ìì˜ ëª¨ë“  ì •ë³´ ì¡°íšŒ
     public UserVO getUserByUsername(String username) throws DataAccessException {
 		return sqlSession.selectOne("mapper.user.getUserByUsername", username);
     }
 	
-	@Override // íšŒì› ì •ë³´ ìˆ˜ì • ë¡œì§ (ë¹„ë°€ë²ˆí˜¸ ë³€ê²½)
+	@Override // ï¿½ì‰¶ï¿½ì ï¿½ì ™è¹‚ï¿½ ï¿½ë‹”ï¿½ì ™ æ¿¡ì’–ì­… (é®ê¾¨ï¿½è¸°ëŠìƒ‡ è¹‚ï¿½å¯ƒï¿½)
 	public void updateUserWithPassword(UserVO userVO) throws DataAccessException {
 		sqlSession.update("mapper.user.updateUserWithPassword",userVO);
 	}
 	
-	@Override // íšŒì› ì •ë³´ ìˆ˜ì • ë¡œì§ (ë¹„ë°€ë²ˆí˜¸ ë¯¸ë³€ê²½)
+	@Override // ï¿½ì‰¶ï¿½ì ï¿½ì ™è¹‚ï¿½ ï¿½ë‹”ï¿½ì ™ æ¿¡ì’–ì­… (é®ê¾¨ï¿½è¸°ëŠìƒ‡ èª˜ëªƒï¿½å¯ƒï¿½)
 	public void updateUserWithoutPassword(UserVO userVO) throws DataAccessException {
 		sqlSession.update("mapper.user.updateUserWithoutPassword",userVO);
 	}

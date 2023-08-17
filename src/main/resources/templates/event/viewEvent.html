@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>일정 내용 보기</title>
+</head>
+<body>
+
+
+   <style>
+        .button {
+            display: inline-block;
+            padding: 5px 20px;
+            background-color: #888888;
+            color: white;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+    
+    <h2>일정 내용 보기</h2>
+    
+    <div th:if="${event != null}">
+        <h3 th:text="${event.title}"></h3>
+        <p>장소: <span th:text="${event.location}"></span></p>
+        <p>시작일: <span th:text="${event.started_at}"></span></p>
+        <p>종료일: <span th:text="${event.ended_at}"></span></p>
+        <p>내용: <span th:text="${event.type}"></span></p>
+        <a th:href="@{/event/deleteEvent(eventId=${event.event_num})}" class="button">일정 삭제</a>
+        <a th:href="@{/event/editEventForm/{eventId}(eventId=${event.event_num})}" class="button">일정 수정</a>
+    </div>
+     
+     
+         
+    <div th:if="${event == null}">
+        <p>일정이 존재하지 않습니다.</p>  
+       
+   </div> 
+    
+     
+    
+</body>
+</html> 
