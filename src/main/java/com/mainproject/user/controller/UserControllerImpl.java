@@ -2,6 +2,7 @@ package com.mainproject.user.controller;
 
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -291,4 +292,26 @@ public class UserControllerImpl implements UserController {
 	    String currentUsername = principal.getName();
 	    return userService.getUserByUsername(currentUsername);
 	}
+	
+	// 관리자 영역 ----------------------------------------------------------------------------------------------------------------------------------
+	@Override // 회원 관리 하위 페이지 이동
+	@RequestMapping(value = {"/privacy-admin/user-management/**.do"}, method = RequestMethod.GET)
+	public ModelAndView viewUserManagement(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(viewName);
+		return mav;
+	}
+	
+	@Override // 회원 정보 관리 페이지 이동
+	@GetMapping("/privacy-admin/user-management/user-list.do")
+	public ModelAndView viewUserList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView();
+		List<UserVO> users = userService.getAllUsers();
+		mav.setViewName(viewName);
+		mav.addObject("users", users);
+		return mav;
+	}
+	
 }

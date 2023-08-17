@@ -1,5 +1,7 @@
 package com.mainproject.user.dao;
 
+import java.util.List;
+
 import org.springframework.dao.DataAccessException;
 
 import com.mainproject.user.vo.UserVO;
@@ -14,4 +16,5 @@ public interface UserDAO {
 	public void deleteUser(UserVO userVO) throws DataAccessException;
 	public void increaseLoginFailCount(String username);
 	public void resetLoginFailCount(String username);
+	public List<UserVO> getAllUsers() throws DataAccessException;
 }

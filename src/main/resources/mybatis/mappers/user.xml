@@ -23,6 +23,8 @@
         <result property="deleted_user_num" column="deleted_user_num"/>
         <result property="deleted_at" column="deleted_at"/>
         <result property="deleted_reason" column="deleted_reason"/>
+        <result property="fail_count" column="fail_count"/>
+        <result property="rank" column="rank"/>
     </resultMap>
 
     <insert id="registerUser" parameterType="userVO">
@@ -93,4 +95,8 @@
 		WHERE id = #{username};
 	</update>
 	
+	<!-- 관리자 영역 -->
+	<select id="getAllUsers" resultType="userVO">
+		SELECT * FROM TB_USER WHERE is_admin = 'User';
+	</select>
 </mapper>

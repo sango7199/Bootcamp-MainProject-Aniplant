@@ -1,5 +1,7 @@
 package com.mainproject.user.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -66,5 +68,11 @@ public class UserServiceImpl implements UserService {
 	@Override // 회원 탈퇴 로직
 	public void deleteUser(UserVO userVO) throws DataAccessException {
 		userDAO.deleteUser(userVO);
+	}
+	
+	// 관리자 영역
+	@Override // 모든 회원 정보 가져오는 로직
+	public List<UserVO> getAllUsers() throws DataAccessException {
+		return userDAO.getAllUsers();
 	}
 }

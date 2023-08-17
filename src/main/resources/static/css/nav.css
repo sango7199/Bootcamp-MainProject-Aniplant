@@ -7,7 +7,6 @@
 	padding: 10px 15px;
 	width: 1024px;
     margin: 0 auto;
-	/* height: 20px; */
 	position: relative;
     border: 1px solid #14b8a6;
     border-width: 1px 0 1px 0;
@@ -48,25 +47,22 @@ nav div {
 /* nav-default end-point */
 
 /* nav-admin start-point */
-/* Admin Navigation Wrapper */
-/* Admin Navigation Wrapper */
 .nav-admin-wrapper {
     display: flex;
     flex-direction: row;
-    /* border-bottom: #14a6b8 1px solid; */
     width: 1024px;
     margin: 10px auto 5px;
     align-items: center;
-    justify-content: flex-end;  /* 메뉴들 간의 공간 균등하게 */;
+    justify-content: flex-end;
     border-radius: 5px;
 }
 .nav-admin-container {
     display: flex;
     align-items: center;
-    background-color: rgba(20, 166, 184, 0.15);  /* 배경색 추가 */
-    padding: 5px 10px;  /* 패딩 추가 */
-    border-radius: 5px;  /* 둥근 모서리 추가 */
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);  /* 그림자 효과 추가 */
+    background-color: rgba(20, 166, 184, 0.15);
+    padding: 5px 10px;
+    border-radius: 5px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
 
 .nav-admin-title {
@@ -86,28 +82,25 @@ nav div {
     margin-right: 10px;
 }
 
-/* Common Admin and Privacy Admin UL Styles */
 .nav-admin-area ul, .nav-privacy-admin-area ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
     display: flex;
     align-items: center;
-    gap: 10px;  /* li 요소들 간의 간격 */
+    gap: 10px;
 }
 
-/* Common Admin and Privacy Admin LI Styles */
 .nav-admin ul li, .nav-privacy-admin ul li {
     font-size: 13px;
     padding: 5px 10px;
     background-color: #14a6b8;
     color: #ecf0f1;
     border-radius: 5px;
-    cursor: pointer;  /* 호버 시 포인터 표시 */
-    border: 1px solid transparent; /* 투명한 border 추가 */
+    cursor: pointer;
+    border: 1px solid transparent;
 }
 
-/* Hover Styles for Admin and Privacy Admin */
 .nav-admin ul li:hover, .nav-privacy-admin ul li:hover {
     background-color: #ecf0f1;
     color: #14a6b8;
