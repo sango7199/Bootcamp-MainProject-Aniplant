@@ -8,13 +8,13 @@
     <div th:fragment="articleSidebar" class="sidebar">
         <ul class="sidebar-menu">
             <a href="/board/listArticles.do">게시판</a>
-            <li><a href="./board/listArticles.do#동물">동물 게시판</a></li>
+            <li><a href="/board/listArticles.do" id="animalLink">동물 게시판</a></li>
                 <ul>
                     <li><a href="#!">강아지</a></li>
                     <li><a href="#!">고양이</a></li>
                 </ul>
             </li>
-            <li><a href="">식물 게시판</a>
+            <li><a href="/board/listArticles.do" id="plantLink">식물 게시판</a>
                 <ul>
                     <li><a href="#!">선인장</a></li>
                     <li><a href="#!">다육이</a></li>
@@ -23,5 +23,7 @@
         </ul>
         <a href="">문의</a>
     </div>
+   
+    
 </body>
 </html>

@@ -23,4 +23,22 @@
       <select id="selectAllArticlesList" resultMap="boardResultMap">
       SELECT * FROM TB_BOARD ORDER BY Created_At DESC	     
   	  </select>
+  	  
+	 <insert id="insertArticle" parameterType="com.mainproject.board.vo.BoardVO">
+        INSERT INTO TB_BOARD (category_num, title, content, views, good, bad, created_user_num, created_at)
+        VALUES (#{category_num}, #{title}, #{content}, #{views}, #{good}, #{bad}, #{created_user_num}, NOW())
+    </insert>
+     
+ 
+     
+     <select id="selectNewpost_num" resultType="int">
+    SELECT IFNULL(max(post_num), 0) + 1 FROM TB_BOARD
+	</select>
+	
+	  <select id="selectArticle" resultType="boardVO"   parameterType="int">  
+        SELECT * FROM TB_BOARD
+        WHERE post_num = #{post_num}		
+   	  </select>
+  	  
+
 </mapper>

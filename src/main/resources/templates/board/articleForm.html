@@ -16,6 +16,13 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
 </th:block>
 <!-- 해당 페이지 고유 스크립트 추가 -->
 <th:block layout:fragment="script"> 
+<style>
+	.container {
+            display: flex;
+            flex-direction: row; 
+            align-items: start;
+        }
+</style>
     <!--    <script th:src="@{/js/page/home.js}"></script>-->
 </th:block>
 
@@ -27,7 +34,7 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
   
   <div class="content">
     <h4 >게시글 쓰기</h4>
-    <form id="" name="" action="/board/addNewArticle.do" method="post"  >
+    <form id="articleForm" name="articleForm" th:action="@{/board/articleForm.do}" th:object="${board}" method="post">
         
         <table align="left">
             <tr>

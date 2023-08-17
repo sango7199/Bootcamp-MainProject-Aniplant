@@ -1,6 +1,7 @@
 package com.mainproject.board.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -22,6 +23,28 @@ public class BoardServiceImpl  implements BoardService{
 		articlesList = boardDAO.selectAllArticlesList();
 		return articlesList;
 	}
+	
+	
+	@Override
+    public void addNewArticle(BoardVO boardVO) {
+        if (boardVO != null && boardVO.getTitle() != null && !boardVO.getTitle().isEmpty()) {
+            boardDAO.insertArticle(boardVO);
+        } else {
+            throw new IllegalArgumentException("Board title cannot be null or empty.");
+        }
+    }
+	
+
+	  
+	 //단일 파일 보이기
+		@Override
+		public BoardVO viewArticle(int post_num) throws Exception {
+			BoardVO boardVO = boardDAO.selectArticle(post_num);
+			return boardVO;
+		}
+
+	
+
 	
 
 }

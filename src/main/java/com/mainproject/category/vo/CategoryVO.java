@@ -19,6 +19,9 @@ public class CategoryVO {
 	public CategoryVO() {
 
 	}
+	public CategoryVO(String name) {
+        this.name = name;
+    }
 
 	public int getCategory_num() {
 		return category_num;

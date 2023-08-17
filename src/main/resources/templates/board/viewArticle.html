@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{layout/defaultLayout}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>게시글 내용 보기</title>
+</head>
+<!-- 해당 페이지 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+      <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+</th:block>
+<!-- 해당 페이지 고유 스크립트 추가 -->
+<th:block layout:fragment="script"> 
+<style>
+	.container {
+            display: flex;
+            flex-direction: row; 
+            align-items: start;
+        }
+</style>
+    <!--    <script th:src="@{/js/page/home.js}"></script>-->
+</th:block>
+<body>
+  
+  <!-- Content -->
+<div layout:fragment="content" class="container">
+  <!-- sidebar fragment 사용 -->
+  <div th:replace="sidebar/article :: articleSidebar"></div>
+  
+  <div class="content">
+    <h4 >게시글 내용 보기 </h4>
+    <h3>게시글 정보</h3>
+
+    <form name="frmArticle" method="post" action="${contextPath}" enctype="multipart/form-data">
+      <table border="0" align="center">
+          <tr>
+              <td width="150" align="center" bgcolor="#FF9933">
+                  글번호
+              </td>
+              <td>
+                  <input type="text" value="${article.articleNO}" disabled />
+                  <input type="hidden" name="articleNO" value="${article.articleNO}" />
+              </td>
+          </tr>
+          <tr>
+              <td width="150" align="center" bgcolor="#FF9933">
+                  작성자 아이디
+              </td>
+              <td>
+                  <input type="text" value="${article.id}" name="writer" disabled />
+              </td>
+          </tr>
+          <tr>
+              <td width="150" align="center" bgcolor="#FF9933">
+                  제목
+              </td>
+              <td>
+                  <input type="text" value="${article.title}" name="title" id="i_title" disabled />
+              </td>
+          </tr>
+          <tr>
+            <td width="150" align="center" bgcolor="#FF9933">
+              내용
+           </td>
+           <td>
+            <textarea rows="20" cols="60"  name="content"  id="i_content"  disabled />${article.content }</textarea>
+           </td>  
+          </tr>
+          <tr>
+              <td colspan="2" align="center">
+                  <c:if test="${member.id == article.id}">
+                      <input type="button" value="수정하기" onclick="fn_enable(this.form)">
+                      <!-- <input type="button" value="삭제하기" onclick="fn_remove_article('${contextPath}/board/removeArticle.do', ${article.articleNO})"> -->
+                  </c:if>
+                 
+              </td>
+          </tr>
+      </table>
+  </form>
+    
+</body>
+</html>

@@ -38,6 +38,7 @@ layout:decorate="~{layout/defaultLayout}">
 </th:block>
 <!-- 해당 페이지 고유 스크립트 추가 -->
 <th:block layout:fragment="script"> 
+<!-- 
     <!--    <script th:src="@{/js/page/home.js}"></script>-->
 </th:block>
 
@@ -59,12 +60,12 @@ layout:decorate="~{layout/defaultLayout}">
   <button id="searchButton">검색</button>
  
   
-<!-- 동물 -->
-<div class="animallist">
-  <a href="./articleForm.html">게시글 쓰기</a>
-  <div id="동물">
-  <h1>동물 게시판</h1>
-  <div class="boradlist-container">
+
+ <div class="boradlist-container">
+ <a th:href="@{/board/articleForm.do}">게시글 쓰기</a>
+
+  <h1 th:text="${category.name} + ' 게시판'"></h1>
+  
       <table class="boradlist">
 
          <tr>
@@ -78,8 +79,10 @@ layout:decorate="~{layout/defaultLayout}">
          </tr>
 
       <tr align="center" th:each="board : ${articlesList}">
-        <td th:text="${board.post_num}"></td>
-        <td th:text="${board.title}"></td>
+        <td th:text="${board.post_num}"></td>   
+        <td>
+        	<a class="cls1" th:href="@{/board/viewArticle.do(post_num=${board.post_num})}" th:text="${board.title}"></a>
+    	</td>
         <td th:text="${board.created_user_num}"></td>
         <td th:text="${board.views}"></td>
         <td th:text="${board.good}"></td>
@@ -98,9 +101,7 @@ layout:decorate="~{layout/defaultLayout}">
     </div>
     
    </div>
-</div>
-</div>
-<!-- 동물 끝 -->
+
 
 </div>
 
