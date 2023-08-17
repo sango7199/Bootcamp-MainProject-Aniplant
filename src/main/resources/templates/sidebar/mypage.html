@@ -7,7 +7,7 @@
     <!--mypage-sidebar-->
     <div th:fragment="mypageSidebar" class="sidebar">
         <ul class="sidebar-menu">
-            <a href="/mypage/profile.do">마이페이지</a>
+            <a class="menu-title" href="/mypage/profile.do">마이페이지</a>
             <li><a href="">반려친구 관리</a></li>
             <li><a href="">일정 관리</a>
                 <ul>
@@ -15,9 +15,12 @@
                     <li><a href="#!">일정 카테고리 관리</a></li>
                 </ul>
             </li>
-            <li><a href="/mypage/my-info-management.do">나의 정보 관리</a></li>
+            <li><a href="/mypage/my-info-management.do">계정 정보 관리</a></li>
+            <li><a href="/mypage/my-info-withdrawal.do">계정 탈퇴</a></li>
         </ul>
-        <a href="">문의</a>
+        <div class="contact-us">
+            <a href="">문의</a>
+        </div>
     </div>
 </body>
 </html>

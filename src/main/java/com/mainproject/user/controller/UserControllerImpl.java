@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mainproject.captcha.CaptchaService;
 import com.mainproject.user.dao.UserDAO;
 import com.mainproject.user.service.UserDetailsServiceImpl;
 import com.mainproject.user.service.UserService;
@@ -110,43 +111,71 @@ public class UserControllerImpl implements UserController {
 	
 	@Override // 로그인 입력
 	@PostMapping("/api/login")
-	public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest, HttpSession session, HttpServletRequest request) {
-		Authentication currentAuthentication = SecurityContextHolder.getContext().getAuthentication();
-		
-		if (!(currentAuthentication instanceof AnonymousAuthenticationToken)) {
-	        // 이미 로그인된 상태라면 원하는 메시지나 리다이렉트 URL을 반환
-	        Map<String, String> result = new HashMap<>();
-	        result.put("message", "이미 로그인된 상태입니다.");
-	        return ResponseEntity.ok(result);
-	    } else { 
-		    String username = loginRequest.getId();
-		    String password = loginRequest.getPwd();
-		    
-		    // 사용자의 입력을 검증하고 인증된 사용자 정보를 생성
-		    UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(username);
-		    if (userDetails == null || !passwordEncoder.matches(password, userDetails.getPassword())) {
-		        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("아이디 또는 비밀번호가 잘못되었습니다.");
-		    }
-	
-		    // 인증된 사용자 정보를 세션에 저장
-		    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-		    SecurityContext securityContext = SecurityContextHolder.getContext();
-		    securityContext.setAuthentication(authentication);
-		    session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
-	
-		    // 로그인 성공 후 redirectUrl 생성
-		    String referer = (String) session.getAttribute("previousPage");
-		    if (referer == null || referer.isBlank()) {
-		        referer = "/index.do";  // 기본 URL 설정
-		    }
-		    
-		    Map<String, String> result = new HashMap<>();
-		    result.put("redirectUrl", referer);
-		    
-		    return ResponseEntity.ok(result); 
-	    }
-	}
+	public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest, HttpSession session) {
+	    // 현재 인증 상태를 가져옴
+	    Authentication currentAuthentication = SecurityContextHolder.getContext().getAuthentication();
 
+	    // 이미 로그인된 상태인지 확인
+	    if (!(currentAuthentication instanceof AnonymousAuthenticationToken)) {
+	        return createResponse("message", "이미 로그인된 상태입니다.", HttpStatus.OK);
+	    }
+
+	    String username = loginRequest.getId();
+	    String password = loginRequest.getPwd();
+
+	    // 사용자 정보를 DB에서 가져옴
+	    UserVO user = userService.getUserByUsername(username);
+
+	    // DB에 해당 사용자가 없으면 오류 반환
+	    if (user == null) {
+	        return createResponse("message", "로그인 정보가 올바르지 않습니다. 다시 확인해주세요.", HttpStatus.UNAUTHORIZED);
+	    }
+
+	    // 사용자의 인증 정보를 가져옴
+	    UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(username);
+
+	    // 아이디와 비밀번호가 일치하지 않는 경우
+	    if (userDetails == null || !passwordEncoder.matches(password, userDetails.getPassword())) {
+	        userService.increaseLoginFailCount(username);
+	        
+	     // 로그인 5회 이상 실패 처리
+	        if (user.getFail_count() >= 5) {
+	            Map<String, String> responseMap = new HashMap<>();
+	            responseMap.put("message", "로그인을 5회 이상 실패하였습니다.");
+	            responseMap.put("captchaRequired", "true");
+	            return new ResponseEntity<>(responseMap, HttpStatus.FORBIDDEN);
+	        }
+
+	        return createResponse("message", "아이디 또는 비밀번호가 잘못되었습니다.", HttpStatus.UNAUTHORIZED);
+	    }
+	    
+	    userService.resetLoginFailCount(username);
+	    
+	    // 탈퇴한 회원인 경우
+	    if (user.isIs_deleted()) {
+	        return createResponse("message", "이미 탈퇴한 계정입니다. 다른 계정으로 로그인 해주세요.", HttpStatus.FORBIDDEN);
+	    }
+	    
+	    // 인증된 사용자 정보를 세션에 저장
+	    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+	    SecurityContext securityContext = SecurityContextHolder.getContext();
+	    securityContext.setAuthentication(authentication);
+	    session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
+	    
+	    // 로그인 성공 후 리다이렉트할 URL을 결정
+	    String referer = (String) session.getAttribute("previousPage");
+	    if (referer == null || referer.isBlank()) {
+	        referer = "/index.do";  // 기본 URL 설정
+	    }
+	    return createResponse("redirectUrl", referer, HttpStatus.OK);
+	}
+	
+	// 로그인 response 메소드
+	private ResponseEntity<Map<String, String>> createResponse(String key, String value, HttpStatus status) {
+	    Map<String, String> result = new HashMap<>();
+	    result.put(key, value);
+	    return new ResponseEntity<>(result, status);
+	}
 	
 	@Override // 로그아웃 입력
 	@GetMapping("/api/logout")
@@ -180,9 +209,7 @@ public class UserControllerImpl implements UserController {
 	@PostMapping("/api/confirmUser")
 	public ResponseEntity<?> confirmPWD(@RequestParam("pwd") String pwd, Principal principal) {
 	    // 현재 로그인된 사용자 정보 가져오기
-	    String currentUsername = principal.getName();
-	    
-	    UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(currentUsername);
+		UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(getCurrentUser(principal).getId());
 
 	    if (passwordEncoder.matches(pwd, userDetails.getPassword())) {
 	        Map<String, Object> response = new HashMap<>();
@@ -200,8 +227,8 @@ public class UserControllerImpl implements UserController {
 	@RequestMapping(value = {"/mypage/my-info-update.do"}, method = RequestMethod.GET)
 	public ModelAndView viewMyInfoUpdate(Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
-		String username = principal.getName();
-		UserVO user = userService.getUserByUsername(username);
+		// 현재 로그인된 사용자 정보 가져오기
+		UserVO user = getCurrentUser(principal);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(viewName);
 		mav.addObject("user", user);
@@ -211,16 +238,13 @@ public class UserControllerImpl implements UserController {
 	@Override // 회원정보 수정 로직
 	@PostMapping("/api/update-user")
 	public ResponseEntity<?> updateUser(@RequestBody UserVO userVO, Principal principal) {
-	    String currentUsername = principal.getName();
-//	    System.out.println(currentUsername);
 	    // 현재 로그인된 사용자의 정보를 가져옴
-	    UserVO currentUser = userService.getUserByUsername(currentUsername);
-//	    System.out.println(currentUser);
+	    UserVO currentUser = getCurrentUser(principal);
 
-//	    // 현재 로그인된 사용자의 정보만 수정 가능하도록 체크
-//	    if (!currentUser.getId().equals(userVO.getId())) {
-//	        return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
-//	    }
+	    // 현재 로그인된 사용자의 정보만 수정 가능하도록 체크
+	    if (!currentUser.getId().equals(userVO.getId())) {
+	        return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+	    }
 
 	    try {
 	        userService.updateUser(userVO);
@@ -229,5 +253,42 @@ public class UserControllerImpl implements UserController {
 	    	e.printStackTrace();
 	        return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
 	    }
+	}
+	
+	@Override // 회원정보 탈퇴하기 form 페이지 로드 로직
+	@RequestMapping(value = {"/mypage/my-info-delete.do"}, method = RequestMethod.GET)
+	public ModelAndView viewMyInfoDelete(Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		// 현재 로그인된 사용자의 정보를 가져옴
+		UserVO user = getCurrentUser(principal);
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(viewName);
+		mav.addObject("user", user);
+		return mav;
+	}
+	
+	@Override // 회원 탈퇴 로직
+	@PostMapping("/api/delete-user")
+	public ResponseEntity<?> deleteUser(@RequestBody UserVO userVO, Principal principal) {
+	    // 현재 로그인된 사용자의 정보를 가져옴
+	    UserVO currentUser = getCurrentUser(principal);
+
+	    // 현재 로그인된 사용자의 정보만 수정 가능하도록 체크
+	    if (!currentUser.getId().equals(userVO.getId())) {
+	        return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+	    }
+	    try {
+	        userService.deleteUser(userVO);
+	        return new ResponseEntity<>("success", HttpStatus.OK);
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	        return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+	}
+	
+	// 현재 로그인된 사용자 정보 가져오는 메소드
+	private UserVO getCurrentUser(Principal principal) {
+	    String currentUsername = principal.getName();
+	    return userService.getUserByUsername(currentUsername);
 	}
 }

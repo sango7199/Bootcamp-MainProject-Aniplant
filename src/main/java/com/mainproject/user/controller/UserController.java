@@ -22,11 +22,13 @@ public interface UserController {
 	public ResponseEntity<Map<String, Boolean>> checkNickname(@RequestParam("nickname") String nickname);
 	public ModelAndView viewJoinComplete(@RequestParam("name") String name, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView viewLogin(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest, HttpSession session, HttpServletRequest request);
+	public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest, HttpSession session) throws Exception;
 	public ResponseEntity<?> logout(HttpSession session);
 	public ModelAndView viewAdminTest(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView viewMyprofile(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity<?> confirmPWD(@RequestParam("pwd") String pwd, Principal principal);
 	public ModelAndView viewMyInfoUpdate(Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity<?> updateUser(UserVO userVO, Principal principal);
+	public ModelAndView viewMyInfoDelete(Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ResponseEntity<?> deleteUser(UserVO userVO, Principal principal);
 }

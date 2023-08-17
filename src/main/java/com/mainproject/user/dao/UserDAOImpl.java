@@ -12,7 +12,21 @@ public class UserDAOImpl implements UserDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
+<<<<<<< HEAD
 	@Override // 사용자 등록 사용자 정보 입력 받기
+=======
+	@Override // 로그인 실패 체크 로직
+	public void increaseLoginFailCount(String username) {
+		sqlSession.update("mapper.user.increaseLoginFailCount",username);
+	}
+	
+	@Override // 로그인 성공 시 fail_count 초기화 로직
+	public void resetLoginFailCount(String username) {
+		sqlSession.update("mapper.user.resetLoginFailCount",username);
+	}
+
+	@Override // 회원가입 회원정보 등록 로직
+>>>>>>> 7ee07e5f36170e20126f456ca5d2693fe4571b6a
 	public int registerUser(UserVO userVO) throws DataAccessException {
 		return sqlSession.insert("mapper.user.registerUser", userVO);
 	}
@@ -42,5 +56,10 @@ public class UserDAOImpl implements UserDAO {
 	@Override // �쉶�썝 �젙蹂� �닔�젙 濡쒖쭅 (鍮꾨�踰덊샇 誘몃�寃�)
 	public void updateUserWithoutPassword(UserVO userVO) throws DataAccessException {
 		sqlSession.update("mapper.user.updateUserWithoutPassword",userVO);
+	}
+	
+	@Override // 회원 탈퇴 로직
+	public void deleteUser(UserVO userVO) throws DataAccessException {
+		sqlSession.update("mapper.user.deleteUser", userVO);
 	}
 }

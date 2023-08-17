@@ -1,18 +1,16 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/defaultLayout}">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+      layout:decorate="~{layout/defaultLayout}">
 <!-- 페이지의 제목 설정 -->
 <head>
-    <title>나의 정보 관리</title>
+    <title>계정 정보 관리</title>
 </head>
 
 <!-- 해당 페이지 고유 CSS 추가 -->
 <th:block layout:fragment="css">
 	<style>
-		.container {
-            display: flex;
-            flex-direction: row; 
-            align-items: start;
-        }
         .error {
             color: red;
             font-size: 12px;
@@ -40,6 +38,7 @@
                 }
 
                 $(this).prop("disabled", true);  // 수정하기 버튼 비활성화
+                
                 // 사용자 본인인지 확인하는 비밀번호 확인 로직
                 $.ajax({
                     url: "/api/confirmUser",
@@ -73,6 +72,7 @@
 	<div class="content">
 		<h2>나의 정보 관리</h2>
 		<form id="confrim_form" name="confirm_form" method="post" action="">
+            <h5>계정 본인 확인을 위한 비밀번호 확인</h5>
 			<input type="password" id="pwdInput" name="password_confirm" placeholder="비밀번호를 입력해주세요."><span id="confirmError" class="error"></span><br>
 			<button type="button" id="confirm_btn" class="btn_submit">수정하기</button>
 		</form>

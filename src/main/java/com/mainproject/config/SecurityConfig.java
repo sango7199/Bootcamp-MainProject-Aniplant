@@ -19,6 +19,7 @@ public class SecurityConfig {
         http
             .csrf().disable()  // CSRF ��ȣ�� �����Ͽ� AJAX�� ����ϴ� ����� ���� ����
             .authorizeRequests()
+            	.antMatchers("/css/**", "/js/**", "/img/**").permitAll() // CSS, JS, 이미지 파일에 대한 요청을 허용
             	.antMatchers("/login.do", "/join.do").permitAll() // 회원가입, 로그인 페이지 허용
                 .antMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_PRIVACY_ADMIN") // /admin은 관리자만 가능하도록 설정
                 .antMatchers("/privacy_admin/**").hasAuthority("ROLE_PRIVACY_ADMIN") // /privacy_admin은 개인정보 관리자만 가능하도록 설정
@@ -32,13 +33,18 @@ public class SecurityConfig {
             	.failureForwardUrl("/fail") // �α��� ���� �� URL ����
             .and()
             	.logout()
-            	.logoutUrl("/user/logout.do") // �α��� URL ����
+            	.logoutUrl("/user/logout.do") // 로그아웃 URL 설정
+            	.logoutSuccessUrl("/index.do") // 로그아웃 성공 시 이동할 URL 지정
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
             .and()
             .exceptionHandling()
         		.accessDeniedPage("/error/403"); // ���� ���� ����: error 403 ������
         return http.build();
     }
-	
+	 
+
+    
 	@Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(); //��й�ȣ�� �����ϰ� �����ϱ� ���� BCryptPasswordEncoder�� ����Ͽ� �ؽ� ó���� �ؾ� �մϴ�
