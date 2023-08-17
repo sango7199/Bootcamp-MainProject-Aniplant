@@ -9,13 +9,16 @@ import com.mainproject.board.vo.BoardVO;
 
 public interface BoardService {
 	
-	public List listArticles() throws DataAccessException;
+
  
 	
 	public BoardVO viewArticle(int post_num) throws Exception;
 
 
 	void addNewArticle(BoardVO boardVO);
+
+
+	List<BoardVO> getArticlesByCategory(String categoryName);
 
 	
 }

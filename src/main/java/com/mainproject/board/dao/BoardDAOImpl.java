@@ -15,14 +15,12 @@ public class BoardDAOImpl implements BoardDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	@Override
-	public List selectAllArticlesList() throws DataAccessException {
-		List<BoardVO> articlesList = null;
-		articlesList = sqlSession.selectList("mapper.board.selectAllArticlesList");
-		return articlesList;
-	}
-	
 
+	
+	 @Override
+	    public List<BoardVO> getArticlesByCategory(String categoryName) {
+	        return sqlSession.selectList("mapper.board.selectArticlesByCategory", categoryName);
+	    }
 	
 	@Override
     public void insertArticle(BoardVO boardVO) {

@@ -11,4 +11,7 @@ public interface UserDAO {
 	public UserVO getUserByUsername(String username) throws DataAccessException;
 	public void updateUserWithPassword(UserVO userVO) throws DataAccessException;
 	public void updateUserWithoutPassword(UserVO userVO) throws DataAccessException;
+	public void deleteUser(UserVO userVO) throws DataAccessException;
+	public void increaseLoginFailCount(String username);
+	public void resetLoginFailCount(String username);
 }

@@ -20,9 +20,10 @@
         <result property="deleted_at" column="deleted_at"/>
     </resultMap>
     
-      <select id="selectAllArticlesList" resultMap="boardResultMap">
-      SELECT * FROM TB_BOARD ORDER BY Created_At DESC	     
-  	  </select>
+      <select id="selectArticlesByCategory" resultMap="boardResultMap" parameterType="String">
+    SELECT * FROM TB_BOARD
+    WHERE  category_num = #{value}
+      </select>
   	  
 	 <insert id="insertArticle" parameterType="com.mainproject.board.vo.BoardVO">
         INSERT INTO TB_BOARD (category_num, title, content, views, good, bad, created_user_num, created_at)

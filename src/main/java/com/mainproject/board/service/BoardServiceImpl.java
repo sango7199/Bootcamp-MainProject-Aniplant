@@ -17,12 +17,14 @@ public class BoardServiceImpl  implements BoardService{
 	@Autowired
 	private BoardDAO boardDAO;
 
+
+	
+	
 	@Override
-	public List listArticles() throws DataAccessException {
-		List articlesList = null;
-		articlesList = boardDAO.selectAllArticlesList();
-		return articlesList;
-	}
+    public List<BoardVO> getArticlesByCategory(String categoryName) {
+        return boardDAO.getArticlesByCategory(categoryName);
+    }
+	
 	
 	
 	@Override
