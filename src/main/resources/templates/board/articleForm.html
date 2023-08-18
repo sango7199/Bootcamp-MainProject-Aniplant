@@ -12,17 +12,18 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
 
 <!-- 해당 페이지 고유 CSS 추가 -->
 <th:block layout:fragment="css">
+  <style>
+    .container {
+              display: flex;
+              flex-direction: row; 
+              align-items: start;
+          }
+  </style>
       <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
 </th:block>
 <!-- 해당 페이지 고유 스크립트 추가 -->
 <th:block layout:fragment="script"> 
-<style>
-	.container {
-            display: flex;
-            flex-direction: row; 
-            align-items: start;
-        }
-</style>
+
     <!--    <script th:src="@{/js/page/home.js}"></script>-->
 </th:block>
 
@@ -37,17 +38,24 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
     <form id="articleForm" name="articleForm" th:action="@{/board/articleForm.do}" th:object="${board}" method="post">
         
         <table align="left">
-        	<tr>
-        		
+        	  <tr>
+        		    <td align="left">카테고리</td>
+                    <td colspan="2" >
+                      <select id="topLevelSelect" name="categoryName">
+                        <option value="animals">동물게시판</option>
+                        <option value="plants">식물게시판</option>
+                      </select>
+                      
+                </td>
+            
         	
-        	
-        	</tr>
+        	 </tr> 
             <tr>
-                <td align="left">제목: </td>
+                <td align="left">제목 </td>
                 <td colspan="2" ><input type="text" size="50" maxlength="60" th:field="*{title}" /></td>
             </tr>
             <tr>
-                <td align="left" valign="top"><br>내용: </td>
+                <td align="left" valign="top"><br>내용 </td>
                 <td colspan="2"><textarea name="content" rows="10" cols="65" maxlength="4000" th:field="*{content}"></textarea> </td>
             </tr>
             <tr>

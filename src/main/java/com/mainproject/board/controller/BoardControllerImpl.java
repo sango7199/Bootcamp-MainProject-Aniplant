@@ -73,10 +73,21 @@ public class BoardControllerImpl implements BoardController{
 	        return "board/articleForm"; // 적절한 뷰 이름을 반환해야 합니다.
 	    }
 
-	    @PostMapping("/board/articleForm.do")
-	    public String endarticle(@ModelAttribute("boardVO") BoardVO boardVO) {
+//	    @PostMapping("/board/articleForm.do")
+//	    public String endarticle(@ModelAttribute("boardVO") BoardVO boardVO) {
+//	        boardService.addNewArticle(boardVO);
+//	        return "redirect:/board/listArticles.do"; // 등록 후 게시글 목록 페이지로 리다이렉트합니다.
+//	    }
+	 
+	 @PostMapping("/board/articleForm.do")
+	    public String endarticle(@ModelAttribute("boardVO") BoardVO boardVO, @RequestParam("categoryName") String categoryName) {
+	        if ("animals".equals(categoryName)) {
+	            boardVO.setCategory_num(127);; // 동물 게시판의 카테고리 번호 (예시)
+	        } else if ("plants".equals(categoryName)) {
+	            boardVO.setCategory_num(128); // 식물 게시판의 카테고리 번호 (예시)
+	        }
 	        boardService.addNewArticle(boardVO);
-	        return "redirect:/board/listArticles.do"; // 등록 후 게시글 목록 페이지로 리다이렉트합니다.
+	        return "redirect:/board/listArticles.do?categoryName=" + categoryName;
 	    }
 	
 	

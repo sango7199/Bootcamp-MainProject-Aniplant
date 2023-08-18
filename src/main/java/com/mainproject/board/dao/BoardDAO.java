@@ -17,5 +17,7 @@ public interface BoardDAO {
 	
 
 	List<BoardVO> getArticlesByCategory(String categoryName);
+
+	int selectNewPostNum();
 	
 }

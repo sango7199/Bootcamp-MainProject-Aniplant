@@ -8,12 +8,8 @@ import com.mainproject.category.vo.CategoryVO;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
-	private final CategoryDAO categoryDAO;
-
-    @Autowired
-    public CategoryServiceImpl(CategoryDAO categoryDAO) {
-        this.categoryDAO = categoryDAO;
-    }
+	@Autowired
+    private CategoryDAO categoryDAO;
 
     @Override
     public CategoryVO getCategoryByName(String categoryName) {

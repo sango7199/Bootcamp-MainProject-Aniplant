@@ -91,14 +91,14 @@ layout:decorate="~{layout/defaultLayout}">
     </tr>
       </table>
 
-    <div class="pagination">
+    <!--  <div class="pagination">
       <button id="prev">◀</button>
       <div class="page-numbers">
         <button class="page-number" th:each="pageNumber : ${pageNumbers}" th:text="${pageNumber}"></button>
-        <!-- Add more page number buttons as needed -->
+        
       </div>
       <button id="next">▶</button>
-    </div>
+    </div> -->
     
    </div>
 
@@ -108,44 +108,6 @@ layout:decorate="~{layout/defaultLayout}">
 </div>
 
 
-<script th:inline="javascript">
 
-  //버튼 이동
-  const prevButton = document.getElementById('prev');
-  const nextButton = document.getElementById('next');
-  const pageNumbers = document.querySelectorAll('.page-number');
-
-  let currentPage = 1;
-
-  function updatePageButtons() {
-      pageNumbers.forEach(button => button.classList.remove('active'));
-      pageNumbers[currentPage - 1].classList.add('active');
-  }
-
-  prevButton.addEventListener('click', () => {
-      if (currentPage > 1) {
-          currentPage--;
-          updatePageButtons();
-      }
-  });
-
-  nextButton.addEventListener('click', () => {
-      if (currentPage < pageNumbers.length) {
-          currentPage++;
-          updatePageButtons();
-      }
-  });
-
-  pageNumbers.forEach((button, index) => {
-      button.addEventListener('click', () => {
-          currentPage = index + 1;
-          updatePageButtons();
-      });
-  });
-
-  updatePageButtons();
-
-
-</script>
 </body>
 </html>

@@ -9,12 +9,8 @@ import com.mainproject.category.vo.CategoryVO;
 @Repository
 public class CategoryDAOImpl implements CategoryDAO {
 
-    private final SqlSession sqlSession;
-
-    @Autowired
-    public CategoryDAOImpl(SqlSession sqlSession) {
-        this.sqlSession = sqlSession;
-    }
+	@Autowired
+    private SqlSession sqlSession;
 
     @Override
     public CategoryVO getCategoryByName(String categoryName) {
