@@ -53,3 +53,26 @@ table {
 tbody tr:nth-child(even):hover td {
     background-color: rgba(20, 166, 184, 0.2);
 }
+
+.sort_btn, .sort_btn_up, .sort_btn_down {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  margin: 0 0 3px 0;
+  border: none;
+	cursor: pointer;
+  background-color: #14a6b8;
+  background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+  vertical-align: middle;
+}
+.sort_btn {
+  background-image: url("/img/btn-sort.png");
+}
+.sort_btn_up {
+  background-image: url("/img/btn-sort-up.png");
+}
+.sort_btn_down {
+  background-image: url("/img/btn-sort-down.png");
+}
