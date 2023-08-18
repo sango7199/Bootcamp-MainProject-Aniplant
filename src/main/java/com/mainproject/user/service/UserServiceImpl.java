@@ -18,6 +18,16 @@ public class UserServiceImpl implements UserService {
 	
 	private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+	@Override // 로그인 실패 체크 로직
+	public void increaseLoginFailCount(String username) throws DataAccessException {
+		userDAO.increaseLoginFailCount(username);
+	}
+	
+	@Override // 로그인 성공 시 fail_count 초기화 로직
+	public void resetLoginFailCount(String username) throws DataAccessException {
+		userDAO.resetLoginFailCount(username);
+	}
+	
 	
 	@Override // 회원가입 로직
 	public void registerUser(UserVO userVO) throws DataAccessException {
@@ -51,5 +61,10 @@ public class UserServiceImpl implements UserService {
 	    } else { // 변경하지 않았다면
 	        userDAO.updateUserWithoutPassword(userVO);
 	    }
+	}
+	
+	@Override // 회원 탈퇴 로직
+	public void deleteUser(UserVO userVO) throws DataAccessException {
+		userDAO.deleteUser(userVO);
 	}
 }

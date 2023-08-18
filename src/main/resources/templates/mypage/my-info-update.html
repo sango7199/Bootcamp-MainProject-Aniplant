@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-
 <!-- 페이지의 제목 설정 -->
-<head>
-    <title>회원 정보 수정</title>
-</head>
+    <title>계정 정보 수정</title>
 
 <!-- 해당 페이지 고유 CSS 추가 -->
 <th:block layout:fragment="css">
@@ -16,34 +11,32 @@
 	</style>
 </th:block>
 
-<body>
 	<div class="content">
-		<h2>회원 정보 수정</h2>
-		<div class="content">
-			<form id="update_form" name="update_form" method="post" action="">
-				<input type="text" id="idUpdateInput" name="id" th:value="${user.id}" disabled><br> 
-				<input type="password" id="passwordUpdateInput" name="password" placeholder="변경 시 비밀번호를 입력해주세요"><span id="passwordError" class="error"></span><br>
-                <input type="password" id="passwordUpdateConfirmInput" name="password_confirm" placeholder="비밀번호 확인"><span id="passwordConfirmError" class="error"></span><span id="passwordCheckError" class="error"></span><br>
-                <input type="email" id="emailUpdateInput" name="email" placeholder="비밀번호 분실 시 확인용 이메일" th:value="${user.email}"><span id="emailError" class="error"></span><br>
-                <input type="text" id="nicknameUpdateInput" name="nickname" placeholder="닉네임" maxlength="10" th:value="${user.nickname}"><button type="button" id="checkNickname" class="check_btn">중복 확인</button><span id="nicknameError" class="error"></span><br>
-                <input type="text" id="nameUpdateInput" name="name" th:value="${user.name}" disabled><br> 
-                <input type="text" id="birthUpdateInput" name="birth" th:value="${#dates.format(user.birth, 'yyyy-MM-dd')}" disabled><br> 
-                <input type="tel" id="telUpdateInput" name="tel" placeholder="'-'를 포함한 휴대전화번호" th:value="${user.country_code + '-' + user.first_hp + '-' + user.second_hp}"><span id="telError" class="error"></span><br>
-				<ul class="gender_list">
-					<li><input type="radio" id="genderIdentity1" name="gender" value="M" th:checked="${user.gender == 'M'}" disabled><label for="genderIdentity1">남자</label></li>
-                    <li><input type="radio" id="genderIdentity2" name="gender" value="F" th:checked="${user.gender == 'F'}" disabled><label for="genderIdentity2">여자</label></li>
-				</ul>
-				<button type="button" id="update_btn" class="btn_submit">내 정보 수정하기</button>
-			</form>
-            <hr>
-            <h3>회원 탈퇴</h3>
-            <button type="button" id="withdrawal_btn" class="btn_submit">회원 탈퇴하기</button>
-		</div>
+		<h2>계정 정보 수정</h2>
+		<form id="update_form" name="update_form" method="post" action="">
+            <input type="text" id="idUpdateInput" name="id" th:value="${user.id}" disabled><br> 
+            <input type="password" id="passwordUpdateInput" name="password" placeholder="변경 시 비밀번호를 입력해주세요"><span id="passwordError" class="error"></span><br>
+            <input type="password" id="passwordUpdateConfirmInput" name="password_confirm" placeholder="비밀번호 확인"><span id="passwordConfirmError" class="error"></span><span id="passwordCheckError" class="error"></span><br>
+            <input type="email" id="emailUpdateInput" name="email" placeholder="비밀번호 분실 시 확인용 이메일" th:value="${user.email}"><span id="emailError" class="error"></span><br>
+            <input type="text" id="nicknameUpdateInput" name="nickname" placeholder="닉네임" maxlength="10" th:value="${user.nickname}"><button type="button" id="checkNickname" class="check_btn">중복 확인</button><span id="nicknameError" class="error"></span><br>
+            <input type="text" id="nameUpdateInput" name="name" th:value="${user.name}" disabled><br> 
+            <input type="text" id="birthUpdateInput" name="birth" th:value="${#dates.format(user.birth, 'yyyy-MM-dd')}" disabled><br> 
+            <input type="tel" id="telUpdateInput" name="tel" placeholder="'-'를 포함한 휴대전화번호" th:value="${user.country_code + '-' + user.first_hp + '-' + user.second_hp}"><span id="telError" class="error"></span><br>
+            <ul class="gender_list">
+                <li><input type="radio" id="genderIdentity1" name="gender" value="M" th:checked="${user.gender == 'M'}" disabled><label for="genderIdentity1">남자</label></li>
+                <li><input type="radio" id="genderIdentity2" name="gender" value="F" th:checked="${user.gender == 'F'}" disabled><label for="genderIdentity2">여자</label></li>
+            </ul>
+            <button type="button" id="update_btn" class="btn_submit">계정 정보 수정하기</button>
+		</form>
 	</div>
-</body>
+	
+<script th:inline="javascript">
+	var userData = /*[[${user}]]*/ {};
+</script>
 <script>
     $(document).ready(function() {
-
+		
+    	// 사용할 변수 선언
         var originalNickname = $("#nicknameUpdateInput").val();
         var isNicknameChanged = false;
         var isNicknameChecked = false;
@@ -51,7 +44,8 @@
         var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         var telPattern = /^[0-9]{3}-[0-9]{4}-[0-9]{4}$/;
         var originalTel = $("#telUpdateInput").attr("th:value");
-        var userNum = [[${user.user_num}]];
+        var userNum = userData.user_num;
+        var userId = userData.id;
         
         // 닉네임 변경 확인
         $("#nicknameUpdateInput").change(function() {
@@ -157,6 +151,7 @@
 
             var formData = { // 전송할 formData
             	user_num: userNum,
+            	id: userId,
                 email: $("#emailUpdateInput").val(),
                 nickname: $("#nicknameUpdateInput").val(),
                 birth: $("#birthUpdateInput").val() + "T00:00:00",
@@ -193,11 +188,6 @@
             });
 
             
-        });
-
-        // 회원 탈퇴 페이지로 이동
-        $("#withdrawal_btn").click(function() {
-            window.location.href = "/mypage/my-info-delete.do";
         });
     });
 </script>

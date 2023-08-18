@@ -6,15 +6,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1, user-scalable=yes,initial-scale=1.0" />
     <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">애니플랜트</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!-- content script -->
+    <link rel="stylesheet" th:href="@{/css/layout.css}"/>
+    <script th:src="@{/js/layout.js}"></script>
+    <!-- content style -->
     <th:block layout:fragment="css"></th:block>
     <!-- content script -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <th:block layout:fragment="script"></th:block>
 </head>
 <body>
     <!-- header fragment 사용 -->
     <th:block th:replace="fragments/header :: headerFragment"></th:block>
+    <!-- nav fragment 사용 -->
+    <th:block th:replace="fragments/nav :: navFragment"></th:block>
     <!-- content fragment 사용 -->
     <th:block layout:fragment="content"></th:block>
     <!-- footer fragment 사용 -->
