@@ -28,7 +28,18 @@
         <div class="content">
             <h2>회원 정보 관리</h2>
             <table>
-                <caption>회원 전체 리스트</caption>
+                <div class="table-top-wrapper">
+                    <select>
+                        <option>10개로 보기</option>
+                        <option>25개로 보기</option>
+                        <option>50개로 보기</option>
+                        <option>100개로 보기</option>
+                    </select>
+                    <span>회원 전체 리스트</span>
+                    <div class="search-area">
+                        검색 : <input>
+                    </div>
+                </div>
                 <thead>
                     <tr>
                         <th>회원 번호 <button type="button" class="sort_btn"></button></th>
