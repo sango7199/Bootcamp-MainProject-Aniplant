@@ -1,84 +1,179 @@
-h2 {
-    padding: 5px 0px 5px;
-    margin: 5px 0px 5px;
-}
-
-table caption {
-    padding: .5em 0;
-    
-}
-
+/* Base Styles */
 .content {
-    font: 14px/24px "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", Sans-Serif;
-  }
-table {
-    border-collapse: separate;
-    border-spacing: 0;
-    width: 100%;
-  }
-  th,
-  td {
-    padding: 6px 15px;
-  }
-  th {
-    background: #14a6b8;
-    color: #fff;
-    text-align: left;
-  }
-  tr:first-child th:first-child {
-    border-top-left-radius: 6px;
-  }
-  tr:first-child th:last-child {
-    border-top-right-radius: 6px;
-  }
-  td {
-    border-right: 1px solid #c6c9cc;
-    border-bottom: 1px solid #c6c9cc;
-  }
-  td:first-child {
-    border-left: 1px solid #c6c9cc;
-  }
-  tr:nth-child(even) td {
-    background: #dff3f5;
-  }
-  tr:last-child td:first-child {
-    border-bottom-left-radius: 6px;
-  }
-  tr:last-child td:last-child {
-    border-bottom-right-radius: 6px;
-  }
-  tbody tr:hover {
-    background-color: rgba(20, 166, 184, 0.2);
-}
-tbody tr:nth-child(even):hover td {
-    background-color: rgba(20, 166, 184, 0.2);
+  font: 14px/24px "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", Sans-Serif;
+  width: 840px;
 }
 
+h2 {
+  padding: 5px 0;
+  margin: 5px 0;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  table-layout: fixed;
+}
+
+td {
+  padding: 6px 15px;
+}
+
+th {
+  background: #14a6b8;
+  color: #fff;
+  text-align: center;
+  padding: 6px;
+}
+
+/* Table Styles */
+tr:first-child th:first-child {
+  border-top-left-radius: 6px;
+}
+
+tr:first-child th:last-child {
+  border-top-right-radius: 6px;
+}
+
+td {
+  border-right: 1px solid #c6c9cc;
+  border-bottom: 1px solid #c6c9cc;
+}
+
+td:first-child {
+  border-left: 1px solid #c6c9cc;
+}
+
+tr:nth-child(even) td {
+  background: #dff3f5;
+}
+
+tr:last-child td:first-child {
+  border-bottom-left-radius: 6px;
+}
+
+tr:last-child td:last-child {
+  border-bottom-right-radius: 6px;
+}
+
+tbody tr:hover {
+  background-color: rgba(20, 166, 184, 0.2);
+}
+
+tbody tr:nth-child(even):hover td {
+  background-color: rgba(20, 166, 184, 0.2);
+}
+
+/* Button Styles */
 .sort_btn, .sort_btn_up, .sort_btn_down {
   width: 20px;
   height: 20px;
   padding: 0;
-  margin: 0 0 3px 0;
+  margin: 0 0 3px;
   border: none;
-	cursor: pointer;
+  cursor: pointer;
   background-color: #14a6b8;
   background-size: contain;
-	background-repeat: no-repeat;
-	background-position: center;
+  background-repeat: no-repeat;
+  background-position: center;
   vertical-align: middle;
 }
+
 .sort_btn {
   background-image: url("/img/btn-sort.png");
 }
+
 .sort_btn_up {
   background-image: url("/img/btn-sort-up.png");
 }
+
 .sort_btn_down {
   background-image: url("/img/btn-sort-down.png");
 }
+
+/* Table Top Wrapper */
 .table-top-wrapper {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  padding: 7px 0;
+}
+
+.table-top-wrapper > span {
+  font-size: 16px;
+  font-weight: bold;
+  color: #14a6b8;
+  vertical-align: middle;
+}
+
+/* Pagination Styles */
+.paging-area {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 5px 0;
+}
+
+#displayRange {
+  font-style: italic;
+  color: #43b8c6;
+}
+
+#previousPageButton, #nextPageButton {
+  width: 30px;
+  height: 30px;
   padding: 0;
-  margin: 0;
+  border: none;
+  cursor: pointer;
+  background-color: #fff;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  vertical-align: middle;
+}
+
+#previousPageButton {
+  background-image: url("/img/previous-btn.png");
+}
+
+#nextPageButton {
+  background-image: url("/img/next-btn.png");
+}
+
+/* Input & Select Styles */
+#itemsPerPageSelect, .table-search-area > input {
+  padding: 5px 10px;
+  font-size: 14px;
+  border: 1px solid #c6c9cc;
+  border-radius: 4px;
+  cursor: pointer;
+  outline: none;
+}
+
+#itemsPerPageSelect {
+  background-color: #fff;
+  appearance: none;
+}
+
+.table-search-area > input {
+  transition: border-color 0.2s;
+}
+
+.table-search-area > input:focus {
+  border-color: #14a6b8;
+}
+
+/* Pagination Number Container */
+#pageNumberContainer {
+  display: inline-block;
+  width: 180px;
+  text-align: center;
+}
+
+.page-link, .current-page {
+  display: inline-block;
+  width: 30px;
+  margin: 0 2px;
+  text-align: center;
 }
