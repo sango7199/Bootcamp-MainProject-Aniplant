@@ -21,7 +21,11 @@ public interface BoardController {
 
 	
 
-	String listArticles(String categoryName, Model model);
+
+
+
+
+	String listArticles(int categoryNum, Model model);
 	
 
 	 

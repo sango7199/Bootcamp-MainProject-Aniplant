@@ -18,8 +18,8 @@
         <result property="deleted_at" column="deleted_at"/>
         </resultMap>
         
-        <select id="selectCategoryByName" resultType="categoryVO" parameterType="String">
+        <select id="selectCategoryByCategoryNum" resultType="categoryVO" parameterType="int">
         SELECT * FROM TB_CATEGORY
-        WHERE name = #{value}
+        WHERE category_num = #{categoryNum}
     </select>
 </mapper> 

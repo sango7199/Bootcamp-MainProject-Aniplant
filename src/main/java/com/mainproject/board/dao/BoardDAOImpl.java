@@ -16,31 +16,25 @@ public class BoardDAOImpl implements BoardDAO {
 	private SqlSession sqlSession;
 	
 
-	//리스트
-	 @Override
-	    public List<BoardVO> getArticlesByCategory(String categoryName) {
-	        return sqlSession.selectList("mapper.board.selectArticlesByCategory", categoryName);
-	    }
 	
-	 //등록
 	@Override
-    public void insertArticle(BoardVO boardVO) {
+    public List<BoardVO> getArticlesByCategory(int categoryNum) {
+        return sqlSession.selectList("mapper.board.selectArticlesByCategory", categoryNum);
+    }
+
+    
+	@Override
+    public BoardVO viewArticle(int post_num) {
+        return sqlSession.selectOne("mapper.board.selectArticleByPostNum", post_num);
+    }
+
+   
+	@Override
+    public void addNewArticle(BoardVO boardVO) {
         sqlSession.insert("mapper.board.insertArticle", boardVO);
     }
 
-	
-	@Override
-    public int selectNewPostNum() {
-        return sqlSession.selectOne("mapper.board.selectNewpost_num");
-    }
-
-
-
-	
-	@Override
-	public BoardVO selectArticle(int post_num) throws DataAccessException {
-		return sqlSession.selectOne("mapper.board.selectArticle", post_num);
 	}
 	
 
-}
+

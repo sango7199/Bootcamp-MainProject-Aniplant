@@ -47,69 +47,76 @@ public class BoardControllerImpl implements BoardController{
 	
 
 	 
-	 @Override
-	 @GetMapping("/board/listArticles.do")
-	    public String listArticles(@RequestParam("categoryName") String categoryName, Model model) {
-	        List<BoardVO> articlesList = boardService.getArticlesByCategory(categoryName);
-	        CategoryVO category = getCategoryByName(categoryName);
-	        
-	        model.addAttribute("category", category);
-	        model.addAttribute("articlesList", articlesList);
-	        
-	        return "/board/listArticles";
-	    }
-	 
-	 private CategoryVO getCategoryByName(String categoryName) {
-	        // 여기서 실제로 categoryName으로 CategoryVO를 가져오는 코드를 구현해야합니다.
-	        // CategoryService를 사용하여 DB로부터 데이터를 가져오도록 작성해야합니다.
-	        return categoryService.getCategoryByName(categoryName);
-	    }
+	 // 카테고리 번호를 이용하여 게시글 목록 가져오기
+   
+	@Override
+    @GetMapping("/board/listArticles.do")
+    public String listArticles(@RequestParam("categoryNum") int categoryNum, Model model) {
+        List<BoardVO> articlesList = boardService.getArticlesByCategory(categoryNum);
+        CategoryVO category = getCategoryByCategoryNum(categoryNum);
 
-	 
-	//게시글 등록 페이지
-	 @GetMapping("/board/articleForm.do")
-	    public String showarticleForm(Model model) {
-	        model.addAttribute("board", new BoardVO()); // 빈 BoardVO 객체를 모델에 추가하여 폼을 띄웁니다.
-	        return "board/articleForm"; // 적절한 뷰 이름을 반환해야 합니다.
-	    }
+        model.addAttribute("category", category);
+        model.addAttribute("articlesList", articlesList);
 
-//	    @PostMapping("/board/articleForm.do")
-//	    public String endarticle(@ModelAttribute("boardVO") BoardVO boardVO) {
-//	        boardService.addNewArticle(boardVO);
-//	        return "redirect:/board/listArticles.do"; // 등록 후 게시글 목록 페이지로 리다이렉트합니다.
-//	    }
-	 
-	 @PostMapping("/board/articleForm.do")
-	    public String endarticle(@ModelAttribute("boardVO") BoardVO boardVO, @RequestParam("categoryName") String categoryName) {
-	        if ("animals".equals(categoryName)) {
-	            boardVO.setCategory_num(127);; // 동물 게시판의 카테고리 번호 (예시)
-	        } else if ("plants".equals(categoryName)) {
-	            boardVO.setCategory_num(128); // 식물 게시판의 카테고리 번호 (예시)
-	        }
-	        boardService.addNewArticle(boardVO);
-	        return "redirect:/board/listArticles.do?categoryName=" + categoryName;
-	    }
-	
-	
+        return "/board/listArticles"; 
+    }
 
-	@RequestMapping(value="/board/viewArticle.do" ,method = RequestMethod.GET)
-	public ModelAndView viewArticle(@RequestParam("post_num") int post_num,
-                                    HttpServletRequest request, HttpServletResponse response) throws Exception{
-		String viewName = (String)request.getAttribute("viewName");
-		boardVO=boardService.viewArticle(post_num);
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName(viewName);
-		mav.addObject("board", boardVO);
-		return mav;
-	}
+    private CategoryVO getCategoryByCategoryNum(int categoryNum) {
+        return categoryService.getCategoryByCategoryNum(categoryNum);
+    }
+
+    // 게시글 등록 페이지
+    @GetMapping("/board/articleForm.do")
+    public String showArticleForm(Model model) {
+        model.addAttribute("board", new BoardVO());
+        return "board/articleForm"; 
+    }
+
+    @PostMapping("/board/articleForm.do")
+    public String endArticle(@ModelAttribute("boardVO") BoardVO boardVO, @RequestParam("categoryNum") int categoryNum) {
+        boardVO.setCategory_num(categoryNum); // 카테고리 번호 설정
+        boardService.addNewArticle(boardVO);
+        return "redirect:/board/listArticles.do?categoryNum=" + categoryNum;
+    }
+
+    
+// // 게시글 수정 페이지 보여주기
+//    @GetMapping("/board/editArticle.do")
+//    public String showEditArticleForm(@RequestParam("post_num") int post_num, Model model) {
+//        BoardVO article = boardService.viewArticle(post_num);
+//        model.addAttribute("board", article);
+//        return "board/editArticleForm"; // 적절한 뷰 이름을 반환해야 합니다.
+//    }
+//
+//    // 게시글 수정 처리
+//    @PostMapping("/board/editArticle.do")
+//    public String editArticle(@ModelAttribute("boardVO") BoardVO boardVO, @RequestParam("categoryNum") int categoryNum) {
+//        boardVO.setCategory_num(categoryNum);
+//        boardService.editArticle(boardVO);
+//        return "redirect:/board/listArticles.do?categoryNum=" + categoryNum;
+//    }
+//
+//    // 게시글 삭제 처리
+//    @GetMapping("/board/deleteArticle.do")
+//    public String deleteArticle(@RequestParam("post_num") int post_num, @RequestParam("categoryNum") int categoryNum) {
+//        boardService.deleteArticle(post_num);
+//        return "redirect:/board/listArticles.do?categoryNum=" + categoryNum;
+//    }
+//
+    // 게시글 보기 페이지
+    @GetMapping("/board/viewArticle.do")
+    public ModelAndView viewArticle(@RequestParam("post_num") int post_num,
+                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String viewName = (String) request.getAttribute("viewName");
+        boardVO = boardService.viewArticle(post_num);
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName(viewName);
+        mav.addObject("board", boardVO);
+        return mav;
+    }
 
 
-	
-	
 }
-
-	
-	
 	
 	
 	

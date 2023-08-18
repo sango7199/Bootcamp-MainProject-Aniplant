@@ -20,39 +20,32 @@ public class BoardServiceImpl  implements BoardService{
 
 	
 	
-	@Override
-    public List<BoardVO> getArticlesByCategory(String categoryName) {
-        return boardDAO.getArticlesByCategory(categoryName);
-        
-        
-    }
-	
-	
-	
-//	@Override
-//    public void addNewArticle(BoardVO boardVO) {
-//        if (boardVO != null && boardVO.getTitle() != null && !boardVO.getTitle().isEmpty()) {
-//            boardDAO.insertArticle(boardVO);
-//        } else {
-//            throw new IllegalArgumentException("Board title cannot be null or empty.");
-//        }
-//    }
-	
 	 @Override
-	    public void addNewArticle(BoardVO boardVO) {
-	        int post_num = boardDAO.selectNewPostNum();
-	        boardVO.setPost_num(post_num);
-	        boardDAO.insertArticle(boardVO);
+	    public List<BoardVO> getArticlesByCategory(int categoryNum) {
+	        return boardDAO.getArticlesByCategory(categoryNum);
 	    }
-	
 
-	  
-	 //단일 파일 보이기
-		@Override
-		public BoardVO viewArticle(int post_num) throws Exception {
-			BoardVO boardVO = boardDAO.selectArticle(post_num);
-			return boardVO;
-		}
+	 @Override
+	    public BoardVO viewArticle(int post_num) {
+	        return boardDAO.viewArticle(post_num);
+	    }
+
+	    @Override
+	    public void addNewArticle(BoardVO boardVO) {
+	        boardDAO.addNewArticle(boardVO);
+	    }
+	    
+	    
+//		@Override
+//	    public void editArticle(BoardVO boardVO) {
+//	        boardDAO.editArticle(boardVO);
+//	    }
+//
+//	    
+//		@Override
+//	    public void deleteArticle(int post_num) {
+//	        boardDAO.deleteArticle(post_num);
+//	    }
 
 	
 

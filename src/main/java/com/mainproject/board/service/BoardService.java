@@ -18,7 +18,15 @@ public interface BoardService {
 	void addNewArticle(BoardVO boardVO);
 
 
-	List<BoardVO> getArticlesByCategory(String categoryName);
+
+
+	List<BoardVO> getArticlesByCategory(int categoryNum);
+
+
+//	void editArticle(BoardVO boardVO);
+//
+//
+//	void deleteArticle(int post_num);
 
 	
 }

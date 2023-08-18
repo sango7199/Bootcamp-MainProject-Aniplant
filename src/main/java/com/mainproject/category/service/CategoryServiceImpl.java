@@ -11,9 +11,10 @@ public class CategoryServiceImpl implements CategoryService {
 	@Autowired
     private CategoryDAO categoryDAO;
 
-    @Override
-    public CategoryVO getCategoryByName(String categoryName) {
-        return categoryDAO.getCategoryByName(categoryName);
-    }
+	
+	@Override
+	    public CategoryVO getCategoryByCategoryNum(int categoryNum) {
+	        return categoryDAO.getCategoryByCategoryNum(categoryNum);
+	    }
 
 }

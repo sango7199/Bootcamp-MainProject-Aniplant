@@ -20,10 +20,15 @@
         <result property="deleted_at" column="deleted_at"/>
     </resultMap>
     
-      <select id="selectArticlesByCategory" resultMap="boardResultMap" parameterType="String">
+      <select id="selectArticlesByCategory" resultType="boardVO" parameterType="int">
     SELECT * FROM TB_BOARD
-    WHERE  category_num = #{category_num}
+    WHERE  category_num = #{categoryNum}
       </select>
+      
+      <select id="selectArticleByPostNum" resultType="boardVO" parameterType="int">
+        SELECT * FROM TB_BOARD
+        WHERE post_num = #{post_num}
+    </select>
   	  
 	 <insert id="insertArticle" parameterType="com.mainproject.board.vo.BoardVO">
         INSERT INTO TB_BOARD (category_num, title, content, views, good, bad, created_user_num, created_at)
@@ -32,14 +37,7 @@
      
  
      
-     <select id="selectNewpost_num" resultType="int">
-    SELECT IFNULL(max(post_num), 0) + 1 FROM TB_BOARD
-	</select>
-	
-	  <select id="selectArticle" resultType="boardVO"   parameterType="int">  
-        SELECT * FROM TB_BOARD
-        WHERE post_num = #{post_num}		
-   	  </select>
+  
   	  
 
 </mapper>
