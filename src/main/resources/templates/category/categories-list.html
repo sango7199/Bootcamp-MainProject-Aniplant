@@ -33,4 +33,23 @@
 			</tr>
 		</table>
 	</div>
+
+	<!-- 페이징 부분 -->
+	<div class="pagination">
+		<ul>
+			<!-- 이전 페이지 링크 -->
+			<li th:if="${paging.prev}">
+				<a th:href="@{/category/categories-list.do(page=${paging.cri.prevPage})}">이전</a>
+			</li>
+			<!-- 페이지 번호 링크 반복 -->
+			<li th:each="num : ${#numbers.sequence(paging.startPage, paging.endPage)}"
+				th:class="${num == paging.cri.page ? 'active' : ''}">
+				<a th:href="@{/category/categories-list.do(page=${num})}" th:text="${num}"></a>
+			</li>
+			<!-- 다음 페이지 링크 -->
+			<li th:if="${paging.next}">
+				<a th:href="@{/category/categories-list.do(page=${paging.cri.nextPage})}">다음</a>
+			</li>
+		</ul>
+	</div>
 </div>
