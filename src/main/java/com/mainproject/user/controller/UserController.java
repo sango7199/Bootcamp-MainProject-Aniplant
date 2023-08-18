@@ -29,6 +29,6 @@ public interface UserController {
 	public ResponseEntity<?> confirmPWD(@RequestParam("pwd") String pwd, Principal principal);
 	public ModelAndView viewMyInfoUpdate(Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity<?> updateUser(UserVO userVO, Principal principal);
-	public ModelAndView viewPetJoin(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	
 	
 }
