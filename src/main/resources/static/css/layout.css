@@ -143,6 +143,7 @@ header {
 /* #43ea83 #14b8a6 */
 /* header end-point */
 
+
 /* footer start-point */
 footer {
 	padding: 20px;
@@ -252,7 +253,7 @@ footer {
     margin-left: 10px;
 }
 
-.sidebar-menu li:hover > ul {
+.sidebar-menu > li:hover > ul {
     display: block; 
 }
 

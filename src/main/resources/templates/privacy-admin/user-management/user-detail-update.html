@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/css/user-management.css}">
+    <script>
+        function isValidEmail(email) {
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            return emailPattern.test(email);
+        }
+
+        function isValidPhoneNumber(phoneNumber) {
+            const phonePattern = /^[0-9]{3}-[0-9]{4}-[0-9]{4}$/;
+            return phonePattern.test(phoneNumber);
+        }
+
+        window.addEventListener("DOMContentLoaded", function() {
+            document.querySelector('input[th:value="${user.email}"]').addEventListener("blur", function() {
+                if (!isValidEmail(this.value)) {
+                    alert("올바른 이메일 형식이 아닙니다.");
+                    this.focus();
+                }
+            });
+
+            document.querySelector('input[th:value="${user.country_code + \'-\' + user.first_hp + \'-\' + user.second_hp}"]').addEventListener("blur", function() {
+                if (!isValidPhoneNumber(this.value)) {
+                    alert("올바른 전화번호 형식이 아닙니다.");
+                    this.focus();
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="detail-content" th:classappend="${user.is_deleted} ? 'deleted-user' : ''">
+        <h2 th:text="${user.name + '님의 회원 정보'}">User Information</h2>
+        <div class="basic-info-area">
+            <div><img id="detail-profile-img" src="/img/profile-default-m.png"></div>
+            <div>
+                <li><strong>회원 번호 : </strong> <input type="text" th:value="${user.user_num}" readonly></li>
+                <li><strong>회원 등급 : </strong> <img id="detail-rank-img" th:src="${user.rank.imagePath}"><input type="text" th:value="${user.rank.displayName}" readonly></li>
+                <li><strong>닉네임 : </strong> <input type="text" th:value="${user.nickname}" readonly></li>
+            </div>
+        </div>
+        <div class="contact-info-area">
+            <ul>
+                <li><strong>아이디 : </strong> <input type="text" th:value="${user.id}" readonly></li>
+                <li><strong>이름 : </strong> <input type="text" th:value="${user.name}" readonly></li>
+                <li><strong>생년월일 : </strong> <input type="text" th:value="${#dates.format(user.birth, 'yyyy-MM-dd')}" readonly></li>
+                <li><strong>이메일 : </strong> <input type="text" th:value="${user.email}"></li>
+                <li><strong>전화번호 : </strong> <input type="text" th:value="${user.country_code + '-' + user.first_hp + '-' + user.second_hp}"></li>
+            </ul>
+        </div>
+        <div class="account-info-area">
+            <ul>
+                <li><strong>회원가입일 : </strong> <input type="text" th:value="${#dates.format(user.created_at, 'yyyy-MM-dd HH:mm:ss')}" readonly></li>
+                <li><strong>현재 로그인 실패 횟수 : </strong> <input type="text" th:value="${user.fail_count}" readonly></li>
+                <li><strong>회원 정보 수정자 : </strong> <input type="text" th:value="${user.updated_user_num}" readonly></li>
+                <li><strong>회원 정보 수정일 : </strong> <input type="text" th:value="${#dates.format(user.updated_at, 'yyyy-MM-dd HH:mm:ss')}" readonly></li>
+                <li><strong>회원 정지 여부 : </strong> <input type="text" readonly></li>
+            </ul>
+        </div>
+        <div class="deletion-info-area">
+            <ul>
+                <li><strong>회원 탈퇴 여부 : </strong> <input type="text" th:value="${user.is_deleted}" readonly></li>
+                <li><strong>회원 탈퇴 처리자 : </strong> <input type="text" th:value="${user.deleted_user_num}" readonly></li>
+                <li><strong>회원 탈퇴일 : </strong> <input type="text" th:value="${#dates.format(user.deleted_at, 'yyyy-MM-dd HH:mm:ss')}" readonly></li>
+                <li><strong>회원 탈퇴 이유 : </strong> <input type="text" th:value="${user.deleted_reason}" readonly></li>
+            </ul>
+        </div>
+        <div class="button-area">
+            <button>수정 완료</button>
+        </div>
+    </div>
+</body>
+</html>

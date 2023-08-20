@@ -16,4 +16,5 @@ public interface UserService {
 	public void increaseLoginFailCount(String username) throws DataAccessException;
 	public void resetLoginFailCount(String username) throws DataAccessException;
 	public List<UserVO> getAllUsers() throws DataAccessException;
+	public UserVO getUserByUserNum(int user_num) throws DataAccessException;
 }

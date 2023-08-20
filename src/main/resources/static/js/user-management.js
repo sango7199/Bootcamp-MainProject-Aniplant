@@ -25,7 +25,7 @@
         let tbodyContent = '';
         currentItems.forEach(user => {
             tbodyContent += `
-                <tr>
+                <tr class="user-row">
                     <td>${user.user_num}</td>
                     <td>${user.id}</td>
                     <td>${user.name}</td>
@@ -229,5 +229,35 @@
     // 초기 표시
     displayTableData();
     updatePageDisplay();
+    
+    // 행 클릭 이벤트 리스너
+    $('body').off('click', 'tbody tr.user-row').on('click', 'tbody tr.user-row', function() {
+    const clickedRow = $(this);
+    let userNum = clickedRow.find('td:first').text().trim();
+    
+    // 상세 내용이 이미 표시되어 있다면 제거
+    if (clickedRow.next().hasClass('detail-content-row')) {
+        clickedRow.next().remove();
+        return;
+    }
+    
+    // 그렇지 않다면 상세 내용 로드
+    $('<td colspan="8"></td>').load('/privacy-admin/user-management/user-detail.do?user_num=' + userNum, function(response, status, xhr) {
+        if (status == "error") {
+            console.error("Error loading detail content:", xhr.status + " " + xhr.statusText);
+            return;
+        }
         
+        const detailContent = `
+            <tr class="detail-content-row">
+                <td colspan="8">
+                    ${response}
+                </td>
+            </tr>
+        `;
+    
+        // 가져온 내용을 현재 클릭된 행 바로 다음에 삽입
+        clickedRow.after(detailContent);
     });
+    });
+});

@@ -313,5 +313,16 @@ public class UserControllerImpl implements UserController {
 		mav.addObject("users", users);
 		return mav;
 	}
+
 	
+	@Override // 회원 세부정보 페이지 로드
+	@GetMapping("/privacy-admin/user-management/user-detail.do")
+	public ModelAndView viewUserDetail(@RequestParam int user_num, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView();
+		UserVO user = userService.getUserByUserNum(user_num);
+		mav.setViewName(viewName);
+		mav.addObject("user", user);
+		return mav;
+	}
 }

@@ -17,4 +17,5 @@ public interface UserDAO {
 	public void increaseLoginFailCount(String username);
 	public void resetLoginFailCount(String username);
 	public List<UserVO> getAllUsers() throws DataAccessException;
+	public UserVO getUserByUserNum(int user_num) throws DataAccessException;
 }

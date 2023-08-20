@@ -66,4 +66,9 @@ public class UserDAOImpl implements UserDAO {
 	public List<UserVO> getAllUsers() throws DataAccessException {
 		return sqlSession.selectList("mapper.user.getAllUsers");
 	}
+	
+	@Override // 회원 번호로 유저 정보 가져오는 로직
+	public UserVO getUserByUserNum(int user_num) throws DataAccessException { 
+		return sqlSession.selectOne("mapper.user.getUserByUserNum", user_num);
+	}
 }
