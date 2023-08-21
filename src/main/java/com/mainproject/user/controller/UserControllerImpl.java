@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -348,7 +349,7 @@ public class UserControllerImpl implements UserController {
 		return mav;
 	}
 	
-	@Override // 회원 세부정보 페이지 로드
+	@Override // 회원 세부정보 수정 페이지 로드
 	@GetMapping("/privacy-admin/user-management/user-detail-update.do")
 	public ModelAndView viewUserDetailUpdate(@RequestParam int user_num, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
@@ -359,7 +360,7 @@ public class UserControllerImpl implements UserController {
 		return mav;
 	}
 
-	@Override // 회원 상세 정보수정 로직
+	@Override // 회원 세부정보 정보수정 로직
 	@PostMapping("/api/update-userDetail")
 	public ResponseEntity<?> updateUserDetail(@RequestBody UserVO userVO, Principal principal) {
 		try {
@@ -370,6 +371,42 @@ public class UserControllerImpl implements UserController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@Override // 회원 세부정보 정보수정 로직
+	@PostMapping("/api/suspend-user")
+	public ResponseEntity<Map<String, Object>> suspendUser(@RequestBody Map<String, Object> requestData) {
+		Map<String, Object> response = new HashMap<>();
+		
+		try {
+			int user_num = Integer.parseInt(requestData.get("userNum").toString());
+			String action = (String)requestData.get("action");
+			String result = userService.suspendUser(user_num, action);
+			
+			response.put("status", "success");
+			response.put("message","User ban succeeded.");
+			response.put("action", result);
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (Exception e) {
+			response.put("status", "error");
+			response.put("message", e.getMessage());
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@Override // 회원 정보 삭제 로직
+	@PostMapping("/api/remove-user")
+	public ResponseEntity<Map<String, Object>> removeUser(@RequestBody Map<String, Object> requestData) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			int user_num = Integer.parseInt(requestData.get("userNum").toString());
+			userService.removeUser(user_num);
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (Exception e) {
+			response.put("status", "error");
+			response.put("message", e.getMessage());
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

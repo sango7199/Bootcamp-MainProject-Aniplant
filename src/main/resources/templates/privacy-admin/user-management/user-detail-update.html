@@ -78,19 +78,22 @@
 </body>
 <script>
     $(document).ready(function() {
-        function isValidEmail(email) {
+        function isValidEmail(email) { // 이메일 패턴
             const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
             return emailPattern.test(email);
         }
 
-        function isValidPhoneNumber(phoneNumber) {
+        function isValidPhoneNumber(phoneNumber) { // 전화번호 패턴
             const phonePattern = /^[0-9]{3}-[0-9]{4}-[0-9]{4}$/;
             return phonePattern.test(phoneNumber);
         }
 
         $('#update_complete-btn').on('click', function() {
             // 이메일 유효성 검사
-            if (!isValidEmail($('#custom-input-email').val())) {
+            const emailValue = $('#custom-input-email').val().trim();
+
+            // 입력된 이메일 값이 있을 때만 유효성 검사
+            if (emailValue && !isValidEmail(emailValue)) {
                 alert("올바른 이메일 형식이 아닙니다.");
                 $('#custom-input-email').focus();
                 return;
@@ -103,11 +106,32 @@
                 return;
             }
 
+            // 필수 값들 유효성 검사
+            const requiredFields = [
+                { selector: '#custom-input-rank', name: '회원 등급' },
+                { selector: '#custom-input-nickname', name: '닉네임' },
+                { selector: '#custom-input-name', name: '이름' },
+                { selector: '#custom-input-birth', name: '생년월일' },
+                { selector: '#custom-input-gender', name: '성별' },
+                { selector: '#custom-input-tel', name: '전화번호' }
+            ];
+            for (let field of requiredFields) {
+                if (!$(field.selector).val().trim()) {
+                    alert(`${field.name}은(는) 필수 입력 항목입니다.`);
+                    $(field.selector).focus();
+                    return;
+                }
+            }
+            
+            // 전화번호 나누기
             var tel = $('#custom-input-tel').val().split("-");
+
+            // 날짜 timestamp 형식으로 맞춰주기
             var customBirth = $('#custom-input-birth').val() + "T00:00:00";
             var customCreatedAt = $('#custom-input-created_at').val().replace(" ", "T");
             var customDeletedAt = $('#custom-input-is_deleted_at').val().replace(" ", "T");
             
+            // ajax로 전송할 Data
             var userData = {
                 user_num: $('#custom-input-num').val(),
                 id: $('#custom-input-id').val(),
@@ -129,13 +153,14 @@
                 rank: $('#custom-input-rank').val(),
                 is_suspended: $('#custom-input-is_suspended').val()
             };
-
+            // Data가 비어있다면 null로 바꿔주기
             for (let key in userData) {
                 if (userData[key] === "" || userData[key] === undefined) {
                     userData[key] = null;
                 }
             }
             
+            // ajax 회원정보 수정 post 요청 로직
             $.ajax({
                 url: '/api/update-userDetail',
                 type: 'POST',

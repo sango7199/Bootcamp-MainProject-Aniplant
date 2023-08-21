@@ -19,4 +19,7 @@ public interface UserDAO {
 	public List<UserVO> getAllUsers() throws DataAccessException;
 	public UserVO getUserByUserNum(int user_num) throws DataAccessException;
 	public void updateUserDetail(UserVO userVO) throws DataAccessException;
+	public void suspendUser(int userNum) throws DataAccessException;
+    public void unsuspendUser(int userNum) throws DataAccessException;
+	public void removeUser(int user_num) throws DataAccessException;
 }

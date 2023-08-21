@@ -12,7 +12,7 @@
             <div>
                 <li><strong>회원 번호 : </strong> <span id="userData" th:text="${user.user_num}"></span></li>
                 <li><strong>회원 등급 : </strong> <img class="detail-rank-img" th:src="${user.rank.imagePath}"><span th:text="${user.rank.displayName}"></span></li>
-                <li><strong>닉네임 : </strong> <span th:text="${user.nickname}"></span></li>
+                <li><strong>닉네임 : </strong> <span id="detail-user-nickname" th:text="${user.nickname}"></span></li>
             </div>
         </div>
         <div class="contact-info-area">
@@ -44,7 +44,7 @@
         </div>
         <div class="button-area">
             <button id="update_btn" th:if="${!user.is_deleted}">수정</button>
-            <button id="suspend_btn" th:if="${!user.is_deleted}">정지</button>
+            <button id="suspend_btn" th:if="${!user.is_deleted}" th:text="${user.is_suspended ? '정지 해제' : '정지'}"></button>
             <button id="delete_btn">삭제</button>
         </div>
     </div>

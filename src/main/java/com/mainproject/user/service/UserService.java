@@ -19,4 +19,6 @@ public interface UserService {
 	public List<UserVO> getAllUsers() throws DataAccessException;
 	public UserVO getUserByUserNum(int user_num) throws DataAccessException;
 	public void updateUserDetail(UserVO userVO, int curUserNum) throws DataAccessException;
+	public String suspendUser(int userNum, String action) throws Exception;
+	public void removeUser(int user_num) throws Exception;
 }

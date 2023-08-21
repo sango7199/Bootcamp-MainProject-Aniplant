@@ -76,4 +76,19 @@ public class UserDAOImpl implements UserDAO {
 	public void updateUserDetail(UserVO userVO) throws DataAccessException {
 		sqlSession.update("mapper.user.updateUserDetail", userVO);
 	}
+
+	@Override // 회원 정지 로직
+    public void suspendUser(int userNum) throws DataAccessException {
+        sqlSession.update("mapper.user.suspendUser", userNum);
+    }
+
+    @Override // 회원 정지 해제 로직
+    public void unsuspendUser(int userNum) throws DataAccessException {
+        sqlSession.update("mapper.user.unsuspendUser", userNum);
+    }
+
+	@Override // 회원 정보 삭제 로직
+	public void removeUser(int user_num) throws DataAccessException {
+		sqlSession.delete("mapper.user.removeUser", user_num);
+	}
 }

@@ -272,6 +272,81 @@
                     console.error('userNum is not defined!');
                 }
             });
+
+            // 정지, 정지 해제 버튼
+            $('#suspend_btn').on('click', function() {
+                const nickname = $('#detail-user-nickname').text();
+                // 정지 확인 알림
+                let confirmationMessage = '';
+                if ($(this).text() === '정지') {
+                    confirmationMessage = nickname + "님의 계정을 정말 정지시키시겠습니까?";
+                } else {;
+                    confirmationMessage = nickname + "님의 정지를 정말 해제하시겠습니까?";
+                }
+                if (!window.confirm(confirmationMessage)) {
+                    return;
+                }
+
+                // ajax 회원 정지,정지해제 post 요청
+                if (userNum) {
+                    $.ajax({
+                        url: "/api/suspend-user",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({
+                            userNum: userNum, 
+                            action: $(this).text() === '정지' ? 'suspend' : 'unsuspend'
+                        }),
+                        dataType: 'json',
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                if (response.action === 'suspend') {
+                                    $('#suspend_btn').text('정지 해제');
+                                    alert(nickname + "님의 계정이 정지되었습니다.");
+                                    location.reload();
+                                } else {
+                                    $('#suspend_btn').text('정지');
+                                    alert(nickname + "님의 계정이 정지 해제되었습니다.");
+                                    location.reload();
+                                }
+                            } else {
+                                console.error('Error suspending/unsuspending user:', response.message);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            alert("회원 정지 중 오류가 발생했습니다. 상태: " + status + ", 응답: " + xhr.responseText);
+                        },
+                    });
+                } else {
+                    console.error('userNum is not defined!');
+                }
+            });
+
+            // 삭제 버튼
+            $('#delete_btn').on('click', function() {
+                const nickname = $('#detail-user-nickname').text();
+                // 삭제 확인 알림
+                let confirmationMessage = nickname + "님의 계정을 정말 삭제시키시겠습니까?";
+ 
+                if (!window.confirm(confirmationMessage)) {
+                    return;
+                }
+
+                // ajax 회원 정보 삭제 post 요청
+                $.ajax({
+                    url: "/api/remove-user",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({ userNum: userNum }),
+                    success: function(response) {
+                        alert(nickname + "님의 계정이 삭제되었습니다.");
+                        location.reload();
+                    },
+                    error: function(xhr, status, error) {
+                        alert("회원 삭제 중 오류가 발생했습니다. 상태: " + status + ", 응답: " + xhr.responseText);
+                    }
+                });
+            });
         });
     });
 });

@@ -129,5 +129,17 @@
 	        is_suspended = #{is_suspended}
 	    WHERE user_num = #{user_num}
 	</update>
+	
+	<update id="suspendUser" parameterType="int">
+	    UPDATE TB_USER SET is_suspended = TRUE WHERE user_num = #{user_num}
+	</update>
+	
+	<update id="unsuspendUser" parameterType="int">
+	    UPDATE TB_USER SET is_suspended = FALSE WHERE user_num = #{user_num}
+	</update>
 
+    <delete id="removeUser" parameterType="int">
+        DELETE FROM TB_USER WHERE user_num = #{user_num}
+    </delete>
+	
 </mapper>

@@ -116,4 +116,30 @@ public class UserServiceImpl implements UserService {
 	    
 	    userDAO.updateUserDetail(userVO);
 	}
+
+	@Override // 회원 정지 로직
+    public String suspendUser(int userNum, String action) throws Exception {
+        UserVO user = userDAO.getUserByUserNum(userNum);
+		
+		if (user == null) {
+            throw new Exception("User not found with userNum: " + userNum);
+        }
+
+		if (action.equals("suspend")) {
+			int user_num = user.getUser_num();
+			userDAO.suspendUser(user_num);
+			return "suspend";
+		} else if (action.equals("unsuspend")) {
+			int user_num = user.getUser_num();
+			userDAO.unsuspendUser(user_num);
+			return "unsuspend";
+		} else {
+            throw new Exception("Unknown action: " + action);
+        }
+    }
+
+	@Override // 회원 정보 삭제 로직
+	public void removeUser(int user_num) throws Exception {
+		userDAO.removeUser(user_num);
+	}
 }
