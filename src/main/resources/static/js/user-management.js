@@ -2,6 +2,8 @@
     let currentPage = 1;
     let itemsPerPage = parseInt(document.getElementById('itemsPerPageSelect').value, 10);
     const totalItems = parseInt(document.getElementById('usersLength').textContent, 10);
+    let userNum;
+    
     document.getElementById('previousPageButton').addEventListener('click', previousPage);
     document.getElementById('nextPageButton').addEventListener('click', nextPage);
 
@@ -240,24 +242,36 @@
         clickedRow.next().remove();
         return;
     }
+
+    // 다른 행의 상세 내용 제거
+    $('.detail-content-row').remove();
     
     // 그렇지 않다면 상세 내용 로드
     $('<td colspan="8"></td>').load('/privacy-admin/user-management/user-detail.do?user_num=' + userNum, function(response, status, xhr) {
-        if (status == "error") {
-            console.error("Error loading detail content:", xhr.status + " " + xhr.statusText);
-            return;
-        }
+            if (status == "error") {
+                console.error("Error loading detail content:", xhr.status + " " + xhr.statusText);
+                return;
+            }
+            
+            const detailContent = `
+                <tr class="detail-content-row">
+                    <td colspan="8" class="detail-container">
+                        ${response}
+                    </td>
+                </tr>
+            `;
         
-        const detailContent = `
-            <tr class="detail-content-row">
-                <td colspan="8">
-                    ${response}
-                </td>
-            </tr>
-        `;
-    
-        // 가져온 내용을 현재 클릭된 행 바로 다음에 삽입
-        clickedRow.after(detailContent);
-    });
+            // 가져온 내용을 현재 클릭된 행 바로 다음에 삽입
+            clickedRow.after(detailContent);
+
+            // 수정 버튼
+            $('#update_btn').on('click', function() {
+                if (userNum) { // userNum 값이 설정되어 있는지 확인합니다.
+                    $('.detail-container').load('/privacy-admin/user-management/user-detail-update.do?user_num=' + userNum);
+                } else {
+                    console.error('userNum is not defined!');
+                }
+            });
+        });
     });
 });

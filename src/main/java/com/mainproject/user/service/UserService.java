@@ -1,5 +1,6 @@
 package com.mainproject.user.service;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
@@ -17,4 +18,5 @@ public interface UserService {
 	public void resetLoginFailCount(String username) throws DataAccessException;
 	public List<UserVO> getAllUsers() throws DataAccessException;
 	public UserVO getUserByUserNum(int user_num) throws DataAccessException;
+	public void updateUserDetail(UserVO userVO, int curUserNum) throws DataAccessException;
 }

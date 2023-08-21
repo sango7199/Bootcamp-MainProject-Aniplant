@@ -186,7 +186,7 @@ tbody tr.detail-content-row:hover td {
 }
 
 /* User Detail */
-#detail-rank-img {
+.detail-rank-img {
   width: 25px;
   height: 25px;
   margin-right: 5px;
@@ -328,4 +328,49 @@ tbody tr.detail-content-row:hover td {
 
 .deleted-user .button-area button:hover {
     background-color: #93101e !important;
+}
+
+#custom-input-num {
+  width: 121px;
+}
+#custom-input-rank {
+  width: 91px;
+}
+
+/* 정지된 사용자에 대한 스타일 */
+.suspended-user h2,
+.suspended-user li,
+.suspended-user strong {
+    color: #b843c6 !important; 
+}
+
+.suspended-user {
+    border: 1px solid #A614B8 !important; 
+}
+
+.suspended-user h2 {
+    border-bottom: 1px solid #A614B8 !important; 
+}
+
+.suspended-user .basic-info-area,
+.suspended-user .contact-info-area,
+.suspended-user .account-info-area,
+.suspended-user .deletion-info-area {
+    background-color: #f3dff5 !important;
+    border-color: #f0d7f3 !important;
+}
+
+.suspended-user .button-area button {
+    background-color: #A614B8 !important;
+}
+
+.suspended-user .button-area button:hover {
+    background-color: #851093 !important;
+}
+
+#custom-input-num {
+  width: 121px;
+}
+#custom-input-rank {
+  width: 91px;
 }

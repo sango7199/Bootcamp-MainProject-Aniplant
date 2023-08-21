@@ -321,8 +321,55 @@ public class UserControllerImpl implements UserController {
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView();
 		UserVO user = userService.getUserByUserNum(user_num);
+		UserVO updatedUser = userService.getUserByUserNum(user.getUpdated_user_num());
+    	UserVO deletedUser = userService.getUserByUserNum(user.getDeleted_user_num());
+		
+		String updatedUserDisplay;
+		if (updatedUser == null) {
+			updatedUserDisplay = "-";
+		} else if (updatedUser.getUser_num() == user_num) {
+			updatedUserDisplay = "본인";
+		} else {
+			updatedUserDisplay = "<img class='detail-rank-img' src='" + updatedUser.getRank().getImagePath() + "'>" + updatedUser.getNickname();
+		}
+		String deletedUserDisplay;
+		if (deletedUser == null) {
+			deletedUserDisplay = "-";
+		} else if (deletedUser.getUser_num() == user_num) {
+			deletedUserDisplay = "본인";
+		} else {
+			deletedUserDisplay = "<img class='detail-rank-img' src='" + deletedUser.getRank().getImagePath() + "'>" + deletedUser.getNickname();
+		}
+
+		mav.setViewName(viewName);
+		mav.addObject("user", user);
+ 		mav.addObject("updatedUserDisplay", updatedUserDisplay);
+    	mav.addObject("deletedUserDisplay", deletedUserDisplay);
+		return mav;
+	}
+	
+	@Override // 회원 세부정보 페이지 로드
+	@GetMapping("/privacy-admin/user-management/user-detail-update.do")
+	public ModelAndView viewUserDetailUpdate(@RequestParam int user_num, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView();
+		UserVO user = userService.getUserByUserNum(user_num);
 		mav.setViewName(viewName);
 		mav.addObject("user", user);
 		return mav;
+	}
+
+	@Override // 회원 상세 정보수정 로직
+	@PostMapping("/api/update-userDetail")
+	public ResponseEntity<?> updateUserDetail(@RequestBody UserVO userVO, Principal principal) {
+		try {
+			UserVO curUserVO = getCurrentUser(principal);
+			int curUserNum = curUserVO.getUser_num();
+			userService.updateUserDetail(userVO, curUserNum);
+			return new ResponseEntity<>("success", HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 }

@@ -103,4 +103,31 @@
 	<select id="getUserByUserNum" parameterType="int" resultType="userVO">
 		SELECT * FROM TB_USER WHERE user_num = ${user_num};
 	</select>
+	
+	<update id="updateUserDetail" parameterType="UserVO">
+	    UPDATE TB_USER
+	    SET
+	        id = #{id},
+	        name = #{name},
+	        nickname = #{nickname},
+	        email = #{email},
+	        birth = #{birth},
+	        country_code = #{country_code},
+	        first_hp = #{first_hp},
+	        second_hp = #{second_hp},
+	        gender = #{gender},
+	        is_admin = #{is_admin},
+	        created_at = #{created_at},
+	        updated_user_num = #{updated_user_num},
+	        updated_at = #{updated_at},
+	        is_deleted = #{is_deleted},
+	        deleted_user_num = #{deleted_user_num},
+	        deleted_at = #{deleted_at},
+	        deleted_reason = #{deleted_reason},
+	        fail_count = #{fail_count},
+	        rank = #{rank},
+	        is_suspended = #{is_suspended}
+	    WHERE user_num = #{user_num}
+	</update>
+
 </mapper>
