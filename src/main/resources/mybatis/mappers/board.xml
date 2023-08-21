@@ -34,10 +34,19 @@
         INSERT INTO TB_BOARD (category_num, title, content, views, good, bad, created_user_num, created_at)
         VALUES (#{category_num}, #{title}, #{content}, #{views}, #{good}, #{bad}, #{created_user_num}, NOW())
     </insert>
-     
- 
-     
-  
-  	  
+    
+    <update id="updateBoard" parameterType="com.mainproject.board.vo.BoardVO">
+    UPDATE TB_BOARD
+    SET category_num = #{category_num},
+        title = #{title},
+        content = #{content},
+        updated_at = NOW() -- 현재 시간으로 업데이트
+    WHERE post_num = #{post_num}
+	</update>
+
+	<delete id="deleteBoard" parameterType="int">
+    	DELETE FROM TB_BOARD WHERE post_num = #{post_num}
+	</delete>
+    
 
 </mapper>

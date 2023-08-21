@@ -2,84 +2,115 @@
 <html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
 xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-layout:decorate="~{layout/defaultLayout}">
+layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용--> 
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>게시글 내용 보기</title>
 </head>
+
 <!-- 해당 페이지 고유 CSS 추가 -->
 <th:block layout:fragment="css">
+  <style>
+    .container {
+              display: flex;
+              flex-direction: row; 
+              align-items: start;
+          }
+  </style>
       <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
 </th:block>
 <!-- 해당 페이지 고유 스크립트 추가 -->
 <th:block layout:fragment="script"> 
-<style>
-	.container {
-            display: flex;
-            flex-direction: row; 
-            align-items: start;
-        }
-</style>
-    <!--    <script th:src="@{/js/page/home.js}"></script>-->
+   <script th:inline="javascript">
+   
+   document.addEventListener("DOMContentLoaded", function() {
+	      var editButton = document.getElementById("editButton");
+	      var titleInput = document.getElementById("titleInput");
+	      var contentTextarea = document.getElementById("contentTextarea");
+	      
+	      editButton.addEventListener("click", function() {
+	    	topLevelSelect.removeAttribute("disabled");
+	        titleInput.removeAttribute("disabled");
+	        contentTextarea.removeAttribute("disabled");
+	        editButton.style.display = "none";
+	        saveButton.style.display = "inline";
+	        deleteButton.style.display = "inline";
+	      });
+	    });
+   
+    
+   /* 현재 날짜 가져오기 */
+    var now = new Date();
+    var year = now.getFullYear();
+    var month = ('0' + (now.getMonth() + 1)).slice(-2);
+    var day = ('0' + now.getDate()).slice(-2);
+    var currentDate = year + '-' + month + '-' + day;
+
+    /* 수정일 표시 */
+    var updated_at_element = document.getElementById('updated_at');
+    if (updated_at_element) {
+        updated_at_element.textContent = currentDate;
+    }
+    
+   
+   </script>
+   
 </th:block>
+
 <body>
-  
   <!-- Content -->
 <div layout:fragment="content" class="container">
   <!-- sidebar fragment 사용 -->
   <div th:replace="sidebar/article :: articleSidebar"></div>
   
   <div class="content">
-    <h4 >게시글 내용 보기 </h4>
-    <h3>게시글 정보</h3>
-
-    <form name="frmArticle" method="post" action="${contextPath}" enctype="multipart/form-data">
-      <table border="0" align="center">
-          <tr>
-              <td width="150" align="center" bgcolor="#FF9933">
-                  글번호
-              </td>
-              <td>
-                  <input type="text" value="${article.articleNO}" disabled />
-                  <input type="hidden" name="articleNO" value="${article.articleNO}" />
-              </td>
-          </tr>
-          <tr>
-              <td width="150" align="center" bgcolor="#FF9933">
-                  작성자 아이디
-              </td>
-              <td>
-                  <input type="text" value="${article.id}" name="writer" disabled />
-              </td>
-          </tr>
-          <tr>
-              <td width="150" align="center" bgcolor="#FF9933">
-                  제목
-              </td>
-              <td>
-                  <input type="text" value="${article.title}" name="title" id="i_title" disabled />
-              </td>
-          </tr>
-          <tr>
-            <td width="150" align="center" bgcolor="#FF9933">
-              내용
-           </td>
-           <td>
-            <textarea rows="20" cols="60"  name="content"  id="i_content"  disabled />${article.content }</textarea>
-           </td>  
-          </tr>
-          <tr>
-              <td colspan="2" align="center">
-                  <c:if test="${member.id == article.id}">
-                      <input type="button" value="수정하기" onclick="fn_enable(this.form)">
-                      <!-- <input type="button" value="삭제하기" onclick="fn_remove_article('${contextPath}/board/removeArticle.do', ${article.articleNO})"> -->
-                  </c:if>
-                 
-              </td>
-          </tr>
-      </table>
-  </form>
+    <h3 >게시글 내용 보기</h3>
+    <h4>게시글 정보</h4>
+    <h5>게시글번호 : <span th:text="${board.post_num}"></span>
+       작성자 : <span th:text="${board.created_user_num}"></span>
+       조회수 : <span th:text="${board.views}"></span>
+       추천수 : <span th:text="${board.good}"></span>
+        비추천수 : <span th:text="${board.bad}"></span>
+        작성일 : <span th:text="${board.created_at}"></span>
+        수정일 : <span th:text="${board.updated_at}" id="updated_at" ></span></h5>
     
+    
+    <form id="viewArticle" name="viewArticle" th:action="@{/edit/{post_num}(post_num=${board.post_num})}" th:object="${board}" method="post">
+        
+        <table align="left">
+             <tr>
+                  <td align="left">카테고리</td>
+                    <td colspan="2" >
+                      <select id="topLevelSelect" name="categoryNum" th:field="*{category_num}"disabled>
+                        <option  th:value="127">동물게시판</option>
+                        <option th:value="128">식물게시판</option>
+                      </select>
+                      
+                </td>
+            
+           
+            </tr> 
+            <tr>
+                <td align="left">제목 </td>
+                <td colspan="2" ><input id="titleInput"  type="text" size="50" maxlength="60" th:field="*{title}" disabled/></td>
+            </tr>
+            <tr>
+                <td align="left" valign="top"><br>내용 </td>
+                <td colspan="2"><textarea  id="contentTextarea"  name="content" rows="10" cols="65" maxlength="4000" th:field="*{content}" disabled></textarea> </td>
+            </tr>
+            <tr>
+                <td align="left"> </td>
+                <td colspan="2">
+                          <input type="button" value="수정하기" id="editButton" >
+                          <input type="submit" value="저장하기" id="saveButton" style="display: none;">
+                          <input type="button" value="삭제하기" id="deleteButton">          
+                </td>
+            </tr>
+        </table>
+    </form>
+  </div>
+</div>
 </body>
 </html>

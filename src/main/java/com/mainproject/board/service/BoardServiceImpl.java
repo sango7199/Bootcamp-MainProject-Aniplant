@@ -35,17 +35,19 @@ public class BoardServiceImpl  implements BoardService{
 	        boardDAO.addNewArticle(boardVO);
 	    }
 	    
+	    //수정하기
 	    
-//		@Override
-//	    public void editArticle(BoardVO boardVO) {
-//	        boardDAO.editArticle(boardVO);
-//	    }
-//
-//	    
-//		@Override
-//	    public void deleteArticle(int post_num) {
-//	        boardDAO.deleteArticle(post_num);
-//	    }
+	    @Override
+	    public void updateBoard(BoardVO board) {
+	        boardDAO.updateBoard(board);
+	    }
+	    
+	    //삭제하기
+	    @Override
+	    public void deleteBoard(int postNum) {
+	        boardDAO.deleteBoard(postNum);
+	    }
+		
 
 	
 

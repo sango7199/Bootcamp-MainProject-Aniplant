@@ -78,32 +78,8 @@ public class BoardControllerImpl implements BoardController{
         boardService.addNewArticle(boardVO);
         return "redirect:/board/listArticles.do?categoryNum=" + categoryNum;
     }
-
     
-// // 게시글 수정 페이지 보여주기
-//    @GetMapping("/board/editArticle.do")
-//    public String showEditArticleForm(@RequestParam("post_num") int post_num, Model model) {
-//        BoardVO article = boardService.viewArticle(post_num);
-//        model.addAttribute("board", article);
-//        return "board/editArticleForm"; // 적절한 뷰 이름을 반환해야 합니다.
-//    }
-//
-//    // 게시글 수정 처리
-//    @PostMapping("/board/editArticle.do")
-//    public String editArticle(@ModelAttribute("boardVO") BoardVO boardVO, @RequestParam("categoryNum") int categoryNum) {
-//        boardVO.setCategory_num(categoryNum);
-//        boardService.editArticle(boardVO);
-//        return "redirect:/board/listArticles.do?categoryNum=" + categoryNum;
-//    }
-//
-//    // 게시글 삭제 처리
-//    @GetMapping("/board/deleteArticle.do")
-//    public String deleteArticle(@RequestParam("post_num") int post_num, @RequestParam("categoryNum") int categoryNum) {
-//        boardService.deleteArticle(post_num);
-//        return "redirect:/board/listArticles.do?categoryNum=" + categoryNum;
-//    }
-//
-    // 게시글 보기 페이지
+ // 게시글 보기 페이지
     @GetMapping("/board/viewArticle.do")
     public ModelAndView viewArticle(@RequestParam("post_num") int post_num,
                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -114,7 +90,25 @@ public class BoardControllerImpl implements BoardController{
         mav.addObject("board", boardVO);
         return mav;
     }
+    
+    //게시글 수정
+    @PostMapping("/edit/{post_num}")
+    public String editBoard(@PathVariable int post_num, @ModelAttribute BoardVO updatedBoard) {
+        boardService.updateBoard(updatedBoard);
+        return "redirect:/board/viewArticle.do?post_num=" + post_num; // 수정된 게시글로 리다이렉트
+    }
+    
+    //삭제
+    @PostMapping("/delete/{post_num}")
+    public String deleteBoard(@PathVariable int post_num) {
+        boardService.deleteBoard(post_num);
+        return "redirect:/board/listArticles.do"; // 게시글 목록 페이지로 리다이렉트
+    }
 
+
+  
+
+    
 
 }
 	

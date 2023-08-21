@@ -34,7 +34,7 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
   <div th:replace="sidebar/article :: articleSidebar"></div>
   
   <div class="content">
-    <h4 >게시글 쓰기</h4>
+    <h3 >게시글 쓰기</h3>
     <form id="articleForm" name="articleForm" th:action="@{/board/articleForm.do}" th:object="${board}" method="post">
         
         <table align="left">

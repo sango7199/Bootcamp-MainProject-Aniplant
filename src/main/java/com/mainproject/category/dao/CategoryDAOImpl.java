@@ -12,9 +12,9 @@ public class CategoryDAOImpl implements CategoryDAO {
 	@Autowired
     private SqlSession sqlSession;
 
-	
-	@Override
-    public CategoryVO getCategoryByCategoryNum(int categoryNum) {
-        return sqlSession.selectOne("mapper.category.selectCategoryByCategoryNum", categoryNum);
-    }
+	 @Override
+	    public CategoryVO getCategoryByCategoryNum(int categoryNum) {
+	        return sqlSession.selectOne("mapper.category.getCategoryByCategoryNum", categoryNum);
+	    }
+
 }

@@ -23,10 +23,15 @@ public interface BoardService {
 	List<BoardVO> getArticlesByCategory(int categoryNum);
 
 
-//	void editArticle(BoardVO boardVO);
-//
-//
-//	void deleteArticle(int post_num);
+	void updateBoard(BoardVO board);
+
+
+	void deleteBoard(int postNum);
+
+
+	
+
+
 
 	
 }

@@ -9,23 +9,20 @@ import com.mainproject.board.vo.BoardVO;
 
 public interface BoardDAO {
 
-	
-//	public BoardVO selectArticle(int post_num) throws DataAccessException;
 
-//	public void insertArticle(BoardVO boardVO);
-
-	
-//
-//	List<BoardVO> getArticlesByCategory(String categoryName);
-//
-//	int selectNewPostNum();
-//
-//	void addNewArticle(BoardVO boardVO);
 
 	List<BoardVO> getArticlesByCategory(int categoryNum);
 
 	BoardVO viewArticle(int post_num);
 
 	void addNewArticle(BoardVO boardVO);
+
+	void updateBoard(BoardVO board);
+
+	
+
+	void deleteBoard(int postNum);
+
+	
 	
 }

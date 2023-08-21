@@ -33,6 +33,18 @@ public class BoardDAOImpl implements BoardDAO {
     public void addNewArticle(BoardVO boardVO) {
         sqlSession.insert("mapper.board.insertArticle", boardVO);
     }
+	
+	//수정하기
+	 @Override
+	    public void updateBoard(BoardVO board) {
+	        sqlSession.update("mapper.board.updateBoard", board);
+	    }
+	 
+	 //삭제하기
+	 @Override
+	    public void deleteBoard(int postNum) {
+	        sqlSession.delete("mapper.board.deleteBoard", postNum);
+	    }
 
 	}
 	
