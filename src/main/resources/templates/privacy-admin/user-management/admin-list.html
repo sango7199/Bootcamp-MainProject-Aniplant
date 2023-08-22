@@ -6,7 +6,7 @@
 
 <head>
     <!-- 페이지의 제목 설정 -->
-    <title>회원 리스트</title>
+    <title>관리자 리스트</title>
 
     <!-- 해당 페이지 고유 CSS 추가 -->
     <th:block layout:fragment="css">
@@ -22,13 +22,13 @@
     </th:block>
 </head>
 
-<body>
+<body data-page-type="userManagement">
     <!-- Content -->
     <div layout:fragment="content" class="container">
         <!-- sidebar fragment 사용 -->
         <div th:replace="sidebar/privacy-admin :: userManagementSidebar"></div>
         <div class="content">
-            <h2>회원 정보 관리</h2>
+            <h2>관리자 정보 관리</h2>
             <table>
                 <div class="table-top-wrapper">
                     <select id="itemsPerPageSelect">
@@ -37,7 +37,7 @@
                         <option value="50">50개로 보기</option>
                         <option value="100">100개로 보기</option>
                     </select>
-                    <span>회원 전체 리스트</span>
+                    <span>관리자 전체 리스트</span>
                     <div class="table-search-area">
                         검색 : <input>
                     </div>

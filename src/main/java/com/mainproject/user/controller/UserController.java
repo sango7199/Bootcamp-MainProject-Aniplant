@@ -34,10 +34,11 @@ public interface UserController {
 	// 관리자 영역
 	public ModelAndView viewUserManagement(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView viewUserList(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView viewAdminList(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView viewUserDetail(int user_num, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView viewUserDetailUpdate(int user_num, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity<?> updateUserDetail(@RequestBody UserVO userVO, Principal principal);
 	public ResponseEntity<Map<String, Object>> suspendUser(@RequestBody Map<String, Object> requestData);
 	public ResponseEntity<Map<String, Object>> removeUser(@RequestBody Map<String, Object> requestData);
-	public ModelAndView viewAdminList(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView viewRankList(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

@@ -147,4 +147,9 @@ public class UserServiceImpl implements UserService {
 	public void removeUser(int user_num) throws Exception {
 		userDAO.removeUser(user_num);
 	}
+
+	@Override // 모든 계정 정보 가져오는 로직
+	public List<UserVO> getAllAccounts() throws DataAccessException {
+		return userDAO.getAllAccounts();
+	}
 }

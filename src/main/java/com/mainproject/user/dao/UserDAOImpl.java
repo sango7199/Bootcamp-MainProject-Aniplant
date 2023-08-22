@@ -96,4 +96,9 @@ public class UserDAOImpl implements UserDAO {
 	public void removeUser(int user_num) throws DataAccessException {
 		sqlSession.delete("mapper.user.removeUser", user_num);
 	}
+
+	@Override // 모든 계정 정보 가져오는 로직
+	public List<UserVO> getAllAccounts() throws DataAccessException {
+		return sqlSession.selectList("mapper.user.getAllAccounts");
+	}
 }

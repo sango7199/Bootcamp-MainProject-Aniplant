@@ -315,6 +315,16 @@ public class UserControllerImpl implements UserController {
 		return mav;
 	}
 
+	@Override // 관리자 정보 관리 페이지 이동
+	@GetMapping("/privacy-admin/user-management/admin-list.do")
+	public ModelAndView viewAdminList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView();
+		List<UserVO> users = userService.getAllAdmins();
+		mav.setViewName(viewName);
+		mav.addObject("users", users);
+		return mav;
+	}
 	
 	@Override // 회원 세부정보 페이지 로드
 	@GetMapping("/privacy-admin/user-management/user-detail.do")
@@ -410,14 +420,15 @@ public class UserControllerImpl implements UserController {
 		}
 	}
 
-	@Override // 회원 정보 관리 페이지 이동
-	@GetMapping("/privacy-admin/user-management/admin-list.do")
-	public ModelAndView viewAdminList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@Override // 회원 등급 관리 페이지 이동
+	@GetMapping("/privacy-admin/user-management/user-rank-management.do")
+	public ModelAndView viewRankList(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView();
-		List<UserVO> users = userService.getAllAdmins();
+		List<UserVO> users = userService.getAllAccounts();
 		mav.setViewName(viewName);
 		mav.addObject("users", users);
 		return mav;
 	}
+	
 }

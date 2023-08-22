@@ -2,6 +2,7 @@
     let currentPage = 1;
     let itemsPerPage = parseInt(document.getElementById('itemsPerPageSelect').value, 10);
     const totalItems = parseInt(document.getElementById('usersLength').textContent, 10);
+    const pageType = document.body.getAttribute('data-page-type');
     let userNum;
     
     document.getElementById('previousPageButton').addEventListener('click', previousPage);
@@ -26,18 +27,34 @@
 
         let tbodyContent = '';
         currentItems.forEach(user => {
-            tbodyContent += `
-                <tr class="user-row">
-                    <td>${user.user_num}</td>
-                    <td>${user.id}</td>
-                    <td>${user.name}</td>
-                    <td>${user.nickname}</td>
-                    <td>${user.rank}</td>
-                    <td>${formatDate(user.birth)}</td>
-                    <td>${user.gender === 'M' ? '남성' : '여성'}</td>
-                    <td>${user.is_deleted}</td>
-                </tr>
-            `;
+            if (pageType === "userManagement") {
+                tbodyContent += `
+                    <tr class="user-row">
+                        <td>${user.user_num}</td>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.nickname}</td>
+                        <td>${user.rank}</td>
+                        <td>${formatDate(user.birth)}</td>
+                        <td>${user.gender === 'M' ? '남성' : '여성'}</td>
+                        <td>${user.is_deleted}</td>
+                    </tr>
+                `;
+            } else if (pageType === "userRankManagement") {
+                const switchText = user.is_admin == 'USER' ? '관리자 전환' : '사용자 전환';
+                tbodyContent += `
+                    <tr class="user-row">
+                        <td>${user.user_num}</td>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.nickname}</td>
+                        <td>${user.rank}</td>
+                        <td>${formatDate(user.birth)}</td>
+                        <td><button class="rank_up_btn">등급 승격</button></td>
+                        <td><button class="rank_switch_btn">${switchText}</button></td>
+                    </tr>
+                `; 
+            }
         });
         document.querySelector('tbody').innerHTML = tbodyContent;
     }

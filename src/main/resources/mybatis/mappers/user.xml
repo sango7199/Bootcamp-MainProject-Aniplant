@@ -30,8 +30,8 @@
     </resultMap>
 
     <insert id="registerUser" parameterType="userVO">
-        INSERT INTO TB_USER (user_num, id, pwd, name, nickname, email, birth, country_code, first_hp, second_hp, gender, is_admin, created_at)
-        VALUES (#{user_num}, #{id}, #{pwd}, #{name}, #{nickname}, #{email}, #{birth}, #{country_code}, #{first_hp}, #{second_hp}, #{gender}, #{is_admin}, #{created_at})
+        INSERT INTO TB_USER (user_num, id, pwd, name, nickname, email, birth, country_code, first_hp, second_hp, gender, is_admin, created_at, profile_picture)
+        VALUES (#{user_num}, #{id}, #{pwd}, #{name}, #{nickname}, #{email}, #{birth}, #{country_code}, #{first_hp}, #{second_hp}, #{gender}, #{is_admin}, #{created_at}, #{profile_picture})
     </insert>
 
 	<select id="checkIdDuplicate" resultType="int">
@@ -98,6 +98,10 @@
 	</update>
 	
 	<!-- 관리자 영역 -->
+    <select id="getAllAccounts" resultType="userVO">
+		SELECT * FROM TB_USER;
+	</select>
+
 	<select id="getAllUsers" resultType="userVO">
 		SELECT * FROM TB_USER WHERE is_admin = 'User';
 	</select>

@@ -99,6 +99,20 @@ tbody tr.detail-content-row:hover td {
   background-image: url("/img/btn-sort-down.png");
 }
 
+.rank_up_btn, .rank_switch_btn {
+  background-color: #14a6b8;
+  font: 12px "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", Sans-Serif;
+	color: #ffffff;
+	width: 70px;
+	height: 23px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+  margin: 0;
+  padding: 0;
+  z-index: 2;
+}
+
 /* Table Top Wrapper */
 .table-top-wrapper {
   display: flex;
