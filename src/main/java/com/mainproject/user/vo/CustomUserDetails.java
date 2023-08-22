@@ -43,6 +43,10 @@ public class CustomUserDetails implements UserDetails {
     public String getNickname() {
         return user.getNickname();
     }
+
+    public int getUsernum() {
+        return user.getUser_num();
+    }
     
     public UserRank getRank() {
         return user.getRank();

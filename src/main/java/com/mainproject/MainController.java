@@ -14,12 +14,21 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class MainController {
 
+	// 사용자 메인 페이지 이동
 	@RequestMapping(value = {"/index.do"}, method = RequestMethod.GET)
-    public ModelAndView viewMain (HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView viewUserMain (HttpServletRequest request, HttpServletResponse response) throws Exception {
     	String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(viewName);
 		return mav;
     }
 
+	// 관리자 메인 페이지 이동
+	@RequestMapping(value = {"/admin/main.do"}, method = RequestMethod.GET)
+    public ModelAndView viewAdminMain (HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(viewName);
+		return mav;
+    }
 }

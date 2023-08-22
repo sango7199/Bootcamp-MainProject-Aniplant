@@ -1,5 +1,7 @@
 package com.mainproject.user.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -57,5 +59,36 @@ public class UserDAOImpl implements UserDAO {
 	@Override // 회원 탈퇴 로직
 	public void deleteUser(UserVO userVO) throws DataAccessException {
 		sqlSession.update("mapper.user.deleteUser", userVO);
+	}
+	
+	// 관리자 영역
+	@Override // 모든 회원 정보 가져오는 로직
+	public List<UserVO> getAllUsers() throws DataAccessException {
+		return sqlSession.selectList("mapper.user.getAllUsers");
+	}
+	
+	@Override // 회원 번호로 유저 정보 가져오는 로직
+	public UserVO getUserByUserNum(int user_num) throws DataAccessException { 
+		return sqlSession.selectOne("mapper.user.getUserByUserNum", user_num);
+	}
+	
+	@Override // 회원 상세 정보수정 로직
+	public void updateUserDetail(UserVO userVO) throws DataAccessException {
+		sqlSession.update("mapper.user.updateUserDetail", userVO);
+	}
+
+	@Override // 회원 정지 로직
+    public void suspendUser(int userNum) throws DataAccessException {
+        sqlSession.update("mapper.user.suspendUser", userNum);
+    }
+
+    @Override // 회원 정지 해제 로직
+    public void unsuspendUser(int userNum) throws DataAccessException {
+        sqlSession.update("mapper.user.unsuspendUser", userNum);
+    }
+
+	@Override // 회원 정보 삭제 로직
+	public void removeUser(int user_num) throws DataAccessException {
+		sqlSession.delete("mapper.user.removeUser", user_num);
 	}
 }

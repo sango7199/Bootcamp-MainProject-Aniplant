@@ -1,11 +1,16 @@
 package com.mainproject.user.service;
 
+import java.security.Principal;
+import java.sql.Timestamp;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.mainproject.user.dao.UserDAO;
+import com.mainproject.user.vo.UserRank;
 import com.mainproject.user.vo.UserVO;
 
 @Service
@@ -66,5 +71,75 @@ public class UserServiceImpl implements UserService {
 	@Override // 회원 탈퇴 로직
 	public void deleteUser(UserVO userVO) throws DataAccessException {
 		userDAO.deleteUser(userVO);
+	}
+	
+	// 관리자 영역
+	@Override // 모든 회원 정보 가져오는 로직
+	public List<UserVO> getAllUsers() throws DataAccessException {
+		return userDAO.getAllUsers();
+	}
+	
+	@Override // 회원 번호로 유저 정보 가져오는 로직
+	public UserVO getUserByUserNum(int user_num) throws DataAccessException {
+		return userDAO.getUserByUserNum(user_num);
+	}
+	
+	@Override // 회원 상세 정보수정 로직
+	public void updateUserDetail(UserVO userVO, int curUserNum) throws DataAccessException {
+	    // 회원 등급에 따른 계정 권한
+		if (UserRank.PRIVACY_ADMIN.equals(userVO.getRank())) {
+	        userVO.setIs_admin("PRIVACY_ADMIN");
+	    } else if (UserRank.ADMIN.equals(userVO.getRank())) {
+	        userVO.setIs_admin("ADMIN");
+	    } else {
+	        userVO.setIs_admin("USER");
+	    }
+		
+		// 성별 입력
+	    if ("남성".equals(userVO.getGender())) {
+	        userVO.setGender("M");
+	    } else if ("여성".equals(userVO.getGender())) {
+	        userVO.setGender("F");
+	    }
+
+	    // 수정자 입력
+	    userVO.setUpdated_user_num(curUserNum);
+	    
+	    // 수정한 시간 입력
+	    Timestamp current = new Timestamp(System.currentTimeMillis());
+	    userVO.setUpdated_at(current);
+	    
+	    // 탈퇴한 시간 입력
+	    if (userVO.isIs_deleted() == false) {
+	    	userVO.setDeleted_at(null);
+	    }
+	    
+	    userDAO.updateUserDetail(userVO);
+	}
+
+	@Override // 회원 정지 로직
+    public String suspendUser(int userNum, String action) throws Exception {
+        UserVO user = userDAO.getUserByUserNum(userNum);
+		
+		if (user == null) {
+            throw new Exception("User not found with userNum: " + userNum);
+        }
+
+		if (action.equals("suspend")) {
+			int user_num = user.getUser_num();
+			userDAO.suspendUser(user_num);
+			return "suspend";
+		} else if (action.equals("unsuspend")) {
+			int user_num = user.getUser_num();
+			userDAO.unsuspendUser(user_num);
+			return "unsuspend";
+		} else {
+            throw new Exception("Unknown action: " + action);
+        }
+    }
+
+	@Override // 회원 정보 삭제 로직
+	public void removeUser(int user_num) throws Exception {
+		userDAO.removeUser(user_num);
 	}
 }

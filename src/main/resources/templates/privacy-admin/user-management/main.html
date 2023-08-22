@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/adminLayout}">
+<!-- 페이지의 제목 설정 -->
+<head>
+    <title>회원 관리</title>
+</head>
+
+<!-- 해당 페이지 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+    <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+</th:block>
+<!-- 해당 페이지 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+    <!--    <script th:src="@{/js/page/home.js}"></script>-->
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content" class="container">
+    <!-- sidebar fragment 사용 -->
+    <div th:replace="sidebar/privacy-admin :: userManagementSidebar"></div>
+    <div class="content">개인정보 관리자 메인 화면</div>
+</div>

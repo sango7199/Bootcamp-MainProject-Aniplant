@@ -26,6 +26,9 @@ public class UserVO {
 	private String deleted_reason;
 	private int fail_count;
 	private UserRank rank;
+	private boolean is_suspended;
+	private String profile_picture;
+
 
 	public UserVO() {
 		
@@ -198,4 +201,21 @@ public class UserVO {
 	public void setRank(UserRank rank) {
 	    this.rank = rank;
 	}
+
+	public boolean isIs_suspended() {
+		return is_suspended;
+	}
+
+	public void setIs_suspended(boolean is_suspended) {
+		this.is_suspended = is_suspended;
+	}
+
+	public String getProfile_picture() {
+		return profile_picture;
+	}
+
+	public void setProfile_picture(String profile_picture) {
+		this.profile_picture = profile_picture;
+	}
+
 }

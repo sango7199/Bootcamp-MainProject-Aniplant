@@ -2,6 +2,7 @@ package com.mainproject.user.controller;
 
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -290,5 +292,121 @@ public class UserControllerImpl implements UserController {
 	private UserVO getCurrentUser(Principal principal) {
 	    String currentUsername = principal.getName();
 	    return userService.getUserByUsername(currentUsername);
+	}
+	
+	// 관리자 영역 ----------------------------------------------------------------------------------------------------------------------------------
+	@Override // 회원 관리 하위 페이지 이동
+	@RequestMapping(value = {"/privacy-admin/user-management/**.do"}, method = RequestMethod.GET)
+	public ModelAndView viewUserManagement(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(viewName);
+		return mav;
+	}
+	
+	@Override // 회원 정보 관리 페이지 이동
+	@GetMapping("/privacy-admin/user-management/user-list.do")
+	public ModelAndView viewUserList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView();
+		List<UserVO> users = userService.getAllUsers();
+		mav.setViewName(viewName);
+		mav.addObject("users", users);
+		return mav;
+	}
+
+	
+	@Override // 회원 세부정보 페이지 로드
+	@GetMapping("/privacy-admin/user-management/user-detail.do")
+	public ModelAndView viewUserDetail(@RequestParam int user_num, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView();
+		UserVO user = userService.getUserByUserNum(user_num);
+		UserVO updatedUser = userService.getUserByUserNum(user.getUpdated_user_num());
+    	UserVO deletedUser = userService.getUserByUserNum(user.getDeleted_user_num());
+		
+		String updatedUserDisplay;
+		if (updatedUser == null) {
+			updatedUserDisplay = "-";
+		} else if (updatedUser.getUser_num() == user_num) {
+			updatedUserDisplay = "본인";
+		} else {
+			updatedUserDisplay = "<img class='detail-rank-img' src='" + updatedUser.getRank().getImagePath() + "'>" + updatedUser.getNickname();
+		}
+		String deletedUserDisplay;
+		if (deletedUser == null) {
+			deletedUserDisplay = "-";
+		} else if (deletedUser.getUser_num() == user_num) {
+			deletedUserDisplay = "본인";
+		} else {
+			deletedUserDisplay = "<img class='detail-rank-img' src='" + deletedUser.getRank().getImagePath() + "'>" + deletedUser.getNickname();
+		}
+
+		mav.setViewName(viewName);
+		mav.addObject("user", user);
+ 		mav.addObject("updatedUserDisplay", updatedUserDisplay);
+    	mav.addObject("deletedUserDisplay", deletedUserDisplay);
+		return mav;
+	}
+	
+	@Override // 회원 세부정보 수정 페이지 로드
+	@GetMapping("/privacy-admin/user-management/user-detail-update.do")
+	public ModelAndView viewUserDetailUpdate(@RequestParam int user_num, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView();
+		UserVO user = userService.getUserByUserNum(user_num);
+		mav.setViewName(viewName);
+		mav.addObject("user", user);
+		return mav;
+	}
+
+	@Override // 회원 세부정보 정보수정 로직
+	@PostMapping("/api/update-userDetail")
+	public ResponseEntity<?> updateUserDetail(@RequestBody UserVO userVO, Principal principal) {
+		try {
+			UserVO curUserVO = getCurrentUser(principal);
+			int curUserNum = curUserVO.getUser_num();
+			userService.updateUserDetail(userVO, curUserNum);
+			return new ResponseEntity<>("success", HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@Override // 회원 세부정보 정보수정 로직
+	@PostMapping("/api/suspend-user")
+	public ResponseEntity<Map<String, Object>> suspendUser(@RequestBody Map<String, Object> requestData) {
+		Map<String, Object> response = new HashMap<>();
+		
+		try {
+			int user_num = Integer.parseInt(requestData.get("userNum").toString());
+			String action = (String)requestData.get("action");
+			String result = userService.suspendUser(user_num, action);
+			
+			response.put("status", "success");
+			response.put("message","User ban succeeded.");
+			response.put("action", result);
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (Exception e) {
+			response.put("status", "error");
+			response.put("message", e.getMessage());
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@Override // 회원 정보 삭제 로직
+	@PostMapping("/api/remove-user")
+	public ResponseEntity<Map<String, Object>> removeUser(@RequestBody Map<String, Object> requestData) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			int user_num = Integer.parseInt(requestData.get("userNum").toString());
+			userService.removeUser(user_num);
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (Exception e) {
+			response.put("status", "error");
+			response.put("message", e.getMessage());
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 }
