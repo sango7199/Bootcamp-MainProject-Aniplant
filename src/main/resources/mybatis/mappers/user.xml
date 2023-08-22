@@ -25,6 +25,8 @@
         <result property="deleted_reason" column="deleted_reason"/>
         <result property="fail_count" column="fail_count"/>
         <result property="rank" column="rank"/>
+        <result property="is_suspended" column="is_suspended"/>
+        <result property="profile_picture" column="profile_picture"/>
     </resultMap>
 
     <insert id="registerUser" parameterType="userVO">
