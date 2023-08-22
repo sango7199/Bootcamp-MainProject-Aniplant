@@ -409,4 +409,15 @@ public class UserControllerImpl implements UserController {
 			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
+	@Override // 회원 정보 관리 페이지 이동
+	@GetMapping("/privacy-admin/user-management/admin-list.do")
+	public ModelAndView viewAdminList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView();
+		List<UserVO> users = userService.getAllAdmins();
+		mav.setViewName(viewName);
+		mav.addObject("users", users);
+		return mav;
+	}
 }

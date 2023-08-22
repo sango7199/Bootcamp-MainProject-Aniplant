@@ -101,6 +101,10 @@
 	<select id="getAllUsers" resultType="userVO">
 		SELECT * FROM TB_USER WHERE is_admin = 'User';
 	</select>
+
+    <select id="getAllAdmins" resultType="userVO">
+        SELECT * FROM TB_USER WHERE is_admin IN ('Admin', 'privacy_admin');
+    </select>
 	
 	<select id="getUserByUserNum" parameterType="int" resultType="userVO">
 		SELECT * FROM TB_USER WHERE user_num = ${user_num};

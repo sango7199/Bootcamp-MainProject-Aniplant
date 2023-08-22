@@ -78,6 +78,11 @@ public class UserServiceImpl implements UserService {
 	public List<UserVO> getAllUsers() throws DataAccessException {
 		return userDAO.getAllUsers();
 	}
+
+	@Override // 모든 회원 정보 가져오는 로직
+	public List<UserVO> getAllAdmins() throws DataAccessException {
+		return userDAO.getAllAdmins();
+	}
 	
 	@Override // 회원 번호로 유저 정보 가져오는 로직
 	public UserVO getUserByUserNum(int user_num) throws DataAccessException {

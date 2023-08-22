@@ -39,4 +39,5 @@ public interface UserController {
 	public ResponseEntity<?> updateUserDetail(@RequestBody UserVO userVO, Principal principal);
 	public ResponseEntity<Map<String, Object>> suspendUser(@RequestBody Map<String, Object> requestData);
 	public ResponseEntity<Map<String, Object>> removeUser(@RequestBody Map<String, Object> requestData);
+	public ModelAndView viewAdminList(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }
