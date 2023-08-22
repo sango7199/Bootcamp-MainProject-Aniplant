@@ -1,7 +1,7 @@
 package com.mainproject.user.vo;
 
 public enum UserRank {
-    EGG("알", "/img/egg.png"),
+    EGG("달걀", "/img/egg.png"),
     HATCHING_CHICK("햇병아리", "/img/hatching-chick.png"),
     CHICK("병아리", "/img/chick.png"),
     CHICKEN("닭", "/img/chicken.png"),
@@ -24,4 +24,5 @@ public enum UserRank {
     public String getImagePath() {
         return imagePath;
     }
+    
 }
