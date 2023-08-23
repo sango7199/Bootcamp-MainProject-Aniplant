@@ -1,6 +1,8 @@
 package com.mainproject.user.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,5 +102,24 @@ public class UserDAOImpl implements UserDAO {
 	@Override // 모든 계정 정보 가져오는 로직
 	public List<UserVO> getAllAccounts() throws DataAccessException {
 		return sqlSession.selectList("mapper.user.getAllAccounts");
+	}
+
+	@Override // 회원 등급 승격 로직
+	public void rankUp(int user_num, String nextRank) throws DataAccessException {
+		Map<String, Object> params = new HashMap<>();
+		params.put("user_num", user_num);
+		params.put("nextRank", nextRank);
+
+		sqlSession.update("mapper.user.rankUp", params);
+	}
+
+	@Override // 회원 권한 전환 로직
+	public void switchRank(int user_num, String newRole, String newRank) throws DataAccessException {
+		Map<String, Object> params = new HashMap<>();
+		params.put("user_num", user_num);
+		params.put("newRole", newRole);
+		params.put("newRank", newRank);
+		
+		sqlSession.update("mapper.user.switchRank", params);
 	}
 }

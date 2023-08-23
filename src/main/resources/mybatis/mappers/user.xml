@@ -152,4 +152,13 @@
         DELETE FROM TB_USER WHERE user_num = #{user_num}
     </delete>
 	
+    <update id="rankUp" parameterType="userVO">
+        UPDATE TB_USER SET rank = #{nextRank} WHERE user_num = #{user_num}
+    </update>
+
+    <update id="switchRank" parameterType="userVO">
+        UPDATE TB_USER 
+        SET rank = #{newRank}, is_admin = #{newRole}
+        WHERE user_num = #{user_num}
+    </update>
 </mapper>

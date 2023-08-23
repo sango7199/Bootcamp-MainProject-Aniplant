@@ -152,4 +152,34 @@ public class UserServiceImpl implements UserService {
 	public List<UserVO> getAllAccounts() throws DataAccessException {
 		return userDAO.getAllAccounts();
 	}
+
+	@Override // 회원 등급 승격 로직
+	public void rankUp(int user_num, String rank) throws DataAccessException {
+		String nextRank;
+		switch (rank) {
+			case "EGG": 
+				nextRank = "HATCHING_CHICK";
+				break;
+			case "HATCHING_CHICK":
+				nextRank = "CHICK";
+				break;
+			case "CHICK":
+				nextRank = "CHICKEN";
+				break;
+			case "CHICKEN":
+				nextRank = "FRIED_CHICKEN";
+				break;
+			case "ADMIN":
+				nextRank = "PRIVACY_ADMIN";
+				break;
+			default: 
+				throw new IllegalArgumentException("Invalid rank: " + rank);
+		}
+		userDAO.rankUp(user_num, nextRank);
+	}
+
+	@Override // 회원 권한 전환 로직
+	public void switchRank(int user_num, String newRole, String newRank) throws DataAccessException {
+		userDAO.switchRank(user_num, newRole, newRank);
+	}
 }

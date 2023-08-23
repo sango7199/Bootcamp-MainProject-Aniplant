@@ -431,4 +431,64 @@ public class UserControllerImpl implements UserController {
 		return mav;
 	}
 	
+	@Override // 회원 등급 승격 로직
+	@PostMapping("/api/rank-up")
+	public ResponseEntity<Map<String, Object>> rankUp(@RequestBody Map<String, Object> requestData) {
+		Map<String, Object> response = new HashMap<>();
+		int user_num = Integer.parseInt(requestData.get("userNum").toString());
+		String rank = (String)requestData.get("rank");
+		try {
+			if (rank.equals("EGG") || rank.equals("HATCHING_CHICK") || rank.equals("CHICK") || rank.equals("CHICKEN") || (rank.equals("ADMIN"))) {
+				userService.rankUp(user_num, rank);
+				response.put("status","success");
+				response.put("message", "님의 등급이 승격되었습니다.");
+				return new ResponseEntity<>(response, HttpStatus.OK);
+			} else if (rank.equals("FRIED_CHICKEN") || rank.equals("PRIVACY_ADMIN")) {
+				response.put("status","fail");
+				response.put("message", "님의 등급은 이미 최고 등급입니다.");
+				return new ResponseEntity<>(response, HttpStatus.OK);
+			} else { 
+				response.put("status","fail");
+				response.put("message", "님의 등급이 잘못되었습니다.");
+				return new ResponseEntity<>(response, HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			response.put("status", "error");
+			response.put("message", e.getMessage());
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@Override // 회원 권한 전환 로직
+	@PostMapping("/api/rank-switch")
+	public ResponseEntity<Map<String, Object>> switchRank(@RequestBody Map<String, Object> requestData) {
+		Map<String, Object> response = new HashMap<>();
+		int user_num = Integer.parseInt(requestData.get("userNum").toString());
+		String rank = (String)requestData.get("rank");
+		UserVO user = userService.getUserByUserNum(user_num);
+		String currentRole = user.getIs_admin();
+		String newRole, newRank;
+		try {
+			if (currentRole.equals("USER")) {
+				newRole = "ADMIN";
+				newRank = "ADMIN";
+				response.put("message", "님의 권한이 관리자로 전환되었습니다.");
+			} else if (currentRole.equals("ADMIN") || currentRole.equals("PRIVACY_ADMIN")) {
+				newRole = "USER";
+				newRank = "EGG";
+				response.put("message", "님의 권한이 사용자로 전환되었습니다.");
+			} else {
+				response.put("status","fail");
+				response.put("message", "잘못된 접근입니다");
+				return new ResponseEntity<>(response, HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			response.put("status", "error");
+			response.put("message", e.getMessage());
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		userService.switchRank(user_num, newRole, newRank);
+		response.put("status","success");
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
 }

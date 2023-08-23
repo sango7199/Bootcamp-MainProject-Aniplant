@@ -8,6 +8,7 @@ import org.springframework.dao.DataAccessException;
 import com.mainproject.user.vo.UserVO;
 
 public interface UserService {
+	// 사용자 영역
     public void registerUser(UserVO userVO) throws DataAccessException;
     public boolean isIdDuplicate(String value);
     public boolean isNicknameDuplicate(String value);
@@ -16,6 +17,7 @@ public interface UserService {
 	public void deleteUser(UserVO userVO) throws DataAccessException;
 	public void increaseLoginFailCount(String username) throws DataAccessException;
 	public void resetLoginFailCount(String username) throws DataAccessException;
+	// 관리자 영역
 	public List<UserVO> getAllUsers() throws DataAccessException;
 	public List<UserVO> getAllAdmins() throws DataAccessException;
 	public UserVO getUserByUserNum(int user_num) throws DataAccessException;
@@ -23,4 +25,6 @@ public interface UserService {
 	public String suspendUser(int userNum, String action) throws Exception;
 	public void removeUser(int user_num) throws Exception;
 	public List<UserVO> getAllAccounts() throws DataAccessException;
+	public void rankUp(int user_num, String rank) throws DataAccessException;
+	public void switchRank(int user_num, String newRole, String newRank) throws DataAccessException;
 }

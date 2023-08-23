@@ -196,19 +196,30 @@
     // 검색 기능 로직
     document.querySelector('.table-search-area > input').addEventListener('input', function() {
         const searchQuery = this.value.toLowerCase();
+        let filteredUsers = [];
 
         // 사용자 목록을 필터링
-        const filteredUsers = window.users.filter(user => 
-            user.user_num.toString().toLowerCase().includes(searchQuery) ||
-            user.id.toLowerCase().includes(searchQuery) ||
-            user.name.toLowerCase().includes(searchQuery) ||
-            user.nickname.toLowerCase().includes(searchQuery) ||
-            user.rank.toString().toLowerCase().includes(searchQuery) ||
-            formatDate(user.birth).toLowerCase().includes(searchQuery) ||
-            (user.gender === 'M' ? '남성' : '여성').toLowerCase().includes(searchQuery) ||
-            user.is_deleted.toString().toLowerCase().includes(searchQuery)
-        );
-
+        if (pageType === "userManagement") {
+            filteredUsers = window.users.filter(user => 
+                user.user_num.toString().toLowerCase().includes(searchQuery) ||
+                user.id.toLowerCase().includes(searchQuery) ||
+                user.name.toLowerCase().includes(searchQuery) ||
+                user.nickname.toLowerCase().includes(searchQuery) ||
+                user.rank.toString().toLowerCase().includes(searchQuery) ||
+                formatDate(user.birth).toLowerCase().includes(searchQuery) ||
+                (user.gender === 'M' ? '남성' : '여성').toLowerCase().includes(searchQuery) ||
+                user.is_deleted.toString().toLowerCase().includes(searchQuery)
+            );
+        } else if (pageType === "userRankManagement") {
+            filteredUsers = window.users.filter(user => 
+                user.user_num.toString().toLowerCase().includes(searchQuery) ||
+                user.id.toLowerCase().includes(searchQuery) ||
+                user.name.toLowerCase().includes(searchQuery) ||
+                user.nickname.toLowerCase().includes(searchQuery) ||
+                user.rank.toString().toLowerCase().includes(searchQuery) ||
+                formatDate(user.birth).toLowerCase().includes(searchQuery)
+            );
+        }
         // 필터링된 사용자 목록을 기반으로 테이블 데이터를 표시
         displayFilteredTableData(filteredUsers);
     });
@@ -223,18 +234,34 @@
 
         let tbodyContent = '';
         currentItems.forEach(user => {
-            tbodyContent += `
-                <tr>
-                    <td>${user.user_num}</td>
-                    <td>${user.id}</td>
-                    <td>${user.name}</td>
-                    <td>${user.nickname}</td>
-                    <td>${user.rank}</td>
-                    <td>${formatDate(user.birth)}</td>
-                    <td>${user.gender === 'M' ? '남성' : '여성'}</td>
-                    <td>${user.is_deleted}</td>
-                </tr>
-            `;
+            if (pageType === "userManagement") {
+                tbodyContent += `
+                    <tr>
+                        <td>${user.user_num}</td>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.nickname}</td>
+                        <td>${user.rank}</td>
+                        <td>${formatDate(user.birth)}</td>
+                        <td>${user.gender === 'M' ? '남성' : '여성'}</td>
+                        <td>${user.is_deleted}</td>
+                    </tr>
+                `;
+            } else if (pageType === "userRankManagement") {
+                const switchText = user.is_admin == 'USER' ? '관리자 전환' : '사용자 전환';
+                tbodyContent += `
+                    <tr>
+                        <td>${user.user_num}</td>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.nickname}</td>
+                        <td>${user.rank}</td>
+                        <td>${formatDate(user.birth)}</td>
+                        <td><button class="rank_up_btn">등급 승격</button></td>
+                        <td><button class="rank_switch_btn">${switchText}</button></td>
+                    </tr>
+                `;
+            }
         });
         document.querySelector('tbody').innerHTML = tbodyContent;
         updatePageDisplayForFilteredUsers(filteredUsers.length);

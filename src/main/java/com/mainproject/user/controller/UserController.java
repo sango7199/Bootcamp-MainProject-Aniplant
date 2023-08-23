@@ -41,4 +41,6 @@ public interface UserController {
 	public ResponseEntity<Map<String, Object>> suspendUser(@RequestBody Map<String, Object> requestData);
 	public ResponseEntity<Map<String, Object>> removeUser(@RequestBody Map<String, Object> requestData);
 	public ModelAndView viewRankList(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ResponseEntity<Map<String, Object>> rankUp(@RequestBody Map<String, Object> requestData);
+	public ResponseEntity<Map<String, Object>> switchRank(@RequestBody Map<String, Object> requestData);
 }
