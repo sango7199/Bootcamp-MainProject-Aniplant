@@ -43,4 +43,5 @@ public interface UserController {
 	public ModelAndView viewRankList(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity<Map<String, Object>> rankUp(@RequestBody Map<String, Object> requestData);
 	public ResponseEntity<Map<String, Object>> switchRank(@RequestBody Map<String, Object> requestData);
+	public ModelAndView viewNewUsersList(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

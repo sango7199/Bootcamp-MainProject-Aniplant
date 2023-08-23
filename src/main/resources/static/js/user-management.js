@@ -54,6 +54,18 @@
                         <td><button class="rank_switch_btn">${switchText}</button></td>
                     </tr>
                 `; 
+            } else if (pageType === "newUserManagement") {
+                tbodyContent += `
+                    <tr class="user-row">
+                        <td>${user.user_num}</td>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.nickname}</td>
+                        <td>${formatDate(user.birth)}</td>
+                        <td>${user.gender === 'M' ? '남성' : '여성'}</td>
+                        <td><strong>${formatDate(user.created_at)}</strong></td>
+                    </tr>
+                `; 
             }
         });
         document.querySelector('tbody').innerHTML = tbodyContent;
@@ -219,6 +231,17 @@
                 user.rank.toString().toLowerCase().includes(searchQuery) ||
                 formatDate(user.birth).toLowerCase().includes(searchQuery)
             );
+        } else if (pageType === "newUserManagement") {
+            filteredUsers = window.users.filter(user => 
+                user.user_num.toString().toLowerCase().includes(searchQuery) ||
+                user.id.toLowerCase().includes(searchQuery) ||
+                user.name.toLowerCase().includes(searchQuery) ||
+                user.nickname.toLowerCase().includes(searchQuery) ||
+                formatDate(user.birth).toLowerCase().includes(searchQuery) ||
+                (user.gender === 'M' ? '남성' : '여성').toLowerCase().includes(searchQuery) ||
+                user.created_at.toString().toLowerCase().includes(searchQuery)
+            );
+
         }
         // 필터링된 사용자 목록을 기반으로 테이블 데이터를 표시
         displayFilteredTableData(filteredUsers);
@@ -261,6 +284,18 @@
                         <td><button class="rank_switch_btn">${switchText}</button></td>
                     </tr>
                 `;
+            } else if (pageType === "newUserManagement") {
+                tbodyContent += `
+                    <tr>
+                        <td>${user.user_num}</td>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.nickname}</td>
+                        <td>${formatDate(user.birth)}</td>
+                        <td>${user.gender === 'M' ? '남성' : '여성'}</td>
+                        <td><strong>${formatDate(user.created_at)}</strong></td>
+                    </tr>
+                `;
             }
         });
         document.querySelector('tbody').innerHTML = tbodyContent;
@@ -291,7 +326,12 @@
     $('.detail-content-row').remove();
     
     // 그렇지 않다면 상세 내용 로드
-    $('<td colspan="8"></td>').load('/privacy-admin/user-management/user-detail.do?user_num=' + userNum, function(response, status, xhr) {
+    let colspanValue = 8;
+    if (pageType === "newUserManagement") {
+        colspanValue = 7; 
+    }
+
+    $('<td colspan="' + colspanValue + '"></td>').load('/privacy-admin/user-management/user-detail.do?user_num=' + userNum, function(response, status, xhr) {
             if (status == "error") {
                 console.error("Error loading detail content:", xhr.status + " " + xhr.statusText);
                 return;
@@ -299,7 +339,7 @@
             
             const detailContent = `
                 <tr class="detail-content-row">
-                    <td colspan="8" class="detail-container">
+                    <td colspan="${colspanValue}" class="detail-container">
                         ${response}
                     </td>
                 </tr>

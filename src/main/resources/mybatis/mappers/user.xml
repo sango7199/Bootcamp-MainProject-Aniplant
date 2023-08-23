@@ -161,4 +161,11 @@
         SET rank = #{newRank}, is_admin = #{newRole}
         WHERE user_num = #{user_num}
     </update>
+
+    <select id="getNewUsers" resultType="userVO">
+        SELECT * 
+        FROM TB_USER
+        WHERE MONTH(created_at) = MONTH(CURDATE()) 
+        AND YEAR(created_at) = YEAR(CURDATE());
+    </select>
 </mapper>

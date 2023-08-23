@@ -27,4 +27,5 @@ public interface UserService {
 	public List<UserVO> getAllAccounts() throws DataAccessException;
 	public void rankUp(int user_num, String rank) throws DataAccessException;
 	public void switchRank(int user_num, String newRole, String newRank) throws DataAccessException;
+	public List<UserVO> getNewUsers() throws DataAccessException;
 }

@@ -182,4 +182,9 @@ public class UserServiceImpl implements UserService {
 	public void switchRank(int user_num, String newRole, String newRank) throws DataAccessException {
 		userDAO.switchRank(user_num, newRole, newRank);
 	}
+
+	@Override // 신규 회원 관리 페이지 이동
+	public List<UserVO> getNewUsers() throws DataAccessException {
+		return userDAO.getNewUsers();
+	}
 }

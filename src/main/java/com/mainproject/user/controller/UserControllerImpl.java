@@ -491,4 +491,15 @@ public class UserControllerImpl implements UserController {
 		response.put("status","success");
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
+
+	@Override // 신규 회원 관리 페이지 이동
+	@GetMapping("/privacy-admin/user-management/new-users.do")
+	public ModelAndView viewNewUsersList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView();
+		List<UserVO> users = userService.getNewUsers();
+		mav.setViewName(viewName);
+		mav.addObject("users", users);
+		return mav;
+	}
 }

@@ -119,7 +119,12 @@ public class UserDAOImpl implements UserDAO {
 		params.put("user_num", user_num);
 		params.put("newRole", newRole);
 		params.put("newRank", newRank);
-		
+
 		sqlSession.update("mapper.user.switchRank", params);
+	}
+
+	@Override // 신규 회원 관리 페이지 이동
+	public List<UserVO> getNewUsers() throws DataAccessException {
+		return sqlSession.selectList("mapper.user.getNewUsers");
 	}
 }
