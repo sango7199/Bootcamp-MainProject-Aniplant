@@ -127,4 +127,15 @@ public class UserDAOImpl implements UserDAO {
 	public List<UserVO> getNewUsers() throws DataAccessException {
 		return sqlSession.selectList("mapper.user.getNewUsers");
 	}
+
+	@Override // 이 달의 탈퇴 회원
+	public List<UserVO> getWithdrawnUsersForThisMonth() throws DataAccessException {
+		return sqlSession.selectList("mapper.user.getWithdrawnUsersForThisMonth");
+	}
+
+	@Override // 탈퇴 회원 전체
+	public List<UserVO> getWithdrawnUsers() throws DataAccessException {
+		return sqlSession.selectList("mapper.user.getWithdrawnUsers");
+	}
+
 }

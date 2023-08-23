@@ -187,4 +187,14 @@ public class UserServiceImpl implements UserService {
 	public List<UserVO> getNewUsers() throws DataAccessException {
 		return userDAO.getNewUsers();
 	}
+
+	@Override // 탈퇴 회원 관리 페이지 이동 (이 달의 탈퇴 회원)
+	public List<UserVO> getWithdrawnUsersForThisMonth() throws DataAccessException {
+		return userDAO.getWithdrawnUsersForThisMonth();
+	}
+
+	@Override // 탈퇴 회원 전체 리스트 
+	public List<UserVO> getWithdrawnUsers() throws DataAccessException {
+		return userDAO.getWithdrawnUsers();
+	}
 }

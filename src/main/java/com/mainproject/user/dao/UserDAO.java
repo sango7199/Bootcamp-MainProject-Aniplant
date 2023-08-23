@@ -29,4 +29,6 @@ public interface UserDAO {
 	public void rankUp(int user_num, String nextRank) throws DataAccessException;
 	public void switchRank(int user_num, String newRole, String newRank) throws DataAccessException;
 	public List<UserVO> getNewUsers() throws DataAccessException;
+	public List<UserVO> getWithdrawnUsersForThisMonth() throws DataAccessException;
+	public List<UserVO> getWithdrawnUsers() throws DataAccessException;
 }

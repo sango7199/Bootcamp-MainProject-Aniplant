@@ -502,4 +502,15 @@ public class UserControllerImpl implements UserController {
 		mav.addObject("users", users);
 		return mav;
 	}
+
+	@Override // 탈퇴 회원 관리 페이지 이동
+	@GetMapping("/privacy-admin/user-management/withdrawn-users.do")
+	public ModelAndView viewWithdrawnUsersList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+			ModelAndView mav = new ModelAndView();
+			List<UserVO> users = userService.getWithdrawnUsers();
+			mav.setViewName(viewName);
+			mav.addObject("users", users);
+			return mav;
+	}
 }

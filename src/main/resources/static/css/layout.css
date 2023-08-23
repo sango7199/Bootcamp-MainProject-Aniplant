@@ -226,6 +226,9 @@ footer {
     width: 150px; 
     border-right: 1px solid #c1ece7;
 	border-radius: 7px;
+	position: sticky;
+    top: 10px;
+    z-index: 3;
 }
 
 .sidebar-menu, .sidebar-menu ul {

@@ -99,12 +99,10 @@ tbody tr.detail-content-row:hover td {
   background-image: url("/img/btn-sort-down.png");
 }
 
-.rank_up_btn, .rank_switch_btn {
+.table_btn {
   background-color: #14a6b8;
   font: 12px "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", Sans-Serif;
 	color: #ffffff;
-	width: 70px;
-	height: 23px;
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
@@ -112,6 +110,21 @@ tbody tr.detail-content-row:hover td {
   padding: 0;
   z-index: 2;
 }
+
+.table_btn:hover {
+  filter: brightness(90%) !important;
+}
+
+.rank_up_btn, .rank_switch_btn {
+  width: 70px;
+	height: 23px;
+}
+
+.withdrawn_delete_btn {
+  width: 84px;
+	height: 24px;
+}
+
 
 /* Table Top Wrapper */
 .table-top-wrapper {
@@ -387,4 +400,18 @@ tbody tr.detail-content-row:hover td {
 }
 #custom-input-rank {
   width: 91px;
+}
+
+/* 탈퇴 1년이 지난 사용자에 대한 스타일 */
+tr.old-withdrawn-user td {
+  background-color: #f5dfe1 !important;
+}
+
+tr.old-withdrawn-user button {
+  background-color: #b81426 !important;
+  color: white !important;
+}
+
+tbody tr.old-withdrawn-user:hover td {
+  filter: brightness(90%) !important;
 }

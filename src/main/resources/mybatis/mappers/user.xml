@@ -168,4 +168,15 @@
         WHERE MONTH(created_at) = MONTH(CURDATE()) 
         AND YEAR(created_at) = YEAR(CURDATE());
     </select>
+
+    <select id="getWithdrawnUsersForThisMonth" resultType="userVO">
+        SELECT * FROM TB_USER
+        WHERE is_deleted = true
+        AND MONTH(deleted_at) = MONTH(CURDATE()) 
+        AND YEAR(deleted_at) = YEAR(CURDATE());
+    </select>
+
+    <select id="getWithdrawnUsers" resultType="userVO">
+        SELECT * FROM TB_USER WHERE is_deleted = true;
+    </select>
 </mapper>

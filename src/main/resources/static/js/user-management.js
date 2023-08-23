@@ -1,4 +1,4 @@
-    $(document).ready(function(){
+$(document).ready(function(){
     let currentPage = 1;
     let itemsPerPage = parseInt(document.getElementById('itemsPerPageSelect').value, 10);
     const totalItems = parseInt(document.getElementById('usersLength').textContent, 10);
@@ -14,6 +14,23 @@
         const month = ('0' + (date.getMonth() + 1)).slice(-2);
         const day = ('0' + date.getDate()).slice(-2);
         return year + '-' + month + '-' + day;
+    }
+
+    // 탈퇴일로부터 1년이 지난 사용자 행 강조 함수
+    function highlightOldWithdrawnUsers() {
+        $('tbody .user-row').each(function() {
+            const withdrawalDateCell = $(this).find('.withdrawal-date');
+            const withdrawalDateStr = withdrawalDateCell.text();
+
+            const withdrawalDate = new Date(withdrawalDateStr);
+            const currentDate = new Date();
+            const differenceInTime = currentDate - withdrawalDate;
+            const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+
+            if (differenceInDays >= 365) {
+                $(this).addClass('old-withdrawn-user');
+            }
+        });
     }
 
     // 테이블 데이터 표시 함수
@@ -50,8 +67,8 @@
                         <td>${user.nickname}</td>
                         <td>${user.rank}</td>
                         <td>${formatDate(user.birth)}</td>
-                        <td><button class="rank_up_btn">등급 승격</button></td>
-                        <td><button class="rank_switch_btn">${switchText}</button></td>
+                        <td><button class="table_btn rank_up_btn">등급 승격</button></td>
+                        <td><button class="table_btn rank_switch_btn">${switchText}</button></td>
                     </tr>
                 `; 
             } else if (pageType === "newUserManagement") {
@@ -66,9 +83,22 @@
                         <td><strong>${formatDate(user.created_at)}</strong></td>
                     </tr>
                 `; 
+            } else if (pageType === "withdrawnUserManagement") {
+                tbodyContent += `
+                    <tr class="user-row">
+                        <td>${user.user_num}</td>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.nickname}</td>
+                        <td class="withdrawal-date">${formatDate(user.deleted_at)}</td>
+                        <td>${user.deleted_reason}</td>
+                        <td><button class="table_btn withdrawn_delete_btn">계정 삭제</button></td>
+                    </tr>
+                `; 
             }
         });
         document.querySelector('tbody').innerHTML = tbodyContent;
+        highlightOldWithdrawnUsers();
     }
 
     // 페이지 업데이트 함수
@@ -241,7 +271,15 @@
                 (user.gender === 'M' ? '남성' : '여성').toLowerCase().includes(searchQuery) ||
                 user.created_at.toString().toLowerCase().includes(searchQuery)
             );
-
+        } else if (pageType === "withdrawnUserManagement") {
+            filteredUsers = window.users.filter(user => 
+                user.user_num.toString().toLowerCase().includes(searchQuery) ||
+                user.id.toLowerCase().includes(searchQuery) ||
+                user.name.toLowerCase().includes(searchQuery) ||
+                user.nickname.toLowerCase().includes(searchQuery) ||
+                formatDate(user.deleted_at).toLowerCase().includes(searchQuery) ||
+                user.deleted_reason.toLowerCase().includes(searchQuery)
+            );
         }
         // 필터링된 사용자 목록을 기반으로 테이블 데이터를 표시
         displayFilteredTableData(filteredUsers);
@@ -280,8 +318,8 @@
                         <td>${user.nickname}</td>
                         <td>${user.rank}</td>
                         <td>${formatDate(user.birth)}</td>
-                        <td><button class="rank_up_btn">등급 승격</button></td>
-                        <td><button class="rank_switch_btn">${switchText}</button></td>
+                        <td><button class="table_btn rank_up_btn">등급 승격</button></td>
+                        <td><button class="table_btn rank_switch_btn">${switchText}</button></td>
                     </tr>
                 `;
             } else if (pageType === "newUserManagement") {
@@ -296,9 +334,22 @@
                         <td><strong>${formatDate(user.created_at)}</strong></td>
                     </tr>
                 `;
+            } else if (pageType === "withdrawnUserManagement") {
+                tbodyContent += `
+                    <tr class="user-row">
+                        <td>${user.user_num}</td>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.nickname}</td>
+                        <td class="withdrawal-date">${formatDate(user.deleted_at)}</td>
+                        <td>${user.deleted_reason}</td>
+                        <td><button class="table_btn withdrawn_delete_btn">계정 삭제</button></td>
+                    </tr>
+                `; 
             }
         });
         document.querySelector('tbody').innerHTML = tbodyContent;
+        highlightOldWithdrawnUsers();
         updatePageDisplayForFilteredUsers(filteredUsers.length);
     }
 
@@ -310,6 +361,7 @@
     // 초기 표시
     displayTableData();
     updatePageDisplay();
+
     
     // 행 클릭 이벤트 리스너
     $('body').off('click', 'tbody tr.user-row').on('click', 'tbody tr.user-row', function() {
@@ -327,9 +379,9 @@
     
     // 그렇지 않다면 상세 내용 로드
     let colspanValue = 8;
-    if (pageType === "newUserManagement") {
+    if (pageType === "newUserManagement" || pageType === "withdrawnUserManagement") {
         colspanValue = 7; 
-    }
+    } 
 
     $('<td colspan="' + colspanValue + '"></td>').load('/privacy-admin/user-management/user-detail.do?user_num=' + userNum, function(response, status, xhr) {
             if (status == "error") {
