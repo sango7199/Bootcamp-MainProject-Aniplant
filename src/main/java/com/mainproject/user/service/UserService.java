@@ -22,7 +22,8 @@ public interface UserService {
 	public List<UserVO> getAllAdmins() throws DataAccessException;
 	public UserVO getUserByUserNum(int user_num) throws DataAccessException;
 	public void updateUserDetail(UserVO userVO, int curUserNum) throws DataAccessException;
-	public String suspendUser(int userNum, String action) throws Exception;
+	public String suspendUser(int userNum, String action, int suspend_user_num, String suspended_reason, int suspension_duration) throws Exception;
+	public String unsuspendUser(int userNum, String action) throws Exception;
 	public void removeUser(int user_num) throws Exception;
 	public List<UserVO> getAllAccounts() throws DataAccessException;
 	public void rankUp(int user_num, String rank) throws DataAccessException;
@@ -30,4 +31,5 @@ public interface UserService {
 	public List<UserVO> getNewUsers() throws DataAccessException;
 	public List<UserVO> getWithdrawnUsersForThisMonth() throws DataAccessException;
 	public List<UserVO> getWithdrawnUsers() throws DataAccessException;
+	public List<UserVO> getSuspendUsers() throws DataAccessException;
 }

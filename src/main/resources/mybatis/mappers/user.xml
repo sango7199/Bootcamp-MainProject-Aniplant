@@ -140,8 +140,16 @@
 	    WHERE user_num = #{user_num}
 	</update>
 	
-	<update id="suspendUser" parameterType="int">
-	    UPDATE TB_USER SET is_suspended = TRUE WHERE user_num = #{user_num}
+	<update id="suspendUser" parameterType="userVO">
+	    UPDATE TB_USER 
+        SET 
+            is_suspended = TRUE,
+            suspend_user_num = #{suspend_user_num},
+            suspension_duration = #{suspension_duration},
+            suspended_reason = #{suspended_reason},
+            suspended_at = #{suspended_at}
+        WHERE 
+            user_num = #{user_num}
 	</update>
 	
 	<update id="unsuspendUser" parameterType="int">
@@ -178,5 +186,9 @@
 
     <select id="getWithdrawnUsers" resultType="userVO">
         SELECT * FROM TB_USER WHERE is_deleted = true;
+    </select>
+
+    <select id="getSuspendUsers" resultType="userVO">
+        SELECT * FROM TB_USER WHERE is_suspended = true;
     </select>
 </mapper>

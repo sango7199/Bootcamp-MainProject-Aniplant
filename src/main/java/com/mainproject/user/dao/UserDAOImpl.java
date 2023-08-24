@@ -85,8 +85,8 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override // 회원 정지 로직
-    public void suspendUser(int userNum) throws DataAccessException {
-        sqlSession.update("mapper.user.suspendUser", userNum);
+    public void suspendUser(Map<String,Object> param) throws DataAccessException {
+        sqlSession.update("mapper.user.suspendUser", param);
     }
 
     @Override // 회원 정지 해제 로직
@@ -137,5 +137,9 @@ public class UserDAOImpl implements UserDAO {
 	public List<UserVO> getWithdrawnUsers() throws DataAccessException {
 		return sqlSession.selectList("mapper.user.getWithdrawnUsers");
 	}
-
+	
+	@Override // 정지 회원 전체
+	public List<UserVO> getSuspendUsers() throws DataAccessException {
+		return sqlSession.selectList("mapper.user.getSuspendUsers");
+	}
 }

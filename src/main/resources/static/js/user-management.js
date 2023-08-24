@@ -95,6 +95,19 @@ $(document).ready(function(){
                         <td><button class="table_btn withdrawn_delete_btn">계정 삭제</button></td>
                     </tr>
                 `; 
+            } else if (pageType === "suspendedUserManagement") {
+                tbodyContent += `
+                    <tr class="user-row">
+                        <td>${user.user_num}</td>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${formatDate(user.suspended_at)}</td>
+                        <td>${user.suspension_duration === 10000 ? '영구 정지' : `${user.suspension_duration}일`}</td>
+                        <td>${user.suspended_reason}</td>
+                        <td>${user.suspend_user_num}</td>
+                        <td><button class="table_btn suspend_btn">정지 해제</td>
+                    </tr>
+                `; 
             }
         });
         document.querySelector('tbody').innerHTML = tbodyContent;
@@ -280,6 +293,16 @@ $(document).ready(function(){
                 formatDate(user.deleted_at).toLowerCase().includes(searchQuery) ||
                 user.deleted_reason.toLowerCase().includes(searchQuery)
             );
+        } else if (pageType === "suspnededUserManagement") {
+            filteredUsers = window.users.filter(user => 
+                user.user_num.toString().toLowerCase().includes(searchQuery) ||
+                user.id.toLowerCase().includes(searchQuery) ||
+                user.name.toLowerCase().includes(searchQuery) ||
+                formatDate(user.suspended_at).toLowerCase().includes(searchQuery) ||
+                user.suspension_duration.toLowerCase().includes(searchQuery) ||
+                user.suspended_reason.toLowerCase().includes(searchQuery) ||
+                user.suspend_user_num.toLowerCase().includes(searchQuery)
+            );
         }
         // 필터링된 사용자 목록을 기반으로 테이블 데이터를 표시
         displayFilteredTableData(filteredUsers);
@@ -346,6 +369,19 @@ $(document).ready(function(){
                         <td><button class="table_btn withdrawn_delete_btn">계정 삭제</button></td>
                     </tr>
                 `; 
+            } else if (pageType === "suspendedUserManagement") {
+                tbodyContent += `
+                    <tr class="user-row">
+                        <td>${user.user_num}</td>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${formatDate(user.suspended_at)}</td>
+                        <td>${user.suspension_duration === 10000 ? '영구 정지' : `${user.suspension_duration}일`}</td>
+                        <td>${user.suspended_reason}</td>
+                        <td>${user.suspend_user_num}</td>
+                        <td><button class="table_btn suspend_btn" th:if="${!user.is_deleted}" th:text="${user.is_suspended ? '정지 해제' : '정지'}"></td>
+                    </tr>
+                `; 
             }
         });
         document.querySelector('tbody').innerHTML = tbodyContent;
@@ -408,50 +444,116 @@ $(document).ready(function(){
                     console.error('userNum is not defined!');
                 }
             });
+            
+            // 닉네임 변수
+            const nickname = $('#detail-user-nickname').text();
 
-            // 정지, 정지 해제 버튼
+            // 모달 변수
+            const modal = document.getElementById("suspendModal");
+
+            // 정지 버튼 클릭 이벤트
             $('#suspend_btn').on('click', function() {
-                const nickname = $('#detail-user-nickname').text();
-                // 정지 확인 알림
-                let confirmationMessage = '';
-                if ($(this).text() === '정지') {
-                    confirmationMessage = nickname + "님의 계정을 정말 정지시키시겠습니까?";
-                } else {;
-                    confirmationMessage = nickname + "님의 정지를 정말 해제하시겠습니까?";
-                }
+                const confirmationMessage = nickname + "님의 계정을 정지시키시겠습니까?";
                 if (!window.confirm(confirmationMessage)) {
                     return;
                 }
+                modal.style.display = "block";
+            });
 
-                // ajax 회원 정지,정지해제 post 요청
+            // 정지 모달 내의 "확인" 버튼 클릭 이벤트
+            const confirmBtn = document.getElementById("suspend_confirm_btn");
+            confirmBtn.onclick = function() {
+                const reason = document.getElementById("suspended_reason").value;
+                const duration = document.getElementById("suspension_duration").value;
+                const errorMessage = document.querySelector(".suspend-error");
+                
+                // 유효성 검사
+                if (!reason.trim()) {
+                    errorMessage.textContent = "정지 사유를 입력해주세요.";
+                    return false;
+                }
+                if (!duration.trim()) {
+                    errorMessage.textContent = "정지 기한을 선택해주세요.";
+                    return false;
+                }
+                errorMessage.textContent = "";
+
+                // ajax 호출을 실행하여 사용자를 정지
+                const userNum = $('#userData').text();
                 if (userNum) {
                     $.ajax({
                         url: "/api/suspend-user",
                         type: "POST",
                         contentType: "application/json",
                         data: JSON.stringify({
-                            userNum: userNum, 
-                            action: $(this).text() === '정지' ? 'suspend' : 'unsuspend'
+                            userNum: userNum,
+                            action: 'suspend',
+                            reason: reason,
+                            duration: duration
                         }),
                         dataType: 'json',
                         success: function(response) {
                             if (response.status === 'success') {
-                                if (response.action === 'suspend') {
-                                    $('#suspend_btn').text('정지 해제');
-                                    alert(nickname + "님의 계정이 정지되었습니다.");
-                                    location.reload();
-                                } else {
-                                    $('#suspend_btn').text('정지');
-                                    alert(nickname + "님의 계정이 정지 해제되었습니다.");
-                                    location.reload();
-                                }
+                                alert(nickname + "님의 계정이 정지되었습니다.");
+                                location.reload();
                             } else {
-                                console.error('Error suspending/unsuspending user:', response.message);
+                                console.error('Error suspending user:', response.message);
                             }
                         },
                         error: function(xhr, status, error) {
                             alert("회원 정지 중 오류가 발생했습니다. 상태: " + status + ", 응답: " + xhr.responseText);
+                        }
+                    });
+                } else {
+                    console.error('userNum is not defined!');
+                }
+                console.log(reason);
+                modal.style.display = "none";
+            };
+
+            // 모달 닫기 버튼
+            $('.close-btn').on('click', function() {
+                $('#suspendModal').hide();
+            });
+
+            // 모달 외부 클릭 시 모달 닫기
+            $(window).on('click', function(event) {
+                if ($(event.target).is('#suspendModal')) {
+                    $('#suspendModal').hide();
+                }
+            });
+
+
+            // 정지 해제 버튼 클릭 이벤트
+            $('#unsuspend_btn').on('click', function() {
+                const nickname = $('#detail-user-nickname').text();
+                const confirmationMessage = nickname + "님의 정지를 정말 해제하시겠습니까?";
+                if (!window.confirm(confirmationMessage)) {
+                    return;
+                }
+
+                const userNum = $('#userData').text();
+                if (userNum) {
+                    $.ajax({
+                        url: "/api/suspend-user",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({
+                            userNum: userNum,
+                            action: 'unsuspend'
+                        }),
+                        dataType: 'json',
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                alert(nickname + "님의 계정이 정지 해제되었습니다.");
+                                location.reload();
+                            } else {
+                                console.error('Error unsuspending user:', response.message);
+                            }
                         },
+                        error: function(xhr, status, error) {
+                            alert("회원 정지 해제 중 오류가 발생했습니다. 상태: " + status + ", 응답: " + xhr.responseText);
+                        }
                     });
                 } else {
                     console.error('userNum is not defined!');

@@ -384,23 +384,39 @@ public class UserControllerImpl implements UserController {
 		}
 	}
 
-	@Override // 회원 세부정보 정보수정 로직
+	@Override // 회원 정지 로직
 	@PostMapping("/api/suspend-user")
-	public ResponseEntity<Map<String, Object>> suspendUser(@RequestBody Map<String, Object> requestData) {
+	public ResponseEntity<Map<String, Object>> suspendUser(@RequestBody Map<String, Object> requestData, Principal principal) {
 		Map<String, Object> response = new HashMap<>();
-		
+		UserVO loginedUser = getCurrentUser(principal);
+		int user_num = Integer.parseInt(requestData.get("userNum").toString());
+		String action = (String)requestData.get("action");
 		try {
-			int user_num = Integer.parseInt(requestData.get("userNum").toString());
-			String action = (String)requestData.get("action");
-			String result = userService.suspendUser(user_num, action);
+			if ("suspend".equals(action)) {
+				String suspended_reason = (String)requestData.get("reason");
+				int suspension_duration = Integer.parseInt(requestData.get("duration").toString());
+				int suspend_user_num = loginedUser.getUser_num();
+				System.out.printf(action, suspended_reason, suspension_duration, suspend_user_num);
+				
+				String result = userService.suspendUser(user_num, action, suspend_user_num, suspended_reason, suspension_duration);
+				response.put("status", "success");
+				response.put("message","succeeded.");
+				response.put("action", result);
+			} else if ("unsuspend".equals(action)) {
+				String result = userService.unsuspendUser(user_num, action);
+				response.put("status", "success");
+				response.put("message", "succeeded.");
+				response.put("action", result);
+			} else {
+				response.put("status", "error");
+				response.put("message", "Invalid action.");
+			}
 			
-			response.put("status", "success");
-			response.put("message","User ban succeeded.");
-			response.put("action", result);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch (Exception e) {
+			e.printStackTrace();  // 로그에 예외 스택 트레이스 출력
 			response.put("status", "error");
-			response.put("message", e.getMessage());
+			response.put("message", e.getMessage() != null ? e.getMessage() : "Unknown error");
 			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
@@ -447,7 +463,7 @@ public class UserControllerImpl implements UserController {
 				response.put("status","fail");
 				response.put("message", "님의 등급은 이미 최고 등급입니다.");
 				return new ResponseEntity<>(response, HttpStatus.OK);
-			} else { 
+			} else {
 				response.put("status","fail");
 				response.put("message", "님의 등급이 잘못되었습니다.");
 				return new ResponseEntity<>(response, HttpStatus.OK);
@@ -509,6 +525,17 @@ public class UserControllerImpl implements UserController {
 		String viewName = (String) request.getAttribute("viewName");
 			ModelAndView mav = new ModelAndView();
 			List<UserVO> users = userService.getWithdrawnUsers();
+			mav.setViewName(viewName);
+			mav.addObject("users", users);
+			return mav;
+	}
+
+	@Override // 정지 회원 관리 페이지 이동
+	@GetMapping("/privacy-admin/user-management/suspended-users.do")
+	public ModelAndView viewSuspendUsersList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+			ModelAndView mav = new ModelAndView();
+			List<UserVO> users = userService.getSuspendUsers();
 			mav.setViewName(viewName);
 			mav.addObject("users", users);
 			return mav;

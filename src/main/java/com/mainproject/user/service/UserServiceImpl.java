@@ -2,7 +2,10 @@ package com.mainproject.user.service;
 
 import java.security.Principal;
 import java.sql.Timestamp;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -123,19 +126,44 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override // 회원 정지 로직
-    public String suspendUser(int userNum, String action) throws Exception {
+    public String suspendUser(int userNum, String action,int suspend_user_num, String suspended_reason, int suspension_duration) throws Exception {
         UserVO user = userDAO.getUserByUserNum(userNum);
 		
 		if (user == null) {
             throw new Exception("User not found with userNum: " + userNum);
         }
 
+		int user_num = user.getUser_num();
+		Timestamp suspended_at = new Timestamp(new Date().getTime());
+
+		Map<String, Object> param = new HashMap<>();
+
 		if (action.equals("suspend")) {
-			int user_num = user.getUser_num();
-			userDAO.suspendUser(user_num);
+			param.put("user_num", user_num);
+			param.put("suspend_user_num", suspend_user_num);
+			param.put("suspension_duration",suspension_duration);
+			param.put("suspended_reason", suspended_reason);
+			param.put("suspended_at", suspended_at);
+			userDAO.suspendUser(param);
 			return "suspend";
 		} else if (action.equals("unsuspend")) {
-			int user_num = user.getUser_num();
+			userDAO.unsuspendUser(user_num);
+			return "unsuspend";
+		} else {
+            throw new Exception("Unknown action: " + action);
+        }
+    }
+
+	@Override // 회원 정지 해제 로직
+    public String unsuspendUser(int userNum, String action) throws Exception {
+        UserVO user = userDAO.getUserByUserNum(userNum);
+		
+		if (user == null) {
+            throw new Exception("User not found with userNum: " + userNum);
+        }
+
+		int user_num = user.getUser_num();
+		if (action.equals("unsuspend")) {
 			userDAO.unsuspendUser(user_num);
 			return "unsuspend";
 		} else {
@@ -196,5 +224,10 @@ public class UserServiceImpl implements UserService {
 	@Override // 탈퇴 회원 전체 리스트 
 	public List<UserVO> getWithdrawnUsers() throws DataAccessException {
 		return userDAO.getWithdrawnUsers();
+	}
+
+	@Override // 정지 회원 전체 리스트 
+	public List<UserVO> getSuspendUsers() throws DataAccessException {
+		return userDAO.getSuspendUsers();
 	}
 }

@@ -1,6 +1,7 @@
 package com.mainproject.user.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
 
@@ -22,7 +23,7 @@ public interface UserDAO {
 	public List<UserVO> getAllAdmins() throws DataAccessException;
 	public UserVO getUserByUserNum(int user_num) throws DataAccessException;
 	public void updateUserDetail(UserVO userVO) throws DataAccessException;
-	public void suspendUser(int userNum) throws DataAccessException;
+	public void suspendUser(Map<String,Object> param) throws DataAccessException;
     public void unsuspendUser(int userNum) throws DataAccessException;
 	public void removeUser(int user_num) throws DataAccessException;
 	public List<UserVO> getAllAccounts() throws DataAccessException;
@@ -31,4 +32,5 @@ public interface UserDAO {
 	public List<UserVO> getNewUsers() throws DataAccessException;
 	public List<UserVO> getWithdrawnUsersForThisMonth() throws DataAccessException;
 	public List<UserVO> getWithdrawnUsers() throws DataAccessException;
+	public List<UserVO> getSuspendUsers() throws DataAccessException;
 }
