@@ -5,12 +5,18 @@ import java.util.List;
 import com.mainproject.category.vo.CategoryVO;
 
 public interface CategoryService {
-    // 모든 카테고리 목록을 조회하는 메소드
+    // 모든 카테고리 목록 조회
     List<CategoryVO> listCategories() throws Exception;
-    
-    // 페이징 처리된 카테고리 목록을 조회하는 메소드
+
+    // 페이징 정보를 기반으로 특정 페이지의 카테고리 목록 조회
     List<CategoryVO> getCategoriesWithPaging(int page, int perPageNum) throws Exception;
-    
-    // 전체 아이템 수를 가져오는 메소드
+
+    // 전체 카테고리 수 조회
     int getTotalCount() throws Exception;
+
+    // 검색 조건과 키워드를 이용하여 카테고리 검색
+    List<CategoryVO> searchCategories(String searchType, String keyword, int page, int perPageNum) throws Exception;
+
+    // 검색 카테고리 수 조회
+	int getSelectTotalCount(String searchType, String keyword) throws Exception;
 }
