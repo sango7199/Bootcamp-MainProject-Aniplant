@@ -25,26 +25,30 @@
 	<select id="selectCategoriesWithPaging"
 		resultMap="categoryResultMap">
 		SELECT * FROM TB_CATEGORY
+		WHERE Is_Deleted = 0
 		ORDER BY Category_Num DESC
 		LIMIT #{cri.perPageNum} OFFSET #{cri.startRow}
 	</select>
-	
+
 	<!-- 아이템 총 개수 조회 쿼리 -->
-    <select id="getTotalCount" resultType="int">
-        SELECT COUNT(*) FROM TB_CATEGORY;
-    </select>
+	<select id="getTotalCount" resultType="int">
+		SELECT COUNT(*) FROM TB_CATEGORY
+		WHERE Is_Deleted = 0
+	</select>
 
 	<!-- 검색 아이템 총 개수 조회 쿼리 -->
 	<select id="getSelectTotalCount" resultType="int">
 		SELECT COUNT(*) FROM TB_CATEGORY
-		WHERE ${searchType} LIKE CONCAT('%', #{keyword}, '%');
+		WHERE Is_Deleted = 0
+		AND ${searchType} LIKE CONCAT('%', #{keyword}, '%')
 	</select>
-    
-    <!-- 검색 쿼리 -->
-    <select id="searchCategories" resultMap="categoryResultMap">
-        SELECT * FROM TB_CATEGORY
-		WHERE ${searchType} LIKE CONCAT('%', #{keyword}, '%')
+
+	<!-- 검색 쿼리 -->
+	<select id="searchCategories" resultMap="categoryResultMap">
+		SELECT * FROM TB_CATEGORY
+		WHERE Is_Deleted = 0
+		AND ${searchType} LIKE CONCAT('%', #{keyword}, '%')
 		ORDER BY Category_Num DESC
 		LIMIT #{perPageNum} OFFSET #{startRow}
-    </select>
+	</select>
 </mapper>
