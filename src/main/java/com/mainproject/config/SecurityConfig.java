@@ -38,6 +38,9 @@ public class SecurityConfig {
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
             .and()
+            .sessionManagement()
+                .invalidSessionUrl("/session-expired") // 세션 만료시
+            .and()
             .exceptionHandling()
         		.accessDeniedPage("/error/403"); // 접근 권한 없음 : error 403 페이지 
         return http.build();

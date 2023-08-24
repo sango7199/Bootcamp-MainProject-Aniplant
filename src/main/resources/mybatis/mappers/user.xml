@@ -30,8 +30,8 @@
     </resultMap>
 
     <insert id="registerUser" parameterType="userVO">
-        INSERT INTO TB_USER (user_num, id, pwd, name, nickname, email, birth, country_code, first_hp, second_hp, gender, is_admin, created_at)
-        VALUES (#{user_num}, #{id}, #{pwd}, #{name}, #{nickname}, #{email}, #{birth}, #{country_code}, #{first_hp}, #{second_hp}, #{gender}, #{is_admin}, #{created_at})
+        INSERT INTO TB_USER (user_num, id, pwd, name, nickname, email, birth, country_code, first_hp, second_hp, gender, is_admin, created_at, profile_picture)
+        VALUES (#{user_num}, #{id}, #{pwd}, #{name}, #{nickname}, #{email}, #{birth}, #{country_code}, #{first_hp}, #{second_hp}, #{gender}, #{is_admin}, #{created_at}, #{profile_picture})
     </insert>
 
 	<select id="checkIdDuplicate" resultType="int">
@@ -98,9 +98,17 @@
 	</update>
 	
 	<!-- 관리자 영역 -->
+    <select id="getAllAccounts" resultType="userVO">
+		SELECT * FROM TB_USER;
+	</select>
+
 	<select id="getAllUsers" resultType="userVO">
 		SELECT * FROM TB_USER WHERE is_admin = 'User';
 	</select>
+
+    <select id="getAllAdmins" resultType="userVO">
+        SELECT * FROM TB_USER WHERE is_admin IN ('Admin', 'privacy_admin');
+    </select>
 	
 	<select id="getUserByUserNum" parameterType="int" resultType="userVO">
 		SELECT * FROM TB_USER WHERE user_num = ${user_num};
@@ -132,8 +140,16 @@
 	    WHERE user_num = #{user_num}
 	</update>
 	
-	<update id="suspendUser" parameterType="int">
-	    UPDATE TB_USER SET is_suspended = TRUE WHERE user_num = #{user_num}
+	<update id="suspendUser" parameterType="userVO">
+	    UPDATE TB_USER 
+        SET 
+            is_suspended = TRUE,
+            suspend_user_num = #{suspend_user_num},
+            suspension_duration = #{suspension_duration},
+            suspended_reason = #{suspended_reason},
+            suspended_at = #{suspended_at}
+        WHERE 
+            user_num = #{user_num}
 	</update>
 	
 	<update id="unsuspendUser" parameterType="int">
@@ -144,4 +160,35 @@
         DELETE FROM TB_USER WHERE user_num = #{user_num}
     </delete>
 	
+    <update id="rankUp" parameterType="userVO">
+        UPDATE TB_USER SET rank = #{nextRank} WHERE user_num = #{user_num}
+    </update>
+
+    <update id="switchRank" parameterType="userVO">
+        UPDATE TB_USER 
+        SET rank = #{newRank}, is_admin = #{newRole}
+        WHERE user_num = #{user_num}
+    </update>
+
+    <select id="getNewUsers" resultType="userVO">
+        SELECT * 
+        FROM TB_USER
+        WHERE MONTH(created_at) = MONTH(CURDATE()) 
+        AND YEAR(created_at) = YEAR(CURDATE());
+    </select>
+
+    <select id="getWithdrawnUsersForThisMonth" resultType="userVO">
+        SELECT * FROM TB_USER
+        WHERE is_deleted = true
+        AND MONTH(deleted_at) = MONTH(CURDATE()) 
+        AND YEAR(deleted_at) = YEAR(CURDATE());
+    </select>
+
+    <select id="getWithdrawnUsers" resultType="userVO">
+        SELECT * FROM TB_USER WHERE is_deleted = true;
+    </select>
+
+    <select id="getSuspendUsers" resultType="userVO">
+        SELECT * FROM TB_USER WHERE is_suspended = true;
+    </select>
 </mapper>
