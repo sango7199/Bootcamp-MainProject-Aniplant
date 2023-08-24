@@ -87,12 +87,12 @@
                 </thead>
                 <tbody>
                     <tr th:each="withdrawnUser : ${withdrawnUsers}">
-                        <td th:text="${withdrawnUsers.user_num}"></td>
-                        <td th:text="${withdrawnUsers.id}"></td>
-                        <td th:text="${withdrawnUsers.name}"></td>
-                        <td th:text="${withdrawnUsers.nickname}"></td>
-                        <td th:text="${#dates.format(withdrawnUsers.deleted_at, 'yyyy-MM-dd')}"></td>
-                        <td th:text="${withdrawnUsers.deleted_reason}"></td>
+                        <td th:text="${withdrawnUser.user_num}"></td>
+                        <td th:text="${withdrawnUser.id}"></td>
+                        <td th:text="${withdrawnUser.name}"></td>
+                        <td th:text="${withdrawnUser.nickname}"></td>
+                        <td th:text="${#dates.format(withdrawnUser.deleted_at, 'yyyy-MM-dd')}"></td>
+                        <td th:text="${withdrawnUser.deleted_reason}"></td>
                     </tr>
                 </tbody>
             </table>

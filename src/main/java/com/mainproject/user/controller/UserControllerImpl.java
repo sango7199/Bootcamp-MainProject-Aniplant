@@ -295,12 +295,25 @@ public class UserControllerImpl implements UserController {
 	}
 	
 	// 관리자 영역 ----------------------------------------------------------------------------------------------------------------------------------
-	@Override // 회원 관리 하위 페이지 이동
-	@RequestMapping(value = {"/privacy-admin/user-management/**.do"}, method = RequestMethod.GET)
-	public ModelAndView viewUserManagement(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@Override // 회원 관리 메인 페이지 이동
+	@GetMapping("/privacy-admin/user-management/main.do")
+	public ModelAndView viewUserManagementMain(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(viewName);
+
+		List<UserVO> newUsers = userService.getNewUsers();
+		List<UserVO> withdrawnUsers = userService.getWithdrawnUsersThisMonth();
+		List<UserVO> suspendedUsers = userService.getSuspendedUsersThisMonth();
+
+		mav.addObject("newUsers", newUsers);
+		mav.addObject("withdrawnUsers", withdrawnUsers);
+		mav.addObject("suspendedUsers", suspendedUsers);
+		
+		mav.addObject("hasMoreNewUsers", newUsers.size() > 5);
+		mav.addObject("hasMoreWithdrawnUsers", withdrawnUsers.size() > 5);
+		mav.addObject("hasMoreSuspendedUsers", suspendedUsers.size() > 5);
+
 		return mav;
 	}
 	
@@ -396,7 +409,6 @@ public class UserControllerImpl implements UserController {
 				String suspended_reason = (String)requestData.get("reason");
 				int suspension_duration = Integer.parseInt(requestData.get("duration").toString());
 				int suspend_user_num = loginedUser.getUser_num();
-				System.out.printf(action, suspended_reason, suspension_duration, suspend_user_num);
 				
 				String result = userService.suspendUser(user_num, action, suspend_user_num, suspended_reason, suspension_duration);
 				response.put("status", "success");

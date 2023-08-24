@@ -177,7 +177,7 @@
         AND YEAR(created_at) = YEAR(CURDATE());
     </select>
 
-    <select id="getWithdrawnUsersForThisMonth" resultType="userVO">
+    <select id="getWithdrawnUsersThisMonth" resultType="userVO">
         SELECT * FROM TB_USER
         WHERE is_deleted = true
         AND MONTH(deleted_at) = MONTH(CURDATE()) 
@@ -190,5 +190,12 @@
 
     <select id="getSuspendUsers" resultType="userVO">
         SELECT * FROM TB_USER WHERE is_suspended = true;
+    </select>
+
+    <select id="getSuspendedUsersThisMonth" resultType="userVO">
+        SELECT * FROM TB_USER
+        WHERE is_suspended = true
+        AND MONTH(suspended_at) = MONTH(CURDATE()) 
+        AND YEAR(suspended_at) = YEAR(CURDATE());
     </select>
 </mapper>
