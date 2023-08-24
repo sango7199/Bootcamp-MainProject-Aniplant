@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.mainproject.category.vo.CategoryVO;
+import com.mainproject.paging.PagingVO;
 
 @Repository("categoryDAO")
 public class CategoryDAOImpl implements CategoryDAO {
@@ -17,23 +18,38 @@ public class CategoryDAOImpl implements CategoryDAO {
     private SqlSession sqlSession;
 
     @Override
-    public List<CategoryVO> selectCategoriesWithPaging(int page, int perPageNum) throws Exception {
-        // 현재 페이지에서 시작 로우를 계산합니다.
-        // 예를 들어, 첫 번째 페이지에서는 (1 - 1) * 10 = 0이 되며, 두 번째 페이지에서는 (2 - 1) * 10 = 10이 됩니다.
-        int startRow = (page - 1) * perPageNum;
+    public List<CategoryVO> selectCategoriesWithPaging(PagingVO paging) throws Exception {
+        // mapper.xml에서 지정한 SQL 쿼리를 실행하여 페이징 정보를 기반으로 카테고리 목록을 조회합니다.
+        return sqlSession.selectList("mapper.category.selectCategoriesWithPaging", paging);
+    }
 
-        // MyBatis 파라미터로 사용할 맵을 생성합니다.
-        Map<String, Integer> params = new HashMap<>();
-        params.put("startRow", startRow);
-        params.put("perPageNum", perPageNum);
+    @Override
+    public List<CategoryVO> searchCategories(String searchType, String keyword, int startRow, int perPageNum) throws Exception {
+        // 검색 조건과 키워드를 매개변수로 받아와서 파라미터 맵에 담습니다.
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("searchType", searchType);
+        parameters.put("keyword", keyword);
+        parameters.put("startRow", startRow);
+        parameters.put("perPageNum", perPageNum);
 
-        // 위에서 계산한 시작 로우부터 페이지당 아이템 수만큼의 카테고리 목록을 조회하는 메소드입니다.
-        return sqlSession.selectList("mapper.category.selectCategoriesWithPaging", params);
+        // mapper.xml에서 지정한 SQL 쿼리를 실행하여 검색 조건에 맞는 카테고리 목록을 검색합니다.
+        return sqlSession.selectList("mapper.category.searchCategories", parameters);
     }
 
     @Override
     public int getTotalCount() throws Exception {
-        // 총 아이템 수를 조회하는 쿼리를 실행하여 반환합니다.
+        // mapper.xml에서 지정한 SQL 쿼리를 실행하여 전체 카테고리 수를 조회합니다.
         return sqlSession.selectOne("mapper.category.getTotalCount");
+    }
+    
+	@Override
+    public int getSelectTotalCount(String searchType, String keyword) throws Exception {
+        // 검색 조건과 키워드를 매개변수로 받아와서 파라미터 맵에 담습니다.
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("searchType", searchType);
+        parameters.put("keyword", keyword);
+
+        // mapper.xml에서 지정한 SQL 쿼리를 실행하여 검색 조건에 맞는 카테고리 수를 조회합니다.
+        return sqlSession.selectOne("mapper.category.getSelectTotalCount", parameters);
     }
 }
