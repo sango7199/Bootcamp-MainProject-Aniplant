@@ -40,7 +40,19 @@
     
     <select id="getEventById" parameterType="int" resultMap="eventResultMap">
     SELECT * FROM TB_EVENT WHERE event_num = #{eventId}
-    </select>   
-       
-</mapper>  
-   	
+    </select> 
+    
+    <update id="updateEvent" parameterType="com.mainproject.event.vo.EventVO">
+    UPDATE TB_EVENT
+    SET title = #{title},
+        started_at = #{started_at},
+        ended_at = #{ended_at},
+        location = #{location}, 
+        type = #{type}
+    WHERE event_num = #{event_num}
+    </update>
+
+    <select id="getEventByEventNum" parameterType="int" resultMap="eventResultMap">
+    SELECT * FROM TB_EVENT WHERE event_num = #{eventNum}
+    </select> 
+</mapper>    

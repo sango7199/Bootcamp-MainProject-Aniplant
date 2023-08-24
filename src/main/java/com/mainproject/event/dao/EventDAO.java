@@ -23,8 +23,15 @@ public interface EventDAO {
 	EventVO getEventById(int eventId);
 	
 	void updateEvent(EventVO event);
-	 
-	 
 	
-    
+	EventVO getEventByEventNum(int eventNum);
+
+	void updateEventByTitle(String eventTitle, EventVO updatedEvent);
+
+	void updateEventByEventNum(int eventNum, EventVO updatedEvent);
+	
+	 
+
+
+	 
 } 

@@ -18,10 +18,21 @@ public interface EventService {
 	
 	void updateEvent(EventVO event);
 
+	void updateEventByTitle(String title, EventVO existingEvent);
+
+	void updateEventByIdAndTitle(int eventId, String eventTitle, EventVO updatedEvent);
+
+	void updateEventByEventNum(int event_num, EventVO event);
+
+	EventVO getEventByEventNum(int eventNum);
+
 	
+
+	
+
+	   
 
 	  
 	 
     
 }
- 

@@ -1,10 +1,12 @@
-
 package com.mainproject.event.controller;
  
 import com.mainproject.event.service.EventService;
 import com.mainproject.event.vo.EventVO;
 
+
 import java.security.Timestamp;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +34,7 @@ public class EventControllerImpl implements EventController {
     public String showCreateEventForm(Model model) {
         model.addAttribute("event", new EventVO());
         return "event/createEventForm";  
-    }   
+    }    
   
     @PostMapping("/createEvent")
     public void createEvent(@ModelAttribute("event") EventVO eventVO) {
@@ -40,59 +42,51 @@ public class EventControllerImpl implements EventController {
             
     }   
     
-    @GetMapping("/listEvents")
+    @GetMapping("/listEvents.do")  
     public ModelAndView listEvents() {
-        ModelAndView modelAndView = new ModelAndView("event/listEvents");
+        ModelAndView modelAndView = new ModelAndView("event/listEvents"); 
         modelAndView.addObject("eventsList", eventService.listEvents());
         return modelAndView;
         
-    }
-     
-    @GetMapping("/viewEvent")
+    }  
+      
+    @GetMapping("/viewEvent") 
     public ModelAndView viewEvent(@RequestParam("eventTitle") String eventTitle) {
         ModelAndView modelAndView = new ModelAndView("event/viewEvent");
         EventVO event = eventService.getEventByTitle(eventTitle);
         modelAndView.addObject("event", event);
+        modelAndView.addObject("eventNum", event.getEvent_num()); // event_num을 추가로 전달
         return modelAndView;
-    } 
-    
+    }
     
     @GetMapping("/deleteEvent")
     public String deleteEvent(@RequestParam("eventId") int eventId) {
         eventService.deleteEvent(eventId);
-        return "redirect:/event/listEvents";   
-    } 
+        return "redirect:/event/listEvents.do";   
+    }  
     
-    @GetMapping("/editEventForm/{eventId}")
-    public String showEditEventForm(@PathVariable int eventId, Model model) {
-        EventVO event = eventService.getEventById(eventId);
+    @GetMapping("/editEventForm")
+    public String showEditEventForm(@RequestParam("eventNum") int eventNum, Model model) {
+        EventVO event = eventService.getEventByEventNum(eventNum);
         if (event != null) {
-            model.addAttribute("event", event);
+            model.addAttribute("event", event); 
             return "event/editEventForm";
         } else {
-            return "redirect:/event/listEvents";
+            return null;  
         }
     }
+    @PostMapping("/updateEvent") 
+    public String updateEvent(@ModelAttribute EventVO event, @RequestParam("event_num") int eventNum, RedirectAttributes redirectAttributes) {
+        try {
+            eventService.updateEventByEventNum(eventNum, event);
 
-     
-   
-    @PostMapping("/updateEvent")
-    public String updateEvent(@ModelAttribute EventVO event, RedirectAttributes redirectAttributes) {
-        EventVO existingEvent = eventService.getEventById(event.getEvent_num());
-        if (existingEvent != null) {
-            existingEvent.setTitle(event.getTitle());
-            existingEvent.setStarted_at(event.getStarted_at());
-            existingEvent.setEnded_at(event.getEnded_at());
-            existingEvent.setLocation(event.getLocation());
-            existingEvent.setType(event.getType());
-            // 이벤트의 다른 속성도 필요에 따라 업데이트
-            
-            eventService.updateEvent(existingEvent);
-            redirectAttributes.addAttribute("eventTitle", existingEvent.getTitle());
+            // 업데이트된 이벤트의 뷰 페이지로 리디렉션
+            redirectAttributes.addAttribute("eventTitle", event.getTitle());
             return "redirect:/event/viewEvent";
-        } else {
-            // 이벤트를 찾을 수 없는 경우 처리할 내용
-            return "redirect:/event/listEvents";
+        } catch (IllegalArgumentException e) { 
+            // 이벤트를 찾을 수 없거나 업데이트 실패 시, 에러 메시지를 콘솔에 출력
+            e.printStackTrace();
+            return "redirect:/event/listEvents.do"; // 에러 페이지로 리디렉션할 수도 있습니다.
         }
     } 
-}
+}  
