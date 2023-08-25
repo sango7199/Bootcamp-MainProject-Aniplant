@@ -1,5 +1,6 @@
 package com.mainproject.board.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +45,8 @@ public class BoardDAOImpl implements BoardDAO {
 	    public void deleteBoard(int post_num) {
 	        sqlSession.update("mapper.board.deleteBoard", post_num);
 	    }
+	 
+	
 	 
 	
 
