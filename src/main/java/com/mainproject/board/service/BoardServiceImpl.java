@@ -42,12 +42,11 @@ public class BoardServiceImpl  implements BoardService{
 	        boardDAO.updateBoard(board);
 	    }
 	    
-	    //삭제하기
-	    @Override
-	    public void deleteBoard(int postNum) {
-	        boardDAO.deleteBoard(postNum);
+
+		@Override
+	    public void deleteBoard(int post_num) {
+	        boardDAO.deleteBoard(post_num);
 	    }
-		
 
 	
 

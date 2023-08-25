@@ -26,7 +26,16 @@ public interface BoardService {
 	void updateBoard(BoardVO board);
 
 
-	void deleteBoard(int postNum);
+	
+
+
+	void deleteBoard(int post_num);
+
+
+
+
+	
+
 
 
 	

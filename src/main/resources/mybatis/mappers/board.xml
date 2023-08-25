@@ -22,7 +22,7 @@
     
       <select id="selectArticlesByCategory" resultType="boardVO" parameterType="int">
     SELECT * FROM TB_BOARD
-    WHERE  category_num = #{categoryNum}
+    WHERE  category_num = #{categoryNum} AND Is_Deleted = 0;
       </select>
       
       <select id="selectArticleByPostNum" resultType="boardVO" parameterType="int">
@@ -43,10 +43,17 @@
         updated_at = NOW() -- 현재 시간으로 업데이트
     WHERE post_num = #{post_num}
 	</update>
+	
+	<update id="deleteBoard" parameterType="boardVO">
+        UPDATE TB_BOARD
+        SET
+            deleted_at = NOW(),
+            deleted_user_num = #{deleted_user_num},
+            is_deleted = true
+        WHERE post_num = #{post_num}
+    </update>
 
-	<delete id="deleteBoard" parameterType="int">
-    	DELETE FROM TB_BOARD WHERE post_num = #{post_num}
-	</delete>
+	
     
 
 </mapper>

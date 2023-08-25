@@ -40,11 +40,12 @@ public class BoardDAOImpl implements BoardDAO {
 	        sqlSession.update("mapper.board.updateBoard", board);
 	    }
 	 
-	 //삭제하기
 	 @Override
-	    public void deleteBoard(int postNum) {
-	        sqlSession.delete("mapper.board.deleteBoard", postNum);
+	    public void deleteBoard(int post_num) {
+	        sqlSession.update("mapper.board.deleteBoard", post_num);
 	    }
+	 
+	
 
 	}
 	

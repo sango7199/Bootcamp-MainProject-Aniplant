@@ -94,15 +94,15 @@ public class BoardControllerImpl implements BoardController{
     //게시글 수정
     @PostMapping("/edit/{post_num}")
     public String editBoard(@PathVariable int post_num, @ModelAttribute BoardVO updatedBoard) {
-        boardService.updateBoard(updatedBoard);
+    	boardService.updateBoard(updatedBoard);
         return "redirect:/board/viewArticle.do?post_num=" + post_num; // 수정된 게시글로 리다이렉트
     }
     
-    //삭제
-    @PostMapping("/delete/{post_num}")
+    //게시글 삭제
+    @PostMapping("/board/delete/{post_num}")
     public String deleteBoard(@PathVariable int post_num) {
         boardService.deleteBoard(post_num);
-        return "redirect:/board/listArticles.do"; // 게시글 목록 페이지로 리다이렉트
+        return "redirect:/board/listArticles.do?categoryNum=" + boardVO.getCategory_num();
     }
 
 

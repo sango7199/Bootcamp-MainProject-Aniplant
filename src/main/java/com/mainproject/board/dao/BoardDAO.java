@@ -19,9 +19,13 @@ public interface BoardDAO {
 
 	void updateBoard(BoardVO board);
 
+	void deleteBoard(int post_num);
+
+
 	
 
-	void deleteBoard(int postNum);
+	
+
 
 	
 	
