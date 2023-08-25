@@ -32,7 +32,6 @@ public interface UserController {
 	public ModelAndView viewMyInfoDelete(Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity<?> deleteUser(UserVO userVO, Principal principal);
 	// 관리자 영역
-	public ModelAndView viewUserManagement(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView viewUserList(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView viewAdminList(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView viewUserDetail(int user_num, HttpServletRequest request, HttpServletResponse response) throws Exception;
@@ -46,4 +45,5 @@ public interface UserController {
 	public ModelAndView viewNewUsersList(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView viewWithdrawnUsersList(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView viewSuspendUsersList(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView viewUserManagementMain(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

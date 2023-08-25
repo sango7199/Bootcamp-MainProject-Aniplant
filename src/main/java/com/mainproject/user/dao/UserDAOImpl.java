@@ -129,8 +129,8 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override // 이 달의 탈퇴 회원
-	public List<UserVO> getWithdrawnUsersForThisMonth() throws DataAccessException {
-		return sqlSession.selectList("mapper.user.getWithdrawnUsersForThisMonth");
+	public List<UserVO> getWithdrawnUsersThisMonth() throws DataAccessException {
+		return sqlSession.selectList("mapper.user.getWithdrawnUsersThisMonth");
 	}
 
 	@Override // 탈퇴 회원 전체
@@ -141,5 +141,10 @@ public class UserDAOImpl implements UserDAO {
 	@Override // 정지 회원 전체
 	public List<UserVO> getSuspendUsers() throws DataAccessException {
 		return sqlSession.selectList("mapper.user.getSuspendUsers");
+	}
+
+	@Override // 이 달의 정지 회원
+	public List<UserVO> getSuspendedUsersThisMonth() throws DataAccessException {
+		return sqlSession.selectList("mapper.user.getSuspendedUsersThisMonth");
 	}
 }

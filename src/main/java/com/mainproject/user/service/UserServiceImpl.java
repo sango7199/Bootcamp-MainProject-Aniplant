@@ -217,8 +217,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override // 탈퇴 회원 관리 페이지 이동 (이 달의 탈퇴 회원)
-	public List<UserVO> getWithdrawnUsersForThisMonth() throws DataAccessException {
-		return userDAO.getWithdrawnUsersForThisMonth();
+	public List<UserVO> getWithdrawnUsersThisMonth() throws DataAccessException {
+		return userDAO.getWithdrawnUsersThisMonth();
 	}
 
 	@Override // 탈퇴 회원 전체 리스트 
@@ -229,5 +229,10 @@ public class UserServiceImpl implements UserService {
 	@Override // 정지 회원 전체 리스트 
 	public List<UserVO> getSuspendUsers() throws DataAccessException {
 		return userDAO.getSuspendUsers();
+	}
+
+	@Override // 이 달의 정지 회원
+	public List<UserVO> getSuspendedUsersThisMonth() throws DataAccessException {
+		return userDAO.getSuspendedUsersThisMonth();
 	}
 }
