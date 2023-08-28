@@ -52,6 +52,12 @@
             is_deleted = true
         WHERE post_num = #{post_num}
     </update>
+    
+    <update id="increaseViews" parameterType="int">
+    UPDATE TB_BOARD
+    SET views = views + 1
+    WHERE post_num = #{post_num}
+</update>
 
 	
     

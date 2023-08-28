@@ -46,9 +46,14 @@ public class BoardDAOImpl implements BoardDAO {
 	        sqlSession.update("mapper.board.deleteBoard", post_num);
 	    }
 	 
-	
+	 @Override
+	    public void increaseViews(int post_num) {
+	        sqlSession.update("mapper.board.increaseViews", post_num);
+	    }
 	 
 	
+	 
+	 
 
 	}
 	

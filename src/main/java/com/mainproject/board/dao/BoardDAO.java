@@ -21,6 +21,8 @@ public interface BoardDAO {
 
 	void deleteBoard(int post_num);
 
+	void increaseViews(int post_num);
+
 
 	
 

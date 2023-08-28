@@ -99,6 +99,10 @@ public class BoardControllerImpl implements BoardController{
                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
         String viewName = (String) request.getAttribute("viewName");
         boardVO = boardService.viewArticle(post_num);
+        
+        // 조회수 증가 처리
+        boardService.increaseViews(post_num);
+        
         ModelAndView mav = new ModelAndView();
         mav.setViewName(viewName);
         mav.addObject("board", boardVO);

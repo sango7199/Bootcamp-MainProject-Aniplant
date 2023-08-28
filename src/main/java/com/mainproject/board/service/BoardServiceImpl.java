@@ -47,6 +47,12 @@ public class BoardServiceImpl  implements BoardService{
 	    public void deleteBoard(int post_num) {
 	        boardDAO.deleteBoard(post_num);
 	    }
+		
+		//조회수 증가
+		 @Override
+		 public void increaseViews(int post_num) {
+		     boardDAO.increaseViews(post_num);
+		 }
 
 	
 
