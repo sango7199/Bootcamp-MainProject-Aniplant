@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   	
+<mapper namespace="mapper.event"> 
+  <resultMap id="eventResultMap" type="eventVO">
+        <result property="event_num" column="event_num"/>
+        <result property="title" column="title"/>
+        <result property="started_at" column="started_at"/>
+        <result property="ended_at" column="ended_at"/>
+        <result property="location" column="location"/>
+        <result property="type" column="type"/>
+        <result property="is_admin" column="is_admin"/>
+        <result property="created_user_num" column="created_user_num"/>
+        <result property="created_at" column="created_at"/>
+        <result property="updated_user_num" column="updated_user_num"/>
+        <result property="updated_at" column="updated_at"/>
+        <result property="is_deleted" column="is_deleted"/>
+        <result property="deleted_user_num" column="deleted_user_num"/>
+        <result property="deleted_at" column="deleted_at"/>
+        </resultMap>
+        
+       
+    <insert id="insertEvent" parameterType="com.mainproject.event.vo.EventVO">
+    INSERT INTO TB_EVENT (title, started_at, ended_at, location, type)
+    VALUES (#{title}, #{started_at}, #{ended_at}, #{location}, #{type})
+   </insert>
+
+    <select id="selectAllEvents" resultType="com.mainproject.event.vo.EventVO">
+     SELECT * FROM TB_EVENT
+      WHERE is_deleted = 0
+    </select> 
+    
+    <select id="getEventByTitle" parameterType="String" resultType="com.mainproject.event.vo.EventVO">
+        SELECT * FROM TB_EVENT WHERE title = #{eventTitle} 
+    </select> 
+    
+    <select id="getEventById" parameterType="int" resultMap="eventResultMap">
+    SELECT * FROM TB_EVENT WHERE event_num = #{eventId}
+    </select> 
+    
+    <update id="updateEvent" parameterType="com.mainproject.event.vo.EventVO">
+    UPDATE TB_EVENT
+    SET title = #{title},
+        started_at = #{started_at},
+        ended_at = #{ended_at},
+        location = #{location}, 
+        type = #{type},
+        is_deleted = #{is_deleted} 
+    WHERE event_num = #{event_num}  
+    </update>
+    
+    <select id="getEventByEventNum" parameterType="int" resultMap="eventResultMap">
+    SELECT * FROM TB_EVENT WHERE event_num = #{eventNum}  
+    </select> 
+    
+   
+</mapper>   
+
+ 

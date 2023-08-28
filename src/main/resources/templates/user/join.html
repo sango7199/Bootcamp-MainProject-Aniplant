@@ -257,7 +257,11 @@
             var timestamp = date.toISOString();
             var created_at = timestamp
             
-			var is_admin = "User";
+			var is_admin = "USER";
+            var profile_picture;
+            if (gender == "M") {
+                profile_picture = "profile-default-m.png";
+            } else { profile_picture = "profile-default-w.png"; }
             
             var formData = {
                 id: id,
@@ -272,6 +276,7 @@
                 gender: gender,
                 created_at: created_at,
                 is_admin: is_admin,
+                profile_picture: profile_picture
             };
 			
            // console.log(formData);

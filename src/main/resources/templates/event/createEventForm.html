@@ -1,0 +1,98 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+<!-- 페이지의 제목 설정 -->
+<head>
+    <title>일정 등록</title>
+</head>
+<body>
+<!-- 해당 페이지 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+    <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+</th:block>
+<!-- 해당 페이지 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+    <!--    <script th:src="@{/js/page/home.js}"></script>-->
+</th:block>
+
+
+<!-- Content -->
+<div layout:fragment="content" class="container">
+    <!-- sidebar fragment 사용 -->
+    <div th:replace="sidebar/mypage :: mypageSidebar"></div>
+    <div class="content">일정 등록</div> 
+    
+   <style>
+    .form-container {
+        margin-top: 40px; /* 조절할 여유값을 설정하세요 */ 
+    }
+ 
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px;
+    }
+
+    .date-range {
+        display: flex;
+        align-items: center;
+    }
+
+    .date-range input {
+        margin: 0 5px;
+    }
+</style>
+
+<div class="form-container">
+    <form th:action="@{/event/createEvent}" th:object="${event}" method="post">
+        <div class="form-group">
+            <label for="title">제목</label>
+            <input type="text" id="title" name="title" th:field="*{title}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="started_at">시작일/종료일</label> 
+            <div class="date-range">
+                <input type="datetime-local" id="started_at_input" required>
+                <span>~</span>
+                <input type="datetime-local" id="ended_at_input" required>
+            </div>
+        </div>  
+
+        <div class="form-group">
+            <label for="location">장소</label> 
+            <input type="text" id="location" name="location" th:field="*{location}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="type">내용</label>
+            <input type="text" id="type" name="type" th:field="*{type}" required>
+        </div>
+
+        <button type="submit">등록</button>
+    </form>
+</div>
+    <script> 
+        document.addEventListener("DOMContentLoaded", function() {
+            const startedAtInput = document.querySelector("#started_at_input");
+            const endedAtInput = document.querySelector("#ended_at_input");
+            
+            startedAtInput.addEventListener("change", function() {
+                const selectedDateTime = new Date(this.value);
+                const timestamp = selectedDateTime.getTime();
+                document.querySelector("#started_at").value = timestamp;
+            });
+            
+            endedAtInput.addEventListener("change", function() {
+                const selectedDateTime = new Date(this.value);
+                const timestamp = selectedDateTime.getTime();
+                document.querySelector("#ended_at").value = timestamp;
+            });
+        });
+    </script>  
+    
+</div> 
+
+</body> 
+</html>

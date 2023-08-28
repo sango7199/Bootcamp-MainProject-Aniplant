@@ -15,8 +15,8 @@ public class PetDAOImpl implements PetDAO{
 	private SqlSession sqlSession;
 	
 	@Override 
-    public List<PetVO> getAllPet() throws DataAccessException {
-        return sqlSession.selectList("mapper.pet.getAllPet");
+    public List<PetVO> getAllPet(int userNum) throws DataAccessException {
+        return sqlSession.selectList("mapper.pet.getPetsByUserNum",userNum);
     }
 
 	@Override
@@ -24,5 +24,19 @@ public class PetDAOImpl implements PetDAO{
 		return sqlSession.insert("mapper.pet.registerPet", petVO);
 	}
 
+	@Override
+	public PetVO findByPetNo(int petNo) throws DataAccessException {
+	    return sqlSession.selectOne("mapper.pet.findByPetNo", petNo);
+	}
 	
+	@Override
+	public void updatePet(PetVO petVO) throws DataAccessException {
+		sqlSession.update("mapper.pet.updatePet", petVO);
+	}
+	
+	@Override
+	public void deletePet(PetVO petVO) throws DataAccessException {
+		sqlSession.update("mapper.pet.deletePet", petVO);
+	}
+
 }
