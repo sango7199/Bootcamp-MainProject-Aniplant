@@ -4,8 +4,15 @@ $(document).ready(function() {
     const $recentSearches = $('#recent_searches');
     const $searchBtn = $('#search_btn');
 
+    $searchInput.on('keypress', function(e) {
+        if (e.which === 13) { // 13은 엔터 키의 키 코드
+            e.preventDefault(); // 기본 동작을 중지
+            $searchBtn.click(); // 버튼을 클릭
+        }
+    });
+    
+    // 최근 검색어 로직
     const MAX_RECENT_SEARCHES = 10; // 최근 검색어의 최대 개수
-
     function saveSearchTerm(term) {
         let searches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
         // 이미 같은 검색어가 있는 경우 해당 검색어를 제거
@@ -20,7 +27,6 @@ $(document).ready(function() {
         }
         localStorage.setItem('recentSearches', JSON.stringify(searches));
     }
-
     function loadRecentSearches() {
         let searches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
         $recentSearches.empty();

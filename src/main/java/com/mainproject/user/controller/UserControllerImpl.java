@@ -179,15 +179,15 @@ public class UserControllerImpl implements UserController {
 	    return new ResponseEntity<>(result, status);
 	}
 	
-	@Override // 로그아웃 로직
-	@GetMapping("/api/logout")
-	public ResponseEntity<?> logout(HttpSession session) {
-	    // 세션에서 사용자 정보를 제거
-	    session.removeAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
-	    SecurityContextHolder.clearContext();
-
-	    return ResponseEntity.ok().body("로그아웃에 성공하였습니다.");
-	}
+//	@Override // 로그아웃 로직
+//	@GetMapping("/api/logout")
+//	public ResponseEntity<?> logout(HttpSession session) {
+//	    // 세션에서 사용자 정보를 제거
+//	    session.removeAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
+//	    SecurityContextHolder.clearContext();
+//
+//	    return ResponseEntity.ok().body("로그아웃에 성공하였습니다.");
+//	}
 	
 	@Override // 권한 설정 테스트 페이지 이동
 	@RequestMapping(value = {"/admin/test.do"}, method = RequestMethod.GET)
