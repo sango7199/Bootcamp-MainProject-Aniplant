@@ -43,6 +43,12 @@ public class SecurityConfig {
         return http.build();
     }
 
+
+
+
+
+	
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder(); // 비밀번호를 안전하게 암호화하기 위해 BCryptPasswordEncoder 사용
