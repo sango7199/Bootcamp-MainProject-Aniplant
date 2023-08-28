@@ -29,7 +29,7 @@
 
 	<select id="getPetsByUserNum" parameterType="int"
 		resultType="com.mainproject.pet.vo.PetVO">
-		SELECT * FROM TB_PET WHERE adopted_user_num = #{userNum}
+		SELECT * FROM TB_PET WHERE adopted_user_num = #{userNum} AND is_deleted = 0
 	</select>
 
 

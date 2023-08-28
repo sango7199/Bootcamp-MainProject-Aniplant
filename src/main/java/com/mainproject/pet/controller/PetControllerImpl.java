@@ -93,7 +93,7 @@ public class PetControllerImpl implements PetController {
 	}
 
 	@Override // 반려친구 정보
-	@RequestMapping(value = { "/mypage/pet-info/{id}.do" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/mypage/pet-management/{id}.do" }, method = RequestMethod.GET)
 	public ModelAndView viewPetInfo(@PathVariable("id") int petNo, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		PetVO petVO = petService.getPetByPetNo(petNo);
@@ -102,7 +102,7 @@ public class PetControllerImpl implements PetController {
 		mav.addObject("pet", petVO);
 
 		// Thymeleaf 템플릿 이름으로 직접 설정
-		mav.setViewName("mypage/pet-info");
+		mav.setViewName("mypage/pet-management");
 
 		return mav;
 	}
