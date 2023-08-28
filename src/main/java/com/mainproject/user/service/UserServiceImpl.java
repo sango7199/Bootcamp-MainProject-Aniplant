@@ -37,19 +37,19 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	
-	@Override // 회원가입 로직
+	@Override // 사용자 등록 입력
 	public void registerUser(UserVO userVO) throws DataAccessException {
-		String encodedPassword = passwordEncoder.encode(userVO.getPwd()); // 비밀번호 암호화
+		String encodedPassword = passwordEncoder.encode(userVO.getPwd()); // 鍮꾨�踰덊샇 �븫�샇�솕
 		userVO.setPwd(encodedPassword);
 		userDAO.registerUser(userVO);
 	}
 	
-	@Override // 회원가입 아이디 중복 검사 로직
+	@Override // 사용자 가입 아이디 중복 확인 입력
 	public boolean isIdDuplicate(String value) {
 		return userDAO.isIdDuplicate(value);
 	}
 	
-	@Override // 회원가입 닉네임 중복 검사 로직
+	@Override // 사용자 가입 정보 입력 중복 확인
 	public boolean isNicknameDuplicate(String value) {
 		return userDAO.isNicknameDuplicate(value);
 	}
