@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -32,8 +33,11 @@ public class SecurityConfig {
             	.defaultSuccessUrl("/index.do") // 로그인 성공시 기본 URL
             	.failureForwardUrl("/fail") // 로그인 실패 URL 설정
             .and()
+	        .sessionManagement()
+	            .invalidSessionUrl("/session-expired") // 세션 만료시
+	        .and()
             	.logout()
-            	.logoutUrl("/user/logout.do") // 로그아웃 URL 설정
+            	.logoutUrl("/api/logout") // 로그아웃 URL 설정
             	.logoutSuccessUrl("/index.do") // 로그아웃 성공 시 이동할 URL 지정
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
@@ -42,13 +46,18 @@ public class SecurityConfig {
         		.accessDeniedPage("/error/403"); // 접근 권한 없음 : error 403 페이지 
         return http.build();
     }
-	
-
     
 	@Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(); // 비밀번호를 안전하게 암호화하기 위해 BCryptPasswordEncoder 사용
     }
+
+	@Bean
+	public SimpleUrlLogoutSuccessHandler logoutSuccessHandler() {
+	    SimpleUrlLogoutSuccessHandler handler = new SimpleUrlLogoutSuccessHandler();
+	    handler.setDefaultTargetUrl("/index.do");
+	    return handler;
+	}
 	
 }
 

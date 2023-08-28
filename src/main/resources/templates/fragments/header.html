@@ -16,9 +16,11 @@
 			<!-- 검색창 영역 -->
 			<div class="search-area">
 				<form id="search_form" name="search_form" method="get" action="">
-					<input type="text" name="search_input" placeholder="통합 검색">
+					<input type="text" name="search_input" placeholder="통합 검색" autocomplete="off">
 					<button type="button" id="search_btn" class="btn_submit"></button>
 				</form>
+				<div id="recent_searches">
+				</div>
 			</div>
 			<!-- 사용자 계정 영역 -->
 			<div class="user-area" th:classappend="${!isLoggedIn} ? 'not-logged-in' : ''">

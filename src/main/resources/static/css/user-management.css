@@ -99,6 +99,38 @@ tbody tr.detail-content-row:hover td {
   background-image: url("/img/btn-sort-down.png");
 }
 
+.table_btn {
+  background-color: #14a6b8;
+  font: 12px "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", Sans-Serif;
+	color: #ffffff;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+  margin: 0;
+  padding: 0;
+  z-index: 5;
+}
+
+.table_btn:hover {
+  filter: brightness(90%) !important;
+}
+
+.rank_up_btn, .rank_switch_btn {
+  width: 70px;
+	height: 23px;
+}
+
+.withdrawn_delete_btn {
+  width: 84px;
+	height: 24px;
+}
+
+.suspend_btn {
+  width: 70px;
+	height: 24px;
+}
+
+
 /* Table Top Wrapper */
 .table-top-wrapper {
   display: flex;
@@ -374,3 +406,130 @@ tbody tr.detail-content-row:hover td {
 #custom-input-rank {
   width: 91px;
 }
+
+/* 탈퇴 1년이 지난 사용자에 대한 스타일 */
+tr.old-withdrawn-user td {
+  background-color: #f5dfe1 !important;
+}
+
+tr.old-withdrawn-user button {
+  background-color: #b81426 !important;
+  color: white !important;
+}
+
+tbody tr.old-withdrawn-user:hover td {
+  filter: brightness(90%) !important;
+}
+
+/* 모달 스타일 */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 30;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5); /* Increased opacity for better overlay effect */
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 10vh auto;
+  padding: 2rem;
+  border: 1px solid #888;
+  width: 50%;
+  max-width: 600px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.close-btn {
+  color: #aaaaaa;
+  float: right;
+  font-size: 24px;
+  font-weight: bold;
+  margin-left: 20px;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.modal-area {
+  display: flex;
+  flex-direction: column;
+  font-size: 18px;
+}
+
+.modal-area div {
+  padding: 5px 0 5px;
+}
+
+.modal-area h2 {
+  font-size: 22px;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.5rem;
+}
+
+.modal-area label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.modal-area textarea {
+  width: 95%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  resize: vertical;  /* Allows vertical resizing of the textarea */
+}
+
+.modal-area textarea:focus, .modal-area select:focus {
+  border-color: #a614b8;
+  outline: none;
+  box-shadow: 0 0 5px rgba(166,20,184,0.5);
+}
+
+.modal-area select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.modal-area button {
+  background-color: #a614b8;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-area button:hover {
+  background-color: #851093;
+}
+
+.button-align-right {
+  text-align: right;
+}
+
+.suspend-error {
+  font-size: 14px;
+  color: #b81426;
+}
+
+
+
+
+

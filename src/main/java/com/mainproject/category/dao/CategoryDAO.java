@@ -1,11 +1,15 @@
 package com.mainproject.category.dao;
 
+
+import com.mainproject.category.vo.CategoryVO;
+
 import java.util.List;
 
 import com.mainproject.category.vo.CategoryVO;
 import com.mainproject.paging.PagingVO;
 
 public interface CategoryDAO {
+	CategoryVO getCategoryByCategoryNum(int categoryNum);
 
     // 페이징 정보를 기반으로 카테고리 목록 조회
     public List<CategoryVO> selectCategoriesWithPaging(PagingVO paging) throws Exception;
@@ -16,6 +20,6 @@ public interface CategoryDAO {
     // 전체 카테고리 수 조회
     public int getTotalCount() throws Exception;
     
-    // 검색 카테고리 수 조회
+     // 검색 카테고리 수 조회
     public int getSelectTotalCount(String searchType, String keyword) throws Exception;
 }

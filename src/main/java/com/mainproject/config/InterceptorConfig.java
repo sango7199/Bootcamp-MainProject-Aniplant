@@ -20,3 +20,4 @@ public class InterceptorConfig implements WebMvcConfigurer {
         registry.addInterceptor(previousPageInterceptor).addPathPatterns("/*/*.do");
     }
 }
+ 
