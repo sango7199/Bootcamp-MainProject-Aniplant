@@ -1,0 +1,130 @@
+<!-- 페이지의 제목 설정 -->
+	<title>계정 탈퇴</title>
+
+<!-- 해당 페이지 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+	<style>
+		.error {
+			color: red;
+			font-size: 12px;
+		}
+	</style>
+</th:block>
+
+	<div class="content">
+		<h2>계정 탈퇴</h2>
+		<h4>탈퇴 전 안내사항</h4>
+		<p>계정 탈퇴 시 모든 정보가 삭제됩니다. 이는 되돌릴 수 없으므로 주의해 주세요.</p>
+		<form id="withdrawal_form">
+			<h3>탈퇴 사유 선택</h3>
+			<label> <input type="radio" name="withdrawalReason" value="사이트 사용의 어려움">사이트 사용의 어려움</label><br> 
+			<label> <input type="radio" name="withdrawalReason" value="내용과 서비스 불만족">내용과 서비스 불만족</label><br> 
+			<label> <input type="radio" name="withdrawalReason" value="개인정보 및 보안 우려">개인정보 및 보안 우려</label><br>
+			<label> <input type="radio" name="withdrawalReason" value="중복 가입 및 계정 문제">중복 가입 및 계정 문제</label><br>
+			<label> <input type="radio" name="withdrawalReason" value="사이트의 변경된 방향성">사이트의 변경된 방향성</label><br>
+			<label> <input type="radio" name="withdrawalReason" value="다른 사이트나 앱 이용">다른 사이트나 앱 이용</label><br>
+			<label> <input type="radio" name="withdrawalReason" value="이용하지 않는 서비스">이용하지 않는 서비스</label><br>
+			<label> <input type="radio" name="withdrawalReason" id="radioOtherReasons" value="기타 사유">기타 사유</label><br>
+			<textarea id="otherReasons" name="otherReasons" rows="4" cols="50" placeholder="기타 탈퇴 사유를 작성해주세요." style="display: none;"></textarea><br>
+			<div id="withdrawalError" class="error"></div>
+			<button type="button" id="withdrawal_btn" class="btn_submit">계정 탈퇴하기</button>
+		</form>
+	</div>
+	
+<script th:inline="javascript">
+	var userData = /*[[${user}]]*/ {};
+</script>
+<script>
+	$(document).ready(function() {
+		// console.log(userData); // 사용자 전체 정보 확인
+		// 사용자 정보
+		var userNum = userData.user_num;
+		var userId = userData.id;
+	    
+		// 기타 사유 라디오 버튼 클릭시 textarea 표시
+		$("input[name='withdrawalReason']").change(function() {
+		    if ($("#radioOtherReasons").is(":checked")) {
+		        $("#otherReasons").slideDown();
+		    } else {
+		        $("#otherReasons").slideUp();
+		    }
+		});
+		
+		// 탈퇴하기 기능
+		$("#withdrawal_btn").click(function() {
+			// 유효성 검사
+			// 라디오 버튼 선택 확인
+	        if (!$("input[name='withdrawalReason']:checked").val()) {
+	            $("#withdrawalError").text("탈퇴 사유를 선택해주세요.");
+	            return;
+	        }
+
+	        // 기타 사유 라디오 버튼이 선택되었는지 확인
+	        if ($("#radioOtherReasons").is(":checked")) {
+	            // textarea에 글자가 입력되었는지 확인
+	            if ($("#otherReasons").val().trim() === "") {
+	                $("#withdrawalError").text("기타 탈퇴 사유를 작성해주세요.");
+	                return;
+	            }
+	        } else {
+	            $("#withdrawalError").text(""); // 기타 사유가 아닌 다른 라디오 버튼이 선택되면 에러 메시지 초기화
+	        }
+	        
+	    	// 현재 날짜와 시간을 timestamp로 입력하는 로직
+	        var date = new Date();
+	        date.setHours(date.getHours() + 9); // 한국은 UTC로부터 +9시간이므로 9를 더함
+	        var timestamp = date.toISOString();
+	        var deleted_at = timestamp;
+		    
+	        // 탈퇴 사유
+	        var selectedReason = document.querySelector('input[name="withdrawalReason"]:checked').value;
+	        if (document.getElementById("radioOtherReasons").checked) {
+	            selectedReason = document.getElementById("otherReasons").value;
+	        }
+	        
+	        // 전송할 데이터
+		    var formData = {
+		    		user_num: userNum,
+		    		id: userId,
+		    		is_deleted: true,
+		    		deleted_user_num: userNum,
+		    		deleted_at: deleted_at,
+		    		deleted_reason: selectedReason
+		    		
+		    };
+		    // console.log(formData); // formData 확인
+	        
+			var isConfirmed = confirm("정말 탈퇴하시겠습니까?");
+			if (isConfirmed) {		        
+				// 탈퇴 로직
+				$(this).prop("disabled", true);
+				$.ajax({
+					url: "/api/delete-user",
+					type: "POST",
+					contentType: "application/json",
+	                data: JSON.stringify(formData),
+	                success: function(response) {
+	                    alert("계정 탈퇴가 완료되었습니다.");
+	                    $.ajax({ // 로그아웃 요청 
+	                        url: "/api/logout",
+	                        type: "GET",
+	                        success: function() {
+	                            window.location.href = "/index.do"
+	                        },
+	                        error: function(xhr, status, error) {
+	                            alert("로그아웃 중 오류가 발생했습니다.");
+	                            window.location.href = "/index.do";
+	                        }
+	                    });
+	                },
+	                error: function(xhr, status, error) {
+	                    alert("계정 탈퇴 중 오류가 발생했습니다.");
+	                },
+	                complete: function() {
+	                  $("#withdrawal_btn").prop("disabled", false);  // 계정 탈퇴 버튼 활성화
+	                }
+	            });
+			}
+		});
+	});
+</script>

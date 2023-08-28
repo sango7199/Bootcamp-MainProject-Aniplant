@@ -24,7 +24,15 @@ public class UserVO {
 	private int deleted_user_num;
 	private Timestamp deleted_at;
 	private String deleted_reason;
-	
+	private int fail_count;
+	private UserRank rank;
+	private boolean is_suspended;
+	private String profile_picture;
+	private int suspend_user_num;
+	private Timestamp suspended_at;
+	private int suspension_duration;
+	private String suspended_reason;
+
 	public UserVO() {
 		
 	}
@@ -179,5 +187,70 @@ public class UserVO {
 
 	public void setDeleted_reason(String deleted_reason) {
 		this.deleted_reason = deleted_reason;
-	}	
+	}
+	
+	public int getFail_count() {
+		return fail_count;
+	}
+
+	public void setFail_count(int fail_count) {
+		this.fail_count = fail_count;
+	}
+	
+	public UserRank getRank() {
+	    return rank;
+	}
+
+	public void setRank(UserRank rank) {
+	    this.rank = rank;
+	}
+
+	public boolean isIs_suspended() {
+		return is_suspended;
+	}
+
+	public void setIs_suspended(boolean is_suspended) {
+		this.is_suspended = is_suspended;
+	}
+
+	public String getProfile_picture() {
+		return profile_picture;
+	}
+
+	public void setProfile_picture(String profile_picture) {
+		this.profile_picture = profile_picture;
+	}
+	
+	public int getSuspend_user_num() {
+		return suspend_user_num;
+	}
+
+	public void setSuspend_user_num(int suspend_user_num) {
+		this.suspend_user_num = suspend_user_num;
+	}
+
+	public Timestamp getSuspended_at() {
+		return suspended_at;
+	}
+
+	public void setSuspended_at(Timestamp suspended_at) {
+		this.suspended_at = suspended_at;
+	}
+
+	public int getSuspension_duration() {
+		return suspension_duration;
+	}
+
+	public void setSuspension_duration(int suspension_duration) {
+		this.suspension_duration = suspension_duration;
+	}
+
+	public String getSuspended_reason() {
+		return suspended_reason;
+	}
+
+	public void setSuspended_reason(String suspended_reason) {
+		this.suspended_reason = suspended_reason;
+	}
+
 }

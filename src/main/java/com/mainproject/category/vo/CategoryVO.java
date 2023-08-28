@@ -3,18 +3,18 @@ package com.mainproject.category.vo;
 import java.sql.Timestamp;
 
 public class CategoryVO {
-	private int category_num;
-	private int parent_category_num;
-	private String name;
-	private String read_permission;
-	private String write_permission;
-	private int created_user_num;
-	private Timestamp created_at;
-	private int updated_user_num;
-	private Timestamp updated_at;
-	private boolean is_deleted;
-	private int deleted_user_num;
-	private Timestamp deleted_at;
+    private int category_num;               // 카테고리 번호
+    private int parent_category_num;        // 부모 카테고리 번호
+    private String name;                    // 카테고리 이름
+    private String read_permission;         // 읽기 권한 정보
+    private String write_permission;        // 쓰기 권한 정보
+    private int created_user_num;           // 생성된 사용자 번호
+    private Timestamp created_at;           // 생성일시
+    private int updated_user_num;           // 업데이트된 사용자 번호
+    private Timestamp updated_at;           // 업데이트 일시
+    private boolean is_deleted;             // 삭제 여부
+    private int deleted_user_num;           // 삭제된 사용자 번호
+    private Timestamp deleted_at;           // 삭제 일시
 	
 	public CategoryVO() {
 
