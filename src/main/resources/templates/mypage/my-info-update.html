@@ -31,10 +31,10 @@
             $("#confirm_btn").click(function() {
                 var isValid = true // 유효성 검사
 
-<<<<<<< HEAD
+
                 var pwd_confirm = $("#pwdInput").val();
 
-=======
+
 	<div class="content">
 		<h2>계정 정보 수정</h2>
 		<form id="update_form" name="update_form" method="post" action="">
@@ -118,7 +118,7 @@
                 } else {
                     $("#passwordError").text("");
                 }
->>>>>>> main
+
                 if (!pwd_confirm) {
                     $("#confirmError").text("비밀번호를 입력해주세요.");
                     isValid = false;
@@ -130,7 +130,7 @@
                     return;
                 }
 
-<<<<<<< HEAD
+
                 $(this).prop("disabled", true);  // 수정하기 버튼 비활성화
                 
                 // 사용자 본인인지 확인하는 비밀번호 확인 로직
@@ -154,7 +154,7 @@
                         $("#confirm_btn").prop("disabled", false);  // 수정하기 버튼 활성화
                     }
                 });
-=======
+
             if (!isValid) {
                 return;  // 유효성 검사 실패시 함수 종료
             }
@@ -205,10 +205,10 @@
                 complete: function() {
                   $("#update_btn").prop("disabled", false);  // 정보 수정 버튼 활성화
                 }
->>>>>>> main
+
             });
         });
-<<<<<<< HEAD
+
     </script>
 </th:block>
 
@@ -225,12 +225,11 @@
 		</form>
 	</div>
 </div>
-=======
+
     });
 </script>
-<<<<<<< HEAD
+
 
 </html>
->>>>>>> main
-=======
->>>>>>> main
+
+
