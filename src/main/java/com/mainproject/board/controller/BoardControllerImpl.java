@@ -67,17 +67,31 @@ public class BoardControllerImpl implements BoardController{
 
     // 게시글 등록 페이지
     @GetMapping("/board/articleForm.do")
-    public String showArticleForm(Model model) {
-        model.addAttribute("board", new BoardVO());
+    public String showArticleForm(Model model, Principal principal,HttpServletRequest request) {
+    	if (principal == null) {
+    		// 로그인하지 않은 경우 로그인 페이지로 이동
+           
+            return "redirect:/user/login.do";
+        }
+    	
+    	model.addAttribute("board", new BoardVO());
         return "board/articleForm"; 
     }
 
     @PostMapping("/board/articleForm.do")
-    public String endArticle(@ModelAttribute("boardVO") BoardVO boardVO, @RequestParam("categoryNum") int categoryNum) {
-        boardVO.setCategory_num(categoryNum); // 카테고리 번호 설정
+    public String endArticle(@ModelAttribute("boardVO") BoardVO boardVO, @RequestParam("categoryNum") int categoryNum, Principal principal, HttpServletRequest request) {
+    	if (principal == null) {
+    		// 로그인하지 않은 경우  로그인 페이지로 이동
+            
+            return "redirect:/user/login.do";
+        }
+    	
+    	boardVO.setCategory_num(categoryNum); // 카테고리 번호 설정
         boardService.addNewArticle(boardVO);
         return "redirect:/board/listArticles.do?categoryNum=" + categoryNum;
     }
+    
+
     
  // 게시글 보기 페이지
     @GetMapping("/board/viewArticle.do")
