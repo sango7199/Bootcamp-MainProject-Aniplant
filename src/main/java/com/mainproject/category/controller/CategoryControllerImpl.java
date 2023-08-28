@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +18,7 @@ import com.mainproject.category.vo.CategoryVO;
 import com.mainproject.paging.PagingUtils;
 import com.mainproject.paging.PagingVO;
 import com.mainproject.searching.SearchingUtils;
+import com.mainproject.user.vo.UserVO;
 
 @Controller("categoryController")
 public class CategoryControllerImpl implements CategoryController {
@@ -31,6 +33,8 @@ public class CategoryControllerImpl implements CategoryController {
     @Autowired
     private HttpServletRequest request;
 
+    // 카테고리 리스트
+    @Override
     @RequestMapping(value = "/category/categories-list.do", method = RequestMethod.GET)
     public ModelAndView listCategories(
             HttpServletRequest request, HttpServletResponse response,
@@ -71,6 +75,8 @@ public class CategoryControllerImpl implements CategoryController {
     }
 
     
+    // 카테고리 리스트 검색
+    @Override
     @RequestMapping(value = "/category/categories-list-search.do", method = RequestMethod.GET)
     public ModelAndView searchCategories(
             @RequestParam("searchType") String searchType,
@@ -111,6 +117,26 @@ public class CategoryControllerImpl implements CategoryController {
 
         return mav;
     }
+
+    // 카테고리 등록
+    @Override
+    @RequestMapping(value = "/category/add-category.do", method = RequestMethod.GET)
+	public ModelAndView addCategory(CategoryVO categoryVO, HttpServletRequest request, HttpServletResponse response, String viewName) throws Exception {
+    	ModelAndView mav = new ModelAndView(viewName);
+    	
+		return mav;
+	}
+
+
+	@Override
+	public ModelAndView addCategory(CategoryVO categoryVO, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	
 
 
 }
