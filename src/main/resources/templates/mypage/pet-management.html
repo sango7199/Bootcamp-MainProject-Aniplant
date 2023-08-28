@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/defaultLayout}">
+
+<head>
+	<title>애니플랜트 : 반려친구 정보</title>
+</head>
+<th:block layout:fragment="css">
+</th:block>
+<th:block layout:fragment="script">
+	<script th:src="@{/js/pet/pet-management.js}"></script>
+</th:block>
+
+<div layout:fragment="content" class="container">
+	<!-- sidebar fragment 사용 -->
+	<div th:replace="sidebar/mypage :: mypageSidebar"></div>
+	<div class="content">
+		<div id="info-display">
+			<h2 th:text="${pet.name}"></h2>
+			<p th:text="'생일: ' + ${#dates.format(pet.birth, 'yyyy-MM-dd')}"></p>
+			<p th:text="'입양일: ' + ${#dates.format(pet.adopted_at, 'yyyy-MM-dd')}"></p>
+			<p class="age" th:data-birth="${#dates.format(pet.birth, 'yyyy-MM-dd')}"></p>
+
+			<a href="#" class="btn btn-primary" onclick="showEditForm();">수정하기</a>
+		</div>
+
+		<!-- 수정 폼 (처음에는 숨겨져 있습니다) -->
+		<div id="edit-form" style="display: none;">
+			<input type="hidden" id="petNo" name="pet_no" th:value="${pet.pet_no}">
+			<input type="text" id="nameUpdateInput" name="name" th:value="${pet.name}">
+			<input type="text " id="birthUpdateInput" name="birth" th:value="${#dates.format(pet.birth,'yyyy-MM-dd')}">
+			<input type="text" id="adoptedAtUpdateInput" name="adopted_at"
+				th:value="${#dates.format(pet.adopted_at,'yyyy-MM-dd')}">
+
+			<!-- 저장하기 버튼을 클릭하면 수정된 정보를 서버에 전달하는 함수를 호출합니다. -->
+			<button type="button" id="update_btn" class="btn btn-submit" onclick="submitUpdates();">저장하기</button>
+
+			<!-- 취소 버튼 추가 - 이전 상태로 되돌리기 위함 -->
+			<button type="button" class="btn btn-cancel" onclick="hideEditForm();">취소</button>
+			
+			<!-- 삭제 버튼 추가 - 펫을 삭제하고 db에서는 제거하지 않음 -->
+			<button type="button" class="btn btn-delete" onclick="submitDelete();">삭제</button>
+		</div>
+	</div>
+</div>
