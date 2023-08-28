@@ -1,12 +1,9 @@
 package com.mainproject.config;
 
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -15,7 +12,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 	@Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf().disable()  // CSRF ��ȣ�� �����Ͽ� AJAX�� ����ϴ� ����� ���� ����
             .authorizeRequests()
@@ -38,17 +35,19 @@ public class SecurityConfig {
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
             .and()
+            .sessionManagement()
+                .invalidSessionUrl("/session-expired") // 세션 만료시
+            .and()
             .exceptionHandling()
         		.accessDeniedPage("/error/403"); // ���� ���� ����: error 403 ������
         return http.build();
     }
-	 
 
-    
+
 	@Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); //��й�ȣ�� �����ϰ� �����ϱ� ���� BCryptPasswordEncoder�� ����Ͽ� �ؽ� ó���� �ؾ� �մϴ�
-    }                                              
-	
-}
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder(); // 비밀번호를 안전하게 암호화하기 위해 BCryptPasswordEncoder 사용
+	}
 
+
+}

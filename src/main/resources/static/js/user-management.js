@@ -1,7 +1,8 @@
-    $(document).ready(function(){
+$(document).ready(function(){
     let currentPage = 1;
     let itemsPerPage = parseInt(document.getElementById('itemsPerPageSelect').value, 10);
     const totalItems = parseInt(document.getElementById('usersLength').textContent, 10);
+    const pageType = document.body.getAttribute('data-page-type');
     let userNum;
     
     document.getElementById('previousPageButton').addEventListener('click', previousPage);
@@ -15,6 +16,23 @@
         return year + '-' + month + '-' + day;
     }
 
+    // 탈퇴일로부터 1년이 지난 사용자 행 강조 함수
+    function highlightOldWithdrawnUsers() {
+        $('tbody .user-row').each(function() {
+            const withdrawalDateCell = $(this).find('.withdrawal-date');
+            const withdrawalDateStr = withdrawalDateCell.text();
+
+            const withdrawalDate = new Date(withdrawalDateStr);
+            const currentDate = new Date();
+            const differenceInTime = currentDate - withdrawalDate;
+            const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+
+            if (differenceInDays >= 365) {
+                $(this).addClass('old-withdrawn-user');
+            }
+        });
+    }
+
     // 테이블 데이터 표시 함수
     function displayTableData() {
         const start = (currentPage - 1) * itemsPerPage;
@@ -26,20 +44,74 @@
 
         let tbodyContent = '';
         currentItems.forEach(user => {
-            tbodyContent += `
-                <tr class="user-row">
-                    <td>${user.user_num}</td>
-                    <td>${user.id}</td>
-                    <td>${user.name}</td>
-                    <td>${user.nickname}</td>
-                    <td>${user.rank}</td>
-                    <td>${formatDate(user.birth)}</td>
-                    <td>${user.gender === 'M' ? '남성' : '여성'}</td>
-                    <td>${user.is_deleted}</td>
-                </tr>
-            `;
+            if (pageType === "userManagement") {
+                tbodyContent += `
+                    <tr class="user-row">
+                        <td>${user.user_num}</td>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.nickname}</td>
+                        <td>${user.rank}</td>
+                        <td>${formatDate(user.birth)}</td>
+                        <td>${user.gender === 'M' ? '남성' : '여성'}</td>
+                        <td>${user.is_deleted}</td>
+                    </tr>
+                `;
+            } else if (pageType === "userRankManagement") {
+                const switchText = user.is_admin == 'USER' ? '관리자 전환' : '사용자 전환';
+                tbodyContent += `
+                    <tr class="user-row">
+                        <td>${user.user_num}</td>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.nickname}</td>
+                        <td>${user.rank}</td>
+                        <td>${formatDate(user.birth)}</td>
+                        <td><button class="table_btn rank_up_btn">등급 승격</button></td>
+                        <td><button class="table_btn rank_switch_btn">${switchText}</button></td>
+                    </tr>
+                `; 
+            } else if (pageType === "newUserManagement") {
+                tbodyContent += `
+                    <tr class="user-row">
+                        <td>${user.user_num}</td>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.nickname}</td>
+                        <td>${formatDate(user.birth)}</td>
+                        <td>${user.gender === 'M' ? '남성' : '여성'}</td>
+                        <td><strong>${formatDate(user.created_at)}</strong></td>
+                    </tr>
+                `; 
+            } else if (pageType === "withdrawnUserManagement") {
+                tbodyContent += `
+                    <tr class="user-row">
+                        <td>${user.user_num}</td>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.nickname}</td>
+                        <td class="withdrawal-date">${formatDate(user.deleted_at)}</td>
+                        <td>${user.deleted_reason}</td>
+                        <td><button class="table_btn withdrawn_delete_btn">계정 삭제</button></td>
+                    </tr>
+                `; 
+            } else if (pageType === "suspendedUserManagement") {
+                tbodyContent += `
+                    <tr class="user-row">
+                        <td>${user.user_num}</td>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${formatDate(user.suspended_at)}</td>
+                        <td>${user.suspension_duration === 10000 ? '영구 정지' : `${user.suspension_duration}일`}</td>
+                        <td>${user.suspended_reason}</td>
+                        <td>${user.suspend_user_num}</td>
+                        <td><button class="table_btn suspend_btn">정지 해제</td>
+                    </tr>
+                `; 
+            }
         });
         document.querySelector('tbody').innerHTML = tbodyContent;
+        highlightOldWithdrawnUsers();
     }
 
     // 페이지 업데이트 함수
@@ -179,19 +251,59 @@
     // 검색 기능 로직
     document.querySelector('.table-search-area > input').addEventListener('input', function() {
         const searchQuery = this.value.toLowerCase();
+        let filteredUsers = [];
 
         // 사용자 목록을 필터링
-        const filteredUsers = window.users.filter(user => 
-            user.user_num.toString().toLowerCase().includes(searchQuery) ||
-            user.id.toLowerCase().includes(searchQuery) ||
-            user.name.toLowerCase().includes(searchQuery) ||
-            user.nickname.toLowerCase().includes(searchQuery) ||
-            user.rank.toString().toLowerCase().includes(searchQuery) ||
-            formatDate(user.birth).toLowerCase().includes(searchQuery) ||
-            (user.gender === 'M' ? '남성' : '여성').toLowerCase().includes(searchQuery) ||
-            user.is_deleted.toString().toLowerCase().includes(searchQuery)
-        );
-
+        if (pageType === "userManagement") {
+            filteredUsers = window.users.filter(user => 
+                user.user_num.toString().toLowerCase().includes(searchQuery) ||
+                user.id.toLowerCase().includes(searchQuery) ||
+                user.name.toLowerCase().includes(searchQuery) ||
+                user.nickname.toLowerCase().includes(searchQuery) ||
+                user.rank.toString().toLowerCase().includes(searchQuery) ||
+                formatDate(user.birth).toLowerCase().includes(searchQuery) ||
+                (user.gender === 'M' ? '남성' : '여성').toLowerCase().includes(searchQuery) ||
+                user.is_deleted.toString().toLowerCase().includes(searchQuery)
+            );
+        } else if (pageType === "userRankManagement") {
+            filteredUsers = window.users.filter(user => 
+                user.user_num.toString().toLowerCase().includes(searchQuery) ||
+                user.id.toLowerCase().includes(searchQuery) ||
+                user.name.toLowerCase().includes(searchQuery) ||
+                user.nickname.toLowerCase().includes(searchQuery) ||
+                user.rank.toString().toLowerCase().includes(searchQuery) ||
+                formatDate(user.birth).toLowerCase().includes(searchQuery)
+            );
+        } else if (pageType === "newUserManagement") {
+            filteredUsers = window.users.filter(user => 
+                user.user_num.toString().toLowerCase().includes(searchQuery) ||
+                user.id.toLowerCase().includes(searchQuery) ||
+                user.name.toLowerCase().includes(searchQuery) ||
+                user.nickname.toLowerCase().includes(searchQuery) ||
+                formatDate(user.birth).toLowerCase().includes(searchQuery) ||
+                (user.gender === 'M' ? '남성' : '여성').toLowerCase().includes(searchQuery) ||
+                user.created_at.toString().toLowerCase().includes(searchQuery)
+            );
+        } else if (pageType === "withdrawnUserManagement") {
+            filteredUsers = window.users.filter(user => 
+                user.user_num.toString().toLowerCase().includes(searchQuery) ||
+                user.id.toLowerCase().includes(searchQuery) ||
+                user.name.toLowerCase().includes(searchQuery) ||
+                user.nickname.toLowerCase().includes(searchQuery) ||
+                formatDate(user.deleted_at).toLowerCase().includes(searchQuery) ||
+                user.deleted_reason.toLowerCase().includes(searchQuery)
+            );
+        } else if (pageType === "suspnededUserManagement") {
+            filteredUsers = window.users.filter(user => 
+                user.user_num.toString().toLowerCase().includes(searchQuery) ||
+                user.id.toLowerCase().includes(searchQuery) ||
+                user.name.toLowerCase().includes(searchQuery) ||
+                formatDate(user.suspended_at).toLowerCase().includes(searchQuery) ||
+                user.suspension_duration.toLowerCase().includes(searchQuery) ||
+                user.suspended_reason.toLowerCase().includes(searchQuery) ||
+                user.suspend_user_num.toLowerCase().includes(searchQuery)
+            );
+        }
         // 필터링된 사용자 목록을 기반으로 테이블 데이터를 표시
         displayFilteredTableData(filteredUsers);
     });
@@ -206,20 +318,74 @@
 
         let tbodyContent = '';
         currentItems.forEach(user => {
-            tbodyContent += `
-                <tr>
-                    <td>${user.user_num}</td>
-                    <td>${user.id}</td>
-                    <td>${user.name}</td>
-                    <td>${user.nickname}</td>
-                    <td>${user.rank}</td>
-                    <td>${formatDate(user.birth)}</td>
-                    <td>${user.gender === 'M' ? '남성' : '여성'}</td>
-                    <td>${user.is_deleted}</td>
-                </tr>
-            `;
+            if (pageType === "userManagement") {
+                tbodyContent += `
+                    <tr>
+                        <td>${user.user_num}</td>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.nickname}</td>
+                        <td>${user.rank}</td>
+                        <td>${formatDate(user.birth)}</td>
+                        <td>${user.gender === 'M' ? '남성' : '여성'}</td>
+                        <td>${user.is_deleted}</td>
+                    </tr>
+                `;
+            } else if (pageType === "userRankManagement") {
+                const switchText = user.is_admin == 'USER' ? '관리자 전환' : '사용자 전환';
+                tbodyContent += `
+                    <tr>
+                        <td>${user.user_num}</td>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.nickname}</td>
+                        <td>${user.rank}</td>
+                        <td>${formatDate(user.birth)}</td>
+                        <td><button class="table_btn rank_up_btn">등급 승격</button></td>
+                        <td><button class="table_btn rank_switch_btn">${switchText}</button></td>
+                    </tr>
+                `;
+            } else if (pageType === "newUserManagement") {
+                tbodyContent += `
+                    <tr>
+                        <td>${user.user_num}</td>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.nickname}</td>
+                        <td>${formatDate(user.birth)}</td>
+                        <td>${user.gender === 'M' ? '남성' : '여성'}</td>
+                        <td><strong>${formatDate(user.created_at)}</strong></td>
+                    </tr>
+                `;
+            } else if (pageType === "withdrawnUserManagement") {
+                tbodyContent += `
+                    <tr class="user-row">
+                        <td>${user.user_num}</td>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.nickname}</td>
+                        <td class="withdrawal-date">${formatDate(user.deleted_at)}</td>
+                        <td>${user.deleted_reason}</td>
+                        <td><button class="table_btn withdrawn_delete_btn">계정 삭제</button></td>
+                    </tr>
+                `; 
+            } else if (pageType === "suspendedUserManagement") {
+                tbodyContent += `
+                    <tr class="user-row">
+                        <td>${user.user_num}</td>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${formatDate(user.suspended_at)}</td>
+                        <td>${user.suspension_duration === 10000 ? '영구 정지' : `${user.suspension_duration}일`}</td>
+                        <td>${user.suspended_reason}</td>
+                        <td>${user.suspend_user_num}</td>
+                        <td><button class="table_btn suspend_btn" th:if="${!user.is_deleted}" th:text="${user.is_suspended ? '정지 해제' : '정지'}"></td>
+                    </tr>
+                `; 
+            }
         });
         document.querySelector('tbody').innerHTML = tbodyContent;
+        highlightOldWithdrawnUsers();
         updatePageDisplayForFilteredUsers(filteredUsers.length);
     }
 
@@ -231,6 +397,7 @@
     // 초기 표시
     displayTableData();
     updatePageDisplay();
+
     
     // 행 클릭 이벤트 리스너
     $('body').off('click', 'tbody tr.user-row').on('click', 'tbody tr.user-row', function() {
@@ -247,7 +414,12 @@
     $('.detail-content-row').remove();
     
     // 그렇지 않다면 상세 내용 로드
-    $('<td colspan="8"></td>').load('/privacy-admin/user-management/user-detail.do?user_num=' + userNum, function(response, status, xhr) {
+    let colspanValue = 8;
+    if (pageType === "newUserManagement" || pageType === "withdrawnUserManagement") {
+        colspanValue = 7; 
+    } 
+
+    $('<td colspan="' + colspanValue + '"></td>').load('/privacy-admin/user-management/user-detail.do?user_num=' + userNum, function(response, status, xhr) {
             if (status == "error") {
                 console.error("Error loading detail content:", xhr.status + " " + xhr.statusText);
                 return;
@@ -255,7 +427,7 @@
             
             const detailContent = `
                 <tr class="detail-content-row">
-                    <td colspan="8" class="detail-container">
+                    <td colspan="${colspanValue}" class="detail-container">
                         ${response}
                     </td>
                 </tr>
@@ -272,50 +444,116 @@
                     console.error('userNum is not defined!');
                 }
             });
+            
+            // 닉네임 변수
+            const nickname = $('#detail-user-nickname').text();
 
-            // 정지, 정지 해제 버튼
+            // 모달 변수
+            const modal = document.getElementById("suspendModal");
+
+            // 정지 버튼 클릭 이벤트
             $('#suspend_btn').on('click', function() {
-                const nickname = $('#detail-user-nickname').text();
-                // 정지 확인 알림
-                let confirmationMessage = '';
-                if ($(this).text() === '정지') {
-                    confirmationMessage = nickname + "님의 계정을 정말 정지시키시겠습니까?";
-                } else {;
-                    confirmationMessage = nickname + "님의 정지를 정말 해제하시겠습니까?";
-                }
+                const confirmationMessage = nickname + "님의 계정을 정지시키시겠습니까?";
                 if (!window.confirm(confirmationMessage)) {
                     return;
                 }
+                modal.style.display = "block";
+            });
 
-                // ajax 회원 정지,정지해제 post 요청
+            // 정지 모달 내의 "확인" 버튼 클릭 이벤트
+            const confirmBtn = document.getElementById("suspend_confirm_btn");
+            confirmBtn.onclick = function() {
+                const reason = document.getElementById("suspended_reason").value;
+                const duration = document.getElementById("suspension_duration").value;
+                const errorMessage = document.querySelector(".suspend-error");
+                
+                // 유효성 검사
+                if (!reason.trim()) {
+                    errorMessage.textContent = "정지 사유를 입력해주세요.";
+                    return false;
+                }
+                if (!duration.trim()) {
+                    errorMessage.textContent = "정지 기한을 선택해주세요.";
+                    return false;
+                }
+                errorMessage.textContent = "";
+
+                // ajax 호출을 실행하여 사용자를 정지
+                const userNum = $('#userData').text();
                 if (userNum) {
                     $.ajax({
                         url: "/api/suspend-user",
                         type: "POST",
                         contentType: "application/json",
                         data: JSON.stringify({
-                            userNum: userNum, 
-                            action: $(this).text() === '정지' ? 'suspend' : 'unsuspend'
+                            userNum: userNum,
+                            action: 'suspend',
+                            reason: reason,
+                            duration: duration
                         }),
                         dataType: 'json',
                         success: function(response) {
                             if (response.status === 'success') {
-                                if (response.action === 'suspend') {
-                                    $('#suspend_btn').text('정지 해제');
-                                    alert(nickname + "님의 계정이 정지되었습니다.");
-                                    location.reload();
-                                } else {
-                                    $('#suspend_btn').text('정지');
-                                    alert(nickname + "님의 계정이 정지 해제되었습니다.");
-                                    location.reload();
-                                }
+                                alert(nickname + "님의 계정이 정지되었습니다.");
+                                location.reload();
                             } else {
-                                console.error('Error suspending/unsuspending user:', response.message);
+                                console.error('Error suspending user:', response.message);
                             }
                         },
                         error: function(xhr, status, error) {
                             alert("회원 정지 중 오류가 발생했습니다. 상태: " + status + ", 응답: " + xhr.responseText);
+                        }
+                    });
+                } else {
+                    console.error('userNum is not defined!');
+                }
+                console.log(reason);
+                modal.style.display = "none";
+            };
+
+            // 모달 닫기 버튼
+            $('.close-btn').on('click', function() {
+                $('#suspendModal').hide();
+            });
+
+            // 모달 외부 클릭 시 모달 닫기
+            $(window).on('click', function(event) {
+                if ($(event.target).is('#suspendModal')) {
+                    $('#suspendModal').hide();
+                }
+            });
+
+
+            // 정지 해제 버튼 클릭 이벤트
+            $('#unsuspend_btn').on('click', function() {
+                const nickname = $('#detail-user-nickname').text();
+                const confirmationMessage = nickname + "님의 정지를 정말 해제하시겠습니까?";
+                if (!window.confirm(confirmationMessage)) {
+                    return;
+                }
+
+                const userNum = $('#userData').text();
+                if (userNum) {
+                    $.ajax({
+                        url: "/api/suspend-user",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({
+                            userNum: userNum,
+                            action: 'unsuspend'
+                        }),
+                        dataType: 'json',
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                alert(nickname + "님의 계정이 정지 해제되었습니다.");
+                                location.reload();
+                            } else {
+                                console.error('Error unsuspending user:', response.message);
+                            }
                         },
+                        error: function(xhr, status, error) {
+                            alert("회원 정지 해제 중 오류가 발생했습니다. 상태: " + status + ", 응답: " + xhr.responseText);
+                        }
                     });
                 } else {
                     console.error('userNum is not defined!');
