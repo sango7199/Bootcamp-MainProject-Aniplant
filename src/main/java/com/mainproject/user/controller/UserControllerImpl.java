@@ -54,7 +54,7 @@ public class UserControllerImpl implements UserController {
 	@Autowired
 	UserVO userVO;
 	
-	@Override // 회원가입 페이지 이동
+	@Override // 사용자가입 페이지 이동
 	@RequestMapping(value = {"/user/join.do"}, method = RequestMethod.GET)
 	public ModelAndView viewJoin(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
@@ -74,7 +74,7 @@ public class UserControllerImpl implements UserController {
 	    }
 	}
 	
-	@Override // 아이디 중복 체크 로직
+	@Override // 아이디 중복 확인 입력
 	@PostMapping("/api/check-id")
 	public ResponseEntity<Map<String, Boolean>> checkId(@RequestParam("id") String id) {
 		boolean isDuplicate = userService.isIdDuplicate(id);
@@ -83,7 +83,7 @@ public class UserControllerImpl implements UserController {
 	    return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
-	@Override // 닉네임 중복 체크 로직
+	@Override // 정보 입력 중복 확인 입력
 	@PostMapping("/api/check-nickname")
 	public ResponseEntity<Map<String, Boolean>> checkNickname(@RequestParam("nickname") String nickname) {
 		 boolean isDuplicate = userService.isNicknameDuplicate(nickname);
@@ -92,7 +92,7 @@ public class UserControllerImpl implements UserController {
 		 return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
-	@Override // 회원가입 완료 페이지 이동
+	@Override // 사용자가입 확인 페이지 이동
 	@RequestMapping(value = {"/user/join-complete.do"}, method = RequestMethod.GET)
 	public ModelAndView viewJoinComplete(@RequestParam("name") String name, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
@@ -111,7 +111,7 @@ public class UserControllerImpl implements UserController {
 		return mav;
 	}
 	
-	@Override // 로그인 로직
+	@Override // 로그인 입력
 	@PostMapping("/api/login")
 	public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest, HttpSession session) {
 	    // 현재 인증 상태를 가져옴
@@ -179,17 +179,17 @@ public class UserControllerImpl implements UserController {
 	    return new ResponseEntity<>(result, status);
 	}
 	
-	@Override // 로그아웃 로직
+	@Override // 로그아웃 입력
 	@GetMapping("/api/logout")
 	public ResponseEntity<?> logout(HttpSession session) {
-	    // 세션에서 사용자 정보를 제거
+	    // 필요한 곳에서 사용자 정보 삭제
 	    session.removeAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
 	    SecurityContextHolder.clearContext();
 
-	    return ResponseEntity.ok().body("로그아웃에 성공하였습니다.");
+	    return ResponseEntity.ok().body("濡쒓렇�븘�썐�뿉 �꽦怨듯븯���뒿�땲�떎.");
 	}
 	
-	@Override // 권한 설정 테스트 페이지 이동
+	@Override // 회원정보 설정 메뉴 페이지 이동
 	@RequestMapping(value = {"/admin/test.do"}, method = RequestMethod.GET)
 	public ModelAndView viewAdminTest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = (String) request.getAttribute("viewName");
