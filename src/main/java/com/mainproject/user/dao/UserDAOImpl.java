@@ -27,23 +27,24 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override // 회원가입 회원정보 등록 로직
+
 	public int registerUser(UserVO userVO) throws DataAccessException {
 		return sqlSession.insert("mapper.user.registerUser", userVO);
 	}
 	
-	@Override // 회원가입 아이디 중복 검사 로직
+	@Override // 사용자 가입 아이디 중복 확인 입력
 	public boolean isIdDuplicate(String value) throws DataAccessException {
 		int count = sqlSession.selectOne("mapper.user.checkIdDuplicate", value);
 		return count > 0;
 	}
 	
-	@Override // 회원가입 닉네임 중복 검사 로직
+	@Override // 사용자 가입 정보 입력 중복 확인
 	public boolean isNicknameDuplicate(String value) throws DataAccessException {
 		int count = sqlSession.selectOne("mapper.user.checkNicknameDuplicate", value);
 		return count > 0;
-	}
+	}  
 	
-	@Override // 해당 username(ID)를 가진 사용자의 모든 정보 조회
+	@Override //특정 username(ID)을 입력한 사용자의 모든 정보 조회
     public UserVO getUserByUsername(String username) throws DataAccessException {
 		return sqlSession.selectOne("mapper.user.getUserByUsername", username);
     }
@@ -99,6 +100,9 @@ public class UserDAOImpl implements UserDAO {
 		sqlSession.delete("mapper.user.removeUser", user_num);
 	}
 
+} 
+
+
 	@Override // 모든 계정 정보 가져오는 로직
 	public List<UserVO> getAllAccounts() throws DataAccessException {
 		return sqlSession.selectList("mapper.user.getAllAccounts");
@@ -148,3 +152,4 @@ public class UserDAOImpl implements UserDAO {
 		return sqlSession.selectList("mapper.user.getSuspendedUsersThisMonth");
 	}
 }
+

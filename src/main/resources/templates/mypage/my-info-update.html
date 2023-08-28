@@ -1,40 +1,16 @@
-<<<<<<< HEAD
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/defaultLayout}">
-<!-- 페이지의 제목 설정 -->
-<head>
-    <title>나의 정보 관리</title>
-</head>
-=======
 <!-- 페이지의 제목 설정 -->
     <title>계정 정보 수정</title>
->>>>>>> main
 
 <!-- 해당 페이지 고유 CSS 추가 -->
 <th:block layout:fragment="css">
 	<style>
-		.container {
-            display: flex;
-            flex-direction: row; 
-            align-items: start;
-        }
         .error {
             color: red;
             font-size: 12px;
         }
 	</style>
 </th:block>
-<!-- 해당 페이지 고유 스크립트 추가 -->
-<th:block layout:fragment="script">
-	<script>
-        $(document).ready(function() {
-            $("#confirm_btn").click(function() {
-                var isValid = true // 유효성 검사
 
-<<<<<<< HEAD
-                var pwd_confirm = $("#pwdInput").val();
-
-=======
 	<div class="content">
 		<h2>계정 정보 수정</h2>
 		<form id="update_form" name="update_form" method="post" action="">
@@ -118,43 +94,47 @@
                 } else {
                     $("#passwordError").text("");
                 }
->>>>>>> main
                 if (!pwd_confirm) {
-                    $("#confirmError").text("비밀번호를 입력해주세요.");
+                    $("#passwordConfirmError").text("비밀번호 확인을 입력해주세요.");
+                    isValid = false;
+                } else if (pwd !== pwd_confirm) {
+                    $("#passwordCheckError").text("비밀번호가 일치하지 않습니다.");
                     isValid = false;
                 } else {
-                    $("#confirmError").text("");
+                    $("#passwordConfirmError").text("");
+                    $("#passwordCheckError").text("");
                 }
+            }
 
-                if (!isValid) {  // 유효성 검사에 실패하면 함수를 빠져나옴
-                    return;
+            // 이메일 유효성 검사
+            var email = $("#emailUpdateInput").val();
+            if (email && !emailPattern.test(email)) {
+                $("#emailError").text("유효한 이메일 형식이 아닙니다.");
+                isValid = false;
+            } else {
+                $("#emailError").text("");
+            }
+
+            // 닉네임 변경 및 중복 확인
+            if (isNicknameChanged && !isNicknameChecked) {
+                $("#nicknameError").text("닉네임이 변경되었습니다. 중복 확인을 해주세요.");
+                isValid = false;
+            }
+
+            // 전화번호 유효성 검사
+            var telInput = $("#telUpdateInput").val();
+            if (telInput !== originalTel) {
+                if (!telInput) {
+                    $("#telError").text("전화번호를 입력해주세요.");
+                    isValid = false;
+                } else if (!telPattern.test(telInput)) {
+                    $("#telError").text("유효한 전화번호 형식이 아닙니다.");
+                    isValid = false;
+                } else {
+                    $("#telError").text("");
                 }
+            }
 
-<<<<<<< HEAD
-                $(this).prop("disabled", true);  // 수정하기 버튼 비활성화
-                
-                // 사용자 본인인지 확인하는 비밀번호 확인 로직
-                $.ajax({
-                    url: "/api/confirmUser",
-                    type: "POST",
-                    data: { pwd: pwd_confirm },
-                    success: function(response) { // .content 부분만 다른 페이지의 .content 부분을 불러와서 변경
-                    	if (response.status === 'success') {
-                    		$('.content').load("/mypage/my-info-update.do");
-                    	}
-                    },
-                    error: function(xhr, status, error) {
-                    if (xhr.status == 401) {  // HTTP 상태 코드 401: Unauthorized
-                            $("#confirmError").text(xhr.responseJSON.errorMessage);
-                        } else {
-                            $("#confirmError").text("비밀번호 확인 중 오류가 발생했습니다.");
-                        }
-                    },
-                    complete: function() {
-                        $("#confirm_btn").prop("disabled", false);  // 수정하기 버튼 활성화
-                    }
-                });
-=======
             if (!isValid) {
                 return;  // 유효성 검사 실패시 함수 종료
             }
@@ -205,32 +185,9 @@
                 complete: function() {
                   $("#update_btn").prop("disabled", false);  // 정보 수정 버튼 활성화
                 }
->>>>>>> main
             });
-        });
-<<<<<<< HEAD
-    </script>
-</th:block>
 
-<!-- Content -->
-<div layout:fragment="content" class="container">
-	<!-- sidebar fragment 사용 -->
-	<div th:replace="sidebar/mypage :: mypageSidebar"></div>
-	<div class="content">
-		<h2>나의 정보 관리</h2>
-		<form id="confrim_form" name="confirm_form" method="post" action="">
-            <h5>계정 본인 확인을 위한 비밀번호 확인</h5>
-			<input type="password" id="pwdInput" name="password_confirm" placeholder="비밀번호를 입력해주세요."><span id="confirmError" class="error"></span><br>
-			<button type="button" id="confirm_btn" class="btn_submit">수정하기</button>
-		</form>
-	</div>
-</div>
-=======
+            
+        });
     });
 </script>
-<<<<<<< HEAD
-
-</html>
->>>>>>> main
-=======
->>>>>>> main
