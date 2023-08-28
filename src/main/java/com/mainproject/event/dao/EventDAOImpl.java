@@ -2,18 +2,21 @@ package com.mainproject.event.dao;
 
 import com.mainproject.event.vo.EventVO;
 
+import java.util.HashMap;
 import java.util.List;
- 
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.jdbc.core.JdbcTemplate;  
 
 @Repository
 public class EventDAOImpl implements EventDAO {
     
-	@Autowired     
+	@Autowired      
     private SqlSession sqlSession;
   
     @Override
@@ -28,7 +31,7 @@ public class EventDAOImpl implements EventDAO {
 	public List<EventVO> getAllEvents() {
 		  return selectAllEvents(); 
 			
-	} 
+	}  
 	
 	@Override
     public EventVO getEventByTitle(String eventTitle) {
@@ -48,19 +51,20 @@ public class EventDAOImpl implements EventDAO {
 
 	
 	 @Override
-	    public void updateEvent(EventVO event) {
-	        sqlSession.update("mapper.event.updateEvent", event);
+	 @Transactional  
+	 public void updateEvent(EventVO event) {
+	      sqlSession.update("mapper.event.updateEvent", event);
 	         
 	 } 
 	 
-
+ 
 	 @Override
 	 public void updateEventByEventNum(int eventNum, EventVO updatedEvent) {
-	     // 기존 이벤트 조회
+	   
 	     EventVO existingEvent = getEventByEventNum(eventNum);
 
 	     if (existingEvent != null) {
-	         // 업데이트할 속성 설정
+	         
 	    	 existingEvent.setTitle(updatedEvent.getTitle());
 	         existingEvent.setStarted_at(updatedEvent.getStarted_at());
 	         existingEvent.setEnded_at(updatedEvent.getEnded_at());
@@ -73,11 +77,7 @@ public class EventDAOImpl implements EventDAO {
 	         throw new IllegalArgumentException("Event not found.");
 	     }
 	 }
-	@Override
-	public void deleteEvent(Long eventId) {
-			
-	}
-   
+	
 	@Override
 	public void updateEventByTitle(String eventTitle, EventVO updatedEvent) {
 			
@@ -87,8 +87,26 @@ public class EventDAOImpl implements EventDAO {
 	public EventVO getEventByEventNum(int eventNum) {
 	    return sqlSession.selectOne("mapper.event.getEventByEventNum", eventNum);
 	} 
+	 
+	@Transactional 
+	@Override 
+	public void markEventAsDeleted(int eventNum) {
+	    sqlSession.update("mapper.event.markEventAsDeleted", eventNum); 
+	}
+
 	
-	
-}     
+	 
+	@Override
+	public void deleteEvent(Long eventId) {
+		// TODO Auto-generated method stub
+		
+	}
+
  
+	
+	
+ 
+	 
+}      
+  
 	 

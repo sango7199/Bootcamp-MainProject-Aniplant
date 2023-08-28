@@ -23,7 +23,7 @@ public class EventVO {
 	
 	public EventVO() { 
 	 
-	} 
+	}  
 
 	public int getEvent_num() {
 		return event_num;
@@ -113,9 +113,9 @@ public class EventVO {
 		this.updated_at = updated_at;
 	}
 
-	public boolean isIs_deleted() {
-		return is_deleted;
-	}
+	public boolean isIs_deleted() { 
+		return is_deleted; 
+	} 
 
 	public void setIs_deleted(boolean is_deleted) {
 		this.is_deleted = is_deleted;

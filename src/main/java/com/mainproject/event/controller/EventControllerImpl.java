@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -28,7 +29,7 @@ public class EventControllerImpl implements EventController {
    
     @Autowired 
     private EventService eventService;
-    
+     
  
     @GetMapping("/createEventForm")
     public String showCreateEventForm(Model model) {
@@ -43,11 +44,11 @@ public class EventControllerImpl implements EventController {
     }   
     
     @GetMapping("/listEvents.do")  
-    public ModelAndView listEvents() {
+    public ModelAndView listEvents() { 
         ModelAndView modelAndView = new ModelAndView("event/listEvents"); 
         modelAndView.addObject("eventsList", eventService.listEvents());
         return modelAndView;
-        
+         
     }  
       
     @GetMapping("/viewEvent") 
@@ -55,15 +56,21 @@ public class EventControllerImpl implements EventController {
         ModelAndView modelAndView = new ModelAndView("event/viewEvent");
         EventVO event = eventService.getEventByTitle(eventTitle);
         modelAndView.addObject("event", event);
-        modelAndView.addObject("eventNum", event.getEvent_num()); // event_num을 추가로 전달
+        modelAndView.addObject("eventNum", event.getEvent_num()); // event_num占쏙옙 占쌩곤옙占쏙옙 占쏙옙占쏙옙
         return modelAndView;
-    }
+    } 
     
     @GetMapping("/deleteEvent")
-    public String deleteEvent(@RequestParam("eventId") int eventId) {
-        eventService.deleteEvent(eventId);
-        return "redirect:/event/listEvents.do";   
-    }  
+    @Transactional 
+    public String deleteEvent(@RequestParam("eventNum") int eventNum) {
+        try {
+            eventService.markEventAsDeleted(eventNum);
+        } catch (IllegalArgumentException e) {
+            
+            e.printStackTrace();
+        }
+        return "redirect:/event/listEvents.do";     
+    } 
     
     @GetMapping("/editEventForm")
     public String showEditEventForm(@RequestParam("eventNum") int eventNum, Model model) {
@@ -80,13 +87,23 @@ public class EventControllerImpl implements EventController {
         try {
             eventService.updateEventByEventNum(eventNum, event);
 
-            // 업데이트된 이벤트의 뷰 페이지로 리디렉션
+         
             redirectAttributes.addAttribute("eventTitle", event.getTitle());
             return "redirect:/event/viewEvent";
         } catch (IllegalArgumentException e) { 
-            // 이벤트를 찾을 수 없거나 업데이트 실패 시, 에러 메시지를 콘솔에 출력
+           
             e.printStackTrace();
-            return "redirect:/event/listEvents.do"; // 에러 페이지로 리디렉션할 수도 있습니다.
+            return "redirect:/event/listEvents.do"; 
         }
     } 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }  

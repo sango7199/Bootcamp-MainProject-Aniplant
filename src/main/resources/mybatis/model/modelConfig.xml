@@ -11,6 +11,11 @@
 		<typeAlias type="com.mainproject.board.vo.BoardVO"  alias="boardVO" />
 		<typeAlias type="com.mainproject.event.vo.EventVO"  alias="eventVO" />
 	</typeAliases>   
-</configuration>
+	  
+	
+	
+	
+	
+</configuration>  
  
  

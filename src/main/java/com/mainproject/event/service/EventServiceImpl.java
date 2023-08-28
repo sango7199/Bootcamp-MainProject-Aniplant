@@ -12,12 +12,13 @@ import com.mainproject.event.dao.EventDAO;
 import com.mainproject.event.vo.EventVO;
 
 @Service("eventService")
+
 public class EventServiceImpl implements EventService { 
 	 
 	@Autowired
     private EventDAO eventDAO;
 
-    @Override
+    @Override   
     public void createEvent(EventVO eventVO) {
         if (eventVO != null && eventVO.getTitle() != null && !eventVO.getTitle().isEmpty()) {
             eventDAO.insertEvent(eventVO);
@@ -37,24 +38,19 @@ public class EventServiceImpl implements EventService {
 		return eventDAO.getEventByTitle(eventTitle);
 		
 }  
-	
-	@Override
-    public void deleteEvent(int eventId) {
-        eventDAO.deleteEvent(eventId);
-    } 
+
 	
 	@Override
     public EventVO getEventById(int eventId) {
-        return eventDAO.getEventById(eventId); // ±¸Çö ÇÊ¿ä
+        return eventDAO.getEventById(eventId); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½
     }
-	
 	
 	 
 	@Override
 	public void updateEventByEventNum(int eventNum, EventVO updatedEvent) {
 	    EventVO existingEvent = eventDAO.getEventByEventNum(eventNum);
 	    if (existingEvent != null) {
-	        // ÇÊ¿äÇÑ ¼Ó¼ºµé ¾÷µ¥ÀÌÆ®
+	        // ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½Ó¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 	    	existingEvent.setTitle(updatedEvent.getTitle());
 	        existingEvent.setStarted_at(updatedEvent.getStarted_at());
 	        existingEvent.setEnded_at(updatedEvent.getEnded_at());
@@ -63,33 +59,67 @@ public class EventServiceImpl implements EventService {
 
 	        eventDAO.updateEvent(existingEvent);
 	    } else {
-	        throw new IllegalArgumentException("ÀÌº¥Æ®¸¦ Ã£À» ¼ö ¾ø°Å³ª ÀÌº¥Æ® ¹øÈ£°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.");
+	        throw new IllegalArgumentException("ï¿½Ìºï¿½Æ®ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Å³ï¿½ ï¿½Ìºï¿½Æ® ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.");
 	    }
 	}
 	@Override
+	@Transactional
 	public void updateEvent(EventVO event) {
 		 eventDAO.updateEvent(event);
-		
-	}
+		 
+	} 
 
-	@Override
-	public void updateEventByIdAndTitle(int eventId, String eventTitle, EventVO updatedEvent) {
-	
-		
-	}
-
-	@Override
-	public void updateEventByTitle(String title, EventVO existingEvent) {
-		
-		
-	}
 
 	@Override
 	public EventVO getEventByEventNum(int eventNum) {
 	    return eventDAO.getEventByEventNum(eventNum);
 	}
-	 
+	    
+	  
+	@Override
+	@Transactional
+	public void markEventAsDeleted(int eventNum) {
+	    EventVO existingEvent = eventDAO.getEventByEventNum(eventNum); 
+	    if (existingEvent != null) {
+	        existingEvent.setIs_deleted(true); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
+	        eventDAO.updateEvent(existingEvent); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+	    } else {
+	        throw new IllegalArgumentException("ï¿½Ìºï¿½Æ®ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Å³ï¿½ ï¿½Ìºï¿½Æ® ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.");
+	    }
+	} 
+
+	@Override
+	public void deleteEvent(int eventId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateEventByTitle(String title, EventVO existingEvent) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateEventByIdAndTitle(int eventId, String eventTitle, EventVO updatedEvent) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<EventVO> listEventsWithPaging(int page, int perPageNum) {
+		// TODO Auto-generated method stub
+		return null;
+	}
  
+	@Override
+	public int getTotalEventCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	} 
 	   
+	  
+	   
+	  
 	    
 	}

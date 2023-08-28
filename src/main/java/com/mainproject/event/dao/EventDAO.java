@@ -30,6 +30,16 @@ public interface EventDAO {
 
 	void updateEventByEventNum(int eventNum, EventVO updatedEvent);
 	
+	void markEventAsDeleted(int eventId);
+
+	
+
+	
+
+	
+
+	
+	
 	 
 
 

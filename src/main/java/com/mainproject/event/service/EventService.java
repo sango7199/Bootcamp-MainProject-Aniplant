@@ -14,7 +14,7 @@ public interface EventService {
 	
 	EventVO getEventById(int eventId);
 	
-	void deleteEvent(int eventId);
+	void deleteEvent(int eventId); 
 	
 	void updateEvent(EventVO event);
 
@@ -25,6 +25,15 @@ public interface EventService {
 	void updateEventByEventNum(int event_num, EventVO event);
 
 	EventVO getEventByEventNum(int eventNum);
+	
+	void markEventAsDeleted(int eventId);
+
+	List<EventVO> listEventsWithPaging(int page, int perPageNum);
+
+	int getTotalEventCount();  
+
+	
+	
 
 	
 
