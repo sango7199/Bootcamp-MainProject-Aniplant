@@ -1,10 +1,23 @@
 package com.mainproject.category.service;
 
+
+import com.mainproject.category.vo.CategoryVO;
+
+
+
+
+
+
 import java.util.List;
 
 import com.mainproject.category.vo.CategoryVO;
 
 public interface CategoryService {
+	
+	CategoryVO getCategoryByCategoryNum(int categoryNum);
+
+
+	
     // 모든 카테고리 목록 조회
     List<CategoryVO> listCategories() throws Exception;
 
@@ -19,4 +32,5 @@ public interface CategoryService {
 
     // 검색 카테고리 수 조회
 	int getSelectTotalCount(String searchType, String keyword) throws Exception;
+
 }

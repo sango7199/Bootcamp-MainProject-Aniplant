@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용--> 
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>게시글 쓰기</title>
+</head>
+
+<!-- 해당 페이지 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+  <style>
+    .container {
+              display: flex;
+              flex-direction: row; 
+              align-items: start;
+          }
+  </style>
+      <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+</th:block>
+<!-- 해당 페이지 고유 스크립트 추가 -->
+<th:block layout:fragment="script"> 
+
+
+    <!--    <script th:src="@{/js/page/home.js}"></script>-->
+</th:block>
+
+<body>
+  <!-- Content -->
+<div layout:fragment="content" class="container">
+  <!-- sidebar fragment 사용 -->
+  <div th:replace="sidebar/article :: articleSidebar"></div>
+  
+  <div class="content">
+    <h3 >게시글 쓰기</h3>
+    <form id="articleForm" name="articleForm" th:action="@{/board/articleForm.do}" th:object="${board}" method="post">
+        
+        <table align="left">
+        	  <tr>
+        		    <td align="left">카테고리</td>
+                    <td colspan="2" >
+                      <select id="topLevelSelect" name="categoryNum">
+                        <option  th:value="127">동물게시판</option>
+                        <option th:value="128">식물게시판</option>
+                      </select>
+                      
+                </td>
+            
+        	
+        	 </tr> 
+            <tr>
+                <td align="left">제목 </td>
+                <td colspan="2" ><input type="text" size="50" maxlength="60" th:field="*{title}" /></td>
+            </tr>
+            <tr>
+                <td align="left" valign="top"><br>내용 </td>
+                <td colspan="2"><textarea name="content" rows="10" cols="65" maxlength="4000" th:field="*{content}"></textarea> </td>
+            </tr>
+            <tr>
+                <td align="left"> </td>
+                <td colspan="2">
+                  <input type="reset" value="초기화"  />
+                    <input type="submit" value="등록" />
+                    
+                </td>
+            </tr>
+        </table>
+    </form>
+  </div>
+</div>
+</body>
+</html>

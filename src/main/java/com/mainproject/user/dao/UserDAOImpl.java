@@ -49,12 +49,12 @@ public class UserDAOImpl implements UserDAO {
 		return sqlSession.selectOne("mapper.user.getUserByUsername", username);
     }
 	
-	@Override // �쉶�썝 �젙蹂� �닔�젙 濡쒖쭅 (鍮꾨�踰덊샇 蹂�寃�)
+	@Override // 회원 정보 수정 로직 (비밀번호 변경)
 	public void updateUserWithPassword(UserVO userVO) throws DataAccessException {
 		sqlSession.update("mapper.user.updateUserWithPassword",userVO);
 	}
 	
-	@Override // �쉶�썝 �젙蹂� �닔�젙 濡쒖쭅 (鍮꾨�踰덊샇 誘몃�寃�)
+	@Override// 회원 정보 수정 로직 (비밀번호 미변경)
 	public void updateUserWithoutPassword(UserVO userVO) throws DataAccessException {
 		sqlSession.update("mapper.user.updateUserWithoutPassword",userVO);
 	}

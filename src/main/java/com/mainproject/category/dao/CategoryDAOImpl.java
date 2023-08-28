@@ -1,18 +1,29 @@
 package com.mainproject.category.dao;
 
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.mainproject.category.vo.CategoryVO;
+
+
+
 import com.mainproject.paging.PagingVO;
 
 @Repository("categoryDAO")
 public class CategoryDAOImpl implements CategoryDAO {
+	
+	 @Override
+	    public CategoryVO getCategoryByCategoryNum(int categoryNum) {
+	        return sqlSession.selectOne("mapper.category.getCategoryByCategoryNum", categoryNum);
+	    }
+
 
     @Autowired
     private SqlSession sqlSession;
@@ -52,4 +63,5 @@ public class CategoryDAOImpl implements CategoryDAO {
         // mapper.xml에서 지정한 SQL 쿼리를 실행하여 검색 조건에 맞는 카테고리 수를 조회합니다.
         return sqlSession.selectOne("mapper.category.getSelectTotalCount", parameters);
     }
+
 }
