@@ -59,13 +59,25 @@ $(document).ready(function() {
         }
     });
 
+    // 검색 로직
     $searchBtn.on('click', function() {
         const query = $searchInput.val();
-        if (query) {
-            saveSearchTerm(query);
-            $recentSearches.hide();
-        }
+        saveSearchTerm(query);
+        // AJAX 호출
+        $.ajax({
+            url: '/api/search-results',
+            type: 'GET',
+            data: {
+                searchTerm: query
+            },
+            success: function(response) {
+                let redirectUrl = `/user/search-results.do?results=${encodeURIComponent(JSON.stringify(response.results))}&searchTerm=${encodeURIComponent(response.searchTerm)}`;
+                window.location.href = redirectUrl;
+            }
+        });
     });
 
     loadRecentSearches();
+
+    
 });

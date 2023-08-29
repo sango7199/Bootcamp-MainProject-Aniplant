@@ -5,7 +5,14 @@
       layout:decorate="~{layout/defaultLayout}">
 
 <!-- index.html 고유 CSS 추가 -->
-<th:block layout:fragment="css"></th:block>
+<th:block layout:fragment="css">
+    <style>
+        .search-img {
+            width: 40px;
+            height: 40px;
+        }
+    </style>
+</th:block>
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
     <!--    <script th:src="@{/js/page/home.js}"></script>-->
@@ -14,6 +21,19 @@
 <!-- Content -->
 <div layout:fragment="content" class="container">
     <div class="content">
-        <h2>검색 결과 페이지</h2>
+        <h2>'<span th:text="${searchTerm}"></span>' 검색 결과 <span>총 <span th:text="${searchResults.size()}"></span>건</span></h2>
+        <div id="ai-area">
+            <span><img src="/img/search-ai.png" class="search-img">AI 추천 답변</span>
+            <div th:text="${gptAnswer}"></div>
+        </div>
+        <div id="board-area">
+            <span><img src="/img/search-article.png" class="search-img">관련 게시글 (<span th:text="${searchResults.size()}"></span>건)</span>
+            <ul>
+                <li th:each="board : ${searchResults}">
+                    <span th:text="${board.title}"></span>
+                    <span th:text="${board.content}"></span>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>

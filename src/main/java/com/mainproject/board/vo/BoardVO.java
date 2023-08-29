@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("boardVO")
 public class BoardVO {
 	private int post_num;
 	private int category_num;

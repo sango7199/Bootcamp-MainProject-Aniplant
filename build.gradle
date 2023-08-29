@@ -73,6 +73,8 @@ dependencies {
 	// JSON
 	implementation 'org.json:json:20210307'
 	
+	// Apache HTTPclient
+	implementation 'org.apache.httpcomponents:httpclient:4.5.13'
 }
 
 tasks.named('test') {
