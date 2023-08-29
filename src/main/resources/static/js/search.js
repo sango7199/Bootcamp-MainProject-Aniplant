@@ -79,5 +79,21 @@ $(document).ready(function() {
 
     loadRecentSearches();
 
+    // GPT 답변 한 글자씩 나타나도록 설정
+    const gptAnswerElem = $('#gpt-answer');
+    if (gptAnswerElem.length) { // gpt-answer element exists
+        const text = gptAnswerElem.text();
+        let index = 0;
+        gptAnswerElem.text('');
+
+        function typeText() {
+            if (index < text.length) {
+                gptAnswerElem.text(gptAnswerElem.text() + text[index]);
+                index++;
+                setTimeout(typeText, 30);
+            }
+        }
+        typeText();
+    }
     
 });

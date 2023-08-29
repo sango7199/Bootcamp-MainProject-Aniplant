@@ -18,6 +18,7 @@
         <result property="is_deleted" column="is_deleted"/>
         <result property="deleted_user_num" column="deleted_user_num"/>
         <result property="deleted_at" column="deleted_at"/>
+        <result property="author" column="author"/>
     </resultMap>
     
       <select id="selectArticlesByCategory" resultType="boardVO" parameterType="int">
@@ -76,6 +77,6 @@
 	    <foreach item="postNum" index="index" collection="list" open="(" separator="," close=")">
 	        #{postNum}
 	    </foreach>
-</select>
+	</select>
 
 </mapper>

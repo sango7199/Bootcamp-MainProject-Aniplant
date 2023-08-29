@@ -57,7 +57,7 @@ public class HeaderSearchServiceImpl implements HeaderSearchService {
 
             // 결과 출력
             String result = EntityUtils.toString(responseEntity);
-            // System.out.println(result);
+            System.out.println(result);
             
             // 결과에서 "choices" 키의 값을 추출
             JSONArray choicesArray = new JSONObject(result).getJSONArray("choices");

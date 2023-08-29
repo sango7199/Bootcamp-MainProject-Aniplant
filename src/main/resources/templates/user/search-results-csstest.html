@@ -16,7 +16,7 @@
         .inner-container {
             padding: 20px;
             margin: 0 auto;
-            width: 1024px;
+            max-width: 1024px;
         }
 
         #search-term {
@@ -90,6 +90,7 @@
             margin-right: 7px;
             border-right: 1px solid #cacaca;
         }
+
     </style>
 </th:block>
 <!-- 고유 스크립트 추가 -->
@@ -101,18 +102,18 @@
 <div layout:fragment="content" class="container">
     <div class="inner-container">
         <div class="content">
-            <h2>'<span id="search-term" th:text="${searchTerm}"></span>'에 대한 검색 결과 <span>총 <span th:text="${searchResults.size()}"></span>건</span></h2>
+            <h2>'<span id="search-term">CSS 테스트를 위해서 만들었긔~</span>'에 대한 검색 결과 <span>총 <span>5</span>건</span></h2>
             <div id="ai-area">
                 <span class="search-img-label"><img src="/img/search-ai.png" class="search-img">AI 추천 답변</span>
-                <div id="gpt-answer" th:text="${gptAnswer}"></div>
+                <div id="gpt-answer">이것은 지피티의 답변이다 연동하는데 진짜 뇌가 꼬여서 터지는 줄 알았다 다신 안한다~~~~~~₩ 내가 미쳤지~~~~~~~~₩₩</div>
             </div>
             <div id="board-area">
-                <span class="search-img-label"><img src="/img/search-article.png" class="search-img">관련 게시글 (<span th:text="${searchResults.size()}"></span>건)</span>
-                <div class="related-article" th:each="board : ${searchResults}">
-                    <div class="article-title" th:text="${board.title}"></div>
-                    <div class="article-content" th:text="${board.content}"></div>
-                    <di class="write-info">
-                        <span th:text="${board.author}"></span><span th:text="${board.created_at}"></span>
+                <span class="search-img-label"><img src="/img/search-article.png" class="search-img">관련 게시글 (<span>5</span>건)</span>
+                <div class="related-article">
+                    <div class="article-title">제목</div>
+                    <div class="article-content">내용 ㅁㄴ옴ㄴ이너미ㅓㄴㅁ이ㅏㅓㅇㅁ나ㅣㅓㅁ니ㅏ너ㅁㄴㅇㄴㅁㄴㅇㅁㅇㄴㄴㅁㅇㅁㄴㅇㄴㅁㅇㅁㄴㅇㄴㅁㅁㄴㅇㄴㅁㅇㅁㅇㅁㄴ미ㅏㄴ머이ㅏㅁㄴ어ㅣㅏㅁㄴ어미ㅏ넘니ㅏㅓㅇㅁ니ㅏㅓㅁㅇ니ㅏㅓㅁ니ㅏ언미아ㅓㄴ미ㅏㅓㅁ니ㅏㅓㅇㅁ니ㅏㅓㄴ미ㅏ먼이ㅏㅁ너아ㅣㅁㄴ언미ㄴ옴ㄴ이너미ㅓㄴㅁ이ㅏㅓㅇㅁ나ㅣㅓㅁ니ㅏ너미ㅏㄴ머이ㅏㅁㄴ어ㅣㅏㅁㄴ어미ㅏ넘니ㅏㅓㅇㅁ니ㅏㅓㅁㅇ니ㅏㅓㅁ니ㅏ언미아ㅓㄴ미ㅏㅓㅁ니ㅏㅓㅇㅁ니ㅏㅓㄴ미ㅏ먼이ㅏㅁ너아ㅣㅁㄴ언ㅏㅓㅁㅇ니ㅏ머니</div>
+                    <div class="write-info">
+                        <span>작성자</span><span>작성일시</span>
                     </div>
                 </div>
             </div>

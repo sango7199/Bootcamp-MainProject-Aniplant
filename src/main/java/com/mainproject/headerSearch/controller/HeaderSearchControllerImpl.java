@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -53,6 +55,16 @@ public class HeaderSearchControllerImpl implements HeaderSearchController {
 	    mav.setViewName(viewName);
 	    mav.addObject("gptAnswer", gptAnswer); // GPT 답변
 	    mav.addObject("searchResults", searchResults); // 해당하는 게시글 데이터
+	    mav.addObject("searchTerm", searchTerm); // 검색어
 	    return mav;
+	}
+	
+	// 검색 결과 CSS 페이지 테스트용 
+	@RequestMapping(value = {"/user/search-results-csstest.do"}, method = RequestMethod.GET)
+	public ModelAndView viewJoin(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(viewName);
+		return mav;
 	}
 }
