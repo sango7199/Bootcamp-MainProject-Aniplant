@@ -45,27 +45,11 @@ public class SecurityConfig {
     }
 
 
-	@Bean
-<<<<<<< HEAD
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); //��й�ȣ�� �����ϰ� �����ϱ� ���� BCryptPasswordEncoder�� ����Ͽ� �ؽ� ó���� �ؾ� �մϴ�
-    }   
-	
-	
-	
-	
-
-	
-	
-	
-	
-	
-}
-=======
+	@Bean 
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder(); // 비밀번호를 안전하게 암호화하기 위해 BCryptPasswordEncoder 사용
 	}
->>>>>>> 1f620c6524e6f2b12f0acbff33e1b430d6f406dd
+
 
 
 }

@@ -450,17 +450,7 @@ public class UserControllerImpl implements UserController {
 			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-<<<<<<< HEAD
-	
-	
-	
-	
-	
-	
-	
-	
-	
-=======
+
 
 	@Override // 회원 등급 관리 페이지 이동
 	@GetMapping("/privacy-admin/user-management/user-rank-management.do")
@@ -472,7 +462,7 @@ public class UserControllerImpl implements UserController {
 		mav.addObject("users", users);
 		return mav;
 	}
-	
+	 
 	@Override // 회원 등급 승격 로직
 	@PostMapping("/api/rank-up")
 	public ResponseEntity<Map<String, Object>> rankUp(@RequestBody Map<String, Object> requestData) {
@@ -566,5 +556,5 @@ public class UserControllerImpl implements UserController {
 			mav.addObject("users", users);
 			return mav;
 	}
->>>>>>> 1f620c6524e6f2b12f0acbff33e1b430d6f406dd
+
 }
