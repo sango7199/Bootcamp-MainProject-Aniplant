@@ -44,12 +44,32 @@
         </div>
         <div class="button-area">
             <button id="update_btn" th:if="${!user.is_deleted}">수정</button>
-            <button id="suspend_btn" th:if="${!user.is_deleted}" th:text="${user.is_suspended ? '정지 해제' : '정지'}"></button>
+            <button id="suspend_btn" th:if="${!user.is_deleted && !user.is_suspended}">정지</button>
+            <button id="unsuspend_btn" th:if="${!user.is_deleted && user.is_suspended}">정지 해제</button>
             <button id="delete_btn">삭제</button>
         </div>
     </div>
+    <div id="suspendModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div class="modal-area">
+                <h2>정지 사유 및 기한 선택</h2>
+                <div class="reason-area">
+                    <label for="suspended_reason">정지 사유</label>
+                    <textarea id="suspended_reason" rows="2" cols="35"></textarea>
+                </div>
+                <div class="duration-area">
+                    <label for="suspension_duration">정지 기한</label>
+                    <select id="suspension_duration">
+                        <option value="3">3일</option>
+                        <option value="7">7일</option>
+                        <option value="14">14일</option>
+                        <option value="30">30일</option>
+                        <option value="10000">영구 정지</option>
+                    </select>
+                <div class="button-align-right"><span class="suspend-error"></span>  <button id="suspend_confirm_btn">계정 정지</button></div>
+            </div>
+        </div>
+    </div>
 </body>
-<script>
-
-</script>
 </html>

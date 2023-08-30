@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,5 +31,11 @@ public class MainController {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(viewName);
 		return mav;
+    }
+
+	// 세션 만료 페이지
+	@GetMapping("/session-expired")
+    public String sessionExpired() {
+        return "sessionExpired";
     }
 }

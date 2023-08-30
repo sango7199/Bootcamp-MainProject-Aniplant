@@ -1,6 +1,8 @@
 package com.mainproject.user.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +69,11 @@ public class UserDAOImpl implements UserDAO {
 	public List<UserVO> getAllUsers() throws DataAccessException {
 		return sqlSession.selectList("mapper.user.getAllUsers");
 	}
+
+	@Override // 모든 관리자 정보 가져오는 로직
+	public List<UserVO> getAllAdmins() throws DataAccessException {
+		return sqlSession.selectList("mapper.user.getAllAdmins");
+	}
 	
 	@Override // 회원 번호로 유저 정보 가져오는 로직
 	public UserVO getUserByUserNum(int user_num) throws DataAccessException { 
@@ -79,8 +86,8 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override // 회원 정지 로직
-    public void suspendUser(int userNum) throws DataAccessException {
-        sqlSession.update("mapper.user.suspendUser", userNum);
+    public void suspendUser(Map<String,Object> param) throws DataAccessException {
+        sqlSession.update("mapper.user.suspendUser", param);
     }
 
     @Override // 회원 정지 해제 로직
@@ -92,4 +99,57 @@ public class UserDAOImpl implements UserDAO {
 	public void removeUser(int user_num) throws DataAccessException {
 		sqlSession.delete("mapper.user.removeUser", user_num);
 	}
+
 } 
+
+
+	@Override // 모든 계정 정보 가져오는 로직
+	public List<UserVO> getAllAccounts() throws DataAccessException {
+		return sqlSession.selectList("mapper.user.getAllAccounts");
+	}
+
+	@Override // 회원 등급 승격 로직
+	public void rankUp(int user_num, String nextRank) throws DataAccessException {
+		Map<String, Object> params = new HashMap<>();
+		params.put("user_num", user_num);
+		params.put("nextRank", nextRank);
+
+		sqlSession.update("mapper.user.rankUp", params);
+	}
+
+	@Override // 회원 권한 전환 로직
+	public void switchRank(int user_num, String newRole, String newRank) throws DataAccessException {
+		Map<String, Object> params = new HashMap<>();
+		params.put("user_num", user_num);
+		params.put("newRole", newRole);
+		params.put("newRank", newRank);
+
+		sqlSession.update("mapper.user.switchRank", params);
+	}
+
+	@Override // 신규 회원 관리 페이지 이동
+	public List<UserVO> getNewUsers() throws DataAccessException {
+		return sqlSession.selectList("mapper.user.getNewUsers");
+	}
+
+	@Override // 이 달의 탈퇴 회원
+	public List<UserVO> getWithdrawnUsersThisMonth() throws DataAccessException {
+		return sqlSession.selectList("mapper.user.getWithdrawnUsersThisMonth");
+	}
+
+	@Override // 탈퇴 회원 전체
+	public List<UserVO> getWithdrawnUsers() throws DataAccessException {
+		return sqlSession.selectList("mapper.user.getWithdrawnUsers");
+	}
+	
+	@Override // 정지 회원 전체
+	public List<UserVO> getSuspendUsers() throws DataAccessException {
+		return sqlSession.selectList("mapper.user.getSuspendUsers");
+	}
+
+	@Override // 이 달의 정지 회원
+	public List<UserVO> getSuspendedUsersThisMonth() throws DataAccessException {
+		return sqlSession.selectList("mapper.user.getSuspendedUsersThisMonth");
+	}
+}
+
