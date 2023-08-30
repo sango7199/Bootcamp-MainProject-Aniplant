@@ -42,7 +42,7 @@
     .date-range input {
         margin: 0 5px;
     }
-</style>
+</style> 
 
 <div class="form-container">
     <form th:action="@{/event/createEvent}" th:object="${event}" method="post">
@@ -54,9 +54,9 @@
         <div class="form-group">
             <label for="started_at">시작일/종료일</label> 
             <div class="date-range">
-                <input type="datetime-local" id="started_at_input" required>
+                <input type="text" id="started_at" name="started_at"  th:field="*{started_at}"  required>
                 <span>~</span>
-                <input type="datetime-local" id="ended_at_input" required>
+                <input type="text" id="ended_at" name="ended_at"  th:field="*{ended_at}"  required>
             </div>
         </div>  
 
@@ -72,26 +72,8 @@
 
         <button type="submit">등록</button>
     </form>
-</div>
-    <script> 
-        document.addEventListener("DOMContentLoaded", function() {
-            const startedAtInput = document.querySelector("#started_at_input");
-            const endedAtInput = document.querySelector("#ended_at_input");
-            
-            startedAtInput.addEventListener("change", function() {
-                const selectedDateTime = new Date(this.value);
-                const timestamp = selectedDateTime.getTime();
-                document.querySelector("#started_at").value = timestamp;
-            });
-            
-            endedAtInput.addEventListener("change", function() {
-                const selectedDateTime = new Date(this.value);
-                const timestamp = selectedDateTime.getTime();
-                document.querySelector("#ended_at").value = timestamp;
-            });
-        });
-    </script>  
-    
+</div> 
+ 
 </div> 
 
 </body> 

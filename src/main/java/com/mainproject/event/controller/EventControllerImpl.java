@@ -2,15 +2,20 @@ package com.mainproject.event.controller;
  
 import com.mainproject.event.service.EventService;
 import com.mainproject.event.vo.EventVO;
-
+import com.mainproject.user.vo.CustomUserDetails;
 
 import java.security.Timestamp;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -24,39 +29,55 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  
 @Controller
-@RequestMapping("/event")
+@RequestMapping("/event") 
 public class EventControllerImpl implements EventController {
    
     @Autowired 
     private EventService eventService;
-     
+       
  
     @GetMapping("/createEventForm")
     public String showCreateEventForm(Model model) {
         model.addAttribute("event", new EventVO());
         return "event/createEventForm";  
-    }    
+    }     
   
     @PostMapping("/createEvent")
     public void createEvent(@ModelAttribute("event") EventVO eventVO) {
-        eventService.createEvent(eventVO); 
-            
-    }   
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        int userNum = ((CustomUserDetails) userDetails).getUsernum(); // 현재 로그인한 사용자의 번호
+
+        int lastEventOrder = eventService.getLastEventOrderForUser(userNum);
+
+        // 새로운 일정의 event_order 설정  
+        eventVO.setEvent_order(lastEventOrder + 1);
+        eventVO.setCreated_user_num(userNum); // 생성자 정보 설정
+
+        eventService.createEvent(eventVO);
+        // 리다이렉트나 뷰 이름 등을 처리하는 로직이 있을 수 있습니다.
+    } 
+    @GetMapping("/listEvents.do")
+    @PreAuthorize("isAuthenticated()")
+    public ModelAndView listMyEvents() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        int userNum = ((CustomUserDetails) userDetails).getUsernum();
+               
+        ModelAndView modelAndView = new ModelAndView("event/listEvents");
+        modelAndView.addObject("eventsList", eventService.listEventsForUserNum(userNum));
+        return modelAndView; 
+    } 
     
-    @GetMapping("/listEvents.do")  
-    public ModelAndView listEvents() { 
-        ModelAndView modelAndView = new ModelAndView("event/listEvents"); 
-        modelAndView.addObject("eventsList", eventService.listEvents());
-        return modelAndView;
-         
-    }  
+    
       
     @GetMapping("/viewEvent") 
     public ModelAndView viewEvent(@RequestParam("eventTitle") String eventTitle) {
         ModelAndView modelAndView = new ModelAndView("event/viewEvent");
         EventVO event = eventService.getEventByTitle(eventTitle);
         modelAndView.addObject("event", event);
-        modelAndView.addObject("eventNum", event.getEvent_num()); // event_num�� �߰��� ����
+        modelAndView.addObject("eventNum", event.getEvent_num()); // 
         return modelAndView;
     } 
     
@@ -95,11 +116,17 @@ public class EventControllerImpl implements EventController {
             e.printStackTrace();
             return "redirect:/event/listEvents.do"; 
         }
-    } 
+    }
+
+	@Override
+	public ModelAndView listEvents() {
+		// TODO Auto-generated method stub
+		return null;
+	} 
     
     
     
-    
+     
     
     
     

@@ -13,13 +13,15 @@ public class EventVO {
 	private String location;
 	private String type;
 	private String is_admin;
-	private String created_user_num;
+	private int created_user_num;
 	private Timestamp created_at;
 	private int updated_user_num;
 	private Timestamp updated_at; 
 	private boolean is_deleted; 
 	private Integer deleted_user_num;
 	private Timestamp deleted_at;
+	private int event_order;
+	
 	
 	public EventVO() { 
 	 
@@ -81,12 +83,12 @@ public class EventVO {
 		this.is_admin = is_admin;
 	}
 
-	public String getCreated_user_num() {
+	public int getCreated_user_num() {
 		return created_user_num;
 	}
 
-	public void setCreated_user_num(String created_user_num) {
-		this.created_user_num = created_user_num;
+	public void setCreated_user_num(int created_user_num) {
+		this.created_user_num = created_user_num; 
 	}
 
 	public Timestamp getCreated_at() {
@@ -121,11 +123,11 @@ public class EventVO {
 		this.is_deleted = is_deleted;
 	}
 
-	public Integer getDeleted_user_num() { // 반환 타입도 Integer로 변경
+	public Integer getDeleted_user_num() { 
         return deleted_user_num;
     }
 
-	public void setDeleted_user_num(Integer deleted_user_num) { // 파라미터 타입도 Integer로 변경
+	public void setDeleted_user_num(Integer deleted_user_num) { 
         this.deleted_user_num = deleted_user_num;
     } 
 
@@ -135,6 +137,14 @@ public class EventVO {
 
 	public void setDeleted_at(Timestamp deleted_at) {
 		this.deleted_at = deleted_at;
+	}
+
+	public int getEvent_order() {
+		return event_order;
+	}
+
+	public void setEvent_order(int event_order) {
+		this.event_order = event_order;
 	}
  
 }

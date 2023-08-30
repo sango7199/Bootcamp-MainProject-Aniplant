@@ -104,7 +104,7 @@
 	
 	<select id="getUserByUserNum" parameterType="int" resultType="userVO">
 		SELECT * FROM TB_USER WHERE user_num = ${user_num};
-	</select>
+	</select> 
 	
 	<update id="updateUserDetail" parameterType="UserVO">
 	    UPDATE TB_USER

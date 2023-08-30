@@ -24,14 +24,15 @@ public class SecurityConfig {
                 .antMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_PRIVACY_ADMIN") // /admin은 관리자만 가능하도록 설정
                 .antMatchers("/privacy-admin/**").hasAuthority("ROLE_PRIVACY_ADMIN") // /privacy_admin은 개인정보 관리자만 가능하도록 설정
                 .antMatchers("/mypage/**").authenticated() // /my는 인증이 되어야 접속 가능
-                .anyRequest().permitAll()
+                .antMatchers("/event/listEvents.do").authenticated() // 일정 목록은 인증이 되어야 접속 가능
+                .anyRequest().permitAll() 
             .and()
             .formLogin() // ���� �ۼ��Ͽ� �α��� ó��
             	.loginPage("/user/login.do") // �α��� ������ URL ����, ���� ������ ���� �� Default �α��� �������� �̵�
             	// .loginProcessingUrl("/api/login") // �α��� ó���� URL (�α��� �� ���� ��û�������� �̵�;)
             	.defaultSuccessUrl("/index.do") // �α��� ���� �� �⺻ URL
             	.failureForwardUrl("/fail") // �α��� ���� �� URL ����
-            .and()
+            .and() 
             	.logout()
             	.logoutUrl("/user/logout.do") // 로그아웃 URL 설정
             	.logoutSuccessUrl("/index.do") // 로그아웃 성공 시 이동할 URL 지정
@@ -48,7 +49,16 @@ public class SecurityConfig {
 	@Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(); //��й�ȣ�� �����ϰ� �����ϱ� ���� BCryptPasswordEncoder�� ����Ͽ� �ؽ� ó���� �ؾ� �մϴ�
-    }                                              
+    }   
+	
+	
+	
+	
+
+	
+	
+	
+	
 	
 }
 

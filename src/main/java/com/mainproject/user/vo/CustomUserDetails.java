@@ -14,15 +14,17 @@ public class CustomUserDetails implements UserDetails {
     private final String username;
     private final String password;
     private final UserVO user;
+    private final int usernum; 
 //    private final UserRank rank;
-
+ 
     public CustomUserDetails(UserVO user) {
         this.user = user;
         this.username = user.getId();
         this.password = user.getPwd();
+        this.usernum = user.getUser_num(); 
 //        this.rank = user.getRank();
     }
-    
+     
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
     	 String rolePrefix = "ROLE_";

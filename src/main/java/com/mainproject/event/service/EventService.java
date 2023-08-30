@@ -3,7 +3,7 @@ package com.mainproject.event.service;
 import java.util.List;
 
 import com.mainproject.event.vo.EventVO;
-
+  
 public interface EventService {
 	
     void createEvent(EventVO eventVO);
@@ -30,7 +30,25 @@ public interface EventService {
 
 	List<EventVO> listEventsWithPaging(int page, int perPageNum);
 
-	int getTotalEventCount();  
+	int getTotalEventCount();
+
+	List<EventVO> listEventsForUserNum(int userNum);
+
+	List<EventVO> listEventsForUserNum(String userNum);
+
+	int getLastEventOrderForUser(int userNum);
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	   
 
 	
 	

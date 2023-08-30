@@ -151,6 +151,9 @@ public class UserControllerImpl implements UserController {
 	        return createResponse("message", "아이디 또는 비밀번호가 잘못되었습니다.", HttpStatus.UNAUTHORIZED);
 	    }
 	    
+	    // 사용자의 정수 값을 설정
+	    user.setUser_num(user.getUser_num());
+	    
 	    userService.resetLoginFailCount(username);
 	    
 	    // 탈퇴한 회원인 경우
@@ -409,4 +412,13 @@ public class UserControllerImpl implements UserController {
 			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

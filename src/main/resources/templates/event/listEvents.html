@@ -8,12 +8,12 @@
 <th:block layout:fragment="css"></th:block>
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
-    <!--    <script th:src="@{/js/page/home.js}"></script>-->
+    
 </th:block>
        
 <head>
     <meta charset="UTF-8">
-    <title>일정 관리</title> 
+    <title>일정 관리</title>  
 </head>  
 
 <body> 
@@ -23,7 +23,7 @@
  
 <style> 
     .button {
-        display: inline-block;
+        display: inline-block; 
         padding: 5px 20px;  
         background-color: #888888;  
         color: white;
@@ -71,7 +71,7 @@
     <tbody>  
    
         <tr th:each="event : ${eventsList}"> 
-            <td th:text="${event.event_num}"></td>
+            <td th:text="${event.event_order}"></td> 
             <td><a th:href="@{/event/viewEvent(eventTitle=${event.title})}" th:text="${event.title}">일정 보기</a></td>
             <td th:text="${event.location}"></td> 
             <td th:text="${#dates.format(event.ended_at, 'yyyy-MM-dd HH:mm')}"></td> 

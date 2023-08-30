@@ -18,25 +18,25 @@
         <result property="is_deleted" column="is_deleted"/>
         <result property="deleted_user_num" column="deleted_user_num"/>
         <result property="deleted_at" column="deleted_at"/>
-        </resultMap>
+        <result property="event_order" column="event_order"/>
         
+        </resultMap>
+         
        
-    <insert id="insertEvent" parameterType="com.mainproject.event.vo.EventVO">
-    INSERT INTO TB_EVENT (title, started_at, ended_at, location, type)
-    VALUES (#{title}, #{started_at}, #{ended_at}, #{location}, #{type})
-   </insert>
-
-    <select id="selectAllEvents" resultType="com.mainproject.event.vo.EventVO">
-     SELECT * FROM TB_EVENT
-      WHERE is_deleted = 0
-    </select> 
+  <insert id="insertEvent" parameterType="com.mainproject.event.vo.EventVO">
+    INSERT INTO TB_EVENT (title, started_at, ended_at, location, type, created_user_num, event_order, created_at)
+    VALUES (#{title}, #{started_at}, #{ended_at}, #{location}, #{type}, #{created_user_num}, #{event_order}, CURRENT_TIMESTAMP)
+</insert> 
+    <select id="selectEventsForUserNum" parameterType="int" resultType="com.mainproject.event.vo.EventVO">
+    SELECT * FROM TB_EVENT WHERE created_user_num = #{userNum} AND is_deleted = 0
+    </select>
     
     <select id="getEventByTitle" parameterType="String" resultType="com.mainproject.event.vo.EventVO">
         SELECT * FROM TB_EVENT WHERE title = #{eventTitle} 
     </select> 
     
     <select id="getEventById" parameterType="int" resultMap="eventResultMap">
-    SELECT * FROM TB_EVENT WHERE event_num = #{eventId}
+    SELECT * FROM TB_EVENT WHERE event_num = #{eventId} 
     </select> 
     
     <update id="updateEvent" parameterType="com.mainproject.event.vo.EventVO">
@@ -52,6 +52,10 @@
     
     <select id="getEventByEventNum" parameterType="int" resultMap="eventResultMap">
     SELECT * FROM TB_EVENT WHERE event_num = #{eventNum}  
+    </select> 
+    
+    <select id="getLastEventOrderForUser" parameterType="int" resultType="int">
+        SELECT MAX(event_order) FROM TB_EVENT WHERE created_user_num = #{userNum}
     </select> 
     
    

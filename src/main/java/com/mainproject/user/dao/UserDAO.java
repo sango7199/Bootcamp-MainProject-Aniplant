@@ -22,4 +22,5 @@ public interface UserDAO {
 	public void suspendUser(int userNum) throws DataAccessException;
     public void unsuspendUser(int userNum) throws DataAccessException;
 	public void removeUser(int user_num) throws DataAccessException;
+	 
 }
