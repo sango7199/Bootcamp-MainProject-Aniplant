@@ -65,8 +65,8 @@ public class HeaderSearchServiceImpl implements HeaderSearchService {
                 JSONObject firstChoice = choicesArray.getJSONObject(0);
                 String textResult = firstChoice.getString("text").trim();
 
-                // 개행 문자 제거
-                textResult = textResult.replace("\n", "").trim();
+                // 특수 문자 제거
+                textResult = textResult.replaceAll("[\n-'\"]", "").trim();
 
                 // 결과를 "," 기준으로 분리하고 출력
                 String[] keywordsArray = textResult.split(",");
@@ -76,6 +76,9 @@ public class HeaderSearchServiceImpl implements HeaderSearchService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+		if (results.isEmpty()) { // 검색한 결과가 없다면 -1 반환
+	        results.add(-1);
+	    }
 		return results;		
 	}
 	
@@ -108,6 +111,7 @@ public class HeaderSearchServiceImpl implements HeaderSearchService {
 	        
 	        // 결과 출력
 	        String result = EntityUtils.toString(responseEntity);
+	        System.out.println(result);
 	        
 	        // 결과에서 "choices" 키의 값을 추출
 	        JSONArray choicesArray = new JSONObject(result).getJSONArray("choices");
@@ -126,7 +130,7 @@ public class HeaderSearchServiceImpl implements HeaderSearchService {
 	    return GptResponse; // 오타 수정
 	}
 	
-	@Override
+	@Override // 게시글 번호로 게시글 조회
 	public List<BoardVO> getBoardResults(List<Integer> postNumbers) throws DataAccessException {
 		return headerSearchDAO.getBoardResults(postNumbers);
 	}

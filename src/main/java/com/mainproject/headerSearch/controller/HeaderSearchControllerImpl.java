@@ -1,5 +1,6 @@
 package com.mainproject.headerSearch.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -48,14 +49,25 @@ public class HeaderSearchControllerImpl implements HeaderSearchController {
 	    String viewName = (String) request.getAttribute("viewName");
 	    // GPT 답변 로직
 	    String gptAnswer = headerSearchService.getGptResponse(searchTerm);
-	    // 검색한 게시글 번호로 게시글 정보 로드
+	    // GPT가 선별한 키워드 포함하는 게시글 번호 가져오는 로직
 	    List<Integer> postNumbers = Arrays.asList(new ObjectMapper().readValue(resultsJson, Integer[].class));
-	    List<BoardVO> searchResults = headerSearchService.getBoardResults(postNumbers);
-	    
+	    // 검색한 게시글 번호로 게시글 검색 로직
+	    List<BoardVO> searchResults = new ArrayList<>();
+	    boolean isResult = true;
+	    if (postNumbers.contains(-1)) { // 검색 결과가 없다면
+	    	BoardVO noResult = new BoardVO();
+	    	noResult.setPost_num(-1);
+	    	noResult.setContent("- 단어의 철자가 정확한지 확인해 보세요.\n- 검색어의 단어 수를 줄이거나, 보다 일반적인 검색어로 다시 검색해 보세요.\n- 두 단어 이상의 검색어인 경우, 띄어쓰기를 확인해보세요.");
+	    	searchResults.add(noResult);
+	    	isResult = false;
+	    } else {
+	    	searchResults = headerSearchService.getBoardResults(postNumbers);
+	    }
 	    mav.setViewName(viewName);
 	    mav.addObject("gptAnswer", gptAnswer); // GPT 답변
 	    mav.addObject("searchResults", searchResults); // 해당하는 게시글 데이터
 	    mav.addObject("searchTerm", searchTerm); // 검색어
+	    mav.addObject("isResult", isResult);
 	    return mav;
 	}
 	
