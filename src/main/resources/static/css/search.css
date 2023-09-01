@@ -1,3 +1,4 @@
+/* 검색창 스타일 */
 .search-area {
     position: relative;
 	border: 2px solid #14b8a6;
@@ -49,7 +50,7 @@
     border-radius: 4px;
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 20;
+    z-index: 21;
     padding: 10px;
     display: none;
 }
@@ -102,3 +103,84 @@
     margin-left: 2px;
     margin-bottom: 3px;
 }
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.shake-animation {
+    animation: shake 0.5s;
+}
+
+
+/* 알림창 스타일 */
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 30;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4); 
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 7px;
+    width: 300px;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+}
+.modal-text {
+    vertical-align: middle;
+    padding: 13px 0px 10px 5px;
+    font-size: 17px;
+}
+
+.ping {
+    --uib-size: 45px;
+    --uib-speed: 2s;
+    --uib-color: black;
+  
+    position: relative;
+    height: var(--uib-size);
+    width: var(--uib-size);
+  }
+  
+  .ping::before,
+  .ping::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    background-color: var(--uib-color);
+    animation: pulse var(--uib-speed) linear infinite;
+    transform: scale(0);
+    opacity: 0;
+  }
+  
+  .ping::after {
+    animation-delay: calc(var(--uib-speed) / -2);
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(0);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 0;
+    }
+  }

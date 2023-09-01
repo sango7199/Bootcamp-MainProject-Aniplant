@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("boardVO")
 public class BoardVO {
 	private int post_num;
 	private int category_num;
@@ -20,6 +20,8 @@ public class BoardVO {
 	private boolean is_deleted;
 	private int deleted_user_num;
 	private Timestamp deleted_at;
+	private String author;
+	
 	
 	public BoardVO() {
 		
@@ -155,6 +157,12 @@ public class BoardVO {
 
 	public void setDeleted_at(Timestamp deleted_at) {
 		this.deleted_at = deleted_at;
+	}
+	public String getAuthor() {
+		return author;
+	}
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 	
 }

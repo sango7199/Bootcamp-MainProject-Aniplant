@@ -30,42 +30,97 @@ $(document).ready(function() {
     function loadRecentSearches() {
         let searches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
         $recentSearches.empty();
-        searches.forEach(term => {
-            $recentSearches.append(`<li><img class="recent-search-img" src="/img/recent-search.png">${term}</li>`);
-        });
+        if (searches.length === 0) {
+            $recentSearches.append('<p class="no-recent-searches" style="font-style: italic; color: #ccc; margin: 0px;">최근 검색어가 없습니다.</p>');
+        } else {
+            searches.forEach(term => {
+                $recentSearches.append(`<li><img class="recent-search-img" src="/img/recent-search.png"><span class="recent-search-term">${term}</span></li>`);
+            });
+        }
     }
-
+    
     // 검색창 클릭 이벤트
     $searchInput.on('focus', function() {
         loadRecentSearches();
         $recentSearches.show();
         $searchArea.addClass('active');
     });
-
+    
     // 검색창에서 포커스가 사라질 때
     $searchInput.on('blur', function() {
-        $recentSearches.hide();
-        $searchArea.removeClass('active');
-    });
-
-    // 검색창에서 텍스트 입력 이벤트
-    $searchInput.on('input', function() {
-        const query = $(this).val();
-        if (query) {
+        setTimeout(function() {
             $recentSearches.hide();
-        } else {
-            loadRecentSearches();
-            $recentSearches.show();
-        }
+            $searchArea.removeClass('active');
+        }, 200);
     });
 
+    // 최근 검색어 항목 클릭 로직
+    $recentSearches.on('click', 'li', function() {
+        console.log("List item clicked!");
+        const clickedTerm = $(this).find('.recent-search-term').text();
+        console.log("Clicked Term:", clickedTerm);
+        $searchInput.val(clickedTerm);
+        $searchBtn.click();
+    });
+
+    // 검색창에서 텍스트 입력 이벤트 - 검색 기능 직접 구현으로 폐기
+    // $searchInput.on('input', function() {
+    //     const query = $(this).val();
+    //     if (query) {
+    //         $recentSearches.hide();
+    //     } else {
+    //         loadRecentSearches();
+    //         $recentSearches.show();
+    //     }
+    // });
+
+    // 검색 로직
     $searchBtn.on('click', function() {
         const query = $searchInput.val();
-        if (query) {
-            saveSearchTerm(query);
-            $recentSearches.hide();
+        // 검색창이 비어있다면
+        if (!query.trim()) {
+            $searchArea.addClass('shake-animation');
+            setTimeout(() => $searchArea.removeClass('shake-animation'), 500); // 0.5초 후 애니메이션 제거
+            return;
         }
+        saveSearchTerm(query);
+
+        // 모달 표시
+        $("#search-modal").css("display", "block");
+
+        // AJAX 호출
+        $.ajax({
+            url: '/api/search-results',
+            type: 'GET',
+            data: {
+                searchTerm: query
+            },
+            success: function(response) {
+                let redirectUrl = `/user/search-results.do?results=${encodeURIComponent(JSON.stringify(response.results))}&searchTerm=${encodeURIComponent(response.searchTerm)}`;
+                window.location.href = redirectUrl;
+            },
+            complete: function() {
+                $("#searchModal").css("display", "none");
+            }
+        });
     });
 
     loadRecentSearches();
+
+    // GPT 답변 한 글자씩 나타나도록 설정
+    const gptAnswerElem = $('#gpt-answer');
+    if (gptAnswerElem.length) {
+        const text = gptAnswerElem.text();
+        let index = 0;
+        gptAnswerElem.text('');
+
+        function typeText() {
+            if (index < text.length) {
+                gptAnswerElem.text(gptAnswerElem.text() + text[index]);
+                index++;
+                setTimeout(typeText, 30);
+            }
+        }
+        typeText();
+    }
 });
