@@ -31,6 +31,8 @@ public interface UserController {
 	public ResponseEntity<?> updateUser(UserVO userVO, Principal principal);
 	public ModelAndView viewMyInfoDelete(Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity<?> deleteUser(UserVO userVO, Principal principal);
+	
+	
 	// 관리자 영역
 	public ModelAndView viewUserList(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView viewAdminList(HttpServletRequest request, HttpServletResponse response) throws Exception;
