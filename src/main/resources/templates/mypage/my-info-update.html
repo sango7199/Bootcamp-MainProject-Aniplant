@@ -3,7 +3,7 @@
 
 <!-- 해당 페이지 고유 CSS 추가 -->
 <th:block layout:fragment="css">
-    <link rel="stylesheet" th:href="@{/css/mypage.css}">
+    <!-- <link rel="stylesheet" th:href="@{/css/mypage.css}"> -->
 	<style>
         .error {
             color: red;
@@ -56,7 +56,7 @@
 
         // 프로필 사진 변경 버튼
         $("#editProfile").click(function() {
-            window.open("/mypage/my-info-profile-edit.do?currentProfilePicSrc=" + originalProfile ,'_blank', 'width=650,height=650,scrollbars=no,menubar=no,toolbar=no,location=no');
+            window.open("/mypage/my-info-profile-edit.do?currentProfilePicSrc=" + originalProfile ,'_blank', 'width=1060,height=655,scrollbars=no,menubar=no,toolbar=no,location=no');
         });
 
         // 프로필 초기화 버튼
