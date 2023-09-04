@@ -16,7 +16,8 @@
 		<h2>계정 정보 수정</h2>
 		<form id="update_form" name="update_form" method="post" action="">
             <div id="profile-area">
-                <img id="curProfileImage" class="profileImage" th:src="@{'/img/' + ${user.profile_picture}}">
+                <img id="curProfileImage" class="profileImage" th:src="@{${user.profile_picture}}">
+                <input type="text" id="profileInput" th:value="${user.profile_picture}" style="display: none;" disabled>
                 <button type="button" id="editProfile" class="update-btn">프로필 사진 변경</button>
                 <button type="button" id="resetProfile" class="update-btn">초기화</button>
             </div>
@@ -41,8 +42,7 @@
 </script>
 <script>
     $(document).ready(function() {
-		
-    	// 사용할 변수 선언
+        // 사용할 변수 선언
         var originalProfile = $("#curProfileImage").attr("src");
         var originalNickname = $("#nicknameUpdateInput").val();
         var isNicknameChanged = false;
@@ -54,14 +54,35 @@
         var userNum = userData.user_num;
         var userId = userData.id;
 
+        // 프로필 사진 변경 시 메시지 리스너 추가
+        window.addEventListener("message", function(event) {
+            let croppedImageBase64 = event.data.base64;
+            let croppedImageBlob = event.data.blob;
+            if (croppedImageBase64) {
+                changeEditProfile(croppedImageBase64);
+            }
+            if (croppedImageBlob) {
+                saveEditProfile(croppedImageBlob);
+            }
+            // 프로필 사진 변경 버튼 비활성화
+            $("#editProfile").prop("disabled", true);
+        }, false);
+        function changeEditProfile(base64) {
+            $("#curProfileImage").attr("src", base64);
+        }
+        function saveEditProfile(blob) {
+            $("#profileInput").val(blob);
+        }
+
         // 프로필 사진 변경 버튼
         $("#editProfile").click(function() {
-            window.open("/mypage/my-info-profile-edit.do?currentProfilePicSrc=" + originalProfile ,'_blank', 'width=1060,height=655,scrollbars=no,menubar=no,toolbar=no,location=no');
+            window.open("/mypage/my-info-profile-edit.do?currentProfilePicSrc=" + originalProfile, '_blank', 'width=1030,height=630,scrollbars=no,menubar=no,toolbar=no,location=no');
         });
 
         // 프로필 초기화 버튼
         $("#resetProfile").click(function() {
             $("#curProfileImage").attr("src", originalProfile);
+            $("#profileInput").val(originalProfile);
         });
 
         // 닉네임 변경 확인
@@ -182,6 +203,30 @@
             // 비밀번호가 변경되었을 경우에만 formData에 저장
             if (pwd) {
                 formData.pwd = pwd;
+            }
+
+            // 프로필 사진 변경시 프로필 업로드
+            var profileInput = $("#profileInput".val);
+            function saveEditProfile(blob) {
+                var formData = new FormData();
+                formData.append("profile_picture", blob);
+
+                $.ajax({
+                    url: "/api/update-profile",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        alert("프로필 사진이 업데이트되었습니다.");
+                    },
+                    error: function() {
+                        alert("프로필 사진 업데이트 중 오류가 발생했습니다.");
+                    }
+                });
+            }
+            if (profileInput != originalProfile) {
+                saveEditProfile(blob);
             }
 			
          	// AJAX 회원정보 수정 post 요청 로직

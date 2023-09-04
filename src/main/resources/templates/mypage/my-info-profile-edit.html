@@ -7,21 +7,21 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.0/cropper.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.0/cropper.min.js"></script>
     <script th:src="@{/js/cropper.js}"></script>
-    <link rel="stylesheet" th:href="@{/css/mypage.css}">
+    <link rel="stylesheet" th:href="@{/css/cropper.css}">
 </head>
 
 <title>프로필 사진 변경</title>
 
 <body>
     <div class="content">
-        <h2>프로필 사진 변경</h2>
+        <!-- <h2>프로필 사진 변경</h2> -->
         <div id="cropper-area">
             <div id="cropper-edit-area">
                 <img id="editCropperImage" class="profileImage" th:src="@{${currentProfilePic}}">
             </div>
             <div id="cropper-setting-area">
                 <label for="profileImageInput" class="label-file-input">
-                    <img th:src="@{/img/cropper/image-plus.png}" alt="Upload Icon"> 파일 선택
+                    <img th:src="@{/img/cropper/image-plus.png}" alt="Upload Icon"> 프로필 사진 선택
                 </label>
                 <input type="file" id="profileImageInput" name="profile_picture">
                 <div class="preview">
@@ -37,7 +37,7 @@
                 </div>
                 <div class="cropper-btn-group2">
                     <button type="button" id="resetBtn" class="cropper-btn"><img th:src="@{/img/cropper/reset.png}">초기화</button>
-                    <button type="button" id="changeProfile" class="cropper-btn"><img th:src="@{/img/cropper/save.png}">저장</button>
+                    <button type="button" id="saveBtn" class="cropper-btn"><img th:src="@{/img/cropper/save.png}">저장</button>
                 </div>
             </div>
         </div>

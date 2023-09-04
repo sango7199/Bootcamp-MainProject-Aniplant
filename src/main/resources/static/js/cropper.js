@@ -30,21 +30,26 @@ $(document).ready(function(){
     // 사진 변경 
     $("#profileImageInput").change(function() {
         var reader = new FileReader();
-        
+        var fileName = $(this).val().split('\\').pop();
+
         reader.onload = function(e) {
             $("#editCropperImage").attr("src", e.target.result);
             createCropper();
         }
         
         reader.readAsDataURL(this.files[0]);
+
+        if(fileName) {
+            $('.label-file-input').text(fileName);
+        } else {
+            $('.label-file-input').html('<img th:src="@{/img/cropper/image-plus.png}" alt="Upload Icon"> 프로필 사진 선택');
+        }
     });
 
-    // 사진 우측 회전
+    // 사진 회전
     $("#rotateRightBtn").click(function() {
         cropper.rotate(45);
     });
-
-    // 사진 좌측 회전
     $("#rotateLeftBtn").click(function() {
         cropper.rotate(-45);
     });
@@ -54,7 +59,6 @@ $(document).ready(function(){
     $("#dragModeMoveBtn").click(function() {
         cropper.setDragMode('move');
     });
-
     $("#dragModeCropBtn").click(function() {
         cropper.setDragMode('crop');
     });
@@ -66,7 +70,6 @@ $(document).ready(function(){
         flippedHorizontal = !flippedHorizontal;
         cropper.scaleX(flippedHorizontal ? -1 : 1);
     });
-
     $("#flipVerticalBtn").click(function() {
         flippedVertical = !flippedVertical;
         cropper.scaleY(flippedVertical ? -1 : 1);
@@ -75,5 +78,26 @@ $(document).ready(function(){
     // 리셋
     $("#resetBtn").click(function() {
         cropper.reset();
+    });
+
+    // 저장
+    $("#saveBtn").click(function() {
+        const canvas = cropper.getCroppedCanvas();
+        if (canvas) {
+            const base64data = canvas.toDataURL('image/png');
+            canvas.toBlob(function(blob) {
+                if (blob) {
+                    window.opener.postMessage({
+                        blob: blob,
+                        base64: base64data
+                    }, '*');
+                    window.close();
+                } else {
+                    alert("이미지를 저장할 수 없습니다.");
+                }
+            }, 'image/png');
+        } else {
+            alert("이미지를 저장할 수 없습니다.");
+        }
     });
 });
