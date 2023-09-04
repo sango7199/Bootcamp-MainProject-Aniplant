@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- JS 사진 편집 오픈소스 소프트웨어 cropper -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.0/cropper.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.0/cropper.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/mypage.css}">
+</head>
+
+<title>프로필 사진 변경</title>
+
+<body>
+    <div class="content">
+        <h2>프로필 사진 변경</h2>
+        <div id="cropper-area">
+            <img id="editProfileImage" class="profileImage" th:src="@{${currentProfilePic}}">
+        </div>
+        <input type="file" id="profileImageInput" name="profile_picture">
+        <button type="button" id="changeProfile" class="update-btn">저장하기</button>
+    </div>
+</body>
+
+<script>
+    $(document).ready(function(){
+
+        const image = document.getElementById('editProfileImage');
+        const cropper = new Cropper(image, {
+            aspectRatio: 1 / 1,
+            crop(event) {
+                console.log(event.detail.x);
+                console.log(event.detail.y);
+                console.log(event.detail.width);
+                console.log(event.detail.height);
+                console.log(event.detail.rotate);
+                console.log(event.detail.scaleX);
+                console.log(event.detail.scaleY);
+            },
+        });
+
+        // 사진 변경 
+        $("#profileImageInput").change(function() {
+            var reader = new FileReader();
+            
+            reader.onload = function(e) {
+                $("#editProfileImage").attr("src", e.target.result);
+            }
+            
+            reader.readAsDataURL(this.files[0]);
+        });
+    });
+</script>
+</html>
