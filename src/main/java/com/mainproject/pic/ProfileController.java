@@ -48,6 +48,9 @@ public class ProfileController {
             userDAO.updateUserProfile(params);
 
             return ResponseEntity.ok("프로필 사진이 업데이트되었습니다.");
+        } catch (org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException e) {
+            // 파일 크기 제한 예외를 처리
+            return ResponseEntity.badRequest().body("파일 크기가 10MB를 초과하였습니다.");
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().body("프로필 사진 업데이트 중 오류가 발생했습니다.");
