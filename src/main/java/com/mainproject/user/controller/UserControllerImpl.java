@@ -286,7 +286,7 @@ public class UserControllerImpl implements UserController {
 	    // 현재 로그인된 사용자의 정보를 가져옴
 	    UserVO currentUser = getCurrentUser(principal);
 
-	    // 현재 로그인된 사용자의 정보만 수정 가능하도록 체크
+	    // 현재 로그인된 사용자의 정보로만 탈퇴 가능하도록 체크
 	    if (!currentUser.getId().equals(userVO.getId())) {
 	        return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
 	    }

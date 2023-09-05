@@ -53,25 +53,21 @@
         var originalTel = $("#telUpdateInput").attr("th:value");
         var userNum = userData.user_num;
         var userId = userData.id;
+        var croppedImageBlob = null;
 
         // 프로필 사진 변경 시 메시지 리스너 추가
         window.addEventListener("message", function(event) {
             let croppedImageBase64 = event.data.base64;
-            let croppedImageBlob = event.data.blob;
+            croppedImageBlob = event.data.blob;
             if (croppedImageBase64) {
                 changeEditProfile(croppedImageBase64);
-            }
-            if (croppedImageBlob) {
-                saveEditProfile(croppedImageBlob);
             }
             // 프로필 사진 변경 버튼 비활성화
             $("#editProfile").prop("disabled", true);
         }, false);
         function changeEditProfile(base64) {
             $("#curProfileImage").attr("src", base64);
-        }
-        function saveEditProfile(blob) {
-            $("#profileInput").val(blob);
+            $("#profileInput").val(base64);
         }
 
         // 프로필 사진 변경 버튼
@@ -206,15 +202,14 @@
             }
 
             // 프로필 사진 변경시 프로필 업로드
-            var profileInput = $("#profileInput".val);
             function saveEditProfile(blob) {
-                var formData = new FormData();
-                formData.append("profile_picture", blob);
+                var profileData = new FormData();
+                profileData.append("profile_picture", blob, userId + ".png");
 
                 $.ajax({
                     url: "/api/update-profile",
                     type: "POST",
-                    data: formData,
+                    data: profileData,
                     processData: false,
                     contentType: false,
                     success: function(response) {
@@ -225,8 +220,9 @@
                     }
                 });
             }
-            if (profileInput != originalProfile) {
-                saveEditProfile(blob);
+            var profileInput = $("#profileInput").val();
+            if (profileInput !== originalProfile) {
+                saveEditProfile(croppedImageBlob);
             }
 			
          	// AJAX 회원정보 수정 post 요청 로직

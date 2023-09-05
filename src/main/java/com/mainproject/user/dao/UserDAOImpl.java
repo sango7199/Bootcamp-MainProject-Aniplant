@@ -44,7 +44,7 @@ public class UserDAOImpl implements UserDAO {
 		return count > 0;
 	}  
 	
-	@Override //특정 username(ID)을 입력한 사용자의 모든 정보 조회
+	@Override // 특정 username(ID)을 입력한 사용자의 모든 정보 조회
     public UserVO getUserByUsername(String username) throws DataAccessException {
 		return sqlSession.selectOne("mapper.user.getUserByUsername", username);
     }
@@ -57,6 +57,11 @@ public class UserDAOImpl implements UserDAO {
 	@Override// 회원 정보 수정 로직 (비밀번호 미변경)
 	public void updateUserWithoutPassword(UserVO userVO) throws DataAccessException {
 		sqlSession.update("mapper.user.updateUserWithoutPassword",userVO);
+	}
+	
+	@Override // 회원 프로필 수정 로직
+	public void updateUserProfile(Map<String, Object> params) throws DataAccessException {
+		sqlSession.update("mapper.user.updateUserProfile", params);
 	}
 	
 	@Override // 회원 탈퇴 로직
