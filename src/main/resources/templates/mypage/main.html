@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+<!-- 페이지의 제목 설정 -->
+<head>
+    <title>마이페이지</title>
+</head>
+
+<!-- 해당 페이지 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
+    <link rel="stylesheet" th:href="@{/css/mypage.css}">
+    <style>
+        /* 캘린더 영역 */
+        #calendar-area {
+            width: 500px;
+            height: 435px;
+            padding: 15px;
+            margin: 5px;
+            border-radius: 5px;
+            border: 1px solid #9fe1da;
+            transition: box-shadow 0.3s;
+        }
+        #calendar-area:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        #calendar {
+            max-width: px;
+            margin: 0 auto;
+        }
+        .fc-daygrid-day-top .fc-daygrid-day-number {
+            padding: 0px 4px;
+        }
+        .fc .fc-button {
+            line-height: 0;
+            font-weight: 500;
+        }
+        .fc .fc-button-primary {
+            background-color: #14b8a6;
+            border: none;
+            transition: background-color 0.3s;
+        }
+        .fc .fc-button-primary:hover {
+            background-color: #0d766a;
+        }
+        td { 
+            font-size: 13px;
+        }
+    </style>
+</th:block>
+<!-- 해당 페이지 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+    <script src='fullcalendar/core/locales/es.global.js'></script>
+    <script th:src="@{/js/mypage.js}"></script>
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content" class="container">
+    <!-- sidebar fragment 사용 -->
+    <div th:replace="sidebar/mypage :: mypageSidebar"></div>
+    <div class="content">
+        <h2>마이페이지</h2>
+        <div class="mypage-wrapper">
+            <div id="info-wrapper">
+                <div id="myInfo-area">
+                    <div class="img-div"><img id="my-page-profile-img" th:src="@{${user.profile_picture}}"></div>
+                    <div class="info-li">
+                        <li><strong>회원 번호 : </strong> <span th:text="${user.user_num}"></span></li>
+                        <li><strong>회원 등급 : </strong> <img th:src="${user.rank.imagePath}" id="rank-img"><span th:text="${user.rank.displayName}"></span></li>
+                        <li><strong>닉네임 : </strong> <span th:text="${user.nickname}"></span></li>
+                        <!-- <li><strong>아이디 : </strong> <span th:text="${user.id}"></span></li>
+                        <li><strong>이름 : </strong> <span th:text="${user.name}"></span></li>
+                        <li><strong>성별 : </strong> <span th:text="${user.gender == 'M' ? '남성' : '여성'}"></span></li>
+                        <li><strong>생년월일 : </strong> <span th:text="${#dates.format(user.birth, 'yyyy-MM-dd')}"></span></li>
+                        <li><strong>이메일 : </strong> <span th:text="${user.email}"></span></li>
+                        <li><strong>전화번호 : </strong> <span th:text="${user.country_code + '-' + user.first_hp + '-' + user.second_hp}"></span></li> -->
+                    </div>
+                </div>
+                <div id="myPetInfo-area">
+                    <!-- <div><img id="my-pet-profile-img" th:src="@{${pet.profile_picture}}"></div> -->
+                    <div><img id="my-pet-profile-img" th:src="@{/img/hatching-chick.png}"></div>
+                    <div th:each="pet : ${pet}" class="info-li">
+                        <li><strong>이름 : </strong> <span th:text="${pet.name}"></span></li>
+                        <li><strong>나이 : </strong> <span></span></li>
+                        <li style="display: none;"><strong>생일 : </strong> <span th:text="${pet.birth}" id="pet-birth"></span></li></li>
+                    </div>
+                </div>
+            </div>
+            <div id="calendar-area">
+                <div id="calendar"></div>
+            </div>
+        </div>
+    </div>
+</div>
