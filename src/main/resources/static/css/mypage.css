@@ -10,7 +10,14 @@ li {
     margin: 0 0 15px;
     border-bottom: 1px solid #14b8a6;
 }
-
+.fc-day-sun a {
+    color: red;
+    text-decoration: none;
+  }
+.fc-day-sat a {
+    color: blue;
+    text-decoration: none;
+  }
 /* 마이페이지 메인페이지 start */
 .mypage-wrapper {
     display: flex;

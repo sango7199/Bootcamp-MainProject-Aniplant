@@ -25,6 +25,14 @@ document.addEventListener('DOMContentLoaded', function() {
         selectable: true, // 날짜 시간 범위 선택 여부
         businessHours: true, // 업무시간 표시 여부
         dayMaxEvents: true, // 하루 표시할 이벤트 수 제한 
+        eventDidMount: function(info) { // 툴팁 
+            var tooltip = new Tooltip(info.el, {
+              title: info.event.extendedProps.description,
+              placement: 'top',
+              trigger: 'hover',
+              container: 'body'
+            });
+        },
         events: [ // 표시될 이벤트들의 배열
         {
             title: 'All Day Event',
@@ -38,15 +46,18 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             groupId: 999,
             title: 'Repeating Event',
+            description: 'description for Meeting',
             start: '2023-01-09T16:00:00'
         },
         {
             groupId: 999,
             title: 'Repeating Event',
+            description: 'description for Meeting',
             start: '2023-01-16T16:00:00'
         },
         {
             title: 'Conference',
+            description: 'CSS 토할거같애..',
             start: '2023-01-11',
             end: '2023-01-13'
         },
@@ -85,6 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
     calendar.setOption('locale', 'ko');
     calendar.render();
 
+    
     // 나이 출력
     const birthSpan = document.getElementById('pet-birth');
     if (birthSpan) {
