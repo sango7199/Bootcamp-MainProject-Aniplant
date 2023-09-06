@@ -45,6 +45,8 @@ public class BoardVO {
 //		
 //		
 //	}
+	
+	
 
 	public int getPost_num() {
 		return post_num;
