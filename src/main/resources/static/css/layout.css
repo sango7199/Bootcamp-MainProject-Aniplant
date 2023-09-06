@@ -49,6 +49,7 @@ header {
 	width: 80;
 	height: 80px;
 	padding: 5px;
+	border-radius: 50%;
 }
 .profile-group {
 	display: flex;

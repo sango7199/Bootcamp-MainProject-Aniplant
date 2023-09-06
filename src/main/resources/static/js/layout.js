@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     if (mypageBtn) {
         mypageBtn.addEventListener('click', function() {
-            window.location.href = '/mypage/profile.do';
+            window.location.href = '/mypage/main.do';
         });
     }
 });

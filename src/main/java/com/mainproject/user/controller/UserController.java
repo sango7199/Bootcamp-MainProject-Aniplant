@@ -29,6 +29,7 @@ public interface UserController {
 	public ResponseEntity<?> confirmPWD(@RequestParam("pwd") String pwd, Principal principal);
 	public ModelAndView viewMyInfoUpdate(Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity<?> updateUser(UserVO userVO, Principal principal);
+	public ModelAndView editMyprofilePic(@RequestParam String currentProfilePicSrc, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView viewMyInfoDelete(Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity<?> deleteUser(UserVO userVO, Principal principal);
 	

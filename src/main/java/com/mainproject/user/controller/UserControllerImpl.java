@@ -257,6 +257,17 @@ public class UserControllerImpl implements UserController {
 	    }
 	}
 	
+	@Override // 프로필 수정 페이지 이동
+	@GetMapping("/mypage/my-info-profile-edit.do")
+	public ModelAndView editMyprofilePic(@RequestParam String currentProfilePicSrc, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		String currentProfilePic = currentProfilePicSrc;
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(viewName);
+		mav.addObject("currentProfilePic", currentProfilePic);
+		return mav;
+	}
+	
 	@Override // 회원정보 탈퇴하기 form 페이지 로드 로직
 	@RequestMapping(value = {"/mypage/my-info-delete.do"}, method = RequestMethod.GET)
 	public ModelAndView viewMyInfoDelete(Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -275,7 +286,7 @@ public class UserControllerImpl implements UserController {
 	    // 현재 로그인된 사용자의 정보를 가져옴
 	    UserVO currentUser = getCurrentUser(principal);
 
-	    // 현재 로그인된 사용자의 정보만 수정 가능하도록 체크
+	    // 현재 로그인된 사용자의 정보로만 탈퇴 가능하도록 체크
 	    if (!currentUser.getId().equals(userVO.getId())) {
 	        return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
 	    }
