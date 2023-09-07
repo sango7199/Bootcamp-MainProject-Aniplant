@@ -10,6 +10,19 @@ li {
     margin: 0 0 15px;
     border-bottom: 1px solid #14b8a6;
 }
+.h2-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0 8px;
+    margin: 0 0 15px;
+    border-bottom: 1px solid #14b8a6;
+}
+.h2-wrapper > h2 {
+    padding: 0;
+    margin: 0;
+}
 .content > h3 {
     padding: 0 0 8px;
     margin: 0;
@@ -33,6 +46,19 @@ li {
 }
 #pwdInput {
     margin-right: 5px;
+}
+/* 캘린더 */
+.fc th {
+    background-color: rgba(223, 245, 243, 0.3);
+}
+:root {
+    --fc-button-bg-color: #14b8a6;
+    --fc-button-border-color: #14b8a6;
+    --fc-button-hover-bg-color: #109385;
+    --fc-button-hover-border-color: #109385;
+    --fc-button-active-bg-color: #0d766a;
+    --fc-button-active-border-color: #0d766a;
+    --fc-non-business-color: rgba(223, 245, 243, 0.3);
 }
 /* 마이페이지 메인페이지 start */
 /* 공통 */
@@ -105,7 +131,26 @@ li {
 }
 /* 마이페이지 메인페이지 end */
 
-/* 계정 정보 관리, 계정 탈퇴 비밀번호 확인 페이지  */
+/* 반려친구 관리, 일정 관리 버튼 */
+.h2-wrapper > button {
+    background: linear-gradient(to right, #14B8A6, #43c6b8);
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.h2-wrapper > button:hover {
+    background: linear-gradient(to right, #109385, #14B8A6);
+    transform: translateY(-2px);
+}
+.h2-wrapper > button:active {
+    transform: translateY(0);
+}
+
+/* 계정 정보 관리, 계정 탈퇴 비밀번호 확인 페이지 start */
 #pwdInput {
     width: 200px;
     padding: 5px 8px;
@@ -138,3 +183,4 @@ li {
 #confirm_btn:active {
     transform: translateY(0);
 }
+/* 계정 정보 관리, 계정 탈퇴 비밀번호 확인 페이지 end */
