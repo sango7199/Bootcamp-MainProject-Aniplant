@@ -16,12 +16,12 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     if (logoutBtn) {
         logoutBtn.addEventListener('click', function() {
-            window.location.href = '/user/logout.do';
+            window.location.href = '/api/logout';
         });
     }
     if (mypageBtn) {
         mypageBtn.addEventListener('click', function() {
-            window.location.href = '/mypage/profile.do';
+            window.location.href = '/mypage/main.do';
         });
     }
 });

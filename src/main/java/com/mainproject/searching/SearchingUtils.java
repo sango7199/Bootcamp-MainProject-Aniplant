@@ -19,7 +19,7 @@ public class SearchingUtils {
 	    }
 
 	    public List<CategoryVO> searchCategories(String searchType, String keyword, int page, int perPageNum) throws Exception {
-	        // 寃��깋 荑쇰━瑜� �떎�뻾�븯�뿬 寃곌낵瑜� 媛��졇�샂
+	        // 검색 쿼리를 실행하여 결과를 가져옴
 	        List<CategoryVO> searchResult = categoryService.searchCategories(searchType, keyword, page, perPageNum);
 	        return searchResult;
 	    }

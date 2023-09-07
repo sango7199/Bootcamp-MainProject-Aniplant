@@ -49,6 +49,10 @@ public class CustomUserDetails implements UserDetails {
     public int getUsernum() {
         return user.getUser_num();
     }
+
+    public String getProfile_picture() {
+        return user.getProfile_picture();
+    }
     
     public UserRank getRank() {
         return user.getRank();
@@ -72,5 +76,9 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+    
+    public UserVO getUser() {
+        return user;
     }
 }

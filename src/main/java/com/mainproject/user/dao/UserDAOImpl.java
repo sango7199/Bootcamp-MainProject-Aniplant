@@ -30,7 +30,7 @@ public class UserDAOImpl implements UserDAO {
 
 	public int registerUser(UserVO userVO) throws DataAccessException {
 		return sqlSession.insert("mapper.user.registerUser", userVO);
-	}
+	} 
 	
 	@Override // 사용자 가입 아이디 중복 확인 입력
 	public boolean isIdDuplicate(String value) throws DataAccessException {
@@ -44,19 +44,24 @@ public class UserDAOImpl implements UserDAO {
 		return count > 0;
 	}  
 	
-	@Override //특정 username(ID)을 입력한 사용자의 모든 정보 조회
+	@Override // 특정 username(ID)을 입력한 사용자의 모든 정보 조회
     public UserVO getUserByUsername(String username) throws DataAccessException {
 		return sqlSession.selectOne("mapper.user.getUserByUsername", username);
     }
 	
-	@Override // �쉶�썝 �젙蹂� �닔�젙 濡쒖쭅 (鍮꾨�踰덊샇 蹂�寃�)
+	@Override // 회원 정보 수정 로직 (비밀번호 변경)
 	public void updateUserWithPassword(UserVO userVO) throws DataAccessException {
 		sqlSession.update("mapper.user.updateUserWithPassword",userVO);
 	}
 	
-	@Override // �쉶�썝 �젙蹂� �닔�젙 濡쒖쭅 (鍮꾨�踰덊샇 誘몃�寃�)
+	@Override// 회원 정보 수정 로직 (비밀번호 미변경)
 	public void updateUserWithoutPassword(UserVO userVO) throws DataAccessException {
 		sqlSession.update("mapper.user.updateUserWithoutPassword",userVO);
+	}
+	
+	@Override // 회원 프로필 수정 로직
+	public void updateUserProfile(Map<String, Object> params) throws DataAccessException {
+		sqlSession.update("mapper.user.updateUserProfile", params);
 	}
 	
 	@Override // 회원 탈퇴 로직
@@ -99,8 +104,6 @@ public class UserDAOImpl implements UserDAO {
 	public void removeUser(int user_num) throws DataAccessException {
 		sqlSession.delete("mapper.user.removeUser", user_num);
 	}
-
-
 
 
 	@Override // 모든 계정 정보 가져오는 로직

@@ -23,14 +23,17 @@ public interface UserController {
 	public ModelAndView viewJoinComplete(@RequestParam("name") String name, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView viewLogin(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest, HttpSession session) throws Exception;
-	public ResponseEntity<?> logout(HttpSession session);
+//	public ResponseEntity<?> logout(HttpSession session);
 	public ModelAndView viewAdminTest(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView viewMyprofile(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity<?> confirmPWD(@RequestParam("pwd") String pwd, Principal principal);
 	public ModelAndView viewMyInfoUpdate(Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity<?> updateUser(UserVO userVO, Principal principal);
+	public ModelAndView editMyprofilePic(@RequestParam String currentProfilePicSrc, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView viewMyInfoDelete(Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity<?> deleteUser(UserVO userVO, Principal principal);
+	
+	
 	// 관리자 영역
 	public ModelAndView viewUserList(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView viewAdminList(HttpServletRequest request, HttpServletResponse response) throws Exception;

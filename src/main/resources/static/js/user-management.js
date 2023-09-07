@@ -438,7 +438,7 @@ $(document).ready(function(){
 
             // 수정 버튼
             $('#update_btn').on('click', function() {
-                if (userNum) { // userNum 값이 설정되어 있는지 확인합니다.
+                if (userNum) { // userNum 값이 설정되어 있는지 확인
                     $('.detail-container').load('/privacy-admin/user-management/user-detail-update.do?user_num=' + userNum);
                 } else {
                     console.error('userNum is not defined!');

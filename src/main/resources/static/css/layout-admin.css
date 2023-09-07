@@ -87,6 +87,7 @@ header {
 	width: 80;
 	height: 80px;
 	padding: 5px;
+	border-radius: 50%;
 }
 .profile-group {
 	display: flex;
@@ -223,7 +224,7 @@ footer {
 	border-radius: 7px;
 	position: sticky;
     top: 10px;
-    z-index: 3;
+    z-index: 10;
 }
 
 .sidebar-menu, .sidebar-menu ul {
@@ -326,3 +327,4 @@ footer {
     margin-top: 15px;
     padding-top: 10px;
 }
+/* sidebar end-point */
