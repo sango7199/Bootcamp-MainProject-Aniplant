@@ -28,9 +28,9 @@
 				<li><a href="" th:classappend="${#httpServletRequest.requestURI.startsWith('')} ? 'active' : ''">카테고리 관리</a></li>
 				<li><a href="/privacy-admin/user-management/main.do" th:classappend="${#httpServletRequest.requestURI.startsWith('/privacy-admin/user-management/')} ? 'active' : ''" th:if="${#authorization.expression('hasRole(''ROLE_PRIVACY_ADMIN'')')}">회원 관리</a></li>
 				<li><a href="" th:classappend="${#httpServletRequest.requestURI.startsWith('')} ? 'active' : ''" th:if="${#authorization.expression('hasRole(''ROLE_PRIVACY_ADMIN'')')}">반려친구 관리</a></li>
-                <li><a href="" th:classappend="${#httpServletRequest.requestURI.startsWith('')} ? 'active' : ''" th:if="${#authorization.expression('hasRole(''ROLE_PRIVACY_ADMIN'')')}">일정 관리</a></li>
-            </ul>
-			<div>
+                <li><a href="/event/adminlistEvents.do" th:classappend="${#httpServletRequest.requestURI.startsWith('/event/adminlistEvents.do')} ? 'active' : ''" th:if="${#authorization.expression('hasRole(''ROLE_PRIVACY_ADMIN'')')}">일정 관리</a></li>
+            </ul>  
+			<div> 
 				<!-- 허전해서 뭘 채울지 고민 -->
 			</div>
 		</nav>

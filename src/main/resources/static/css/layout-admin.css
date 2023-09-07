@@ -62,7 +62,7 @@ header {
 	background-repeat: no-repeat;
 	background-position: center;
 	background-color: #ffffff;
-	width: 40px;
+	width: 40px;  
 	height: 40px;
 	border: none;
 	cursor: pointer;
@@ -147,7 +147,7 @@ header {
 footer {
 	padding: 20px;
 	background-color: rgba(255, 255, 255, 0.7);
-	border-top: 1px solid #14a6b8;
+	border-top: 1px solid #14a6b8;   
 }
 .footer-menu, .footer-info, .team-info{
 	list-style-type: none;

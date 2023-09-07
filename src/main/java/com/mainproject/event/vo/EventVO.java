@@ -11,7 +11,7 @@ public class EventVO {
 	private Timestamp started_at;
 	private Timestamp ended_at;
 	private String location;
-	private String type;
+	private String content;
 	private String is_admin;
 	private int created_user_num;
 	private Timestamp created_at;
@@ -21,6 +21,8 @@ public class EventVO {
 	private Integer deleted_user_num;
 	private Timestamp deleted_at;
 	private int event_order;
+	private String event_user_name;
+	
 	
 	
 	public EventVO() { 
@@ -47,32 +49,32 @@ public class EventVO {
 		return started_at;
 	}
 
-	public void setStarted_at(Timestamp started_at) {
+	public void setStarted_at(Timestamp started_at) { 
 		this.started_at = started_at; 
 	}
 
-	public Timestamp getEnded_at() {
+	public Timestamp getEnded_at() {  
 		return ended_at;
 	}
 
-	public void setEnded_at(Timestamp ended_at) {
+	public void setEnded_at(Timestamp ended_at) { 
 		this.ended_at = ended_at;
 	}
 
-	public String getLocation() {
+	public String getLocation() { 
 		return location;
 	}
 
-	public void setLocation(String location) {
+	public void setLocation(String location) { 
 		this.location = location;
 	}
 
-	public String getType() {
-		return type;
+	public String getContent() {
+		return content;
 	}
 
-	public void setType(String type) {
-		this.type = type; 
+	public void setContent(String content) {
+		this.content = content; 
 	}
  
 	public String getIs_admin() {
@@ -146,5 +148,16 @@ public class EventVO {
 	public void setEvent_order(int event_order) {
 		this.event_order = event_order;
 	}
+
+	public String getEvent_user_name() {
+		return event_user_name;
+	}
+
+	public void setEvent_user_name(String username) {
+	    this.event_user_name = username;
+	}
+	 
+
+	
  
 }

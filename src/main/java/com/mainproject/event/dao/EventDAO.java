@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 
 import com.mainproject.event.vo.EventVO;
+import com.mainproject.paging.Criteria;
+import com.mainproject.paging.PagingVO;
+import com.sun.jdi.event.Event;
 
 public interface EventDAO {
 	
@@ -23,7 +26,11 @@ public interface EventDAO {
 	List<EventVO> selectAllEventsForUserNum(String userNum);
 	List<EventVO> listEventsForUserNum(String userNum);
 	List<EventVO> selectEventsForUserNum(int userNum);
-	int getLastEventOrderForUser(int userNum); 
+	int getLastEventOrderForUser(int userNum);
+	List<EventVO> listEventsForUserNum(int userNum);  
+	List<Event> listEventsForUserNum(int userNum, Criteria criteria);
+    int countEventsForUserNum(int userNum);
+	List<EventVO> listEventsForUserNumWithPaging(int userNum, PagingVO pagingVO);  
 
 	
   

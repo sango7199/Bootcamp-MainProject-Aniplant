@@ -22,6 +22,7 @@ public class SecurityConfig {
                 .antMatchers("/privacy-admin/**").hasAuthority("ROLE_PRIVACY_ADMIN") // /privacy_admin은 개인정보 관리자만 가능하도록 설정
                 .antMatchers("/mypage/**").authenticated() // /my는 인증이 되어야 접속 가능
                 .antMatchers("/event/listEvents.do").authenticated() // 일정 목록은 인증이 되어야 접속 가능
+                .antMatchers("/event/adminlistEvents.do").authenticated() 
                 .anyRequest().permitAll() 
             .and()
             .formLogin() // ���� �ۼ��Ͽ� �α��� ó��

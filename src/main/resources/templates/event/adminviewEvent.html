@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/defaultLayout}">
+      layout:decorate="~{layout/adminLayout}">  
 <!-- 페이지의 제목 설정 -->
 <head>
     <title>일정 내용 보기</title>
@@ -20,12 +20,12 @@
 <!-- Content -->
 <div layout:fragment="content" class="container">  
     <!-- sidebar fragment 사용 -->
-    <div th:replace="sidebar/mypage :: mypageSidebar"></div>
-    <div class="content"></div>  
+    <div th:replace="sidebar/privacy-admin :: userManagementSidebar"></div>  
+    <div class="content"></div> 
     
    <style> 
         .button {
-            display: inline-block; 
+            display: inline-block;
             padding: 5px 20px; 
             background-color: #888888;
             color: white; 
@@ -36,13 +36,13 @@
             margin-top: 10px;
         }
  
-        .form-container {
+        .form-container { 
             margin-top: 40px; /* 조절할 여유값을 설정하세요 */ 
         }
 
         .form-group {
             display: flex;
-            flex-direction: column; 
+            flex-direction: column;  
             margin-bottom: 10px;
         }
  
@@ -74,7 +74,7 @@
     .info-text { 
         margin-top: 5px;    
     } 
-     
+      
     </style>
         
     <div th:if="${event != null}">
@@ -87,14 +87,16 @@
     <div style="display: flex; align-items: center; font-size: 13px; margin-bottom: 10px; "> 
     
         <span class="styled-text" style="display: inline-block;">일정번호: </span>
-        <span th:text="${event.event_order}" class="styled-text" style="display: inline-block;"></span>
+        <span th:text="${event.event_num}" class="styled-text" style="display: inline-block;"></span> 
+       
          
-        <span class="styled-text" style="display: inline-block; margin-left: 10px;">작성일: </span>
-        <span th:text="${#dates.format(event.created_at, 'yyyy-MM-dd HH:mm')}" class="styled-text" style="display: inline-block;"></span>
-
-        <span class="styled-text" style="display: inline-block; margin-left: 10px;">수정일: </span>
-        <span th:text="${#dates.format(event.updated_at, 'yyyy-MM-dd HH:mm')}" class="styled-text" style="display: inline-block;"></span>
-          
+        <span class="styled-text" style="display: inline-block; margin-left: 10px;">작성자: </span>
+       <span th:text="${event.event_user_name}" class="styled-text" style="display: inline-block;"></span> 
+       
+        <span class="styled-text" style="display: inline-block; margin-left: 10px;">작성일: </span>  
+    
+        <span class="styled-text" style="display: inline-block; margin-left: 10px;">수정일: </span> 
+        
         
          
         </div>  
@@ -128,11 +130,11 @@
             <input type="text" th:id="${'content_' + event.event_num}" th:name="'content_' + ${event.event_num}" th:value="${event.content}" disabled class="styled-input" />
         </div>
          
-        <a th:href="@{/event/deleteEvent(eventNum=${event.event_num})}" class="button">일정 삭제</a>
-        <a th:href="@{/event/editEventForm(eventNum=${event.event_num})}" class="button">일정 수정</a>
+        <a th:href="@{/event/admindeleteEvent(eventNum=${event.event_num})}" class="button">일정 삭제</a>
+        <a th:href="@{/event/admineditEventForm(eventNum=${event.event_num})}" class="button">일정 수정</a>
     </div>     
-</div> 
-
+</div>  
+  
  
          
     <div th:if="${event == null}"> 
