@@ -30,7 +30,7 @@ public class UserDAOImpl implements UserDAO {
 
 	public int registerUser(UserVO userVO) throws DataAccessException {
 		return sqlSession.insert("mapper.user.registerUser", userVO);
-	}
+	} 
 	
 	@Override // 사용자 가입 아이디 중복 확인 입력
 	public boolean isIdDuplicate(String value) throws DataAccessException {
@@ -104,6 +104,7 @@ public class UserDAOImpl implements UserDAO {
 	public void removeUser(int user_num) throws DataAccessException {
 		sqlSession.delete("mapper.user.removeUser", user_num);
 	}
+
 
 	@Override // 모든 계정 정보 가져오는 로직
 	public List<UserVO> getAllAccounts() throws DataAccessException {

@@ -36,3 +36,4 @@ public interface UserDAO {
 	public List<UserVO> getSuspendUsers() throws DataAccessException;
 	public List<UserVO> getSuspendedUsersThisMonth() throws DataAccessException;
 }
+ 

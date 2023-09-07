@@ -68,7 +68,7 @@ public class MainController {
 		// 반려친구 정보 불러오기
 		List<PetVO> petInfo = petService.getAllPet(userNum);
 		System.out.println(petInfo);
-		// 회원 일정 불러오기
+		// 회원 일정 불러오기 
 		// 코드 추가 필요
 		mav.setViewName(viewName);
 		mav.addObject("user", userInfo);

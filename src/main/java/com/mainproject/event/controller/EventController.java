@@ -11,7 +11,7 @@ import com.mainproject.event.vo.EventVO;
 @Controller
 public interface EventController {
 	
-	 void createEvent(EventVO eventVO);
+   void createEvent(EventVO eventVO);
 	 
 	 ModelAndView listEvents();
      

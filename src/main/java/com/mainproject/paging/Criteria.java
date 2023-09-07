@@ -52,5 +52,5 @@ public class Criteria {
     public void setStartRow(int startRow) {
 		// TODO Auto-generated method stub
 		
-	}
+	} 
 }

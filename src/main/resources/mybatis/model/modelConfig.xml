@@ -4,6 +4,8 @@
     "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
+ 
+	
     <typeAliases>
         <typeAlias type="com.mainproject.user.vo.UserVO"  alias="userVO" />
         <typeAlias type="com.mainproject.category.vo.CategoryVO"  alias="categoryVO" />
@@ -13,4 +15,5 @@
     </typeAliases>
 </configuration>
  
+
  
