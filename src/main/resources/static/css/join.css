@@ -81,18 +81,18 @@ input[type="tel"]:focus {
 .check_btn, 
 .btn_submit {
     padding: 10px;
-    background-color: #14b8a6;
+    background: linear-gradient(45deg, #14B8A6, #10a094);
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
-    transition: background-color 0.2s;
+    transition: background 0.3s;
 }
 
 .check_btn:hover, 
 .btn_submit:hover {
-    background-color: #128f89;
+    background: linear-gradient(45deg, #10a094, #0e8879);
 }
 
 .check_btn {

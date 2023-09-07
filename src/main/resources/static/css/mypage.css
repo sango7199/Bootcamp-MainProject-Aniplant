@@ -10,14 +10,30 @@ li {
     margin: 0 0 15px;
     border-bottom: 1px solid #14b8a6;
 }
+.content > h3 {
+    padding: 0 0 8px;
+    margin: 0;
+    color: #109385;
+}
 .fc-day-sun a {
     color: red;
     text-decoration: none;
-  }
+}
 .fc-day-sat a {
     color: blue;
     text-decoration: none;
-  }
+}
+.error {
+    color: red;
+    font-size: 12px;
+}
+.confirm-area {
+    display: flex;
+    flex-direction: row;
+}
+#pwdInput {
+    margin-right: 5px;
+}
 /* 마이페이지 메인페이지 start */
 /* 공통 */
 .mypage-wrapper {
@@ -88,3 +104,37 @@ li {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 /* 마이페이지 메인페이지 end */
+
+/* 계정 정보 관리, 계정 탈퇴 비밀번호 확인 페이지  */
+#pwdInput {
+    width: 200px;
+    padding: 5px 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+#pwdInput:focus {
+    border-color: #14B8A6;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.1);
+    outline: none;
+}
+
+#confirm_btn {
+    background: linear-gradient(to right, #14B8A6, #43c6b8);
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+#confirm_btn:hover {
+    background: linear-gradient(to right, #109385, #14B8A6);
+    transform: translateY(-2px);
+}
+#confirm_btn:active {
+    transform: translateY(0);
+}

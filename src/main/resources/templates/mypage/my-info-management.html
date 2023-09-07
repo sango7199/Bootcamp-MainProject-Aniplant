@@ -10,17 +10,20 @@
 
 <!-- 해당 페이지 고유 CSS 추가 -->
 <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/mypage.css}">
 	<style>
-        .error {
-            color: red;
-            font-size: 12px;
-        }
 	</style>
 </th:block>
 <!-- 해당 페이지 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
 	<script>
         $(document).ready(function() {
+            $("#pwdInput").on('keypress', function(e) {
+                if(e.which == 13) { 
+                    $("#confirm_btn").click(); 
+                }
+            });
+
             $("#confirm_btn").click(function() {
                 var isValid = true // 유효성 검사
 
@@ -71,8 +74,11 @@
 	<div th:replace="sidebar/mypage :: mypageSidebar"></div>
 	<div class="content">
 		<h2>나의 정보 관리</h2>
-        <h5>계정 본인 확인을 위한 비밀번호 확인</h5>
-        <input type="password" id="pwdInput" name="password_confirm" placeholder="비밀번호를 입력해주세요."><span id="confirmError" class="error"></span><br>
-        <button type="button" id="confirm_btn" class="btn_submit">수정하기</button>
+        <h3>계정 본인 확인을 위해 비밀번호를 입력해주세요.</h3>
+        <div class="confirm-area">
+            <input type="password" id="pwdInput" name="password_confirm" placeholder="비밀번호를 입력해주세요."><br>
+            <button type="button" id="confirm_btn" class="btn_submit">확인</button>
+        </div>
+        <span id="confirmError" class="error"></span>
 	</div>
 </div>

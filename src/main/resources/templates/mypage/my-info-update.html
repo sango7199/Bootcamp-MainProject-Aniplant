@@ -3,11 +3,158 @@
 
 <!-- 해당 페이지 고유 CSS 추가 -->
 <th:block layout:fragment="css">
-    <!-- <link rel="stylesheet" th:href="@{/css/mypage.css}"> -->
+    <link rel="stylesheet" th:href="@{/css/mypage.css}">
 	<style>
+        .content {
+			width: 815px;
+			margin: 7.5px;
+		}
+        #update_form {
+            margin-left: 10px;
+            margin-bottom: 10px;
+        }
+        #curProfileImage {
+            width: 300px;
+            padding: 20px 20px 35px 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        input[type="text"], 
+        input[type="password"], 
+        input[type="email"], 
+        input[type="date"], 
+        input[type="tel"] {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 320px;
+            padding: 10px;
+            margin-bottom: 5px;
+            font-size: 15px;
+        }
+        input[type="text"]:focus, 
+        input[type="password"]:focus, 
+        input[type="email"]:focus, 
+        input[type="date"]:focus, 
+        input[type="tel"]:focus {
+            border-color: #14b8a6;
+            outline: none;
+        }
+        input[disabled] {
+            background-color: #D7F3F0;
+            color: #109385;
+            font-weight: 600;
+            cursor: not-allowed; 
+        }
+        button[disabled] {
+            background-color: #063c36;
+            cursor: not-allowed;
+        }
+        .update-btn {
+            padding: 5px 10px;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            background: linear-gradient(45deg, #14B8A6, #10a094);
+            transition: background 0.3s;
+            cursor: pointer;
+        }
+        .update-btn:hover {
+            background: linear-gradient(45deg, #10a094, #0e8879); 
+        }
+        #profile-area {
+            position: relative;
+            display: inline-block;
+        }
+        #editProfile, #resetProfile {
+            position: absolute;
+            bottom: 23px;
+        }
+        #editProfile {
+            right: 65px;
+        }
+        #resetProfile {
+            right: 5px;
+        }
+        .nickname-field {
+            position: relative;
+            display: inline-block;
+        }
+
+        .nickname-input {
+            padding-right: 90px;
+        }
+
+        #checkNickname {
+            position: absolute;
+            top: 44%;
+            right: 5px;
+            transform: translateY(-50%);
+        }
+        .gender_list {
+            width: 349px;
+            height: 60px;
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+        }
+        .gender_list::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        .gender_list li {
+            width: 48%;
+            height: 17px;
+            box-sizing: border-box;
+            float: left;
+            margin-right: 2%;
+        }
+        .gender_list li:last-child {
+            margin-right: 0;
+        }
+        .gender_list li::marker {
+            content: none;
+        }
+        .gender_list li input[type="radio"] {
+            display: none;
+        }
+        .gender_list li label {
+            display: block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            text-align: center;
+            padding: 10px;
+            font-size: 15px;
+        }
+        .gender_list li input[type="radio"]:checked + label {
+            background-color: #D7F3F0;
+            color: #109385;
+            font-weight: 600;
+        }
+        #update_btn {
+            background: linear-gradient(to right, #14B8A6, #43c6b8);
+            width: 342px;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+            box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+        #update_btn:hover {
+            background: linear-gradient(to right, #109385, #14B8A6);
+            transform: translateY(-2px);
+        }
+        #update_btn:active {
+            transform: translateY(0);
+        }
         .error {
             color: red;
-            font-size: 12px;
+            font-size: 14px;
+            margin-left: 5px;
         }
 	</style>
 </th:block>
@@ -21,19 +168,24 @@
                 <button type="button" id="editProfile" class="update-btn">프로필 사진 변경</button>
                 <button type="button" id="resetProfile" class="update-btn">초기화</button>
             </div>
-            <input type="text" id="idUpdateInput" name="id" th:value="${user.id}" disabled><br> 
-            <input type="password" id="passwordUpdateInput" name="password" placeholder="변경 시 비밀번호를 입력해주세요"><span id="passwordError" class="error"></span><br>
-            <input type="password" id="passwordUpdateConfirmInput" name="password_confirm" placeholder="비밀번호 확인"><span id="passwordConfirmError" class="error"></span><span id="passwordCheckError" class="error"></span><br>
-            <input type="email" id="emailUpdateInput" name="email" placeholder="비밀번호 분실 시 확인용 이메일" th:value="${user.email}"><span id="emailError" class="error"></span><br>
-            <input type="text" id="nicknameUpdateInput" name="nickname" placeholder="닉네임" maxlength="10" th:value="${user.nickname}"><button type="button" id="checkNickname" class="update-btn">중복 확인</button><span id="nicknameError" class="error"></span><br>
-            <input type="text" id="nameUpdateInput" name="name" th:value="${user.name}" disabled><br> 
-            <input type="text" id="birthUpdateInput" name="birth" th:value="${#dates.format(user.birth, 'yyyy-MM-dd')}" disabled><br> 
-            <input type="tel" id="telUpdateInput" name="tel" placeholder="'-'를 포함한 휴대전화번호" th:value="${user.country_code + '-' + user.first_hp + '-' + user.second_hp}"><span id="telError" class="error"></span><br>
-            <ul class="gender_list">
-                <li><input type="radio" id="genderIdentity1" name="gender" value="M" th:checked="${user.gender == 'M'}" disabled><label for="genderIdentity1">남자</label></li>
-                <li><input type="radio" id="genderIdentity2" name="gender" value="F" th:checked="${user.gender == 'F'}" disabled><label for="genderIdentity2">여자</label></li>
-            </ul>
-            <button type="button" id="update_btn" class="btn_submit">계정 정보 수정하기</button>
+            <div id="form-area">
+                <input type="text" id="idUpdateInput" name="id" th:value="${user.id}" disabled><br> 
+                <input type="password" id="passwordUpdateInput" name="password" placeholder="변경 시 비밀번호를 입력해주세요"><span id="passwordError" class="error"></span><br>
+                <input type="password" id="passwordUpdateConfirmInput" name="password_confirm" placeholder="비밀번호 확인"><span id="passwordConfirmError" class="error"></span><span id="passwordCheckError" class="error"></span><br>
+                <input type="email" id="emailUpdateInput" name="email" placeholder="비밀번호 분실 시 확인용 이메일" th:value="${user.email}"><span id="emailError" class="error"></span><br>
+                <div class="nickname-field">
+                    <input type="text" id="nicknameUpdateInput" name="nickname" placeholder="닉네임" maxlength="10" th:value="${user.nickname}"><button type="button" id="checkNickname" class="update-btn">중복 확인</button>
+                </div>
+                <span id="nicknameError" class="error"></span><br>
+                <input type="text" id="nameUpdateInput" name="name" th:value="${user.name}" disabled><br> 
+                <input type="text" id="birthUpdateInput" name="birth" th:value="${#dates.format(user.birth, 'yyyy-MM-dd')}" disabled><br> 
+                <input type="tel" id="telUpdateInput" name="tel" placeholder="'-'를 포함한 휴대전화번호" th:value="${user.country_code + '-' + user.first_hp + '-' + user.second_hp}"><span id="telError" class="error"></span><br>
+                <ul class="gender_list">
+                    <li><input type="radio" id="genderIdentity1" name="gender" value="M" th:checked="${user.gender == 'M'}" disabled><label for="genderIdentity1">남자</label></li>
+                    <li><input type="radio" id="genderIdentity2" name="gender" value="F" th:checked="${user.gender == 'F'}" disabled><label for="genderIdentity2">여자</label></li>
+                </ul>
+            </div>
+            <div><button type="button" id="update_btn" class="btn_submit">계정 정보 수정하기</button></div>
 		</form>
 	</div>
 	

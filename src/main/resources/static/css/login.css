@@ -33,17 +33,17 @@ body {
   width: 100%;
   padding: 10px;
   border: none;
-  background-color: #14b8a6;
+  background: linear-gradient(45deg, #14B8A6, #10a094);
   font-size: 20px;
   font-weight: 600;
   color: white;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background 0.3s;
 }
 
 .btn_submit:hover {
-  background-color: #128f89;
+  background: linear-gradient(45deg, #10a094, #0e8879);
 }
 
 #loginError {
