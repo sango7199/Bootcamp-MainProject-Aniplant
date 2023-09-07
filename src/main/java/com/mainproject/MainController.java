@@ -74,5 +74,5 @@ public class MainController {
 		mav.addObject("user", userInfo);
 		mav.addObject("pet", petInfo);
 		return mav;
-	}
+	}  
 }
