@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	layout:decorate="~{layout/adminLayout}">
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/css/category.css}">
+</th:block>
+
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content" class="container">
+    <!-- sidebar fragment 사용 -->
+    <div th:replace="sidebar/category :: categorySidebar"></div>
+	<div class="content">
+		<h2>카테고리 관리</h2>
+		<h3>카테고리 정보 보기</h3>
+
+		<!-- 카테고리 정보 표시 -->
+		<div>
+			<p>카테고리 번호: <span th:text="${selectedcategory.category_num}"></span></p>
+			<p>부모 카테고리 번호: <span th:text="${selectedcategory.parent_category_num}"></span></p>
+			<p>카테고리명: <span th:text="${selectedcategory.name}"></span></p>
+			<p>읽기 권한: <span th:text="${selectedcategory.read_permission}"></span></p>
+			<p>쓰기 권한: <span th:text="${selectedcategory.write_permission}"></span></p>
+			<p>등록 유저 번호: <span th:text="${selectedcategory.created_user_num}"></span></p>			
+			<p>등록일: <span th:text="${selectedcategory.created_at}"></span></p>
+			<p>수정 유저 번호: <span th:text="${selectedcategory.updated_user_num}"></span></p>
+			<p>수정일: <span th:text="${selectedcategory.updated_at}"></span></p>
+		</div>
+
+		<!-- 돌아가기 버튼 -->
+		<button onclick="goBack()" class="btn btn-primary">돌아가기</button>
+		<script>
+			function goBack() {
+			  window.history.back();
+			}
+		</script>
+
+		<!-- 수정 버튼 -->
+		<form th:action="@{/category/edit-category-form.do}" method="get">
+			<input type="hidden" name="categoryNum"
+				th:value="${selectedcategory.category_num}" />
+			<button type="submit">수정</button>
+		</form>
+		
+		<!-- 삭제 버튼 -->
+		<form th:action="@{/category/do-delete-category.do}" method="get">
+			<!-- 카테고리 번호 (삭제 대상 카테고리) -->
+			<input type="hidden" name="category_num" th:value="${selectedcategory.category_num}" />
+			
+			<!-- 삭제 유저 번호 입력 -->
+			<input type="hidden" name="deleted_user_num" th:value="${#authentication.principal.usernum}">
+
+			<button type="submit" onclick="return confirm('삭제하시겠습니까?')">삭제</button>
+		</form>
+	</div>
+</div>
