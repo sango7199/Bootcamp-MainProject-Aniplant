@@ -34,15 +34,13 @@ public class EventServiceImpl implements EventService {
  
 	@Override
 	public EventVO getEventByTitle(String eventTitle) {
-		
 		return eventDAO.getEventByTitle(eventTitle);
-		
-}  
+	}  
 
 	
 	@Override
     public EventVO getEventById(int eventId) {
-        return eventDAO.getEventById(eventId); // ���� �ʿ�
+        return eventDAO.getEventById(eventId);
     }
 	
 	 

@@ -19,6 +19,7 @@ li {
     text-decoration: none;
   }
 /* 마이페이지 메인페이지 start */
+/* 공통 */
 .mypage-wrapper {
     display: flex;
     flex-direction: row;

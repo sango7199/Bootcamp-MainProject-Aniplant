@@ -49,7 +49,7 @@ public class EventControllerImpl implements EventController {
         modelAndView.addObject("eventsList", eventService.listEvents());
         return modelAndView;
          
-    }  
+    }
       
     @GetMapping("/viewEvent") 
     public ModelAndView viewEvent(@RequestParam("eventTitle") String eventTitle) {
