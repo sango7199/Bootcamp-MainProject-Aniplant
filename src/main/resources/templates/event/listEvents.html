@@ -56,11 +56,11 @@
             </thead> 
             <tbody>
                 <tr th:each="event : ${eventsList}"> 
-                    <!— <td th:text="${event.event_num}"></td> —>
+                    <!-- <td th:text="${event.event_num}"></td> -->
                     <td th:text="${#dates.format(event.ended_at, 'yyyy-MM-dd HH:mm')}"></td> 
                     <td th:text="${#dates.format(event.ended_at, 'yyyy-MM-dd HH:mm')}"></td>
                     <td><a th:href="@{/event/viewEvent(eventTitle=${event.title})}" th:text="${event.title}">일정 보기</a></td>
-                    <!— <td th:text="${#dates.format(event.ended_at, 'yyyy-MM-dd HH:mm')}"></td>  —>
+                    <!-- <td th:text="${#dates.format(event.ended_at, 'yyyy-MM-dd HH:mm')}"></td> -->
                     <td th:text="${event.location}"></td> 
                 </tr>
             </tbody> 

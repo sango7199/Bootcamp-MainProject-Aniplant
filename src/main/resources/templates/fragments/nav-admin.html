@@ -27,17 +27,10 @@
 				<li><a href="" th:classappend="${#httpServletRequest.requestURI.startsWith('')} ? 'active' : ''">게시판 관리</a></li>
 				<li><a href="" th:classappend="${#httpServletRequest.requestURI.startsWith('')} ? 'active' : ''">카테고리 관리</a></li>
 				<li><a href="/privacy-admin/user-management/main.do" th:classappend="${#httpServletRequest.requestURI.startsWith('/privacy-admin/user-management/')} ? 'active' : ''" th:if="${#authorization.expression('hasRole(''ROLE_PRIVACY_ADMIN'')')}">회원 관리</a></li>
-<<<<<<< HEAD
-				<li><a href="" th:classappend="${#httpServletRequest.requestURI.startsWith('')} ? 'active' : ''" th:if="${#authorization.expression('hasRole(''ROLE_PRIVACY_ADMIN'')')}">반려친구 관리</a></li>
+				<li><a href="/privacy-admin/pet-management/admin-pet-list.do" th:classappend="${#httpServletRequest.requestURI.startsWith('')} ? 'active' : ''" th:if="${#authorization.expression('hasRole(''ROLE_PRIVACY_ADMIN'')')}">반려친구 관리</a></li>
                 <li><a href="/event/adminlistEvents.do" th:classappend="${#httpServletRequest.requestURI.startsWith('/event/adminlistEvents.do')} ? 'active' : ''" th:if="${#authorization.expression('hasRole(''ROLE_PRIVACY_ADMIN'')')}">일정 관리</a></li>
             </ul>  
 			<div> 
-=======
-				<li><a href="/privacy-admin/pet-management/admin-pet-list.do" th:classappend="${#httpServletRequest.requestURI.startsWith('/privacy-admin/pet-management/')} ? 'active' : ''" th:if="${#authorization.expression('hasRole(''ROLE_PRIVACY_ADMIN'')')}">반려친구 관리</a></li>
-                <li><a href="" th:classappend="${#httpServletRequest.requestURI.startsWith('')} ? 'active' : ''" th:if="${#authorization.expression('hasRole(''ROLE_PRIVACY_ADMIN'')')}">일정 관리</a></li>
-            </ul>
-			<div>
->>>>>>> 8e672edf0357bfca1143fc19a354d2c341f4732c
 				<!-- 허전해서 뭘 채울지 고민 -->
 			</div>
 		</nav>

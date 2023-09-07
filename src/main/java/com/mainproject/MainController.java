@@ -61,13 +61,10 @@ public class MainController {
 		ModelAndView mav = new ModelAndView();
 		// 회원 정보 불러오기
 		String userID = principal.getName();
-		System.out.println(userID);
 		UserVO userInfo = userService.getUserByUsername(userID);
 		int userNum = userInfo.getUser_num();
-		System.out.println(userInfo);
 		// 반려친구 정보 불러오기
-		List<PetVO> petInfo = petService.getAllPet(userNum);
-		System.out.println(petInfo);
+		List<PetVO> petInfo = petService.getPetByUserNum(userNum);
 		// 회원 일정 불러오기 
 		// 코드 추가 필요
 		mav.setViewName(viewName);
