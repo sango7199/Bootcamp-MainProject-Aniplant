@@ -1,6 +1,8 @@
 package com.mainproject.pet.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +17,10 @@ public class PetDAOImpl implements PetDAO{
 	private SqlSession sqlSession;
 	
 	@Override 
-    public List<PetVO> getAllPet(int userNum) throws DataAccessException {
+    public List<PetVO> getPetByUserNum(int userNum) throws DataAccessException {
         return sqlSession.selectList("mapper.pet.getPetsByUserNum",userNum);
     }
-
+	
 	@Override
 	public int registerPet(PetVO petVO) throws DataAccessException {
 		return sqlSession.insert("mapper.pet.registerPet", petVO);
@@ -39,4 +41,16 @@ public class PetDAOImpl implements PetDAO{
 		sqlSession.update("mapper.pet.deletePet", petVO);
 	}
 
+	@Override 
+    public List<PetVO> getAllPet() throws DataAccessException {
+        return sqlSession.selectList("mapper.pet.getAllPet");
+	}
+	
+	@Override
+	public List<PetVO> searchPet(String category, String keyword) throws DataAccessException {
+		Map<String, Object> params = new HashMap<>();
+		params.put("category", category);
+		params.put("keyword", keyword);
+		return sqlSession.selectList("mapper.pet.searchPet",params);
+	}
 }

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/adminLayout}">
+
+<head>
+	<title>애니플랜트 : 관리자 반려친구 정보</title>
+</head>
+<th:block layout:fragment="css">
+	<style>
+		.table-scrollable {
+			max-height: 200px;
+			overflow-y: auto;
+			display: block;
+		}
+	</style>
+</th:block>
+<th:block layout:fragment="script">
+	<script th:src="@{/js/pet/admin-pet-info.js}"></script>
+</th:block>
+
+<div layout:fragment="content" class="container">
+	<!-- sidebar fragment 사용 -->
+	<div th:replace="sidebar/privacy-admin :: petManagementSidebar"></div>
+	<div class="content">
+		<div id="info-display">
+			<h2>반려인 정보</h2>
+			<p th:text="'회원번호: ' + ${user.user_num}"></p>
+			<p th:text="'아이디: ' + ${user.id}"></p>
+			<p th:text="'이름: ' + ${user.name}"></p>
+			<p th:text="'가입일: ' + ${#dates.format(user.created_at, 'yyyy-MM-dd')}"></p>
+
+			<h2 th:text="${pet.name}"></h2>
+			<p th:text="'생일: ' + ${#dates.format(pet.birth, 'yyyy-MM-dd')}"></p>
+			<p th:text="'입양일: ' + ${#dates.format(pet.adopted_at, 'yyyy-MM-dd')}"></p>
+			<p class="age" th:data-birth="${#dates.format(pet.birth, 'yyyy-MM-dd')}"></p>
+
+			<a href="#" class="btn btn-primary" onclick="showEditForm();">수정하기</a>
+		</div>
+
+		<!-- 수정 폼 (처음에는 숨겨져 있습니다) -->
+		<div id="edit-form" style="display: none;">
+
+			<input type="hidden" id="petNo" name="pet_no" th:value="${pet.pet_no}">
+			<input type="text" id="nameUpdateInput" name="name" th:value="${pet.name}">
+			<input type="date" id="birthUpdateInput" name="birth" th:value="${#dates.format(pet.birth,'yyyy-MM-dd')}">
+			<input type="date" id="adoptedAtUpdateInput" name="adopted_at"
+				th:value="${#dates.format(pet.adopted_at,'yyyy-MM-dd')}">
+			<input type="text" id="adoptedUserIdUpdateInput" name="adopted_user_id" th:value="${user.id}" readonly>
+			<input type="hidden" id="adoptedUserNumUpdateInput" name="adopted_user_num" readonly>
+
+			<select id="searchCategory">
+				<option value="0">회원번호</option>
+				<option value="1">아이디</option>
+				<option value="2">반려인</option>
+			</select>
+
+			<input type="text" id="searchInput" onkeyup="searchFunction()" placeholder="검색어를 입력하세요..">
+			<div class="table-scrollable">
+				<table id="userTable">
+					<tr>
+						<th>회원번호</th>
+						<th>아이디</th>
+						<th>반려인</th>
+					</tr>
+					<tr th:each="userList: ${userList}" onclick="selectUserNum('${userList.user_num}')">
+						<td th:text="${userList.user_num}"></td>
+						<td th:text="${userList.id}"></td>
+						<td th:text="${userList.name}"></td>
+					</tr>
+				</table>
+			</div>
+			<!-- 저장하기 버튼을 클릭하면 수정된 정보를 서버에 전달하는 함수를 호출합니다. -->
+			<button type="button" id="update_btn" class="btn btn-submit" onclick="submitUpdates();">저장하기</button>
+
+			<!-- 취소 버튼 추가 - 이전 상태로 되돌리기 위함 -->
+			<button type="button" class="btn btn-cancel" onclick="hideEditForm();">취소</button>
+
+			<!-- 삭제 버튼 추가 - 펫을 삭제하고 db에서는 제거하지 않음 -->
+			<button type="button" class="btn btn-delete" onclick="submitDelete();">삭제</button>
+		</div>
+	</div>
+</div>
