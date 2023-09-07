@@ -29,7 +29,27 @@
 
 	<select id="getPetsByUserNum" parameterType="int"
 		resultType="com.mainproject.pet.vo.PetVO">
-		SELECT * FROM TB_PET WHERE adopted_user_num = #{userNum} AND is_deleted = 0
+		SELECT * FROM TB_PET WHERE adopted_user_num = #{userNum} AND is_deleted
+		= 0
+	</select>
+
+	<select id="getAllPet" resultType="PetVO">
+		SELECT p.*, u.id as owner_name
+		FROM TB_PET p
+		INNER JOIN TB_USER u ON p.adopted_user_num = u.user_num
+		WHERE p.is_deleted = 0
+	</select>
+	
+	<select id ="searchPet" resultType="PetVO">
+		SELECT p.*, u.nickname as owner_name
+		FROM TB_PET p INNER JOIN TB_USER u ON p.adopted_user_num = u.user_num WHERE p.is_deleted = 0
+		AND
+		<if test='category == "name"'>
+			p.name LIKE #{keyword}
+		</if>
+		<if test='category == "owner_name"'>
+			u.nickname LIKE#{keyword}
+		</if>
 	</select>
 
 
@@ -43,6 +63,7 @@
 		name = #{name},
 		birth = #{birth},
 		adopted_at = #{adopted_at},
+		adopted_user_num = #{adopted_user_num},
 		updated_user_num = #{updated_user_num},
 		updated_at = #{updated_at}
 		WHERE pet_no = #{pet_no}

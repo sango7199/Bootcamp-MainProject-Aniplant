@@ -27,7 +27,7 @@
 				<li><a href="" th:classappend="${#httpServletRequest.requestURI.startsWith('')} ? 'active' : ''">게시판 관리</a></li>
 				<li><a href="" th:classappend="${#httpServletRequest.requestURI.startsWith('')} ? 'active' : ''">카테고리 관리</a></li>
 				<li><a href="/privacy-admin/user-management/main.do" th:classappend="${#httpServletRequest.requestURI.startsWith('/privacy-admin/user-management/')} ? 'active' : ''" th:if="${#authorization.expression('hasRole(''ROLE_PRIVACY_ADMIN'')')}">회원 관리</a></li>
-				<li><a href="" th:classappend="${#httpServletRequest.requestURI.startsWith('')} ? 'active' : ''" th:if="${#authorization.expression('hasRole(''ROLE_PRIVACY_ADMIN'')')}">반려친구 관리</a></li>
+				<li><a href="/privacy-admin/pet-management/admin-pet-list.do" th:classappend="${#httpServletRequest.requestURI.startsWith('/privacy-admin/pet-management/')} ? 'active' : ''" th:if="${#authorization.expression('hasRole(''ROLE_PRIVACY_ADMIN'')')}">반려친구 관리</a></li>
                 <li><a href="" th:classappend="${#httpServletRequest.requestURI.startsWith('')} ? 'active' : ''" th:if="${#authorization.expression('hasRole(''ROLE_PRIVACY_ADMIN'')')}">일정 관리</a></li>
             </ul>
 			<div>

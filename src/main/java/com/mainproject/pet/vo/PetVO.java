@@ -19,6 +19,7 @@ public class PetVO {
 	private boolean is_deleted;
 	private int deleted_user_num;
 	private Timestamp deleted_at;
+	private String owner_name;
 	
 	
     public int getPet_no() {
@@ -99,5 +100,10 @@ public class PetVO {
 	public void setDeleted_at(Timestamp deleted_at) {
 		this.deleted_at = deleted_at;
 	}
-	
+	public String getOwner_name() {
+		return owner_name;
+	}
+	public void setOwner_name(String owner_name) {
+		this.owner_name = owner_name;
+	}
 }
