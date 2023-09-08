@@ -36,6 +36,11 @@ public class PetDAOImpl implements PetDAO{
 		sqlSession.update("mapper.pet.updatePet", petVO);
 	}
 	
+	@Override // 회원 프로필 수정 로직
+	public void updatePetProfile(Map<String, Object> params) throws DataAccessException {
+		sqlSession.update("mapper.pet.updatePetProfile", params);
+	}
+	
 	@Override
 	public void deletePet(PetVO petVO) throws DataAccessException {
 		sqlSession.update("mapper.pet.deletePet", petVO);
