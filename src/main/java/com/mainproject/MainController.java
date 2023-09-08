@@ -66,7 +66,7 @@ public class MainController {
 		int userNum = userInfo.getUser_num();
 		System.out.println(userInfo);
 		// 반려친구 정보 불러오기
-		List<PetVO> petInfo = petService.getAllPet(userNum);
+		List<PetVO> petInfo = petService.getPetByUserNum(userNum);
 		System.out.println(petInfo);
 		// 회원 일정 불러오기
 		// 코드 추가 필요

@@ -26,6 +26,12 @@
 
 		<!-- 수정 폼 (처음에는 숨겨져 있습니다) -->
 		<div id="edit-form" style="display: none;">
+			<div id="profile-area">
+                <img id="curProfileImage" class="profileImage" th:src="@{${pet.profile_picture}}">
+                <input type="text" id="profileInput" th:value="${pet.profile_picture}" style="display: none;" disabled>
+                <button type="button" id="editProfile" class="update-btn">프로필 사진 변경</button>
+                <button type="button" id="resetProfile" class="update-btn">초기화</button>
+            </div>
 			<input type="hidden" id="petNo" name="pet_no" th:value="${pet.pet_no}">
 			<input type="text" id="nameUpdateInput" name="name" th:value="${pet.name}">
 			<input type="text " id="birthUpdateInput" name="birth" th:value="${#dates.format(pet.birth,'yyyy-MM-dd')}">

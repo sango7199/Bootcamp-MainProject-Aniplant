@@ -68,6 +68,12 @@
 		updated_at = #{updated_at}
 		WHERE pet_no = #{pet_no}
 	</update>
+	
+	<update id="updatePetProfile" parameterType="Map">
+    	UPDATE TB_PET
+    	SET profile_picture = #{filePath}
+    	WHERE Pet_No = #{petNo}
+    </update>
 
 	<update id="deletePet" parameterType="petVO">
 		UPDATE TB_PET SET
