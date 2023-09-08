@@ -23,4 +23,4 @@ public class SearchingUtils {
 	        List<CategoryVO> searchResult = categoryService.searchCategories(searchType, keyword, page, perPageNum);
 	        return searchResult;
 	    }
-	}
+	}  

@@ -18,6 +18,7 @@
         <result property="is_deleted" column="is_deleted"/>
         <result property="deleted_user_num" column="deleted_user_num"/>
         <result property="deleted_at" column="deleted_at"/>
+        <result property="author" column="author"/>
     </resultMap>
     
       <select id="selectArticlesByCategory" resultType="boardVO" parameterType="int">
@@ -30,18 +31,18 @@
         WHERE post_num = #{post_num}
     </select>
   	  
-	 <insert id="insertArticle" parameterType="com.mainproject.board.vo.BoardVO">
+	 <insert id="insertArticle" parameterType="boardVO">
         INSERT INTO TB_BOARD (category_num, title, content, views, good, bad, created_user_num, created_at)
         VALUES (#{category_num}, #{title}, #{content}, #{views}, #{good}, #{bad}, #{created_user_num}, NOW())
     </insert>
     
-    <update id="updateBoard" parameterType="com.mainproject.board.vo.BoardVO">
-    UPDATE TB_BOARD
-    SET category_num = #{category_num},
-        title = #{title},
-        content = #{content},
-        updated_at = NOW() -- 현재 시간으로 업데이트
-    WHERE post_num = #{post_num}
+    <update id="updateBoard" parameterType="boardVO">
+	    UPDATE TB_BOARD
+	    SET category_num = #{category_num},
+	        title = #{title},
+	        content = #{content},
+	        updated_at = NOW() -- 현재 시간으로 업데이트
+	    WHERE post_num = #{post_num}
 	</update>
 	
 	<update id="deleteBoard" parameterType="boardVO">
@@ -54,12 +55,28 @@
     </update>
     
     <update id="increaseViews" parameterType="int">
-    UPDATE TB_BOARD
-    SET views = views + 1
-    WHERE post_num = #{post_num}
-</update>
+	    UPDATE TB_BOARD
+	    SET views = views + 1
+	    WHERE post_num = #{post_num}
+	</update>
 
-	
+	<select id="getSearchResults" parameterType="list" resultType="java.lang.Integer">
+	    SELECT DISTINCT post_num FROM TB_BOARD
+	    WHERE 
+	    <foreach item="item" index="index" collection="list" open="" separator=" OR " close="">
+	        title LIKE CONCAT('%', #{item}, '%') 
+	        OR content LIKE CONCAT('%', #{item}, '%') 
+	        OR author LIKE CONCAT('%', #{item}, '%')
+	    </foreach>
+	</select>
     
+    <select id="getBoardResults" parameterType="list" resultMap="boardResultMap">
+	    SELECT post_num, title, content, author, created_at 
+	    FROM TB_BOARD
+	    WHERE post_num IN 
+	    <foreach item="postNum" index="index" collection="list" open="(" separator="," close=")">
+	        #{postNum}
+	    </foreach>
+	</select>
 
 </mapper>

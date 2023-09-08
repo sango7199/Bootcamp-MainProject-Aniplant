@@ -75,6 +75,12 @@
         WHERE user_num = #{user_num}
     </update>
     
+    <update id="updateUserProfile" parameterType="Map">
+    	UPDATE TB_USER
+    	SET profile_picture = #{filePath}
+    	WHERE id = #{userID}
+    </update>
+    
     <update id="deleteUser" parameterType="userVO">
 		UPDATE TB_USER
         SET
@@ -112,7 +118,7 @@
 	
 	<select id="getUserByUserNum" parameterType="int" resultType="userVO">
 		SELECT * FROM TB_USER WHERE user_num = ${user_num};
-	</select>
+	</select> 
 	
 	<update id="updateUserDetail" parameterType="UserVO">
 	    UPDATE TB_USER

@@ -1,48 +1,38 @@
-<<<<<<< HEAD
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/defaultLayout}">
-<!-- 페이지의 제목 설정 -->
-<head>
-    <title>나의 정보 관리</title>
-</head>
-=======
 <!-- 페이지의 제목 설정 -->
     <title>계정 정보 수정</title>
->>>>>>> main
 
 <!-- 해당 페이지 고유 CSS 추가 -->
 <th:block layout:fragment="css">
+    <!-- <link rel="stylesheet" th:href="@{/css/mypage.css}"> -->
 	<style>
-		.container {
-            display: flex;
-            flex-direction: row; 
-            align-items: start;
-        }
         .error {
             color: red;
             font-size: 12px;
         }
 	</style>
 </th:block>
-<!-- 해당 페이지 고유 스크립트 추가 -->
-<th:block layout:fragment="script">
-	<script>
-        $(document).ready(function() {
-            $("#confirm_btn").click(function() {
-                var isValid = true // 유효성 검사
 
+<<<<<<< HEAD
 
                 var pwd_confirm = $("#pwdInput").val();
 
 
+=======
+>>>>>>> main
 	<div class="content">
 		<h2>계정 정보 수정</h2>
 		<form id="update_form" name="update_form" method="post" action="">
+            <div id="profile-area">
+                <img id="curProfileImage" class="profileImage" th:src="@{${user.profile_picture}}">
+                <input type="text" id="profileInput" th:value="${user.profile_picture}" style="display: none;" disabled>
+                <button type="button" id="editProfile" class="update-btn">프로필 사진 변경</button>
+                <button type="button" id="resetProfile" class="update-btn">초기화</button>
+            </div>
             <input type="text" id="idUpdateInput" name="id" th:value="${user.id}" disabled><br> 
             <input type="password" id="passwordUpdateInput" name="password" placeholder="변경 시 비밀번호를 입력해주세요"><span id="passwordError" class="error"></span><br>
             <input type="password" id="passwordUpdateConfirmInput" name="password_confirm" placeholder="비밀번호 확인"><span id="passwordConfirmError" class="error"></span><span id="passwordCheckError" class="error"></span><br>
             <input type="email" id="emailUpdateInput" name="email" placeholder="비밀번호 분실 시 확인용 이메일" th:value="${user.email}"><span id="emailError" class="error"></span><br>
-            <input type="text" id="nicknameUpdateInput" name="nickname" placeholder="닉네임" maxlength="10" th:value="${user.nickname}"><button type="button" id="checkNickname" class="check_btn">중복 확인</button><span id="nicknameError" class="error"></span><br>
+            <input type="text" id="nicknameUpdateInput" name="nickname" placeholder="닉네임" maxlength="10" th:value="${user.nickname}"><button type="button" id="checkNickname" class="update-btn">중복 확인</button><span id="nicknameError" class="error"></span><br>
             <input type="text" id="nameUpdateInput" name="name" th:value="${user.name}" disabled><br> 
             <input type="text" id="birthUpdateInput" name="birth" th:value="${#dates.format(user.birth, 'yyyy-MM-dd')}" disabled><br> 
             <input type="tel" id="telUpdateInput" name="tel" placeholder="'-'를 포함한 휴대전화번호" th:value="${user.country_code + '-' + user.first_hp + '-' + user.second_hp}"><span id="telError" class="error"></span><br>
@@ -59,8 +49,8 @@
 </script>
 <script>
     $(document).ready(function() {
-		
-    	// 사용할 변수 선언
+        // 사용할 변수 선언
+        var originalProfile = $("#curProfileImage").attr("src");
         var originalNickname = $("#nicknameUpdateInput").val();
         var isNicknameChanged = false;
         var isNicknameChecked = false;
@@ -70,7 +60,34 @@
         var originalTel = $("#telUpdateInput").attr("th:value");
         var userNum = userData.user_num;
         var userId = userData.id;
-        
+        var croppedImageBlob = null;
+
+        // 프로필 사진 변경 시 메시지 리스너 추가
+        window.addEventListener("message", function(event) {
+            let croppedImageBase64 = event.data.base64;
+            croppedImageBlob = event.data.blob;
+            if (croppedImageBase64) {
+                changeEditProfile(croppedImageBase64);
+            }
+            // 프로필 사진 변경 버튼 비활성화
+            $("#editProfile").prop("disabled", true);
+        }, false);
+        function changeEditProfile(base64) {
+            $("#curProfileImage").attr("src", base64);
+            $("#profileInput").val(base64);
+        }
+
+        // 프로필 사진 변경 버튼
+        $("#editProfile").click(function() {
+            window.open("/mypage/my-info-profile-edit.do?currentProfilePicSrc=" + originalProfile, '_blank', 'width=1030,height=630,scrollbars=no,menubar=no,toolbar=no,location=no');
+        });
+
+        // 프로필 초기화 버튼
+        $("#resetProfile").click(function() {
+            $("#curProfileImage").attr("src", originalProfile);
+            $("#profileInput").val(originalProfile);
+        });
+
         // 닉네임 변경 확인
         $("#nicknameUpdateInput").change(function() {
             var currentNickname = $(this).val();
@@ -104,7 +121,7 @@
             });
         });
 
-        // 수정 버튼 클릭시 로직
+        // 수정 버튼 로직
         $("#update_btn").click(function() {
             var isValid = true;
 
@@ -118,18 +135,52 @@
                 } else {
                     $("#passwordError").text("");
                 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
                 if (!pwd_confirm) {
-                    $("#confirmError").text("비밀번호를 입력해주세요.");
+                    $("#passwordConfirmError").text("비밀번호 확인을 입력해주세요.");
+                    isValid = false;
+                } else if (pwd !== pwd_confirm) {
+                    $("#passwordCheckError").text("비밀번호가 일치하지 않습니다.");
                     isValid = false;
                 } else {
-                    $("#confirmError").text("");
+                    $("#passwordConfirmError").text("");
+                    $("#passwordCheckError").text("");
                 }
+            }
 
-                if (!isValid) {  // 유효성 검사에 실패하면 함수를 빠져나옴
-                    return;
+            // 이메일 유효성 검사
+            var email = $("#emailUpdateInput").val();
+            if (email && !emailPattern.test(email)) {
+                $("#emailError").text("유효한 이메일 형식이 아닙니다.");
+                isValid = false;
+            } else {
+                $("#emailError").text("");
+            }
+
+            // 닉네임 변경 및 중복 확인
+            if (isNicknameChanged && !isNicknameChecked) {
+                $("#nicknameError").text("닉네임이 변경되었습니다. 중복 확인을 해주세요.");
+                isValid = false;
+            }
+
+            // 전화번호 유효성 검사
+            var telInput = $("#telUpdateInput").val();
+            if (telInput !== originalTel) {
+                if (!telInput) {
+                    $("#telError").text("전화번호를 입력해주세요.");
+                    isValid = false;
+                } else if (!telPattern.test(telInput)) {
+                    $("#telError").text("유효한 전화번호 형식이 아닙니다.");
+                    isValid = false;
+                } else {
+                    $("#telError").text("");
                 }
+            }
 
+<<<<<<< HEAD
 
                 $(this).prop("disabled", true);  // 수정하기 버튼 비활성화
                 
@@ -155,6 +206,8 @@
                     }
                 });
 
+=======
+>>>>>>> main
             if (!isValid) {
                 return;  // 유효성 검사 실패시 함수 종료
             }
@@ -186,6 +239,30 @@
             if (pwd) {
                 formData.pwd = pwd;
             }
+
+            // 프로필 사진 변경시 프로필 업로드
+            function saveEditProfile(blob) {
+                var profileData = new FormData();
+                profileData.append("profile_picture", blob, userId + ".png");
+
+                $.ajax({
+                    url: "/api/update-profile",
+                    type: "POST",
+                    data: profileData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        alert("프로필 사진이 업데이트되었습니다.");
+                    },
+                    error: function() {
+                        alert("프로필 사진 업데이트 중 오류가 발생했습니다.");
+                    }
+                });
+            }
+            var profileInput = $("#profileInput").val();
+            if (profileInput !== originalProfile) {
+                saveEditProfile(croppedImageBlob);
+            }
 			
          	// AJAX 회원정보 수정 post 요청 로직
             $(this).prop("disabled", true);  // 정보 수정 버튼 비활성화
@@ -205,6 +282,7 @@
                 complete: function() {
                   $("#update_btn").prop("disabled", false);  // 정보 수정 버튼 활성화
                 }
+<<<<<<< HEAD
 
             });
         });
@@ -233,3 +311,11 @@
 </html>
 
 
+=======
+            });
+
+            
+        });
+    });
+</script>
+>>>>>>> main

@@ -8,7 +8,7 @@
     <div class="detail-content" th:classappend="${user.is_deleted} ? 'deleted-user' : (${user.is_suspended} ? 'suspended-user' : '')">
         <h2 th:text="${user.name + '님의 회원 정보'}">User Information</h2>
         <div class="basic-info-area">
-            <div><img id="detail-profile-img" th:src="@{'/img/' + ${user.profile_picture}}"></div>
+            <div><img id="detail-profile-img" th:src="@{${user.profile_picture}}"></div>
             <div>
                 <li><strong>회원 번호 : </strong> <input type="text" id="custom-input-num" th:value="${user.user_num}" disabled></li>
                 <li>

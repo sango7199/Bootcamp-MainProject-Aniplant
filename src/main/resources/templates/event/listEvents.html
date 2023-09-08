@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+      
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/mypage.css}">
+    <style> 
+        .button {
+        }   
+        table {
+            border-collapse: collapse;    
+        }  
+        th, td { 
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center; 
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        #event-btn-area {
+            display: flex;
+            justify-content: right;
+        }
+    </style>
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+    <!--    <script th:src="@{/js/page/home.js}"></script>-->
+</th:block>
+       
+<head>
+    <meta charset="UTF-8">
+    <title>일정 관리</title> 
+</head>  
+
+<body> 
+<div layout:fragment="content" class="container">
+    <div th:replace="sidebar/mypage :: mypageSidebar"></div>
+    <div class="content">
+        <h2>일정 관리</h2> 
+        <div id="event-btn-area"><a class="button" th:href="@{/event/createEventForm}">일정 등록</a></div>
+        <table>  
+            <thead> 
+                <tr>
+                    <!-- <th>번호</th>  -->
+                    <th>날짜</th>
+                    <th>시간</th>
+                    <th>제목</th>
+                    <th>내용</th>
+                    <th>장소</th>
+                </tr> 
+            </thead> 
+            <tbody>
+                <tr th:each="event : ${eventsList}"> 
+                    <!-- <td th:text="${event.event_num}"></td> -->
+                    <td th:text="${#dates.format(event.ended_at, 'yyyy-MM-dd HH:mm')}"></td> 
+                    <td th:text="${#dates.format(event.ended_at, 'yyyy-MM-dd HH:mm')}"></td>
+                    <td><a th:href="@{/event/viewEvent(eventTitle=${event.title})}" th:text="${event.title}">일정 보기</a></td>
+                    <!-- <td th:text="${#dates.format(event.ended_at, 'yyyy-MM-dd HH:mm')}"></td> -->
+                    <td th:text="${event.location}"></td> 
+                </tr>
+            </tbody> 
+        </table>    
+    </div> 
+</div>
+</body>
+</html> 

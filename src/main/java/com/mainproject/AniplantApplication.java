@@ -4,6 +4,7 @@ import java.util.TimeZone;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 public class AniplantApplication {
@@ -13,4 +14,4 @@ public class AniplantApplication {
 		SpringApplication.run(AniplantApplication.class, args);
 	}
 
-}
+} 

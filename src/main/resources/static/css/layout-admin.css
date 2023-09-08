@@ -62,7 +62,7 @@ header {
 	background-repeat: no-repeat;
 	background-position: center;
 	background-color: #ffffff;
-	width: 40px;
+	width: 40px;  
 	height: 40px;
 	border: none;
 	cursor: pointer;
@@ -87,6 +87,7 @@ header {
 	width: 80;
 	height: 80px;
 	padding: 5px;
+	border-radius: 50%;
 }
 .profile-group {
 	display: flex;
@@ -147,7 +148,7 @@ header {
 footer {
 	padding: 20px;
 	background-color: rgba(255, 255, 255, 0.7);
-	border-top: 1px solid #14a6b8;
+	border-top: 1px solid #14a6b8;   
 }
 .footer-menu, .footer-info, .team-info{
 	list-style-type: none;
@@ -223,7 +224,7 @@ footer {
 	border-radius: 7px;
 	position: sticky;
     top: 10px;
-    z-index: 3;
+    z-index: 10;
 }
 
 .sidebar-menu, .sidebar-menu ul {
@@ -326,3 +327,4 @@ footer {
     margin-top: 15px;
     padding-top: 10px;
 }
+/* sidebar end-point */

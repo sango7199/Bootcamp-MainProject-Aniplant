@@ -151,6 +151,9 @@ public class UserControllerImpl implements UserController {
 	        return createResponse("message", "아이디 또는 비밀번호가 잘못되었습니다.", HttpStatus.UNAUTHORIZED);
 	    }
 	    
+	    // 사용자의 정수 값을 설정
+	    user.setUser_num(user.getUser_num());
+	    
 	    userService.resetLoginFailCount(username);
 	    
 	    // 탈퇴한 회원인 경우
@@ -179,15 +182,15 @@ public class UserControllerImpl implements UserController {
 	    return new ResponseEntity<>(result, status);
 	}
 	
-	@Override // 로그아웃 로직
-	@GetMapping("/api/logout")
-	public ResponseEntity<?> logout(HttpSession session) {
-	    // 세션에서 사용자 정보를 제거
-	    session.removeAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
-	    SecurityContextHolder.clearContext();
-
-	    return ResponseEntity.ok().body("로그아웃에 성공하였습니다.");
-	}
+//	@Override // 로그아웃 로직
+//	@GetMapping("/api/logout")
+//	public ResponseEntity<?> logout(HttpSession session) {
+//	    // 세션에서 사용자 정보를 제거
+//	    session.removeAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
+//	    SecurityContextHolder.clearContext();
+//
+//	    return ResponseEntity.ok().body("로그아웃에 성공하였습니다.");
+//	}
 	
 	@Override // 권한 설정 테스트 페이지 이동
 	@RequestMapping(value = {"/admin/test.do"}, method = RequestMethod.GET)
@@ -257,6 +260,17 @@ public class UserControllerImpl implements UserController {
 	    }
 	}
 	
+	@Override // 프로필 수정 페이지 이동
+	@GetMapping("/mypage/my-info-profile-edit.do")
+	public ModelAndView editMyprofilePic(@RequestParam String currentProfilePicSrc, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = (String) request.getAttribute("viewName");
+		String currentProfilePic = currentProfilePicSrc;
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(viewName);
+		mav.addObject("currentProfilePic", currentProfilePic);
+		return mav;
+	}
+	
 	@Override // 회원정보 탈퇴하기 form 페이지 로드 로직
 	@RequestMapping(value = {"/mypage/my-info-delete.do"}, method = RequestMethod.GET)
 	public ModelAndView viewMyInfoDelete(Principal principal, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -275,7 +289,7 @@ public class UserControllerImpl implements UserController {
 	    // 현재 로그인된 사용자의 정보를 가져옴
 	    UserVO currentUser = getCurrentUser(principal);
 
-	    // 현재 로그인된 사용자의 정보만 수정 가능하도록 체크
+	    // 현재 로그인된 사용자의 정보로만 탈퇴 가능하도록 체크
 	    if (!currentUser.getId().equals(userVO.getId())) {
 	        return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
 	    }
@@ -448,6 +462,7 @@ public class UserControllerImpl implements UserController {
 		}
 	}
 
+
 	@Override // 회원 등급 관리 페이지 이동
 	@GetMapping("/privacy-admin/user-management/user-rank-management.do")
 	public ModelAndView viewRankList(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -458,7 +473,7 @@ public class UserControllerImpl implements UserController {
 		mav.addObject("users", users);
 		return mav;
 	}
-	
+	 
 	@Override // 회원 등급 승격 로직
 	@PostMapping("/api/rank-up")
 	public ResponseEntity<Map<String, Object>> rankUp(@RequestBody Map<String, Object> requestData) {
@@ -552,4 +567,5 @@ public class UserControllerImpl implements UserController {
 			mav.addObject("users", users);
 			return mav;
 	}
+
 }

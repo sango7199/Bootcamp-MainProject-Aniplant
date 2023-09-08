@@ -1,0 +1,90 @@
+.content {
+    font: 14px/24px "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", Sans-Serif;
+    width: 840px;
+}
+li {
+    list-style-type: none;
+}
+.content > h2 {
+    padding: 0 0 8px;
+    margin: 0 0 15px;
+    border-bottom: 1px solid #14b8a6;
+}
+.fc-day-sun a {
+    color: red;
+    text-decoration: none;
+  }
+.fc-day-sat a {
+    color: blue;
+    text-decoration: none;
+  }
+/* 마이페이지 메인페이지 start */
+/* 공통 */
+.mypage-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.info-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    padding: 5px 5px 5px 0px;
+}
+.info-li {
+    font-size: 16px;
+    padding-left: 10px;
+}
+.info-li li {
+    padding: 2px 0 2px;
+}
+
+/* 나의 정보 영역 */
+#myInfo-area {
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+    border: 1px solid #9fe1da;
+    transition: box-shadow 0.3s;
+}
+.img-div {
+    display: flex;
+    justify-content: center;
+}
+#my-page-profile-img {
+    width: 250px;
+    height: 250px;
+    margin: 5px 0 10px;
+}
+#rank-img {
+    width: 20px; 
+    height: 20px;
+    margin: 0 2px 4px 0;
+    vertical-align: middle;
+}
+
+/* 나의 펫 정보 영역 */
+#myPetInfo-area {
+    padding: 5px;
+    margin: 15px 5px 5px;
+    border-radius: 5px;
+    border: 1px solid #9fe1da;
+    display: flex;
+    flex-direction: row;
+    transition: box-shadow 0.3s;
+}
+#myPetInfo-area .info-li {
+    padding-top: 6px;
+}
+
+#my-pet-profile-img {
+    width: 60px; 
+    height: 60px;
+    padding: 5px;
+}
+
+#myInfo-area:hover, #myPetInfo-area:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+/* 마이페이지 메인페이지 end */
