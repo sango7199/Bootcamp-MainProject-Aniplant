@@ -20,7 +20,7 @@ public class PetVO {
 	private int deleted_user_num;
 	private Timestamp deleted_at;
 	private String owner_name;
-	private String profile_picture = "default.jpg";
+	private String profile_picture;
 	
 	
     public int getPet_no() {
@@ -113,10 +113,6 @@ public class PetVO {
 
 	public void setProfile_picture(String profile_picture) {
 		this.profile_picture = profile_picture;
-	}
-	@Override
-	public String toString() {
-	    return "PetVO [pet_no=" + pet_no + ", name=" + name + ", profile_picture=" + profile_picture + ", ...]";
 	}
 
 }

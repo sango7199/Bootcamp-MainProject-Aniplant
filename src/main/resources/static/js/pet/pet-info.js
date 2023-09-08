@@ -1,7 +1,13 @@
-	var originalProfile = $("#curProfileImage").attr("src");
-	var croppedImageBlob = null;
+var originalProfile;
+var croppedImageBlob = null;
+
+
+
 
 $(document).ready(function() {
+	var originalProfile = $("#curProfileImage").attr("src");
+
+
 	// 프로필 사진 변경 시 메시지 리스너 추가
 	window.addEventListener("message", function(event) {
 		let croppedImageBase64 = event.data.base64;
@@ -89,10 +95,18 @@ function submitUpdates() {
 		alert('입양일은 현재시각보다 이전이어야 합니다.');
 		return;
 	}
+	
+	var profileInput = $("#profileInput").val();
+    if (profileInput !== originalProfile && croppedImageBlob) {
+        saveEditProfile(croppedImageBlob);
+    }
 
 	// 프로필 사진 변경시 프로필 업로드
 	function saveEditProfile(blob) {
 		var profileData = new FormData();
+		if (!(blob instanceof Blob)) {
+        return;
+    }
 		profileData.append("profile_picture", blob, petNo + ".png");
 
 		$.ajax({

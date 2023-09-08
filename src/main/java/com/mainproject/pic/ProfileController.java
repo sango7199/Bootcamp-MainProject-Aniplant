@@ -22,6 +22,8 @@ public class ProfileController {
 	
 	@Autowired
 	private UserDAO userDAO;
+
+	@Autowired
 	private PetDAO petDAO;
 	
 	
@@ -58,7 +60,7 @@ public class ProfileController {
         }
 	}
 	
-	@SuppressWarnings("null")
+
 	@PostMapping("/api/update-pet-profile") // 펫 프로필 사진 변경 로직
 	public ResponseEntity<String> updatePetProfile(@RequestParam("profile_picture") MultipartFile file, Principal principal) {
 		try {
@@ -87,5 +89,5 @@ public class ProfileController {
             e.printStackTrace();
             return ResponseEntity.badRequest().body("프로필 사진 업데이트 중 오류가 발생했습니다.");
         }
-	}
+	}	
 }
