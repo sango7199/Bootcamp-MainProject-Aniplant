@@ -11,8 +11,8 @@
 		<div class="nav-admin-area" th:if="${#authorization.expression('hasAnyRole(''ROLE_ADMIN'', ''ROLE_PRIVACY_ADMIN'')')}">
 			<nav class="nav-admin">
 				<ul>
-					<li><a href="">게시판 관리</a></li>
-					<li><a href="category/categories-list.do">카테고리 관리</a></li>
+					<li><a href="/board/listArticles.do?categoryNum=3">게시판 관리</a></li>
+					<li><a href="/category/categories-list.do">카테고리 관리</a></li>
 				</ul>
 			</nav>
 		</div>
@@ -31,7 +31,7 @@
 	<div th:fragment="navFragment" class="nav-area">
     	<nav class="nav-default">
 			<ul class="list-area">
-				<li><a href="/board/main.do" th:classappend="${#httpServletRequest.requestURI.startsWith('/board')} ? 'active' : ''">게시판</a></li>
+				<li><a href="/board/listArticles.do?categoryNum=3" th:classappend="${#httpServletRequest.requestURI.startsWith('/board')} ? 'active' : ''">게시판</a></li>
 				<li><a href="/news/main.do" th:classappend="${#httpServletRequest.requestURI.startsWith('/news')} ? 'active' : ''">뉴스</a></li>
 			</ul>
 			<div>
