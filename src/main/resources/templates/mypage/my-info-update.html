@@ -12,6 +12,13 @@
 	</style>
 </th:block>
 
+<<<<<<< HEAD
+
+                var pwd_confirm = $("#pwdInput").val();
+
+
+=======
+>>>>>>> main
 	<div class="content">
 		<h2>계정 정보 수정</h2>
 		<form id="update_form" name="update_form" method="post" action="">
@@ -128,6 +135,10 @@
                 } else {
                     $("#passwordError").text("");
                 }
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
                 if (!pwd_confirm) {
                     $("#passwordConfirmError").text("비밀번호 확인을 입력해주세요.");
                     isValid = false;
@@ -169,6 +180,34 @@
                 }
             }
 
+<<<<<<< HEAD
+
+                $(this).prop("disabled", true);  // 수정하기 버튼 비활성화
+                
+                // 사용자 본인인지 확인하는 비밀번호 확인 로직
+                $.ajax({
+                    url: "/api/confirmUser",
+                    type: "POST",
+                    data: { pwd: pwd_confirm },
+                    success: function(response) { // .content 부분만 다른 페이지의 .content 부분을 불러와서 변경
+                    	if (response.status === 'success') {
+                    		$('.content').load("/mypage/my-info-update.do");
+                    	}
+                    },
+                    error: function(xhr, status, error) {
+                    if (xhr.status == 401) {  // HTTP 상태 코드 401: Unauthorized
+                            $("#confirmError").text(xhr.responseJSON.errorMessage);
+                        } else {
+                            $("#confirmError").text("비밀번호 확인 중 오류가 발생했습니다.");
+                        }
+                    },
+                    complete: function() {
+                        $("#confirm_btn").prop("disabled", false);  // 수정하기 버튼 활성화
+                    }
+                });
+
+=======
+>>>>>>> main
             if (!isValid) {
                 return;  // 유효성 검사 실패시 함수 종료
             }
@@ -243,9 +282,40 @@
                 complete: function() {
                   $("#update_btn").prop("disabled", false);  // 정보 수정 버튼 활성화
                 }
+<<<<<<< HEAD
+
+            });
+        });
+
+    </script>
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content" class="container">
+	<!-- sidebar fragment 사용 -->
+	<div th:replace="sidebar/mypage :: mypageSidebar"></div>
+	<div class="content">
+		<h2>나의 정보 관리</h2>
+		<form id="confrim_form" name="confirm_form" method="post" action="">
+            <h5>계정 본인 확인을 위한 비밀번호 확인</h5>
+			<input type="password" id="pwdInput" name="password_confirm" placeholder="비밀번호를 입력해주세요."><span id="confirmError" class="error"></span><br>
+			<button type="button" id="confirm_btn" class="btn_submit">수정하기</button>
+		</form>
+	</div>
+</div>
+
+    });
+</script>
+
+
+</html>
+
+
+=======
             });
 
             
         });
     });
 </script>
+>>>>>>> main

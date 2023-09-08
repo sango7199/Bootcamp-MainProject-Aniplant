@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/adminLayout}"> 
+      
+      <!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css"></th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+    
+</th:block>
+       
+<head>
+    <meta charset="UTF-8">
+    <title>일정 관리</title>  
+</head>  
+
+<body> 
+<div layout:fragment="content" class="container">
+<div th:replace="sidebar/privacy-admin :: userManagementSidebar"></div> 
+<div class="content"></div> 
+ 
+<style> 
+    .button {
+        display: inline-block; 
+        padding: 5px 20px;  
+        background-color: #888888; 
+        color: white;   
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px; 
+        float: right; /* 오른쪽으로 띄우기 */
+        position: absolute; /* 절대적인 위치 설정 */
+        margin-top: 2px; /* 버튼 위쪽 여백 조정 */       
+        left: 1250px; /* 왼쪽으로 정렬 */           
+             
+    }   
+   
+    table {
+        border-collapse: collapse;
+        width: 70%;      
+        margin-left: auto;  
+        margin-top: 80px; 
+        
+          
+    }  
+
+    th, td { 
+        border: 1px solid black; 
+        padding: 8px;
+        text-align:  center; 
+        
+    }
+
+    th {
+        background-color: #14a6b8;  
+        color: white;  
+        font-weight: 300; 
+    }
+</style>  
+
+   
+<table style="margin-top: 40px; margin-left: -10px; ">              
+    <thead> 
+        <tr>
+            <th>번호</th> 
+            <th>제목</th>
+            <th>장소</th>
+            <th>작성자</th> 
+            <th>종료일</th> 
+            
+        </tr> 
+    </thead> 
+    <tbody>   
+   
+        <tr th:each="event : ${allEvents}">  
+            <td th:text="${event.event_num}"></td>  
+            <td><a th:href="@{/event/adminviewEvent(eventTitle=${event.title})}" th:text="${event.title}">일정 보기</a></td>
+            <td th:text="${event.location}"></td> 
+            <td th:text="${event.event_user_name}"></td>  
+            <td th:text="${#dates.format(event.ended_at, 'yyyy-MM-dd HH:mm')}"></td> 
+             
+        </tr>  
+         
+        <tr>
+             <a class="button" th:href="@{/event/admincreateEventForm}">일정 등록</a>     
+        </tr>
+    </tbody> 
+    
+</table> 
+
+<style>
+    .pagination {
+        display: flex;
+        align-items: center;
+        flex-direction: row; /* 수평 방향으로 정렬 */
+        /* ... (기존 스타일 유지) ... */
+    }
+    
+    .pagination button {
+        /* ... (기존 버튼 스타일) ... */ 
+        padding: 2px 15px; /* 버튼 내부 공간을 조절하여 가로 크기 조절 */ 
+    }
+    
+    #prevPageButton::before,
+    #nextPageButton::before {
+        content: attr(data-text); /* 버튼에 설정한 data-text 속성값을 표시 */
+        display: block; /* 수평으로 정렬되도록 설정 */
+    }
+
+    #prevPageButton, #nextPageButton {
+        margin-top: 520px;  
+        margin-left: 10px; /* 왼쪽으로 약간 옮기기 */   
+    } 
+</style>  
+ 
+</div> 
+</body>
+</html> 

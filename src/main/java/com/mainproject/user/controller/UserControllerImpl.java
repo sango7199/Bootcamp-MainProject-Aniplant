@@ -151,6 +151,9 @@ public class UserControllerImpl implements UserController {
 	        return createResponse("message", "아이디 또는 비밀번호가 잘못되었습니다.", HttpStatus.UNAUTHORIZED);
 	    }
 	    
+	    // 사용자의 정수 값을 설정
+	    user.setUser_num(user.getUser_num());
+	    
 	    userService.resetLoginFailCount(username);
 	    
 	    // 탈퇴한 회원인 경우
@@ -459,6 +462,7 @@ public class UserControllerImpl implements UserController {
 		}
 	}
 
+
 	@Override // 회원 등급 관리 페이지 이동
 	@GetMapping("/privacy-admin/user-management/user-rank-management.do")
 	public ModelAndView viewRankList(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -469,7 +473,7 @@ public class UserControllerImpl implements UserController {
 		mav.addObject("users", users);
 		return mav;
 	}
-	
+	 
 	@Override // 회원 등급 승격 로직
 	@PostMapping("/api/rank-up")
 	public ResponseEntity<Map<String, Object>> rankUp(@RequestBody Map<String, Object> requestData) {
@@ -563,4 +567,5 @@ public class UserControllerImpl implements UserController {
 			mav.addObject("users", users);
 			return mav;
 	}
+
 }

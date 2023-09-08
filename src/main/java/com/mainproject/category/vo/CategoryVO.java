@@ -16,12 +16,16 @@ public class CategoryVO {
     private int deleted_user_num;           // 삭제된 사용자 번호
     private Timestamp deleted_at;           // 삭제 일시
 	
+    // 카테고리 셀렉트처리용
+    private int parentCategoryNum;
+    private int childCategoryNum;
+    private int secondLevelChildCategoryNum;
+	private int thirdLevelChildCategoryNum;
+    
+    
 	public CategoryVO() {
 
 	}
-	public CategoryVO(String name) {
-        this.name = name;
-    }
 
 	public int getCategory_num() {
 		return category_num;
@@ -118,6 +122,36 @@ public class CategoryVO {
 	public void setDeleted_at(Timestamp deleted_at) {
 		this.deleted_at = deleted_at;
 	}
-	
-	
+
+	public int getParentCategoryNum() {
+		return parentCategoryNum;
+	}
+
+	public void setParentCategoryNum(int parentCategoryNum) {
+		this.parentCategoryNum = parentCategoryNum;
+	}
+
+	public int getChildCategoryNum() {
+		return childCategoryNum;
+	}
+
+	public void setChildCategoryNum(int childCategoryNum) {
+		this.childCategoryNum = childCategoryNum;
+	}
+
+	public int getSecondLevelChildCategoryNum() {
+		return secondLevelChildCategoryNum;
+	}
+
+	public void setSecondLevelChildCategoryNum(int secondLevelChildCategoryNum) {
+		this.secondLevelChildCategoryNum = secondLevelChildCategoryNum;
+	}
+
+	public int getThirdLevelChildCategoryNum() {
+		return thirdLevelChildCategoryNum;
+	}
+
+	public void setThirdLevelChildCategoryNum(int thirdLevelChildCategoryNum) {
+		this.thirdLevelChildCategoryNum = thirdLevelChildCategoryNum;
+	}
 }

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/defaultLayout}">
+      layout:decorate="~{layout/adminLayout}">
 <!-- 페이지의 제목 설정 -->
 <head>
     <title>일정 수정</title>
@@ -20,8 +20,8 @@
 <!-- Content -->
 <div layout:fragment="content" class="container">
     <!-- sidebar fragment 사용 -->
-    <div th:replace="sidebar/mypage :: mypageSidebar"></div>
-    <div class="content">일정 수정</div>
+    <div th:replace="sidebar/privacy-admin :: userManagementSidebar"></div>  
+    <div class="content">일정 수정</div>  
     
     <style>
         .form-container {
@@ -45,7 +45,7 @@
     </style>
 
     <div class="form-container">
-        <form th:action="@{/event/updateEvent}" th:object="${event}" method="post">
+        <form th:action="@{/event/adminupdateEvent}" th:object="${event}" method="post">
             <input type="hidden" name="event_num" th:value="${event.event_num}" />
             
             <div class="form-group">
@@ -61,7 +61,7 @@
                     <input type="text" id="ended_at_input" th:field="*{ended_at}" required>
                 </div> 
             </div>   
-
+  
             <div class="form-group">
                 <label for="location">장소</label> 
                 <input type="text" id="location" name="location" th:field="*{location}" required>

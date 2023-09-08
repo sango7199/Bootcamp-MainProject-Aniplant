@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialDate: today, // 캘린더가 처음 표시될 때의 날짜
         locale: 'es',
-        editable: true, // 이벤트 드래그 여부
+        editable: false, // 이벤트 드래그 여부
         selectable: true, // 날짜 시간 범위 선택 여부
         businessHours: true, // 업무시간 표시 여부
         dayMaxEvents: true, // 하루 표시할 이벤트 수 제한 

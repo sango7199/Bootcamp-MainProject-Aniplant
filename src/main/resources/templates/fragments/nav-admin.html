@@ -11,9 +11,7 @@
 		<div class="nav-admin-area" th:if="${#authorization.expression('hasAnyRole(''ROLE_ADMIN'', ''ROLE_PRIVACY_ADMIN'')')}">
 			<nav class="nav-admin">
 				<ul>
-					<li><a href="/board/pets/main.do">반려동물 게시판</a></li>
-					<li><a href="/board/plants/main.do">반려식물 게시판</a></li>
-                    <li><a href="/board/free/main.do">자유게시판</a></li>
+					<li><a href="/board/main.do">게시판</a></li>
                     <li><a href="/news/main.do">뉴스</a></li>
 				</ul>
 			</nav>
@@ -25,9 +23,9 @@
     	<nav class="nav-default">
 			<ul class="list-area">
 				<li><a href="" th:classappend="${#httpServletRequest.requestURI.startsWith('')} ? 'active' : ''">게시판 관리</a></li>
-				<li><a href="" th:classappend="${#httpServletRequest.requestURI.startsWith('')} ? 'active' : ''">카테고리 관리</a></li>
+				<li><a href="/category/categories-list.do" th:classappend="${#httpServletRequest.requestURI.startsWith('')} ? 'active' : ''">카테고리 관리</a></li>
 				<li><a href="/privacy-admin/user-management/main.do" th:classappend="${#httpServletRequest.requestURI.startsWith('/privacy-admin/user-management/')} ? 'active' : ''" th:if="${#authorization.expression('hasRole(''ROLE_PRIVACY_ADMIN'')')}">회원 관리</a></li>
-				<li><a href="/privacy-admin/pet-management/admin-pet-list.do" th:classappend="${#httpServletRequest.requestURI.startsWith('/privacy-admin/pet-management/')} ? 'active' : ''" th:if="${#authorization.expression('hasRole(''ROLE_PRIVACY_ADMIN'')')}">반려친구 관리</a></li>
+				<li><a href="" th:classappend="${#httpServletRequest.requestURI.startsWith('')} ? 'active' : ''" th:if="${#authorization.expression('hasRole(''ROLE_PRIVACY_ADMIN'')')}">반려친구 관리</a></li>
                 <li><a href="" th:classappend="${#httpServletRequest.requestURI.startsWith('')} ? 'active' : ''" th:if="${#authorization.expression('hasRole(''ROLE_PRIVACY_ADMIN'')')}">일정 관리</a></li>
             </ul>
 			<div>

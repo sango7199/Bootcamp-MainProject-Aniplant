@@ -11,8 +11,8 @@
 		<div class="nav-admin-area" th:if="${#authorization.expression('hasAnyRole(''ROLE_ADMIN'', ''ROLE_PRIVACY_ADMIN'')')}">
 			<nav class="nav-admin">
 				<ul>
-					<li>게시판 관리</li>
-					<li>카테고리 관리</li>
+					<li><a href="">게시판 관리</a></li>
+					<li><a href="category/categories-list.do">카테고리 관리</a></li>
 				</ul>
 			</nav>
 		</div>
@@ -20,7 +20,7 @@
 			<nav class="nav-privacy-admin">
 				<ul>
 					<li><a href="/privacy-admin/user-management/main.do">회원 관리</a></li>
-					<li><a href="/privacy-admin/pet-management/admin-pet-list.do">반려친구 관리</li>
+					<li>반려친구 관리</li>
 					<li>일정 관리</li>
 				</ul>
 			</nav>
@@ -31,9 +31,7 @@
 	<div th:fragment="navFragment" class="nav-area">
     	<nav class="nav-default">
 			<ul class="list-area">
-				<li><a href="/board/pets/main.do" th:classappend="${#httpServletRequest.requestURI.startsWith('/board/pets')} ? 'active' : ''">반려동물 게시판</a></li>
-				<li><a href="/board/plants/main.do" th:classappend="${#httpServletRequest.requestURI.startsWith('/board/plants')} ? 'active' : ''">반려식물 게시판</a></li>
-				<li><a href="/board/free/main.do" th:classappend="${#httpServletRequest.requestURI.startsWith('/board/free')} ? 'active' : ''">자유게시판</a></li>
+				<li><a href="/board/main.do" th:classappend="${#httpServletRequest.requestURI.startsWith('/board')} ? 'active' : ''">게시판</a></li>
 				<li><a href="/news/main.do" th:classappend="${#httpServletRequest.requestURI.startsWith('/news')} ? 'active' : ''">뉴스</a></li>
 			</ul>
 			<div>
