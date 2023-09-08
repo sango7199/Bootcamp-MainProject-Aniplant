@@ -38,5 +38,6 @@ public interface CategoryService {
     // 카테고리 삭제
 	public void deleteCategory(CategoryVO categoryVO) throws Exception;
 
+	//board리스트에 필요한 부분
 	public CategoryVO getCategoryByCategoryNum(int categoryNum);
 }

@@ -37,6 +37,7 @@ public interface CategoryDAO {
 	// 카테고리 삭제 메서드
 	public void deleteCategory(CategoryVO categoryVO) throws Exception;
 
+	//board리스트에 필요한 부분
 	CategoryVO getCategoryByCategoryNum(int categoryNum);
 
 }

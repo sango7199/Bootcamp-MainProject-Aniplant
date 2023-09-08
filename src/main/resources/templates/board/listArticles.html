@@ -53,9 +53,8 @@ layout:decorate="~{layout/defaultLayout}">
   
 
  <div class="boradlist-container">
- <a th:href="@{/board/articleForm.do}" onclick="checkLogin()">게시글 쓰기</a>
- 
-	 <h1 th:if="${category.parent_category_num == 0}" th:text="${category.name} + ' 게시판'"></h1> 
+ <a th:href="@{/board/articleForm.do}" onclick="checkLogin()">게시글 쓰기</a>	
+	 <h1 th:text="${category.name} + ' 게시판'"></h1> 
    <!--  <h1>동물 게시판</h1> -->
   
       <table class="boradlist">
