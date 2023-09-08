@@ -37,4 +37,6 @@ public interface CategoryDAO {
 	// 카테고리 삭제 메서드
 	public void deleteCategory(CategoryVO categoryVO) throws Exception;
 
+	CategoryVO getCategoryByCategoryNum(int categoryNum);
+
 }

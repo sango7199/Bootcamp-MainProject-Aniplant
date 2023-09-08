@@ -98,9 +98,9 @@ public class CategoryServiceImpl implements CategoryService {
 	    categoryDAO.deleteCategory(categoryVO);
 	}
 
+	//리스트에 필요한 부분
 	@Override
 	public CategoryVO getCategoryByCategoryNum(int categoryNum) {
-		// TODO Auto-generated method stub
-		return null;
+		return categoryDAO.getCategoryByCategoryNum(categoryNum);
 	}
 }

@@ -28,21 +28,21 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
    <script th:inline="javascript">
    
    document.addEventListener("DOMContentLoaded", function() {
-	      var editButton = document.getElementById("editButton");
-	      var titleInput = document.getElementById("titleInput");
-	      var contentTextarea = document.getElementById("contentTextarea");
-	      var deleteButton = document.getElementById("deleteButton"); // 추가
-	      
-	      editButton.addEventListener("click", function() {
-	    	topLevelSelect.removeAttribute("disabled");
-	        titleInput.removeAttribute("disabled");
-	        contentTextarea.removeAttribute("disabled");
-	        editButton.style.display = "none";
-	        resetButton.style.display = "inline";
-	        saveButton.style.display = "inline";
-	        deleteButton.style.display = "none";
-	      });	      
-	    });
+         var editButton = document.getElementById("editButton");
+         var titleInput = document.getElementById("titleInput");
+         var contentTextarea = document.getElementById("contentTextarea");
+         var deleteButton = document.getElementById("deleteButton"); // 추가
+         
+         editButton.addEventListener("click", function() {
+          topLevelSelect.removeAttribute("disabled");
+           titleInput.removeAttribute("disabled");
+           contentTextarea.removeAttribute("disabled");
+           editButton.style.display = "none";
+           resetButton.style.display = "inline";
+           saveButton.style.display = "inline";
+           deleteButton.style.display = "none";
+         });         
+       });
    
     
    /* 현재 날짜 가져오기 */
@@ -110,16 +110,18 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
                 <td align="left"> </td>
                 <td colspan="2"> 
                       <input type="reset" value="초기화" id="resetButton" style="display: none;">
-                       <input type="submit" value="저장하기" id="saveButton" style="display: none;">	        
+                      <input type="submit" value="저장하기" id="saveButton" style="display: none;">   
+                            
                 </td>
             </tr>
         </table>
     </form>
          <form th:action="@{delete/{post_num}(post_num=${board.post_num})}" method="post">
-         	<input type="button" value="수정하기" id="editButton" >
-         	<input type="submit" value="삭제하기" id="deleteButton">
-   		 	<input type="hidden" name="categoryNum" th:value="${board.category_num}" />
-   		 </form>
+            <input type="button" value="수정하기" id="editButton" >
+            <input type="submit" value="삭제하기" id="deleteButton">
+             <input type="hidden" name="categoryNum" th:value="${board.category_num}" /> 
+          </form>
+          
   </div>
 </div>
 </body>

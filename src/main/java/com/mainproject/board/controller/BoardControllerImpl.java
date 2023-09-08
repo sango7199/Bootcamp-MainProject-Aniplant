@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,6 +32,7 @@ import com.mainproject.board.service.BoardService;
 import com.mainproject.board.vo.BoardVO;
 import com.mainproject.category.service.CategoryService;
 import com.mainproject.category.vo.CategoryVO;
+import com.mainproject.user.service.UserService;
 import com.mainproject.user.vo.UserVO;
 
 import org.springframework.ui.Model;
@@ -68,11 +71,11 @@ public class BoardControllerImpl implements BoardController{
     // 게시글 등록 페이지
     @GetMapping("/board/articleForm.do")
     public String showArticleForm(Model model, Principal principal,HttpServletRequest request) {
-    	if (principal == null) {
-    		// 로그인하지 않은 경우 로그인 페이지로 이동
-           
-            return "redirect:/user/login.do";
-        }
+//    	if (principal == null) {
+//    		// 로그인하지 않은 경우 로그인 페이지로 이동
+//           
+//            return "redirect:/user/login.do";
+//        }
     	
     	model.addAttribute("board", new BoardVO());
         return "board/articleForm"; 
@@ -80,11 +83,12 @@ public class BoardControllerImpl implements BoardController{
 
     @PostMapping("/board/articleForm.do")
     public String endArticle(@ModelAttribute("boardVO") BoardVO boardVO, @RequestParam("categoryNum") int categoryNum, Principal principal, HttpServletRequest request) {
-    	if (principal == null) {
-    		// 로그인하지 않은 경우  로그인 페이지로 이동
-            
-            return "redirect:/user/login.do";
-        }
+//    	if (principal == null) {
+//    		// 로그인하지 않은 경우  로그인 페이지로 이동
+//            
+//            return "redirect:/user/login.do";
+//        }
+    	
     	
     	boardVO.setCategory_num(categoryNum); // 카테고리 번호 설정
         boardService.addNewArticle(boardVO);
@@ -106,6 +110,8 @@ public class BoardControllerImpl implements BoardController{
         ModelAndView mav = new ModelAndView();
         mav.setViewName(viewName);
         mav.addObject("board", boardVO);
+        
+
         return mav;
     }
     
@@ -124,19 +130,6 @@ public class BoardControllerImpl implements BoardController{
     }
 
 
-  
-
-    
-
 }
 	
-	
-	
-	
-	
-	
-	
-	
-
-
 

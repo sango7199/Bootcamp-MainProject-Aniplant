@@ -105,4 +105,10 @@ public class CategoryDAOImpl implements CategoryDAO {
 		// 매개변수로 전달된 categoryVO 객체를 이용하여 쿼리를 실행합니다.
 		sqlSession.update("mapper.category.deleteCategory", categoryVO);
 	}
+	
+	//리스트에 필요한 부분
+	@Override
+    public CategoryVO getCategoryByCategoryNum(int categoryNum) {
+        return sqlSession.selectOne("mapper.category.selectCategoryByCategoryNum", categoryNum);
+    }
 }
