@@ -2,6 +2,7 @@
 <html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
 xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
 layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용--> 
 
 <head>
@@ -32,6 +33,8 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
          var titleInput = document.getElementById("titleInput");
          var contentTextarea = document.getElementById("contentTextarea");
          var deleteButton = document.getElementById("deleteButton"); // 추가
+       
+         
          
          editButton.addEventListener("click", function() {
           topLevelSelect.removeAttribute("disabled");
@@ -43,24 +46,6 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
            deleteButton.style.display = "none";
          });         
        });
-   
-    
-   /* 현재 날짜 가져오기 */
-    var now = new Date();
-    var year = now.getFullYear();
-    var month = ('0' + (now.getMonth() + 1)).slice(-2);
-    var day = ('0' + now.getDate()).slice(-2);
-    var currentDate = year + '-' + month + '-' + day;
-
-    /* 수정일 표시 */
-    var updated_at_element = document.getElementById('updated_at');
-    if (updated_at_element) {
-        updated_at_element.textContent = currentDate;
-    }
-    
- 
-    
-   
    </script>
    
 </th:block>
@@ -90,8 +75,8 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
                   <td align="left">카테고리</td>
                     <td colspan="2" >
                       <select id="topLevelSelect" name="categoryNum" th:field="*{category_num}"disabled>
-                        <option  th:value="127">동물게시판</option>
-                        <option th:value="128">식물게시판</option>
+                        <option  th:value="1">동물게시판</option>
+                        <option th:value="2">식물게시판</option>
                       </select>
                       
                 </td>
@@ -109,16 +94,16 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
             <tr>
                 <td align="left"> </td>
                 <td colspan="2"> 
-                      <input type="reset" value="초기화" id="resetButton" style="display: none;">
-                      <input type="submit" value="저장하기" id="saveButton" style="display: none;">   
+                      <button type="reset" value="초기화" id="resetButton" style="display: none;">초기화</button>
+                      <button type="submit" value="저장하기" id="saveButton" style="display: none;">저장하기</button>   
                             
                 </td>
             </tr>
         </table>
     </form>
          <form th:action="@{delete/{post_num}(post_num=${board.post_num})}" method="post">
-            <input type="button" value="수정하기" id="editButton" >
-            <input type="submit" value="삭제하기" id="deleteButton">
+            <button type="button" value="수정하기" id="editButton" >수정하기</button>
+            <button type="submit" value="삭제하기" id="deleteButton">삭제하기</button>
              <input type="hidden" name="categoryNum" th:value="${board.category_num}" /> 
           </form>
           
