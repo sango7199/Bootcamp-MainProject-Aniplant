@@ -12,6 +12,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,7 +50,12 @@ public class EventDAOImpl implements EventDAO {
  
 	    sqlSession.insert("mapper.event.insertEvent", eventVO);
 	}  
-  
+	
+	@Override 
+	public void registerEvent(EventVO eventVO) throws DataAccessException {
+		sqlSession.insert("mapper.event.registerEvent", eventVO);
+	}
+	
 	@Override
 	public List<EventVO> selectEventsForUserNum(int userNum) {
 	    return sqlSession.selectList("mapper.event.selectEventsForUserNum", userNum);

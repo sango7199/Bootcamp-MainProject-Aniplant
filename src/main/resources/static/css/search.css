@@ -116,7 +116,7 @@
 
 
 /* 알림창 스타일 */
-.modal {
+#search-modal {
     display: none; 
     position: fixed;
     z-index: 30;
@@ -128,7 +128,7 @@
     background-color: rgba(0,0,0,0.4); 
 }
 
-.modal-content {
+#search-modal-content {
     background-color: #fefefe;
     margin: 15% auto;
     padding: 20px;
@@ -139,7 +139,7 @@
     display: flex;
     flex-direction: row;
 }
-.modal-text {
+#search-modal-text {
     vertical-align: middle;
     padding: 13px 0px 10px 5px;
     font-size: 17px;

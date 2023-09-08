@@ -12,6 +12,7 @@ import com.sun.jdi.event.Event;
 public interface EventDAO {
 	
 	void insertEvent(EventVO eventVO);
+	public void registerEvent(EventVO eventVO) throws DataAccessException;
 	void deleteEvent(Long eventId);
     List<EventVO> getAllEvents();
 	List<EventVO> selectAllEvents();
