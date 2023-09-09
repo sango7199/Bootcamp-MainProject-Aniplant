@@ -196,9 +196,17 @@
             justify-content: space-between;
         }
         .event-list {
-            margin-left: 10px;
-            margin-top: 10px;
+            margin-left: 5px;
+            margin-top: 5px;
+            padding: 5px;
+            border-radius: 7px;
             width: 330px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        .event-list:hover {
+            transform: scale(1.03);
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.13); 
         }
         .event-head {
             display: flex;
@@ -300,13 +308,10 @@
         }
         input[type="text"] {
             font-size: 16px;
-            width: 350px;
+            width: 370px;
             border: none;
             outline: none;
             padding: 8px;
-        }
-        input[type="text"]:focus {
-            /* box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); */
         }
         input[type="date"], input[type="time"] {
             padding: 8px;
@@ -360,6 +365,7 @@
     </script>
     <script th:src="@{/js/mypage.js}"></script>
     <script>
+        // 일정 등록 하루종일 checkbox 함수
         function toggleTimeInput(show) {
             const timeInputs = document.getElementById('time-inputs');
             if (show) {
@@ -368,8 +374,53 @@
                 timeInputs.style.display = "none";
             }
         }
+        
+        // 캘린더 년월에 맞게 해당 리스트 보여주는 함수
+        function updateEventList() {
+            let specifiedDate = $('#fc-dom-1').text().trim();
+            let yearMonth = specifiedDate.split("년 ");
+            let year = yearMonth[0];
+            let month = yearMonth[1].replace("월", "").trim();
 
+            if(month.length === 1) {
+                month = "0" + month;
+            }
+
+            let currentDate = year + "-" + month;
+
+            $('.event-list').each(function() {
+                let eventDate = $(this).find('#show-equal-event-list').text().trim();
+                if (eventDate !== currentDate) {
+                    $(this).hide();
+                } else {
+                    $(this).show();
+                }
+            });
+        }
+        
         $(document).ready(function() {
+            updateEventList();
+            // 캘린더 년월 추적하는 observer
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.type === "characterData" || mutation.type === "childList") {
+                        updateEventList();
+                    }
+                });
+            });
+            observer.observe($('#fc-dom-1')[0], {
+                childList: true,
+                subtree: true,
+                characterData: true
+            });
+
+            // 일정 상세보기 로직
+            $('.event-list').on('click', function() {
+                const eventNum = $(this).data('event-num');
+                window.location.href = "/event/viewEventDetail.do?event_num=" + eventNum;
+            });
+
+            // 일정 등록 버튼 로직 
             $('#event-modal-register-btn').on('click', function() {
                 const errorElement = $('#registerError');
 
@@ -458,23 +509,23 @@
                 <div id="calendar"></div>
             </div>
             <div>
-                <!-- 이벤트가 있을 경우 -->
-                <div th:if="${eventsList != null and not #lists.isEmpty(eventsList)}" th:each="event : ${eventsList}" class="event-list">
-                    <div class="event-head">
-                        <div>
-                            <span class="event-date" th:text="${#dates.format(event.ended_at, 'yyyy-MM-dd E')}"></span> <span class="event-time" th:text="${event.allday ? '하루종일' : #dates.format(event.started_at, 'HH:mm')}"></span>
+                <div th:if="${eventsList != null and not #lists.isEmpty(eventsList)}" th:each="event : ${eventsList}" class="event-list" th:data-event-num="${event.event_num}">
+                    <!-- <div class="event-item"> -->
+                        <div class="event-head">
+                            <div>
+                                <span id="show-equal-event-list" th:text="${#dates.format(event.started_at, 'yyyy-MM')}" style="display: none;"></span><span class="event-date" th:text="${#dates.format(event.started_at, 'yyyy-MM-dd E')}"></span> <span class="event-time" th:text="${event.allday ? '하루종일' : #dates.format(event.started_at, 'HH:mm')}"></span>
+                            </div>
+                            <span class="event-location" th:text="${event.location}"></span>
                         </div>
-                        <span class="event-location" th:text="${event.location}"></span>
-                    </div>
-                    <div class="event-details">
-                        <span class="event-title" th:text="${event.title}"></span>
-                        <span class="event-content" th:text="${event.content}"></span>
-                    </div>
-                </div>
-                <!-- 이벤트가 없을 경우 -->
+                        <div class="event-details">
+                            <span class="event-title" th:text="${event.title}"></span>
+                            <span class="event-content" th:text="${event.content}"></span>
+                        </div>
+                    <!-- </div> -->
                 <div th:unless="${eventsList != null and not #lists.isEmpty(eventsList)}">
                     <p class="null-message">현재 등록된 일정이 없습니다.</p>
                 </div>  
+            </div>
             </div> 
         </div>
     </div> 

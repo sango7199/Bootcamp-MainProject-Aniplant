@@ -14,6 +14,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -76,7 +78,6 @@ public class EventControllerImpl implements EventController {
     @PostMapping("/api/register-event")
     public ResponseEntity<String> registerEvent(@RequestBody EventVO eventVO, Principal principal) {
 	    try {
-	    	System.out.println("Received allday value: " + eventVO.isAllday());
 	    	String userID = principal.getName();
 			UserVO userInfo = userService.getUserByUsername(userID);
 			int userNum = userInfo.getUser_num();
@@ -116,8 +117,17 @@ public class EventControllerImpl implements EventController {
         ModelAndView modelAndView = new ModelAndView("event/viewEvent");
         EventVO event = eventService.getEventByTitle(eventTitle);
         modelAndView.addObject("event", event);
-        modelAndView.addObject("eventNum", event.getEvent_num()); // 
+        modelAndView.addObject("eventNum", event.getEvent_num());
         return modelAndView;
+    } 
+    @GetMapping("/viewEventDetail.do") 
+    public ModelAndView viewEventDetail(@RequestParam("event_num") int eventNum, HttpServletRequest request) {
+        String viewName = (String) request.getAttribute("viewName");
+    	EventVO event = eventService.getEventByEventNum(eventNum);
+    	ModelAndView mav = new ModelAndView();
+    	mav.setViewName(viewName);
+    	mav.addObject("event", event);
+        return mav;
     } 
     
     @GetMapping("/deleteEvent")
@@ -131,6 +141,30 @@ public class EventControllerImpl implements EventController {
         }
         return "redirect:/event/listEvents.do";     
     } 
+    
+    @GetMapping("/api/delete-event")
+    public ResponseEntity<String> deleteEvent2(@RequestParam("event_num") int eventNum, Principal principal) {
+        try {
+        	String userID = principal.getName();
+			UserVO userInfo = userService.getUserByUsername(userID);
+			int userNum = userInfo.getUser_num();
+			
+        	EventVO eventVO =  eventService.getEventByEventNum(eventNum);
+        	
+        	LocalDateTime now = LocalDateTime.now();
+	        Timestamp timestamp = Timestamp.valueOf(now);
+	        
+        	eventVO.setDeleted_user_num(userNum);
+        	eventVO.setDeleted_at(timestamp);
+        	eventVO.setIs_deleted(true);
+        	
+        	eventDAO.deleteEvent2(eventVO);
+        	return new ResponseEntity<>("success", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+        }   
+    }
     
     @GetMapping("/editEventForm")
     public String showEditEventForm(@RequestParam("eventNum") int eventNum, Model model) {

@@ -35,8 +35,9 @@
 	</insert>
 	
     <select id="selectEventsForUserNum" parameterType="int" resultType="com.mainproject.event.vo.EventVO">
-    SELECT * FROM TB_EVENT WHERE created_user_num = #{userNum} AND is_deleted = 0
-    
+    	SELECT * FROM TB_EVENT 
+	    WHERE created_user_num = #{userNum} AND is_deleted = 0
+	    ORDER BY started_at ASC
     </select>
     
     <select id="getEventByTitle" parameterType="String" resultType="com.mainproject.event.vo.EventVO">
@@ -79,6 +80,14 @@
     <select id="getTotalEventCount" resultType="int"> 
     SELECT COUNT(*) FROM TB_EVENT
     </select>
+    
+    <update id="deleteEvent2" parameterType="eventVO">
+	    UPDATE TB_EVENT
+	    SET deleted_user_num = #{deleted_user_num},
+	        deleted_at = #{deleted_at},
+	        is_deleted = #{is_deleted} 
+	    WHERE event_num = #{event_num}
+    </update>
     
   
 </mapper>   

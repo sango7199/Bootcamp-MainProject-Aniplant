@@ -71,8 +71,12 @@ public class EventDAOImpl implements EventDAO {
 	@Override
 	    public void deleteEvent(int eventId) {
 	        sqlSession.delete("mapper.event.deleteEvent", eventId);
-	    }
-
+	}
+	
+	@Override
+    public void deleteEvent2(EventVO eventVO) throws DataAccessException {
+        sqlSession.update("mapper.event.deleteEvent2", eventVO);
+	}
 	
 	@Override
     public EventVO getEventById(int eventId) {
@@ -114,7 +118,7 @@ public class EventDAOImpl implements EventDAO {
 	}
 	
 	@Override
-	public EventVO getEventByEventNum(int eventNum) {
+	public EventVO getEventByEventNum(int eventNum) throws DataAccessException {
 	    return sqlSession.selectOne("mapper.event.getEventByEventNum", eventNum);
 	} 
 	 

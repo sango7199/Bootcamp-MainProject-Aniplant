@@ -20,7 +20,7 @@ public interface EventDAO {
 	void deleteEvent(int eventId);
 	EventVO getEventById(int eventId);
 	void updateEvent(EventVO event);
-	EventVO getEventByEventNum(int eventNum);
+	EventVO getEventByEventNum(int eventNum) throws DataAccessException;
 	void updateEventByTitle(String eventTitle, EventVO updatedEvent);
 	void updateEventByEventNum(int eventNum, EventVO updatedEvent);
 	void markEventAsDeleted(int eventId);
@@ -31,7 +31,8 @@ public interface EventDAO {
 	List<EventVO> listEventsForUserNum(int userNum);  
 	List<Event> listEventsForUserNum(int userNum, Criteria criteria);
     int countEventsForUserNum(int userNum);
-	List<EventVO> listEventsForUserNumWithPaging(int userNum, PagingVO pagingVO);  
+	List<EventVO> listEventsForUserNumWithPaging(int userNum, PagingVO pagingVO);
+	public void deleteEvent2(EventVO eventVO) throws DataAccessException;
 
 	
   
