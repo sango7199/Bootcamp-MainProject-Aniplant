@@ -19,19 +19,25 @@
         <result property="deleted_user_num" column="deleted_user_num"/>
         <result property="deleted_at" column="deleted_at"/>
         <result property="event_order" column="event_order"/>
-        <result property="event_user_name" column="event_user_name"/> 
-        
-        </resultMap>
+        <result property="event_user_name" column="event_user_name"/>
+        <result property="allday" column="allday"/>
+ 		<result property="url" column="url"/>
+   </resultMap>
          
-        
- <insert id="insertEvent" parameterType="com.mainproject.event.vo.EventVO">
-    INSERT INTO TB_EVENT (title, started_at, ended_at, location, content, created_user_num, event_order, created_at, event_user_name)
-    VALUES (#{title}, #{started_at}, #{ended_at}, #{location}, #{content}, #{created_user_num}, #{event_order}, CURRENT_TIMESTAMP, #{event_user_name})
-</insert> 
-
+	
+	 <insert id="insertEvent" parameterType="com.mainproject.event.vo.EventVO">
+	    INSERT INTO TB_EVENT (title, started_at, ended_at, location, content, created_user_num, event_order, created_at, event_user_name)
+	    VALUES (#{title}, #{started_at}, #{ended_at}, #{location}, #{content}, #{created_user_num}, #{event_order}, CURRENT_TIMESTAMP, #{event_user_name})
+	</insert> 
+    <insert id="registerEvent" parameterType="eventVO">
+	    INSERT INTO TB_EVENT (title, started_at, ended_at, location, content, created_user_num, created_at, event_order, event_user_name, allday, url)
+	    VALUES (#{title}, #{started_at}, #{ended_at}, #{location}, #{content}, #{created_user_num}, #{created_at}, #{event_order}, #{event_user_name}, #{allday}, #{url})
+	</insert>
+	
     <select id="selectEventsForUserNum" parameterType="int" resultType="com.mainproject.event.vo.EventVO">
-    SELECT * FROM TB_EVENT WHERE created_user_num = #{userNum} AND is_deleted = 0
-    
+    	SELECT * FROM TB_EVENT 
+	    WHERE created_user_num = #{userNum} AND is_deleted = 0
+	    ORDER BY started_at ASC
     </select>
     
     <select id="getEventByTitle" parameterType="String" resultType="com.mainproject.event.vo.EventVO">
@@ -74,6 +80,28 @@
     <select id="getTotalEventCount" resultType="int"> 
     SELECT COUNT(*) FROM TB_EVENT
     </select>
+    
+    <update id="deleteEvent2" parameterType="eventVO">
+	    UPDATE TB_EVENT
+	    SET deleted_user_num = #{deleted_user_num},
+	        deleted_at = #{deleted_at},
+	        is_deleted = #{is_deleted} 
+	    WHERE event_num = #{event_num}
+    </update>
+    
+    <update id="updateEvent2" parameterType="eventVO">
+	    UPDATE TB_EVENT
+	    SET title = #{title},
+	        started_at = #{started_at},
+	        ended_at = #{ended_at},
+	        location = #{location}, 
+	        content = #{content},
+	        updated_at = #{updated_at},
+	        updated_user_num = #{updated_user_num},
+	        allday = #{allday},
+	        url = #{url}
+	    WHERE event_num = #{event_num}  
+    </update>
     
   
 </mapper>   

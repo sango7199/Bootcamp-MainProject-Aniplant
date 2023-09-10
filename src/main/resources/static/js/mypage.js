@@ -15,6 +15,39 @@ function calculateAge(birthDateString) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    // 모달 버튼 클릭시 모달 표시
+    const modalButtons = document.querySelectorAll('.modal-btn');
+    modalButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // 해당 버튼에 연결된 모달만
+            const modalId = button.getAttribute('data-modal-id');
+            if (modalId) {
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.style.display = "block";
+                }
+            }
+        });
+    });
+
+    // 모달 닫기 버튼
+    const closeButtons = document.querySelectorAll('.close-btn');
+    closeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const modal = button.closest('.modal');
+            if (modal) {
+                modal.style.display = "none";
+            }
+        });
+    });
+
+    // 모달 외부 클릭 시 모달 닫기
+    window.addEventListener('click', function(event) {
+        if (event.target.classList.contains('modal')) {
+            event.target.style.display = "none";
+        }
+    });
+
     var calendarEl = document.getElementById('calendar');
     var today = new Date().toISOString().split('T')[0];
 
@@ -33,65 +66,22 @@ document.addEventListener('DOMContentLoaded', function() {
               container: 'body'
             });
         },
-        events: [ // 표시될 이벤트들의 배열
-        {
-            title: 'All Day Event',
-            start: '2023-01-01'
-        },
-        {
-            title: 'Long Event',
-            start: '2023-01-07',
-            end: '2023-01-10'
-        },
-        {
-            groupId: 999,
-            title: 'Repeating Event',
-            description: 'description for Meeting',
-            start: '2023-01-09T16:00:00'
-        },
-        {
-            groupId: 999,
-            title: 'Repeating Event',
-            description: 'description for Meeting',
-            start: '2023-01-16T16:00:00'
-        },
-        {
-            title: 'Conference',
-            description: 'CSS 토할거같애..',
-            start: '2023-01-11',
-            end: '2023-01-13'
-        },
-        {
-            title: 'Meeting',
-            start: '2023-01-12T10:30:00',
-            end: '2023-01-12T12:30:00'
-        },
-        {
-            title: 'Lunch',
-            start: '2023-01-12T12:00:00'
-        },
-        {
-            title: 'Meeting',
-            start: '2023-01-12T14:30:00'
-        },
-        {
-            title: 'Happy Hour',
-            start: '2023-01-12T17:30:00'
-        },
-        {
-            title: 'Dinner',
-            start: '2023-01-12T20:00:00'
-        },
-        {
-            title: 'Birthday Party',
-            start: '2023-01-13T07:00:00'
-        },
-        {
-            title: 'Click for Google',
-            url: 'http://google.com/',
-            start: '2023-01-28'
-        }
-        ]
+        events: eventsFromServer.map(event => {
+            let eventObject = {
+                id: event.event_num,
+                title: event.title,
+                start: event.started_at,
+                end: event.ended_at,
+                allday: event.allday,
+                description: event.content,
+            };
+        
+            if (event.url) {
+                eventObject.url = event.url;
+            }
+        
+            return eventObject;
+        }),
     });
     calendar.setOption('locale', 'ko');
     calendar.render();

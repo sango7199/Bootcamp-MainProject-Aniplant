@@ -22,13 +22,15 @@ public class EventVO {
 	private Timestamp deleted_at;
 	private int event_order;
 	private String event_user_name;
-	
-	
-	
+	private boolean allday;
+	private String url;
+
+
 	public EventVO() { 
 	 
 	}  
 
+	
 	public int getEvent_num() {
 		return event_num;
 	}
@@ -156,8 +158,23 @@ public class EventVO {
 	public void setEvent_user_name(String username) {
 	    this.event_user_name = username;
 	}
-	 
+	
+	public boolean isAllday() {
+		return allday;
+	}
 
+	public void setAllday(boolean allday) {
+		this.allday = allday;
+	}
+	
+	public String getUrl() {
+		return url;
+	}
+
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
 	
  
 }

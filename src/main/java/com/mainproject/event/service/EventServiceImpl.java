@@ -47,10 +47,8 @@ public class EventServiceImpl implements EventService {
     
 	@Override
 	public EventVO getEventByTitle(String eventTitle) {
-		
 		return eventDAO.getEventByTitle(eventTitle);
-		
-  }  
+    }
 
 	
 	@Override
@@ -84,7 +82,7 @@ public class EventServiceImpl implements EventService {
 
 
 	@Override
-	public EventVO getEventByEventNum(int eventNum) {
+	public EventVO getEventByEventNum(int eventNum) throws DataAccessException {
 	    return eventDAO.getEventByEventNum(eventNum);
 	}
 	    

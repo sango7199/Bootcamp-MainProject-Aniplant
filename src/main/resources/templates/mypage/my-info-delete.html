@@ -3,30 +3,111 @@
 
 <!-- 해당 페이지 고유 CSS 추가 -->
 <th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/css/mypage.css}">
 	<style>
-		.error {
-			color: red;
-			font-size: 12px;
+		.content {
+			width: 815px;
+			margin: 7.5px;
+		}
+		.content > h2 {
+			border-bottom: 1px solid #B81426;
+		}
+		#withdrawalReason-title {
+			display: flex;
+			flex-direction: row;
+		}
+		#withdrawalError {
+			margin-left: 5px;
+			font-size: 13px;
+			font-weight: 600;
+		}
+		.delete-h3 {
+			color: #B81426 !important;
+			padding-bottom: 3px !important;
+			margin: 0 !important;
+		}
+		p {
+			margin: 0 0 10px;
+			font-weight: 600;
+			font-size: 15px;
+		}
+		#withdrawal_btn {
+            background: linear-gradient(to right, #B81426, #c64351);
+            width: 340px;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+            box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+        #withdrawal_btn:hover {
+            background: linear-gradient(to right, #93101e, #B81426);
+            transform: translateY(-2px);
+        }
+        #withdrawal_btn:active {
+            transform: translateY(0);
+        }
+
+		input[type="radio"] {
+			display: none;
+		}
+
+		label {
+			display: inline-block;
+			border: 1px solid #B81426;
+			padding: 5px 15px;
+			border-radius: 5px;
+			margin-right: 10px;
+			margin-bottom: 10px;
+			cursor: pointer;
+			transition: background 0.3s;
+			width: 130px;
+			text-align: center;
+		}
+
+		input[type="radio"]:checked + label {
+			background-color: #B81426;
+			color: white;
+		}
+
+		#otherReasons {
+			display: block;
+			width: 317px;
+			padding: 10px;
+			margin-bottom: 20px;
+			border: 1px solid #E0E0E0;
+			border-radius: 5px;
+			resize: vertical;
+		}
+
+		#otherReasons:focus {
+			border-color: #B81426;
+			outline-style: solid;
+			outline-width: 1px;
+			outline-color: #B81426;
+			box-shadow: 0 0 5px rgba(184, 20, 38, 0.5);
 		}
 	</style>
 </th:block>
 
 	<div class="content">
 		<h2>계정 탈퇴</h2>
-		<h4>탈퇴 전 안내사항</h4>
-		<p>계정 탈퇴 시 모든 정보가 삭제됩니다. 이는 되돌릴 수 없으므로 주의해 주세요.</p>
+		<h3 class="delete-h3">탈퇴 전 안내사항</h3>
+		<p>🚫 계정 탈퇴 시 모든 정보가 삭제됩니다. 이는 되돌릴 수 없으므로 주의해 주세요. 🚫</p>
 		<form id="withdrawal_form">
-			<h3>탈퇴 사유 선택</h3>
-			<label> <input type="radio" name="withdrawalReason" value="사이트 사용의 어려움">사이트 사용의 어려움</label><br> 
-			<label> <input type="radio" name="withdrawalReason" value="내용과 서비스 불만족">내용과 서비스 불만족</label><br> 
-			<label> <input type="radio" name="withdrawalReason" value="개인정보 및 보안 우려">개인정보 및 보안 우려</label><br>
-			<label> <input type="radio" name="withdrawalReason" value="중복 가입 및 계정 문제">중복 가입 및 계정 문제</label><br>
-			<label> <input type="radio" name="withdrawalReason" value="사이트의 변경된 방향성">사이트의 변경된 방향성</label><br>
-			<label> <input type="radio" name="withdrawalReason" value="다른 사이트나 앱 이용">다른 사이트나 앱 이용</label><br>
-			<label> <input type="radio" name="withdrawalReason" value="이용하지 않는 서비스">이용하지 않는 서비스</label><br>
-			<label> <input type="radio" name="withdrawalReason" id="radioOtherReasons" value="기타 사유">기타 사유</label><br>
+			<div id="withdrawalReason-title"><h3 class="delete-h3">탈퇴 사유 선택</h3> <div id="withdrawalError" class="error"></div></div>
+			 <input type="radio" name="withdrawalReason" id="reason1" value="사이트 사용의 어려움"><label for="reason1">사이트 사용의 어려움</label>
+			 <input type="radio" name="withdrawalReason" id="reason2" value="내용과 서비스 불만족"><label for="reason2">내용과 서비스 불만족</label><br>
+			 <input type="radio" name="withdrawalReason" id="reason3" value="개인정보 및 보안 우려"><label for="reason3">개인정보 및 보안 우려</label>
+			 <input type="radio" name="withdrawalReason" id="reason4" value="중복 가입 및 계정 문제"><label for="reason4">중복 가입 및 계정 문제</label><br>
+			 <input type="radio" name="withdrawalReason" id="reason5" value="사이트의 변경된 방향성"><label for="reason5">사이트의 변경된 방향성</label>
+			 <input type="radio" name="withdrawalReason" id="reason6" value="다른 사이트나 앱 이용"><label for="reason6">다른 사이트나 앱 이용</label><br>
+			 <input type="radio" name="withdrawalReason" id="reason7" value="이용하지 않는 서비스"><label for="reason7">이용하지 않는 서비스</label>
+			 <input type="radio" name="withdrawalReason" id="radioOtherReasons" value="기타 사유"><label for="radioOtherReasons">기타 사유</label><br>
 			<textarea id="otherReasons" name="otherReasons" rows="4" cols="50" placeholder="기타 탈퇴 사유를 작성해주세요." style="display: none;"></textarea><br>
-			<div id="withdrawalError" class="error"></div>
 			<button type="button" id="withdrawal_btn" class="btn_submit">계정 탈퇴하기</button>
 		</form>
 	</div>

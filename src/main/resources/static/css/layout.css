@@ -85,7 +85,7 @@ header {
     padding: 5px 0;
 }
 .user_btn {
-	background-color: #14b8a6;
+	background: linear-gradient(45deg, #14B8A6, #10a094);
 	font-size: 15px;
 	color: #ffffff;
 	width: 110px;
@@ -95,9 +95,11 @@ header {
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
+	transition: background 0.3s;
 }
 .user_btn:hover {
-    filter: brightness(0.9);
+    /* filter: brightness(0.9); */
+	background: linear-gradient(45deg, #10a094, #0e8879);
 }
 .user_btn img {
     width: 20px; 
