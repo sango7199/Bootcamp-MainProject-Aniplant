@@ -16,6 +16,7 @@
 		<result property="is_deleted" column="is_deleted" />
 		<result property="deleted_user_num" column="deleted_user_num" />
 		<result property="deleted_at" column="deleted_at" />
+		<result property="profile_picture" column="profile_picture" />
 	</resultMap>
 
 	<insert id="registerPet" parameterType="petVO">
@@ -27,10 +28,8 @@
 		#{adopted_user_num}, #{adopted_at}, #{profile_picture})
 	</insert>
 
-	<select id="getPetsByUserNum" parameterType="int"
-		resultType="com.mainproject.pet.vo.PetVO">
-		SELECT * FROM TB_PET WHERE adopted_user_num = #{userNum} AND is_deleted
-		= 0
+	<select id="getPetsByUserNum" parameterType="int" resultType="com.mainproject.pet.vo.PetVO">
+		SELECT * FROM TB_PET WHERE adopted_user_num = #{userNum} AND is_deleted = 0
 	</select>
 
 	<select id="getAllPet" resultType="PetVO">

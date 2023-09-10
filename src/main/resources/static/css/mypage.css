@@ -142,7 +142,7 @@ li {
 /* 마이페이지 메인페이지 end */
 
 /* 버튼 */
-.h2-wrapper > button, #event-modal-register-btn, .event-update-btn {
+.h2-wrapper > button, #event-modal-register-btn, .event-update-btn, .pet-update-btn {
     background: linear-gradient(to right, #14B8A6, #43c6b8);
     color: #fff;
     padding: 10px 20px;
@@ -152,11 +152,11 @@ li {
     transition: background 0.3s, transform 0.3s;
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
-.h2-wrapper > button:hover, #event-modal-register-btn:hover, .event-update-btn:hover {
+.h2-wrapper > button:hover, #event-modal-register-btn:hover, .event-update-btn:hover, .pet-update-btn:hover {
     background: linear-gradient(to right, #109385, #14B8A6);
     transform: translateY(-2px);
 }
-.h2-wrapper > button:active, #event-modal-register-btn:active, .event-update-btn:active {
+.h2-wrapper > button:active, #event-modal-register-btn:active, .event-update-btn:active, .pet-update-btn:active {
     transform: translateY(0);
 }
 
@@ -194,6 +194,37 @@ li {
     transform: translateY(0);
 }
 /* 계정 정보 관리, 계정 탈퇴 비밀번호 확인 페이지 end */
+
+/* 반려친구 관리 start */
+.pet-list-item {
+    width: 370px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #14B8A6;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    cursor: pointer;
+}
+.pet-profile-img {
+    width: 350px;
+    padding: 5px;
+}
+.pet-info-area {
+    display: flex;
+    padding: 5px 0 5px;
+    margin-top: 5px;
+    font-size: 16px;
+}
+.pet-info-area > div:first-child {
+    text-align: right;
+    font-weight: 600;
+    padding-right: 5px;
+}
+/* 반려친구 관리 end */
 
 /* modal */
 .modal {
