@@ -189,9 +189,14 @@
 <th:block layout:fragment="script">
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
     <script src='fullcalendar/core/locales/es.global.js'></script>
-    <script th:src="@{/js/mypage.js}"></script>
     <script src='https://unpkg.com/popper.js/dist/umd/popper.min.js'></script>
     <script src='https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js'></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var eventsFromServer = /*[[${eventsList}]]*/ [];
+        /*]]>*/
+        </script>
+    <script th:src="@{/js/mypage.js}"></script>
 </th:block>
 
 <!-- Content -->
@@ -225,7 +230,7 @@
                         <li style="display: none;"><strong>생일 : </strong> <span th:text="${pet[0].birth}" id="pet-birth"></span></li></li>
                     </div>
                 </div>
-                <div class="myPetInfo-area"th:if="${#lists.size(pet) == 0}">
+                <div class="myPetInfo-area" th:if="${#lists.size(pet) == 0}">
                     <p class="null-message">등록된 반려친구 정보가 없습니다.<br>반려친구를 등록해주세요!</p>
                 </div>
             </div>
