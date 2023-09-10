@@ -319,13 +319,13 @@
             border-radius: 4px;
             background-color: #f9f9f9;
             width: 100%;
-            box-sizing: border-box; /* ensures padding and border are included in width */
+            box-sizing: border-box;
             transition: border-color 0.3s, box-shadow 0.3s;
         }
 
         input[type="date"]:focus, input[type="time"]:focus {
             border-color: #14b8a6;
-            box-shadow: 0 0 5px rgba(20, 184, 166, 0.5); /* a light cyan focus glow */
+            box-shadow: 0 0 5px rgba(20, 184, 166, 0.5);
         }
         #start_date, #end_date {
             margin-top: 3px;
@@ -510,18 +510,16 @@
             </div>
             <div>
                 <div th:if="${eventsList != null and not #lists.isEmpty(eventsList)}" th:each="event : ${eventsList}" class="event-list" th:data-event-num="${event.event_num}">
-                    <!-- <div class="event-item"> -->
-                        <div class="event-head">
-                            <div>
-                                <span id="show-equal-event-list" th:text="${#dates.format(event.started_at, 'yyyy-MM')}" style="display: none;"></span><span class="event-date" th:text="${#dates.format(event.started_at, 'yyyy-MM-dd E')}"></span> <span class="event-time" th:text="${event.allday ? '하루종일' : #dates.format(event.started_at, 'HH:mm')}"></span>
-                            </div>
-                            <span class="event-location" th:text="${event.location}"></span>
+                    <div class="event-head">
+                        <div>
+                            <span id="show-equal-event-list" th:text="${#dates.format(event.started_at, 'yyyy-MM')}" style="display: none;"></span><span class="event-date" th:text="${#dates.format(event.started_at, 'yyyy-MM-dd E')}"></span> <span class="event-time" th:text="${event.allday ? '하루종일' : #dates.format(event.started_at, 'HH:mm')}"></span>
                         </div>
-                        <div class="event-details">
-                            <span class="event-title" th:text="${event.title}"></span>
-                            <span class="event-content" th:text="${event.content}"></span>
-                        </div>
-                    <!-- </div> -->
+                        <span class="event-location" th:text="${event.location}"></span>
+                    </div>
+                    <div class="event-details">
+                        <span class="event-title" th:text="${event.title}"></span>
+                        <span class="event-content" th:text="${event.content}"></span>
+                    </div>
                 <div th:unless="${eventsList != null and not #lists.isEmpty(eventsList)}">
                     <p class="null-message">현재 등록된 일정이 없습니다.</p>
                 </div>  

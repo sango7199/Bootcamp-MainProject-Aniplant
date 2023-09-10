@@ -142,7 +142,7 @@ li {
 /* 마이페이지 메인페이지 end */
 
 /* 버튼 */
-.h2-wrapper > button, #event-modal-register-btn, .event-update-btn, .pet-update-btn {
+.h2-wrapper > button, #event-modal-register-btn, .event-update-btn, .pet-update-btn, #pet-modal-register-btn {
     background: linear-gradient(to right, #14B8A6, #43c6b8);
     color: #fff;
     padding: 10px 20px;
@@ -152,11 +152,11 @@ li {
     transition: background 0.3s, transform 0.3s;
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
-.h2-wrapper > button:hover, #event-modal-register-btn:hover, .event-update-btn:hover, .pet-update-btn:hover {
+.h2-wrapper > button:hover, #event-modal-register-btn:hover, .event-update-btn:hover, .pet-update-btn:hover,#pet-modal-register-btn:hover {
     background: linear-gradient(to right, #109385, #14B8A6);
     transform: translateY(-2px);
 }
-.h2-wrapper > button:active, #event-modal-register-btn:active, .event-update-btn:active, .pet-update-btn:active {
+.h2-wrapper > button:active, #event-modal-register-btn:active, .event-update-btn:active, .pet-update-btn:active, #pet-modal-register-btn:active{
     transform: translateY(0);
 }
 

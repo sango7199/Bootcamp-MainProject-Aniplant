@@ -197,6 +197,16 @@
         /*]]>*/
     </script>
     <script th:src="@{/js/mypage.js}"></script>
+    <script>
+        $(document).ready(function() {
+            $("#myInfo-area").on("click", function() {
+                window.location.href = "/mypage/my-info-management.do";
+            });
+            $(".myPetInfo-area").on("click", function() {
+                window.location.href = "/mypage/pet-list.do";
+            });
+        });
+    </script>
 </th:block>
 
 <!-- Content -->
