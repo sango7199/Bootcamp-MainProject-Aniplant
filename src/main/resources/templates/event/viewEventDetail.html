@@ -158,7 +158,7 @@
         }
 
         $(document).ready(function() {
-            toggleTimeInput();
+            toggleTimeInput(!$('#allday').prop('checked'));
             // 수정 버튼 로직
             $('#event-update-btn').click(function() {
                 $('#event-edit-form input').removeAttr('readonly');
@@ -190,6 +190,7 @@
             // 일정 수정 완료 버튼 로직
             $('#event-update-complete-btn').on('click', function() {
                 const errorElement = $('#updateError');
+                const eventNum = $('#event-edit-form').data('event-num');
 
                 // 유효성 검사
                 let title = $('#title').val();
@@ -226,6 +227,7 @@
 
                 // 유효성 검사를 통과하면 AJAX 요청
                 let formData = {
+                    event_num: eventNum,
                     title: title,
                     allday: allDayChecked,
                     started_at: startDate + (allDayChecked ? '' : 'T' + startTime + ":00.000Z"),

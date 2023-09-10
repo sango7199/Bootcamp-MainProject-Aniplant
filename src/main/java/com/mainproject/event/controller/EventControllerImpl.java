@@ -190,6 +190,26 @@ public class EventControllerImpl implements EventController {
             return "redirect:/event/listEvents.do"; 
         }
     }
+    
+    @PostMapping("/api/update-event")
+    public ResponseEntity<String> updateEvent2(@RequestBody EventVO eventVO, Principal principal) {
+	    try {
+	    	String userID = principal.getName();
+			UserVO userInfo = userService.getUserByUsername(userID);
+			int userNum = userInfo.getUser_num();
+			LocalDateTime now = LocalDateTime.now();
+	        Timestamp timestamp = Timestamp.valueOf(now);
+	    	
+	    	eventVO.setUpdated_user_num(userNum);
+	    	eventVO.setUpdated_at(timestamp);
+	        
+	        eventDAO.updateEvent2(eventVO);
+	        return new ResponseEntity<>("success", HttpStatus.OK);
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	        return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+	}
 
 	@Override
 	public ModelAndView listEvents() {

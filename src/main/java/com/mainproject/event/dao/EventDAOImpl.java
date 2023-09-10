@@ -89,7 +89,11 @@ public class EventDAOImpl implements EventDAO {
 	 public void updateEvent(EventVO event) {
 	      sqlSession.update("mapper.event.updateEvent", event);
 	         
-	 } 
+	 }
+	 @Override 
+	 public void updateEvent2(EventVO eventVO) throws DataAccessException {
+		 sqlSession.update("mapper.event.updateEvent2", eventVO);
+	 }
 	 
  
 	 @Override

@@ -33,7 +33,7 @@ public interface EventDAO {
     int countEventsForUserNum(int userNum);
 	List<EventVO> listEventsForUserNumWithPaging(int userNum, PagingVO pagingVO);
 	public void deleteEvent2(EventVO eventVO) throws DataAccessException;
-
+	public void updateEvent2(EventVO eventVO) throws DataAccessException;
 	
   
 	

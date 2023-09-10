@@ -89,6 +89,20 @@
 	    WHERE event_num = #{event_num}
     </update>
     
+    <update id="updateEvent2" parameterType="eventVO">
+	    UPDATE TB_EVENT
+	    SET title = #{title},
+	        started_at = #{started_at},
+	        ended_at = #{ended_at},
+	        location = #{location}, 
+	        content = #{content},
+	        updated_at = #{updated_at},
+	        updated_user_num = #{updated_user_num},
+	        allday = #{allday},
+	        url = #{url}
+	    WHERE event_num = #{event_num}  
+    </update>
+    
   
 </mapper>   
 
