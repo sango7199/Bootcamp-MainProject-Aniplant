@@ -221,9 +221,8 @@
                         <li><strong>전화번호 : </strong> <span th:text="${user.country_code + '-' + user.first_hp + '-' + user.second_hp}"></span></li> -->
                     </div>
                 </div>
-                <div class="myPetInfo-area" th:if="${#lists.size(pet) > 0}">
-                    <!-- <div><img id="my-pet-profile-img" th:src="@{${pet[0].profile_picture}}"></div> -->
-                    <div><img id="my-pet-profile-img" th:src="@{/img/hatching-chick.png}"></div>
+                <div id="myPetInfo-area">
+                    <div><img id="my-pet-profile-img" th:src="@{${pet.profile_picture}}"></div>         
                     <div class="info-li">
                         <li><strong>이름 : </strong> <span th:text="${pet[0].name}"></span></li>
                         <li><strong>나이 : </strong> <span></span></li>

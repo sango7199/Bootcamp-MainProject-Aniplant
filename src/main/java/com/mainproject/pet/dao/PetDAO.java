@@ -1,6 +1,7 @@
 package com.mainproject.pet.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
 
@@ -20,4 +21,6 @@ public interface PetDAO {
 	public void deletePet(PetVO petVO) throws DataAccessException;
 	
 	public List<PetVO> searchPet(String category, String keyword) throws DataAccessException;
+
+	public void updatePetProfile(Map<String, Object> params) throws DataAccessException;
 }
