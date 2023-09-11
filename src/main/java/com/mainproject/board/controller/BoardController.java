@@ -15,17 +15,11 @@ import com.mainproject.board.vo.BoardVO;
 public interface BoardController {
 
 
+	public String listArticles(int categoryNum, Model model);
 	
-	public ModelAndView viewArticle(@RequestParam("post_num") int post_num,
-            HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView viewArticle(@RequestParam("post_num") int post_num, HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 	
-
-
-
-
-
-	String listArticles(int categoryNum, Model model);
 	
 
 	 

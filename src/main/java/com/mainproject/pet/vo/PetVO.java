@@ -20,6 +20,7 @@ public class PetVO {
 	private int deleted_user_num;
 	private Timestamp deleted_at;
 	private String owner_name;
+	private String profile_picture;
 	
 	
     public int getPet_no() {
@@ -106,4 +107,12 @@ public class PetVO {
 	public void setOwner_name(String owner_name) {
 		this.owner_name = owner_name;
 	}
+	public String getProfile_picture() {
+		return profile_picture;
+	}
+
+	public void setProfile_picture(String profile_picture) {
+		this.profile_picture = profile_picture;
+	}
+
 }

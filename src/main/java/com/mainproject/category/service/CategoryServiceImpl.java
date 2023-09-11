@@ -98,7 +98,7 @@ public class CategoryServiceImpl implements CategoryService {
 	    categoryDAO.deleteCategory(categoryVO);
 	}
 
-	//리스트에 필요한 부분
+	//board리스트에 필요한 부분
 	@Override
 	public CategoryVO getCategoryByCategoryNum(int categoryNum) {
 		return categoryDAO.getCategoryByCategoryNum(categoryNum);
