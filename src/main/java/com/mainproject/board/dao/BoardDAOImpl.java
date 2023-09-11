@@ -51,6 +51,17 @@ public class BoardDAOImpl implements BoardDAO {
 	        sqlSession.update("mapper.board.increaseViews", post_num);
 	    }
 	 
+	 //추천
+	 @Override
+	    public void increaseGoodCount(int post_num) {
+	        sqlSession.update("mapper.board.updateGoodCount", post_num);
+	    }
+	 //비추천
+	    @Override
+	    public void increaseBadCount(int post_num) {
+	        sqlSession.update("mapper.board.updateBadCount", post_num);
+	    }
+	 
 	
 	 
 	 

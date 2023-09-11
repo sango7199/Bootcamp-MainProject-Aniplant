@@ -26,13 +26,15 @@ public interface BoardService {
 	void updateBoard(BoardVO board);
 
 
-	
-
-
 	void deleteBoard(int post_num);
 
 
 	void increaseViews(int post_num);
+	
+//	추천
+	void increaseGoodCount(int post_num);
+//    비추천
+	void increaseBadCount(int post_num);
 
 
 

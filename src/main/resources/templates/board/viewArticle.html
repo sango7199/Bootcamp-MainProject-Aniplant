@@ -8,6 +8,7 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <title>게시글 내용 보기</title>
 </head>
 
@@ -28,13 +29,41 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
 <th:block layout:fragment="script"> 
    <script th:inline="javascript">
    
+   function increaseGoodCount(post_num) {
+       $.ajax({
+           type: "POST",
+           url: "/board/increaseGoodCount",
+           data: { post_num: post_num },
+           success: function (response) {
+               alert(response);
+           },
+           error: function (error) {
+               alert("오류가 발생했습니다.");
+           },
+       });
+   }
+
+   function increaseBadCount(post_num) {
+       $.ajax({
+           type: "POST",
+           url: "/board/increaseBadCount",
+           data: { post_num: post_num },
+           success: function (response) {
+               alert(response);
+           },
+           error: function (error) {
+               alert("오류가 발생했습니다.");
+           },
+       });
+   }
+   
    document.addEventListener("DOMContentLoaded", function() {
          var editButton = document.getElementById("editButton");
          var titleInput = document.getElementById("titleInput");
          var contentTextarea = document.getElementById("contentTextarea");
          var deleteButton = document.getElementById("deleteButton"); // 추가
-       
-         
+       	 var goodButton = document.getElementById("goodButton");
+         var badButton = document.getElementById("badButton");
          
          editButton.addEventListener("click", function() {
           topLevelSelect.removeAttribute("disabled");
@@ -44,6 +73,8 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
            resetButton.style.display = "inline";
            saveButton.style.display = "inline";
            deleteButton.style.display = "none";
+           goodButton.style.display = "none";
+           badButton.style.display = "none";
          });         
        });
    </script>
@@ -60,7 +91,7 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
     <h3 >게시글 내용 보기</h3>
     <h4>게시글 정보</h4>
     <h5>게시글번호 : <span th:text="${board.post_num}"></span>
-       작성자 : <span th:text="${board.created_user_num}"></span>
+       작성자 : <span th:text="${#authentication.principal.usernum}"></span>
        조회수 : <span th:text="${board.views}"></span>
        추천수 : <span th:text="${board.good}"></span>
         비추천수 : <span th:text="${board.bad}"></span>
@@ -101,12 +132,15 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
             </tr>
         </table>
     </form>
+    
          <form th:action="@{delete/{post_num}(post_num=${board.post_num})}" method="post">
             <button type="button" value="수정하기" id="editButton" >수정하기</button>
             <button type="submit" value="삭제하기" id="deleteButton">삭제하기</button>
              <input type="hidden" name="categoryNum" th:value="${board.category_num}" /> 
           </form>
           
+          <button id="goodButton" th:attr="data-post-num=${board.post_num}" onclick="increaseGoodCount(this.getAttribute('data-post-num'))">추천</button>
+		  <button id="badButton" th:attr="data-post-num=${board.post_num}" onclick="increaseBadCount(this.getAttribute('data-post-num'))">비추천</button>    
   </div>
 </div>
 </body>
