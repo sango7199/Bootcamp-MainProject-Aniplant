@@ -21,4 +21,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		const age = calculateAge(birth);
 		ageCell.innerText = age + "살";
 	}
+
+	$("#pet-register-btn").click(function() {
+		window.location.href = "/mypage/pet-join.do";
+	});
 });

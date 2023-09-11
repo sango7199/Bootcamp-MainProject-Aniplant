@@ -21,30 +21,7 @@
 <div layout:fragment="content" class="container">
     <!-- sidebar fragment 사용 -->
     <div th:replace="sidebar/mypage :: mypageSidebar"></div>
-    <div class="content">일정 등록</div> 
-    
-   <style>
-    .form-container {
-        margin-top: 40px; /* 조절할 여유값을 설정하세요 */ 
-    }
- 
-    .form-group {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 10px;
-    }
-
-    .date-range {
-        display: flex;
-        align-items: center;
-    }
-
-    .date-range input {
-        margin: 0 5px;
-    }
-     
-</style> 
-
+    <div class="content">일정 등록</div>
 <div class="form-container"> 
     <form th:action="@{/event/createEvent}" th:object="${event}" method="post">
         <div class="form-group">

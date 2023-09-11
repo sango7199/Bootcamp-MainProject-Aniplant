@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mainproject.event.service.EventService;
+import com.mainproject.event.vo.EventVO;
 import com.mainproject.pet.service.PetService;
 import com.mainproject.pet.vo.PetVO;
 import com.mainproject.user.service.UserService;
@@ -29,6 +31,9 @@ public class MainController {
 	
 	@Autowired
 	private PetService petService;
+	
+	@Autowired
+	private EventService eventService;
 
 	// 사용자 메인 페이지 이동
 	@RequestMapping(value = {"/index.do"}, method = RequestMethod.GET)
@@ -66,10 +71,12 @@ public class MainController {
 		// 반려친구 정보 불러오기
 		List<PetVO> petInfo = petService.getPetByUserNum(userNum);
 		// 회원 일정 불러오기 
-		// 코드 추가 필요
+		List<EventVO> eventsList = eventService.listEventsForUserNum(userNum);
+		
 		mav.setViewName(viewName);
 		mav.addObject("user", userInfo);
 		mav.addObject("pet", petInfo);
+		mav.addObject("eventsList", eventsList);
 		return mav;
 	}
 }

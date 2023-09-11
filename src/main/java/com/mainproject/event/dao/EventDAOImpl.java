@@ -12,6 +12,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,7 +50,12 @@ public class EventDAOImpl implements EventDAO {
  
 	    sqlSession.insert("mapper.event.insertEvent", eventVO);
 	}  
-  
+	
+	@Override 
+	public void registerEvent(EventVO eventVO) throws DataAccessException {
+		sqlSession.insert("mapper.event.registerEvent", eventVO);
+	}
+	
 	@Override
 	public List<EventVO> selectEventsForUserNum(int userNum) {
 	    return sqlSession.selectList("mapper.event.selectEventsForUserNum", userNum);
@@ -65,8 +71,12 @@ public class EventDAOImpl implements EventDAO {
 	@Override
 	    public void deleteEvent(int eventId) {
 	        sqlSession.delete("mapper.event.deleteEvent", eventId);
-	    }
-
+	}
+	
+	@Override
+    public void deleteEvent2(EventVO eventVO) throws DataAccessException {
+        sqlSession.update("mapper.event.deleteEvent2", eventVO);
+	}
 	
 	@Override
     public EventVO getEventById(int eventId) {
@@ -79,7 +89,11 @@ public class EventDAOImpl implements EventDAO {
 	 public void updateEvent(EventVO event) {
 	      sqlSession.update("mapper.event.updateEvent", event);
 	         
-	 } 
+	 }
+	 @Override 
+	 public void updateEvent2(EventVO eventVO) throws DataAccessException {
+		 sqlSession.update("mapper.event.updateEvent2", eventVO);
+	 }
 	 
  
 	 @Override
@@ -108,7 +122,7 @@ public class EventDAOImpl implements EventDAO {
 	}
 	
 	@Override
-	public EventVO getEventByEventNum(int eventNum) {
+	public EventVO getEventByEventNum(int eventNum) throws DataAccessException {
 	    return sqlSession.selectOne("mapper.event.getEventByEventNum", eventNum);
 	} 
 	 
