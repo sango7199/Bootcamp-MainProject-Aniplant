@@ -16,6 +16,8 @@ public class PagingVO {
     private int blockEndPage; // 블록의 종료 페이지 번호
     private String searchType; // 검색 유형 (필요한 경우에 사용)
     
+    private int categoryNum;
+    
     
     public void setStartRow(int startRow) {
         this.cri.setStartRow(startRow);
@@ -136,4 +138,17 @@ public class PagingVO {
 	public void setCri(Criteria cri) {
 		this.cri = cri;
 	}
+
+	
+	
+	public int getCategoryNum() {
+		return categoryNum;
+	}
+
+	public void setCategoryNum(int categoryNum) {
+		this.categoryNum = categoryNum;
+	}
+	
+	
+	
 }

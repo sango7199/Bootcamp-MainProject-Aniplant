@@ -34,7 +34,7 @@
 .category-table {
 	border-collapse: separate;
 	border-spacing: 0;
-	width: 100%;
+	width: 800px;
 }
 
 .category-table th, .category-table td {

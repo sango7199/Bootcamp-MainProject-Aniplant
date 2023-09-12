@@ -47,6 +47,7 @@ public class CategoryControllerImpl implements CategoryController {
 
         String viewName = (String) request.getAttribute("viewName");
         List<CategoryVO> categoriesList;
+        
         int totalCount;
         PagingVO paging;
 

@@ -26,15 +26,14 @@
 <!-- Content -->
 <div layout:fragment="content" class="container">
     <!-- sidebar fragment 사용 -->
-	<div th:replace="sidebar/category :: categorySidebar"></div>
+    <div th:replace="sidebar/article :: articleSidebar"></div>
 	<div class="content">
-		<h2>카테고리 관리</h2>
+		<h2 th:text="${category.name} + ' 게시판'"></h2>
 		<h3>
-			<a th:href="@{/category/categories-list.do}">카테고리 리스트</a>
+			<a th:href="@{/board/articles-list.do?categoryNum=3}">게시글 리스트</a>
 		</h3>
 
-		<form id="perPageNumSelect"
-			action="/category/categories-list-search.do" method="get">
+		<form id="perPageNumSelect" action="/board/articles-list.do" method="get">
 			<select name="newPerPageNum">
 				<option value="10" th:selected="${paging.perPageNumVal == 10}">10개씩
 					보기</option>
@@ -42,9 +41,9 @@
 					보기</option>
 				<option value="50" th:selected="${paging.perPageNumVal == 50}">50개씩
 					보기</option>
-			</select> <input type="hidden" name="page" th:value="${num}"> <input
-				type="hidden" name="searchType" th:value="${searchType}"> <input
-				type="hidden" name="keyword" th:value="${keyword}">
+			</select>
+			<input type="hidden" name="categoryNum" th:value="${category.category_num}">
+
 		</form>
 		<script>
 			$(document).ready(function() {
@@ -62,47 +61,47 @@
 			});
 		</script>
 
-		<form id="searchForm" action="/category/categories-list-search.do"
-			method="get">
+		<form id="searchForm" action="/board/articles-list-search.do"	method="get">
 			<select name="searchType">
-				<option value="Category_Num" >카테고리 번호</option>
-				<option value="Parent_Category_Num">상위 카테고리 번호</option>
-				<option value="Name">카테고리 이름</option>
+				<option value="Post_Num">게시글 번호</option>
+				<option value="Title">제목</option>
 			</select> <input type="text" name="keyword" placeholder="검색어를 입력하세요">
-			<input type="hidden" name="page" th:value="1">
+			<input type="hidden" name="page" th:value="${paging.getCurrent()}">
+			<input type="hidden" name="categoryNum" th:value="${category.category_num}">
 
 			<button type="submit">검색</button>
 		</form>
-
+		
 		<div class="content">
-			<!-- 등록하기 버튼 -->
-			<div class="add-button">
-				<a th:href="@{/category/add-category-form.do(page=${paging.getPrev()}, searchType=${searchType}, keyword=${keyword}, newPerPageNum=${paging.perPageNumVal})}">
-					등록하기
-				</a>
-			</div>
+			<form action="/board/articleForm.do"	method="get">
+				<button type="submit">게시글 쓰기</button>
+			</form>
 			<table class="category-table">
 				<tr>
 					<th>No.</th>
-					<th>카테고리 번호</th>
-					<th>상위 카테고리 번호</th>
-					<th>카테고리 이름</th>
+					<th>게시글 번호</th>
+					<th>제목</th>
 					<th>작성자</th>
+					<th>조회수</th>
+					<th>추천</th>
+					<th>비추천</th>
 					<th>작성일</th>
 				</tr>
 				<!-- 검색 결과가 없는 경우 -->
-				<tr th:if="${#lists.isEmpty(categoriesList)}">
-					<td colspan="6" class="no-results">검색 결과가 없습니다.</td>
+				<tr th:if="${#lists.isEmpty(articlesList)}">
+					<td colspan="8" class="no-results">검색 결과가 없습니다.</td>
 				</tr>
 
 				<!-- 검색 결과가 있는 경우 -->
-				<tr th:each="category, rowStat : ${categoriesList}">
+				<tr th:each="board, rowStat : ${articlesList}">
 				    <td th:text="${(paging.getCurrent() - 1) * paging.getPerPageNumVal() + (rowStat.index + 1)}"></td>
-				    <td th:text="${category.category_num}"></td>
-				    <td th:text="${category.parent_category_num}"></td>
-				    <td><a th:href="@{/category/view-category-detail.do(categoryNum=${category.category_num})}" th:text="${category.name}"></a></td>
-				     <td th:text="${category.created_user_num}"></td>
-				    <td th:text="${#dates.format(category.created_at, 'yyyy-MM-dd')}"></td>
+				    <td th:text="${board.post_num}"></td>
+					<td><a class="cls1" th:href="@{/board/viewArticle.do(post_num=${board.post_num})}" th:text="${board.title}"></a></td>
+					<td th:text="${board.created_user_num}"></td>
+					<td th:text="${board.views}"></td>
+					<td th:text="${board.good}"></td>
+					<td th:text="${board.bad}"></td>
+					<td th:text="${board.created_at}"></td>
 				</tr>
 			</table>
 		</div>
@@ -113,40 +112,42 @@
 			<ul>
 				<!-- 처음으로 이동하는 링크 -->
 				<li th:if="${paging.cri.page > 1}"><a
-					th:href="@{/category/categories-list-search.do(page=1, searchType=${searchType}, keyword=${keyword}, newPerPageNum=${paging.perPageNumVal})}">처음</a></li>
+					th:href="@{/board/articles-list.do(categoryNum=${category.category_num}, page=1, newPerPageNum=${paging.perPageNumVal})}">처음</a>
+				</li>
 				<!-- 10페이지 이전 페이지 링크 -->
 				<li th:if="${paging.startPage - paging.pageCount > 0}"><a
-					th:href="@{/category/categories-list-search.do(page=${paging.startPage - 10}, searchType=${searchType}, keyword=${keyword}, newPerPageNum=${paging.perPageNumVal})}">
-						<< </a></li>
+					th:href="@{/board/articles-list.do(categoryNum=${category.category_num}, page=${paging.startPage-10}, newPerPageNum=${paging.perPageNumVal})}">
+						<span th:unless="${paging.cri.page == 1}"><<</span>
+				</a></li>
 				<!-- 1페이지 이전 페이지 링크 -->
 				<li th:if="${paging.cri.page - 1 > 0}"><a
-					th:href="@{/category/categories-list-search.do(page=${paging.getPrev()}, searchType=${searchType}, keyword=${keyword}, newPerPageNum=${paging.perPageNumVal})}">
+					th:href="@{/board/articles-list.do(categoryNum=${category.category_num}, page=${paging.getPrev()}, newPerPageNum=${paging.perPageNumVal})}">
 						<span th:if="${paging.cri.page != 1}">이전</span>
 				</a></li>
 				<!-- 페이지 번호 링크 반복 -->
 				<li th:each="num : ${pageNumbers}"
 					th:class="${num == paging.cri.page ? 'active' : ''}"><a
-					th:if="${num <= paging.totalPage}"
-					th:href="@{/category/categories-list-search.do(page=${num}, searchType=${searchType}, keyword=${keyword}, newPerPageNum=${paging.perPageNumVal})}"
+					th:href="@{/board/articles-list.do(categoryNum=${category.category_num}, page=${num}, newPerPageNum=${paging.perPageNumVal})}"
 					th:text="${num}"></a></li>
 				<!-- 1페이지 다음 페이지 링크 -->
 				<li th:if="${paging.cri.page + 1 <= paging.totalPage}"><a
-					th:href="@{/category/categories-list-search.do(page=${paging.getNext()}, searchType=${searchType}, keyword=${keyword}, newPerPageNum=${paging.perPageNumVal})}">
-						다음 </a></li>
+					th:href="@{/board/articles-list.do(categoryNum=${category.category_num}, page=${paging.getNext()}, newPerPageNum=${paging.perPageNumVal})}">다음</a>
+				</li>
 				<!-- 10페이지 다음 페이지 링크 -->
 				<li th:if="${paging.endPage + paging.pageCount <= paging.totalPage}">
 					<a
-					th:href="@{/category/categories-list-search.do(page=${paging.endPage + 1}, searchType=${searchType}, keyword=${keyword}, newPerPageNum=${paging.perPageNumVal})}">
-						>> </a>
+					th:href="@{/board/articles-list.do(categoryNum=${category.category_num}, page=${paging.endPage + 1}, newPerPageNum=${paging.perPageNumVal})}">>></a>
 				</li>
 				<!-- 마지막 페이지로 이동하는 링크 -->
 				<li th:if="${paging.endPage + paging.pageCount <= paging.totalPage}">
 					<a
-					th:href="@{/category/categories-list-search.do(page=${paging.totalPage}, searchType=${searchType}, keyword=${keyword}, newPerPageNum=${paging.perPageNumVal})}">
-						마지막 </a>
+					th:href="@{/board/articles-list.do(categoryNum=${category.category_num}, page=${paging.totalPage}, newPerPageNum=${paging.perPageNumVal})}">마지막</a>
 				</li>
 			</ul>
 		</div>
+
 	</div>
+
 </div>
+
 
