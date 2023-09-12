@@ -83,13 +83,14 @@
             <td th:text="${#dates.format(event.ended_at, 'yyyy-MM-dd HH:mm')}"></td> 
              
         </tr>  
-         
+          
         <tr>
              <a class="button" th:href="@{/event/admincreateEventForm}">일정 등록</a>     
         </tr>
-    </tbody> 
+    </tbody>  
     
 </table> 
+ 
 
 <style>
     .pagination {

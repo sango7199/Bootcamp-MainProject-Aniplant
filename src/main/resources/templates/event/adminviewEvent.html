@@ -72,7 +72,7 @@
     }
 
     .info-text { 
-        margin-top: 5px;    
+        margin-top: 5px;     
     } 
       
     </style>
@@ -93,10 +93,14 @@
         <span class="styled-text" style="display: inline-block; margin-left: 10px;">작성자: </span>
        <span th:text="${event.event_user_name}" class="styled-text" style="display: inline-block;"></span> 
        
-        <span class="styled-text" style="display: inline-block; margin-left: 10px;">작성일: </span>  
-    
-        <span class="styled-text" style="display: inline-block; margin-left: 10px;">수정일: </span> 
+       <span class="styled-text" style="display: inline-block; margin-left: 10px;">작성일: </span>
+        <span th:text="${#dates.format(event.created_at, 'yyyy-MM-dd HH:mm')}" class="styled-text" style="display: inline-block;"></span>
+
+        <span class="styled-text" style="display: inline-block; margin-left: 10px;">수정일: </span>
+        <span th:text="${#dates.format(event.updated_at, 'yyyy-MM-dd HH:mm')}" class="styled-text" style="display: inline-block;"></span>
         
+        
+         
         
          
         </div>  

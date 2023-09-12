@@ -1,4 +1,4 @@
-package com.mainproject.event.dao;
+ package com.mainproject.event.dao;
 
 import com.mainproject.event.vo.EventVO;
 import com.mainproject.paging.Criteria;
@@ -49,39 +49,9 @@ public class EventDAOImpl implements EventDAO {
  
 	    sqlSession.insert("mapper.event.insertEvent", eventVO);
 	}  
-  
-	@Override
-	public List<EventVO> selectEventsForUserNum(int userNum) {
-	    return sqlSession.selectList("mapper.event.selectEventsForUserNum", userNum);
-	}
-
-      
 	
-	@Override
-    public EventVO getEventByTitle(String eventTitle) {
-        return sqlSession.selectOne("mapper.event.getEventByTitle", eventTitle);
-    }
-		
-	@Override
-	    public void deleteEvent(int eventId) {
-	        sqlSession.delete("mapper.event.deleteEvent", eventId);
-	    }
-
 	
-	@Override
-    public EventVO getEventById(int eventId) {
-        return sqlSession.selectOne("mapper.event.getEventById", eventId); 
-    }
-
 	
-	 @Override
-	 @Transactional  
-	 public void updateEvent(EventVO event) {
-	      sqlSession.update("mapper.event.updateEvent", event);
-	         
-	 } 
-	 
- 
 	 @Override
 	 public void updateEventByEventNum(int eventNum, EventVO updatedEvent) {
 	   
@@ -100,12 +70,39 @@ public class EventDAOImpl implements EventDAO {
 	     } else {
 	         throw new IllegalArgumentException("Event not found.");
 	     }
-	 }
+	 } 
+  
+	@Override
+	public List<EventVO> selectEventsForUserNum(int userNum) {
+	    return sqlSession.selectList("mapper.event.selectEventsForUserNum", userNum);
+	}
+
+      
 	
 	@Override
-	public void updateEventByTitle(String eventTitle, EventVO updatedEvent) {
-			
+    public EventVO getEventByTitle(String eventTitle) {
+        return sqlSession.selectOne("mapper.event.getEventByTitle", eventTitle);
+    }
+		
+	@Override
+	    public void deleteEvent(int eventId) {
+	        sqlSession.delete("mapper.event.deleteEvent", eventId);
 	}
+
+	
+	@Override
+    public EventVO getEventById(int eventId) {
+        return sqlSession.selectOne("mapper.event.getEventById", eventId); 
+    }
+
+	
+	 @Override
+	 @Transactional  
+	 public void updateEvent(EventVO event) {
+	      sqlSession.update("mapper.event.updateEvent", event);
+	         
+	 } 
+	 
 	
 	@Override
 	public EventVO getEventByEventNum(int eventNum) {
@@ -117,74 +114,60 @@ public class EventDAOImpl implements EventDAO {
 	public void markEventAsDeleted(int eventNum) {
 	    sqlSession.update("mapper.event.markEventAsDeleted", eventNum); 
 	}
-
 	
-	 
-	@Override
-	public void deleteEvent(Long eventId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public List<EventVO> getAllEvents() {
-		// TODO Auto-generated method stub
-		return null;
-	}
- 
-	@Override
-	public List<EventVO> selectAllEvents() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public List<EventVO> selectAllEventsForUserNum(String userNum) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
-
-
-	@Override
-    public List<Event> listEventsForUserNum(int userNum, Criteria criteria) {
-		return null;
-        // 구현: MyBatis 쿼리를 이용하여 페이징 처리 및 검색 처리
-    }
-	 
-	
-
 	@Override
 	public int getLastEventOrderForUser(int userNum) {
 	    Integer result = sqlSession.selectOne("mapper.event.getLastEventOrderForUser", userNum);
 	    return (result != null) ? result : 0;
 	}
 
+
+	@Override
+	public void updateEventByTitle(String eventTitle, EventVO updatedEvent) {
+			
+	}
+	
+	 
+	@Override
+	public void deleteEvent(Long eventId) {
+		
+		
+	}
+
+	@Override
+	public List<EventVO> getAllEvents() {
+		
+		return null;
+	}
+ 
+	@Override
+	public List<EventVO> selectAllEvents() {
+		
+		return null;
+	}
+
+
+	@Override
+	public List<EventVO> selectAllEventsForUserNum(String userNum) {
+		
+		return null;
+	}
+	 
+
 	@Override
 	public List<EventVO> listEventsForUserNum(String userNum) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public List<EventVO> listEventsForUserNum(int userNum) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
-	@Override
-	public int countEventsForUserNum(int userNum) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public List<EventVO> listEventsForUserNumWithPaging(int userNum, PagingVO pagingVO) {
-		// TODO Auto-generated method stub
-		return null; 
-	}
-	
+	 
 	 
 	 
 

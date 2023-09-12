@@ -75,6 +75,10 @@ dependencies {
 	
 	// Apache HTTPclient
 	implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+	
+	// event paging
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'  
 }
 
 tasks.named('test') {

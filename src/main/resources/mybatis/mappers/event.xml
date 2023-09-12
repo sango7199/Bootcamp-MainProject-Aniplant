@@ -24,10 +24,10 @@
         </resultMap>
          
         
- <insert id="insertEvent" parameterType="com.mainproject.event.vo.EventVO">
+    <insert id="insertEvent" parameterType="com.mainproject.event.vo.EventVO">
     INSERT INTO TB_EVENT (title, started_at, ended_at, location, content, created_user_num, event_order, created_at, event_user_name)
     VALUES (#{title}, #{started_at}, #{ended_at}, #{location}, #{content}, #{created_user_num}, #{event_order}, CURRENT_TIMESTAMP, #{event_user_name})
-</insert> 
+    </insert> 
 
     <select id="selectEventsForUserNum" parameterType="int" resultType="com.mainproject.event.vo.EventVO">
     SELECT * FROM TB_EVENT WHERE created_user_num = #{userNum} AND is_deleted = 0
@@ -66,14 +66,7 @@
         SELECT * FROM TB_EVENT
     </select> 
     
-    <select id="getEventsForPage" parameterType="map" resultMap="eventResultMap">
-    SELECT * FROM TB_EVENT
-    LIMIT #{startRow}, #{itemsPerPage}
-    </select> 
  
-    <select id="getTotalEventCount" resultType="int"> 
-    SELECT COUNT(*) FROM TB_EVENT
-    </select>
     
   
 </mapper>   

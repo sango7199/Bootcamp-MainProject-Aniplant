@@ -130,16 +130,15 @@ public class AdminEventControllerImpl implements AdminEventController  {
     }
  
 	 
-
 	@Override
 	public void createEvent(EventVO eventVO) {
-		// TODO Auto-generated method stub
 		
+		 
 	}
 
 	@Override
 	public ModelAndView listEvents() { 
-		// TODO Auto-generated method stub
+		
 		return null;
 	} 
 } 

@@ -38,28 +38,7 @@ public class EventServiceImpl implements EventService {
     } 
    
       
-  
-	@Override
-    public List<EventVO> listEventsForUserNum(int userNum) {
-        return eventDAO.selectEventsForUserNum(userNum);
-    }  
-      
-    
-	@Override
-	public EventVO getEventByTitle(String eventTitle) {
-		
-		return eventDAO.getEventByTitle(eventTitle);
-		
-  }  
-
-	
-	@Override
-    public EventVO getEventById(int eventId) {
-        return eventDAO.getEventById(eventId); 
-    }
-	
-	 
-	@Override
+    @Override
 	public void updateEventByEventNum(int eventNum, EventVO updatedEvent) {
 	    EventVO existingEvent = eventDAO.getEventByEventNum(eventNum);
 	    if (existingEvent != null) {
@@ -75,21 +54,10 @@ public class EventServiceImpl implements EventService {
 	        throw new IllegalArgumentException("�̺�Ʈ�� ã�� �� ���ų� �̺�Ʈ ��ȣ�� ��ġ���� �ʽ��ϴ�.");
 	    }
 	}
-	@Override
-	@Transactional
-	public void updateEvent(EventVO event) {
-		 eventDAO.updateEvent(event);
-		 
-	} 
-
-
-	@Override
-	public EventVO getEventByEventNum(int eventNum) {
-	    return eventDAO.getEventByEventNum(eventNum);
-	}
-	    
-	  
-	@Override
+    
+    
+    
+    @Override
 	@Transactional
 	public void markEventAsDeleted(int eventNum) {
 	    EventVO existingEvent = eventDAO.getEventByEventNum(eventNum); 
@@ -100,62 +68,87 @@ public class EventServiceImpl implements EventService {
 	        throw new IllegalArgumentException("�̺�Ʈ�� ã�� �� ���ų� �̺�Ʈ ��ȣ�� ��ġ���� �ʽ��ϴ�.");
 	    }
 	} 
-
-	@Override
-	public void deleteEvent(int eventId) {
-		
-		
+    
+    
+    @Override
+	public int getLastEventOrderForUser(int userNum) {
+	 
+	    int lastEventOrder = eventDAO.getLastEventOrderForUser(userNum); 
+	    return lastEventOrder;
 	}
-
+	 
+    
 	@Override
-	public void updateEventByTitle(String title, EventVO existingEvent) {
+    public List<EventVO> listEventsForUserNum(int userNum) {
+        return eventDAO.selectEventsForUserNum(userNum);
+    }  
+      
+    
+	@Override
+	public EventVO getEventByTitle(String eventTitle) {
+		return eventDAO.getEventByTitle(eventTitle);
+	}  
+
 	
+	@Override
+    public EventVO getEventById(int eventId) {
+        return eventDAO.getEventById(eventId); 
+    }
+	
+
+	@Override
+	@Transactional
+	public void updateEvent(EventVO event) {
+		       eventDAO.updateEvent(event);
+	} 
+
+
+	@Override
+	public EventVO getEventByEventNum(int eventNum) {
+	    return eventDAO.getEventByEventNum(eventNum);
+	}
+	    
+	
+    @Override
+	public void updateEventByTitle(String title, EventVO existingEvent) {
 		
 	}
 
+    
 	@Override
 	public void updateEventByIdAndTitle(int eventId, String eventTitle, EventVO updatedEvent) {
 	
 		
 	}
 
-	@Override
-	public List<EventVO> listEventsWithPaging(int page, int perPageNum) {
-		
-		return null;
-	}
- 
-	@Override
-	public int getTotalEventCount() {
-	
-		return 0;
-	}
-
-
-	@Override
-	public List<EventVO> listEvents() {
-		
-		return null;
-	}
-
-
-	 
-
-
+  
 	@Override
 	public List<EventVO> listEventsForUserNum(String userNum) {
 		
 		return null;
 	}
-
-
-
+	
+	
 	@Override
-	public int getLastEventOrderForUser(int userNum) {
-	 
-	    int lastEventOrder = eventDAO.getLastEventOrderForUser(userNum); 
-	    return lastEventOrder;
+	public List<EventVO> listEvents() {
+		
+		return null;
 	}
+ 
+	
+	@Override
+	public void deleteEvent(int eventId) {
+		
+		
+	}
+	
+
+
+	
+	
+	
+
+
 
  
 
