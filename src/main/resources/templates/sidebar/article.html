@@ -8,13 +8,13 @@
     <div th:fragment="articleSidebar" class="sidebar">
         <ul class="sidebar-menu">
             <a><b>게시판</b></a>
-           <li><a th:href="@{/board/listArticles.do(categoryNum=3)}" id="animalLink">동물 게시판</a>
+           <li><a th:href="@{/board/listArticles.do(categoryNum=1)}" id="animalLink">동물 게시판</a>
                 <ul>
                     <li><a href="/board/listArticles.do?categoryNum=3">강아지</a></li>
                     <li><a href="/board/listArticles.do?categoryNum=4">고양이</a></li>
                 </ul>
             </li>
-            <li><a th:href="@{/board/listArticles.do(categoryNum=5)}" id="plantLink">식물 게시판</a>
+            <li><a th:href="@{/board/listArticles.do(categoryNum=2)}" id="plantLink">식물 게시판</a>
                 <ul>
                     <li><a href="/board/listArticles.do?categoryNum=5">화초</a></li>
                     <li><a href="/board/listArticles.do?categoryNum=6">작물</a></li>

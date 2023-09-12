@@ -12,13 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mainproject.board.dao.BoardDAO;
 import com.mainproject.board.vo.BoardVO;
 
+
 @Repository("boardDAO")
 public class BoardServiceImpl  implements BoardService{
 	@Autowired
 	private BoardDAO boardDAO;
 
-
-	
 	
 	 @Override
 	    public List<BoardVO> getArticlesByCategory(int categoryNum) {
@@ -53,6 +52,20 @@ public class BoardServiceImpl  implements BoardService{
 		 public void increaseViews(int post_num) {
 		     boardDAO.increaseViews(post_num);
 		 }
+		 
+		 //추천
+		 @Override
+		    public void increaseGoodCount(int post_num) {
+		        boardDAO.increaseGoodCount(post_num);
+		  }
+		 
+		 //비추천
+		  @Override
+		   public void increaseBadCount(int post_num) {
+		      boardDAO.increaseBadCount(post_num);
+		  }
+		  
+		  
 
 	
 

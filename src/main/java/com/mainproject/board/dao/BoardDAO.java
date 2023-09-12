@@ -3,6 +3,7 @@ package com.mainproject.board.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.dao.DataAccessException;
 
 import com.mainproject.board.vo.BoardVO;
@@ -22,6 +23,13 @@ public interface BoardDAO {
 	void deleteBoard(int post_num);
 
 	void increaseViews(int post_num);
+	
+	//추천
+	void increaseGoodCount(int post_num);
+    //비추천
+	void increaseBadCount(int post_num);
+	
+	
 
 
 	

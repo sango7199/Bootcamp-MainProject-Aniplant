@@ -78,5 +78,19 @@
 	        #{postNum}
 	    </foreach>
 	</select>
+	
+	<!-- 추천 -->
+	<update id="updateGoodCount">
+    	UPDATE TB_BOARD
+    	SET good = good + 1
+    	WHERE post_num = #{post_num}
+	</update>
+	
+	<!-- 비추천 -->
+	<update id="updateBadCount">
+    	UPDATE TB_BOARD
+    	SET bad = bad + 1
+    	WHERE post_num = #{post_num}
+	</update>
 
 </mapper>
