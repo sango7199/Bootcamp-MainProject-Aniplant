@@ -78,5 +78,11 @@
 	        #{postNum}
 	    </foreach>
 	</select>
+	
+	<select id="viewPetBoard" resultType="boardVO">
+	    SELECT * FROM TB_BOARD
+	    WHERE parent_category_num = 1
+	    ORDER BY created_at
+	</select>
 
 </mapper>

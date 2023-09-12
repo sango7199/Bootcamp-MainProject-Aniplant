@@ -51,6 +51,11 @@ public class BoardDAOImpl implements BoardDAO {
 	        sqlSession.update("mapper.board.increaseViews", post_num);
 	    }
 	 
+	 @Override
+	 public List<BoardVO> viewPetBoard() throws DataAccessException {
+		 return sqlSession.selectList("mapper.board.viewPetBoard");
+	 }
+	 
 	
 	 
 	 
