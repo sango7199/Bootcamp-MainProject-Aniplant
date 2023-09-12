@@ -225,17 +225,18 @@
                         <li><strong>닉네임 : </strong> <span th:text="${user.nickname}"></span></li>
                     </div>
                 </div>
-                <div class="myPetInfo-area">
-                    <div><img id="my-pet-profile-img" th:src="@{${pet[0].profile_picture}}"></div>         
-                    <div class="info-li">
-                        <li><strong>이름 : </strong> <span th:text="${pet[0].name}"></span></li>
-                        <li><strong>나이 : </strong> <span></span></li>
-                        <li style="display: none;"><strong>생일 : </strong> <span th:text="${pet[0].birth}" id="pet-birth"></span></li>
-                    </div>
-                </div>
-                <div class="myPetInfo-area" th:if="${#lists.size(pet) == 0}">
-                    <p class="null-message">등록된 반려친구 정보가 없습니다.<br>반려친구를 등록해주세요!</p>
-                </div>
+			<div class="myPetInfo-area" th:if="${pet != null and #lists.size(pet) > 0}">
+				<div><img id="my-pet-profile-img" th:src="@{${pet[0].profile_picture}}"></div>
+				<div class="info-li">
+					<li><strong>이름 : </strong> <span th:text="${pet[0].name}"></span></li>
+					<li><strong>나이 : </strong> <span></span></li>
+					<li style="display: none;"><strong>생일 : </strong> <span th:text="${pet[0].birth}" id="pet-birth"></span></li>
+				</div>
+			</div>
+			
+			<div class="myPetInfo-area" th:if="${pet == null or #lists.size(pet) == 0}">
+				<p class="null-message">등록된 반려친구 정보가 없습니다.<br>반려친구를 등록해주세요!</p>
+			</div>
             </div>
             <div id="calendar-area">
                 <div id="calendar"></div>
