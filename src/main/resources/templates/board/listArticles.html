@@ -21,14 +21,14 @@ layout:decorate="~{layout/defaultLayout}">
 <!-- 해당 페이지 고유 스크립트 추가 -->
 <th:block layout:fragment="script"> 
 	<script th:inline="javascript">
-    function checkLogin() {
+   <!-- function checkLogin() {
         /* 사용자 로그인 여부 확인 */
         var isAuthenticated = /*[[${#authorization.expression('isAuthenticated()')}]]*/;
 
         if (!isAuthenticated) {
             alert("로그인 후 사용이 가능합니다.");
         }
-    }
+    }-->
 </script>
     <!--<script th:src="@{/js/page/home.js}"></script>-->
 </th:block>
@@ -53,9 +53,8 @@ layout:decorate="~{layout/defaultLayout}">
   
 
  <div class="boradlist-container">
- <a th:href="@{/board/articleForm.do}" onclick="checkLogin()">게시글 쓰기</a>
- 
-	 <h1 th:if="${category.parent_category_num == 0}" th:text="${category.name} + ' 게시판'"></h1> 
+ <a th:href="@{/board/articleForm.do}" onclick="checkLogin()">게시글 쓰기</a>	
+	 <h1 th:text="${category.name} + ' 게시판'"></h1> 
    <!--  <h1>동물 게시판</h1> -->
   
       <table class="boradlist">

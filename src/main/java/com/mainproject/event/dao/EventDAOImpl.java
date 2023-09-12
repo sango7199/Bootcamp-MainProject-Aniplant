@@ -12,6 +12,7 @@ import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,10 +50,55 @@ public class EventDAOImpl implements EventDAO {
  
 	    sqlSession.insert("mapper.event.insertEvent", eventVO);
 	}  
+<<<<<<< HEAD
 	
+=======
+	
+	@Override 
+	public void registerEvent(EventVO eventVO) throws DataAccessException {
+		sqlSession.insert("mapper.event.registerEvent", eventVO);
+	}
+	
+	@Override
+	public List<EventVO> selectEventsForUserNum(int userNum) {
+	    return sqlSession.selectList("mapper.event.selectEventsForUserNum", userNum);
+	}
+
+      
+	
+	@Override
+    public EventVO getEventByTitle(String eventTitle) {
+        return sqlSession.selectOne("mapper.event.getEventByTitle", eventTitle);
+    }
+		
+	@Override
+	    public void deleteEvent(int eventId) {
+	        sqlSession.delete("mapper.event.deleteEvent", eventId);
+	}
+	
+	@Override
+    public void deleteEvent2(EventVO eventVO) throws DataAccessException {
+        sqlSession.update("mapper.event.deleteEvent2", eventVO);
+	}
+>>>>>>> eefbfab78df598cca1ee75837f4ebc4b14501974
 	
 	
 	 @Override
+<<<<<<< HEAD
+=======
+	 @Transactional  
+	 public void updateEvent(EventVO event) {
+	      sqlSession.update("mapper.event.updateEvent", event);
+	         
+	 }
+	 @Override 
+	 public void updateEvent2(EventVO eventVO) throws DataAccessException {
+		 sqlSession.update("mapper.event.updateEvent2", eventVO);
+	 }
+	 
+ 
+	 @Override
+>>>>>>> eefbfab78df598cca1ee75837f4ebc4b14501974
 	 public void updateEventByEventNum(int eventNum, EventVO updatedEvent) {
 	   
 	     EventVO existingEvent = getEventByEventNum(eventNum);
@@ -105,7 +151,7 @@ public class EventDAOImpl implements EventDAO {
 	 
 	
 	@Override
-	public EventVO getEventByEventNum(int eventNum) {
+	public EventVO getEventByEventNum(int eventNum) throws DataAccessException {
 	    return sqlSession.selectOne("mapper.event.getEventByEventNum", eventNum);
 	} 
 	 

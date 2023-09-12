@@ -1,3 +1,36 @@
+var originalProfile;
+var croppedImageBlob = null;
+
+$(document).ready(function() {
+	var originalProfile = $("#curProfileImage").attr("src");
+
+	// 프로필 사진 변경 시 메시지 리스너 추가
+	window.addEventListener("message", function(event) {
+		let croppedImageBase64 = event.data.base64;
+		croppedImageBlob = event.data.blob;
+		if (croppedImageBase64) {
+			changeEditProfile(croppedImageBase64);
+		}
+		// 프로필 사진 변경 버튼 비활성화
+		$("#editProfile").prop("disabled", true);
+	}, false);
+	function changeEditProfile(base64) {
+		$("#curProfileImage").attr("src", base64);
+		$("#profileInput").val(base64);
+	}
+
+	// 프로필 사진 변경 버튼
+	$("#editProfile").click(function() {
+		window.open("/mypage/my-info-profile-edit.do?currentProfilePicSrc=" + originalProfile, '_blank', 'width=1030,height=630,scrollbars=no,menubar=no,toolbar=no,location=no');
+	});
+
+	// 프로필 초기화 버튼
+	$("#resetProfile").click(function() {
+		$("#curProfileImage").attr("src", originalProfile);
+		$("#profileInput").val(originalProfile);
+	});
+});
+
 function calculateAge(birth) {
 	const birthDate = new Date(birth);
 	const today = new Date();
@@ -16,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	const agePara = document.querySelector('.age');
 	const birth = agePara.dataset.birth;
 	const age = calculateAge(birth);
-	agePara.innerText = '나이: ' + age + '살';
+	agePara.innerText = age + '살';
 });
 
 function showEditForm() {
@@ -37,8 +70,6 @@ function getCurrentTimestamp() {
 	return kstDate.toISOString();
 }
 
-
-
 function submitUpdates() {
 	const petNo = document.getElementById("petNo").value;
 	const name = document.getElementById("nameUpdateInput").value;
@@ -56,6 +87,39 @@ function submitUpdates() {
 		alert('입양일은 현재시각보다 이전이어야 합니다.');
 		return;
 	}
+	
+	var profileInput = $("#profileInput").val();
+    if (profileInput !== originalProfile && croppedImageBlob) {
+        saveEditProfile(croppedImageBlob);
+    }
+
+	// 프로필 사진 변경시 프로필 업로드
+	function saveEditProfile(blob) {
+		var profileData = new FormData();
+		if (!(blob instanceof Blob)) {
+        return;
+    }
+		profileData.append("profile_picture", blob, petNo + ".png");
+
+		$.ajax({
+			url: "/api/update-pet-profile",
+			type: "POST",
+			data: profileData,
+			processData: false,
+			contentType: false,
+			success: function(response) {
+				alert("프로필 사진이 업데이트되었습니다.");
+			},
+			error: function() {
+				alert("프로필 사진 업데이트 중 오류가 발생했습니다.");
+			}
+		});
+	}
+	var profileInput = $("#profileInput").val();
+	if (profileInput !== originalProfile) {
+		saveEditProfile(croppedImageBlob);
+	}
+
 
 	// AJAX를 사용해 서버에 수정된 정보를 전송합니다.
 	$.ajax({
@@ -66,14 +130,14 @@ function submitUpdates() {
 		dataType: 'json',  // Expect a JSON response
 		success: function(response) {
 			if (response.status === 'success') {
-				alert('수정이 완료되었습니다.');
+				alert('반려친구 정보 수정되었습니다.');
 				location.href = response.redirectUrl;
 			} else {
-				alert('수정에 실패하였습니다.');
+				alert('반려친구 정보 수정을 실패하였습니다.');
 			}
 		},
 		error: function() {
-			alert('수정에 실패하였습니다.');
+			alert('반려친구 정보 수정을 실패하였습니다.');
 		}
 	});
 }
@@ -90,16 +154,15 @@ function submitDelete() {
 		dataType: 'json', // Expect a JSON response
 		success: function(response) {
 			if (response.status === 'success') {
-				alert('삭제가 완료되었습니다.');
+				alert('반려친구 삭제되었습니다.');
 				location.href = response.redirectUrl;
 			} else {
-				alert('삭제에 실패하였습니다.');
+				alert('반려친구 삭제에 실패하였습니다.');
 			}
 		},
 		error: function() {
-			alert('삭제에 실패하였습니다.')
+			alert('반려친구 삭제에 실패하였습니다.')
 		}
 	});
 }
-
 

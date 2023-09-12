@@ -189,9 +189,24 @@
 <th:block layout:fragment="script">
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
     <script src='fullcalendar/core/locales/es.global.js'></script>
-    <script th:src="@{/js/mypage.js}"></script>
     <script src='https://unpkg.com/popper.js/dist/umd/popper.min.js'></script>
     <script src='https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js'></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var eventsFromServer = /*[[${eventsList}]]*/ [];
+        /*]]>*/
+    </script>
+    <script th:src="@{/js/mypage.js}"></script>
+    <script>
+        $(document).ready(function() {
+            $("#myInfo-area").on("click", function() {
+                window.location.href = "/mypage/my-info-management.do";
+            });
+            $(".myPetInfo-area").on("click", function() {
+                window.location.href = "/mypage/pet-list.do";
+            });
+        });
+    </script>
 </th:block>
 
 <!-- Content -->
@@ -208,23 +223,20 @@
                         <li><strong>회원 번호 : </strong> <span th:text="${user.user_num}"></span></li>
                         <li><strong>회원 등급 : </strong> <img th:src="${user.rank.imagePath}" id="rank-img"><span th:text="${user.rank.displayName}"></span></li>
                         <li><strong>닉네임 : </strong> <span th:text="${user.nickname}"></span></li>
-                        <!-- <li><strong>아이디 : </strong> <span th:text="${user.id}"></span></li>
-                        <li><strong>이름 : </strong> <span th:text="${user.name}"></span></li>
-                        <li><strong>성별 : </strong> <span th:text="${user.gender == 'M' ? '남성' : '여성'}"></span></li>
-                        <li><strong>생년월일 : </strong> <span th:text="${#dates.format(user.birth, 'yyyy-MM-dd')}"></span></li>
-                        <li><strong>이메일 : </strong> <span th:text="${user.email}"></span></li>
-                        <li><strong>전화번호 : </strong> <span th:text="${user.country_code + '-' + user.first_hp + '-' + user.second_hp}"></span></li> -->
                     </div>
                 </div>
-                <div id="myPetInfo-area">
-                    <!-- <div><img id="my-pet-profile-img" th:src="@{${pet.profile_picture}}"></div> -->
-                    <div><img id="my-pet-profile-img" th:src="@{/img/hatching-chick.png}"></div>
-                    <div class="info-li">
-                        <li><strong>이름 : </strong> <span th:text="${pet[0].name}"></span></li>
-                        <li><strong>나이 : </strong> <span></span></li>
-                        <li style="display: none;"><strong>생일 : </strong> <span th:text="${pet[0].birth}" id="pet-birth"></span></li></li>
-                    </div>
-                </div>
+			<div class="myPetInfo-area" th:if="${pet != null and #lists.size(pet) > 0}">
+				<div><img id="my-pet-profile-img" th:src="@{${pet[0].profile_picture}}"></div>
+				<div class="info-li">
+					<li><strong>이름 : </strong> <span th:text="${pet[0].name}"></span></li>
+					<li><strong>나이 : </strong> <span></span></li>
+					<li style="display: none;"><strong>생일 : </strong> <span th:text="${pet[0].birth}" id="pet-birth"></span></li>
+				</div>
+			</div>
+			
+			<div class="myPetInfo-area" th:if="${pet == null or #lists.size(pet) == 0}">
+				<p class="null-message">등록된 반려친구 정보가 없습니다.<br>반려친구를 등록해주세요!</p>
+			</div>
             </div>
             <div id="calendar-area">
                 <div id="calendar"></div>
@@ -232,3 +244,4 @@
         </div>
     </div>
 </div>
+</html>
