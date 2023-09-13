@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.mainproject.board.service.BoardService;
 import com.mainproject.board.vo.BoardVO;
+import com.mainproject.board.vo.VoteVO;
 import com.mainproject.category.service.CategoryService;
 import com.mainproject.category.vo.CategoryVO;
 import com.mainproject.paging.PagingUtils;
@@ -39,7 +41,12 @@ public class BoardControllerImpl implements BoardController{
 	private BoardVO boardVO;
 	
 	@Autowired
+
+	private VoteVO voteVO;
+	
+
     private HttpServletRequest request;
+
 	
 	// 게시글 리스트
     @Override
@@ -242,6 +249,31 @@ public class BoardControllerImpl implements BoardController{
         boardService.increaseBadCount(post_num);
         return ResponseEntity.ok("비추천이 반영되었습니다.");
     }
+    
+    @PostMapping("/vote")
+    @ResponseBody
+    public ResponseEntity<String> vote(@RequestParam("post_num") int postNum,
+                                       @RequestParam("created_user_num") int createdUserNum,
+                                       @RequestParam("is_voted") boolean voteType) {
+        // 투표 처리 로직 구현
+        try {
+            // 해당 게시글에 대한 투표 여부 확인
+            boolean hasVoted = boardService.hasVoted(postNum, createdUserNum, voteType);
+
+            if (!hasVoted) {
+                // 해당 게시글에 투표하지 않은 경우
+                boardService.vote(postNum, createdUserNum, voteType); // TB_BOARD 업데이트
+                boardService.recordVote(postNum, createdUserNum, voteType); // TB_VOTE에 기록
+                return ResponseEntity.ok("투표가 반영되었습니다.");
+            } else {
+                // 이미 투표한 경우
+                return ResponseEntity.badRequest().body("이미 투표한 게시글입니다.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("투표 처리 중 오류가 발생했습니다.");
+        }
+    }
+    
 
 
 }

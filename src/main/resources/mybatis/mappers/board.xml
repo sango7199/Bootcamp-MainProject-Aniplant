@@ -63,8 +63,8 @@
     </select>
   	  
 	 <insert id="insertArticle" parameterType="boardVO">
-        INSERT INTO TB_BOARD (category_num, title, content, views, good, bad, created_user_num, created_at)
-        VALUES (#{category_num}, #{title}, #{content}, #{views}, #{good}, #{bad}, #{created_user_num}, NOW())
+        INSERT INTO TB_BOARD (category_num, title, content, views, good, bad, created_user_num, created_at,author)
+        VALUES (#{category_num}, #{title}, #{content}, #{views}, #{good}, #{bad}, #{created_user_num}, NOW(),#{author})
     </insert>
     
     <update id="updateBoard" parameterType="boardVO">
