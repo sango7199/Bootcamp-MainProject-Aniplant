@@ -1,5 +1,6 @@
 package com.mainproject.board.service;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +16,7 @@ public interface BoardService {
 	public BoardVO viewArticle(int post_num) throws Exception;
 
 
-	void addNewArticle(BoardVO boardVO);
+	public void addNewArticle(BoardVO boardVO);
 
 
 
@@ -35,6 +36,21 @@ public interface BoardService {
 	void increaseGoodCount(int post_num);
 //    비추천
 	void increaseBadCount(int post_num);
+
+
+	boolean hasVoted(int postNum, int createdUserNum, boolean voteType);
+
+
+	void vote(int postNum, int createdUserNum, boolean voteType);
+
+
+	void recordVote(int postNum, int createdUserNum, boolean voteType);
+
+
+
+
+
+	
 	
 
 

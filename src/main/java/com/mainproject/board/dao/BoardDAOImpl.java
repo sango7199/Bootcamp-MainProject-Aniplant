@@ -10,6 +10,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.mainproject.board.vo.BoardVO;
+import com.mainproject.board.vo.VoteVO;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO {
@@ -61,7 +62,22 @@ public class BoardDAOImpl implements BoardDAO {
 	    public void increaseBadCount(int post_num) {
 	        sqlSession.update("mapper.board.updateBadCount", post_num);
 	    }
+
+
+	    @Override
+	    public boolean hasVoted(int postNum, int createdUserNum, boolean voteType) {
+	        int count = sqlSession.selectOne("mapper.vote.hasVoted", postNum);
+	        return count > 0;
+	    }
+
+	    @Override
+	    public void recordVote(VoteVO voteVO) {
+	        sqlSession.insert("mapper.vote.recordVote", voteVO);
+	    }
 	 
+	    
+	    
+	    
 	
 	 
 	 
