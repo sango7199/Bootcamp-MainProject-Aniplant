@@ -47,12 +47,21 @@ public class MainController {
     	String viewName = (String) request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView();
 		// 배너 리스트
-		List<String> banners = Arrays.asList("banner1.gif", "banner2.png", "banner3.png", "banner4.png", "banner5.png");
+		List<String> banners = Arrays.asList("banner1.png", "banner2.png");
+		// 인기 게시글 정보 불러오기
+		List<BoardVO> popularBoardList = boardDAO.viewPopularBoard();
 		// 반려동물 게시판 정보 불러오기
 		List<BoardVO> petBoardList = boardDAO.viewPetBoard();
+		// 반려식물 게시판 정보 불러오기
+		List<BoardVO> plantBoardList = boardDAO.viewPlantBoard();
+		// 이 달의 주인님 정보 불러오기
+		List<BoardVO> topOwnerList = boardDAO.viewTopOwner();
 		mav.setViewName(viewName);
 		mav.addObject("banners", banners);
+		mav.addObject("popularBoardList", popularBoardList);
 		mav.addObject("petBoardList", petBoardList);
+		mav.addObject("plantBoardList", plantBoardList);
+		mav.addObject("topOwnerList", topOwnerList);
 		return mav;
     }
 

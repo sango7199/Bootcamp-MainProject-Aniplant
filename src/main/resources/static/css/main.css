@@ -13,6 +13,15 @@ body {
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
 
+.content div {
+    text-decoration: none;
+    color: black;
+}
+
+.content div:hover {
+    color: #0D766A;
+}
+
 h1, h2, h3 {
     color: #333;
 }
@@ -20,10 +29,12 @@ h1, h2, h3 {
 .content a {
     text-decoration: none;
     color: black;
+    text-decoration: underline;
 }
 
 .content a:hover {
     color: #0056b3;
+    text-decoration: underline;
 }
 
 /* 광고 배너 스타일 */
@@ -37,7 +48,7 @@ h1, h2, h3 {
 
 .ad-banner .slide {
     display: none;
-    width: 90%;
+    width: 100%;
 }
 
 .ad-banner img {
@@ -135,4 +146,30 @@ h1, h2, h3 {
     border-bottom: none;
 }
 
+.board-item {
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
+.board-item:hover {
+    text-decoration: underline;
+}
+.board-item .title {
+    flex: 2;
+}
+
+.board-item .author, .board-item .date {
+    flex: 1;
+}
+
+.owner-li {
+    margin: 10px 0;
+}
+
+.title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

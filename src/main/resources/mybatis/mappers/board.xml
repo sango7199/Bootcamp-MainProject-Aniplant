@@ -84,5 +84,26 @@
 	    WHERE parent_category_num = 1
 	    ORDER BY created_at
 	</select>
+	
+	<select id="viewPlantBoard" resultType="boardVO">
+	    SELECT * FROM TB_BOARD
+	    WHERE parent_category_num = 2
+	    ORDER BY created_at
+	</select>
+	
+	<select id="viewPopularBoard" resultType="boardVO">
+	    SELECT * FROM TB_BOARD 
+	    ORDER BY (good - bad) DESC, created_at DESC
+	    LIMIT 10
+	</select>
+	
+	<select id="viewTopOwner" resultType="boardVO">
+		SELECT author, COUNT(*) as post_count
+		FROM TB_BOARD
+		WHERE MONTH(created_at) = MONTH(CURRENT_DATE) AND YEAR(created_at) = YEAR(CURRENT_DATE)
+		GROUP BY author
+		ORDER BY post_count DESC
+		LIMIT 3;
+	</select>
 
 </mapper>

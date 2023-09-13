@@ -56,7 +56,20 @@ public class BoardDAOImpl implements BoardDAO {
 		 return sqlSession.selectList("mapper.board.viewPetBoard");
 	 }
 	 
-	
+	 @Override
+	 public List<BoardVO> viewPlantBoard() throws DataAccessException {
+		 return sqlSession.selectList("mapper.board.viewPlantBoard");
+	 }
+	 
+	 @Override
+	 public List<BoardVO> viewPopularBoard() throws DataAccessException {
+		 return sqlSession.selectList("mapper.board.viewPopularBoard");
+	 }
+	 
+	 @Override
+	 public List<BoardVO> viewTopOwner() throws DataAccessException {
+		 return sqlSession.selectList("mapper.board.viewTopOwner");
+	 }
 	 
 	 
 

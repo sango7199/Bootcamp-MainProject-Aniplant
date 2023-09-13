@@ -24,4 +24,7 @@ public interface BoardDAO {
 	void increaseViews(int post_num);
 
 	public List<BoardVO> viewPetBoard() throws DataAccessException;
+	public List<BoardVO> viewPlantBoard() throws DataAccessException;
+	public List<BoardVO> viewPopularBoard() throws DataAccessException;
+	public List<BoardVO> viewTopOwner() throws DataAccessException;
 }
