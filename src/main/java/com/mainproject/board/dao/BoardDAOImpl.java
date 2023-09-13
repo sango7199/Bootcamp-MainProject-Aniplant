@@ -94,8 +94,8 @@ public class BoardDAOImpl implements BoardDAO {
 	    public void increaseViews(int post_num) {
 	        sqlSession.update("mapper.board.increaseViews", post_num);
 	    }
-	 
-	 //추천
+  
+   //추천
 	 @Override
 	    public void increaseGoodCount(int post_num) {
 	        sqlSession.update("mapper.board.updateGoodCount", post_num);
@@ -106,9 +106,25 @@ public class BoardDAOImpl implements BoardDAO {
 	        sqlSession.update("mapper.board.updateBadCount", post_num);
 	    }
 	 
-	
+	 @Override
+	 public List<BoardVO> viewPetBoard() throws DataAccessException {
+		 return sqlSession.selectList("mapper.board.viewPetBoard");
+	 }
 	 
+	 @Override
+	 public List<BoardVO> viewPlantBoard() throws DataAccessException {
+		 return sqlSession.selectList("mapper.board.viewPlantBoard");
+	 }
 	 
+	 @Override
+	 public List<BoardVO> viewPopularBoard() throws DataAccessException {
+		 return sqlSession.selectList("mapper.board.viewPopularBoard");
+	 }
+	 
+	 @Override
+	 public List<BoardVO> viewTopOwner() throws DataAccessException {
+		 return sqlSession.selectList("mapper.board.viewTopOwner");
+	 }
 
 	}
 	
