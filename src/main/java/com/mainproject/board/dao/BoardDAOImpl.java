@@ -10,8 +10,12 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.mainproject.board.vo.BoardVO;
+
+import com.mainproject.board.vo.VoteVO;
+
 import com.mainproject.category.vo.CategoryVO;
 import com.mainproject.paging.PagingVO;
+
 
 @Repository
 public class BoardDAOImpl implements BoardDAO {
@@ -94,8 +98,8 @@ public class BoardDAOImpl implements BoardDAO {
 	    public void increaseViews(int post_num) {
 	        sqlSession.update("mapper.board.increaseViews", post_num);
 	    }
-	 
-	 //추천
+  
+   //추천
 	 @Override
 	    public void increaseGoodCount(int post_num) {
 	        sqlSession.update("mapper.board.updateGoodCount", post_num);
@@ -105,10 +109,38 @@ public class BoardDAOImpl implements BoardDAO {
 	    public void increaseBadCount(int post_num) {
 	        sqlSession.update("mapper.board.updateBadCount", post_num);
 	    }
+
+
+	    @Override
+	    public boolean hasVoted(int postNum, int createdUserNum, boolean voteType) {
+	        int count = sqlSession.selectOne("mapper.vote.hasVoted", postNum);
+	        return count > 0;
+	    }
+
+	    @Override
+	    public void recordVote(VoteVO voteVO) {
+	        sqlSession.insert("mapper.vote.recordVote", voteVO);
+	    }
 	 
-	
+	 @Override
+	 public List<BoardVO> viewPetBoard() throws DataAccessException {
+		 return sqlSession.selectList("mapper.board.viewPetBoard");
+	 }
 	 
+	 @Override
+	 public List<BoardVO> viewPlantBoard() throws DataAccessException {
+		 return sqlSession.selectList("mapper.board.viewPlantBoard");
+	 }
 	 
+	 @Override
+	 public List<BoardVO> viewPopularBoard() throws DataAccessException {
+		 return sqlSession.selectList("mapper.board.viewPopularBoard");
+	 }
+	 
+	 @Override
+	 public List<BoardVO> viewTopOwner() throws DataAccessException {
+		 return sqlSession.selectList("mapper.board.viewTopOwner");
+	 }
 
 	}
 	
