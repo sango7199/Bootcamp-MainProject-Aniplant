@@ -3,6 +3,7 @@
 <html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
 xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
 layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용--> 
 
 <head>
@@ -194,9 +195,11 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
             <tr>
                 <td align="left"> </td>
                 <td colspan="2">
-                  <input type="reset" value="초기화"  />
-                    <input type="submit" value="등록" />
-                    
+                	<input type="reset" value="초기화"  />
+                  	<!-- 생성 유저 번호 입력을 위해 숨겨진 필드  -->
+					<input type="hidden" id="createdUserNum" name="created_user_num" th:value="${#authentication.principal.usernum}">
+					
+                  	<button type="submit" onclick="return confirm('게시글을 등록하시겠습니까?')">등록</button>
                 </td>
             </tr>
         </table>

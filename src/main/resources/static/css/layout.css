@@ -10,6 +10,12 @@ a:visited {
     color: inherit; /* 방문한 링크의 색상을 상속받게 설정 */
 }
 
+body {
+	background-color: #FEFAF8;
+	margin: 0;
+    padding: 0;
+}
+
 header {
     display: flex;
     align-content: row;

@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		ageCell.innerText = age + "살";
 	}
 
-	$("#pet-register-btn").click(function() {
-		window.location.href = "/mypage/pet-join.do";
-	});
+	// $("#pet-register-btn").click(function() {
+	// 	window.location.href = "/mypage/pet-join.do";
+	// });
 });
