@@ -25,22 +25,17 @@ public class BoardDAOImpl implements BoardDAO {
         // mapper.xml에서 지정한 SQL 쿼리를 실행하여 페이징 정보를 기반으로 게시글 목록을 조회합니다.
         return sqlSession.selectList("mapper.board.selectArticlesWithPaging", paging);
     }
-	@Override
-    // 카테고리 번호에 따른 페이징 정보를 기반으로 게시글 목록 조회
-    public List<BoardVO> selectArticlesByCategoryNumWithPaging(PagingVO paging) throws Exception {
-        // mapper.xml에서 지정한 SQL 쿼리를 실행하여 페이징 정보를 기반으로 게시글 목록을 조회합니다.
-        return sqlSession.selectList("mapper.board.selectArticlesByCategoryNumWithPaging", paging);
-    }
 
     @Override
     // 검색 조건에 따라 게시글 목록 검색
-    public List<BoardVO> searchArticles(String searchType, String keyword, int startRow, int perPageNum) throws Exception {
+    public List<BoardVO> searchArticles(String searchType, String keyword, int startRow, int perPageNum, int categoryNum) throws Exception {
         // 검색 조건과 키워드를 매개변수로 받아와서 파라미터 맵에 담습니다.
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("searchType", searchType);
         parameters.put("keyword", keyword);
         parameters.put("startRow", startRow);
         parameters.put("perPageNum", perPageNum);
+        parameters.put("categoryNum", categoryNum);
 
         // mapper.xml에서 지정한 SQL 쿼리를 실행하여 검색 조건에 맞는 게시글 목록을 검색합니다.
         return sqlSession.selectList("mapper.board.searchArticles", parameters);
@@ -48,25 +43,20 @@ public class BoardDAOImpl implements BoardDAO {
 
     @Override
     // 전체 게시글 수 조회
-    public int getTotalCountByCategoryNum() throws Exception {
-        // mapper.xml에서 지정한 SQL 쿼리를 실행하여 전체 게시글 수를 조회합니다.
-        return sqlSession.selectOne("mapper.board.getTotalCountByCategoryNum");
-    }
-    
-    @Override
-    // 카테고리 번호에 따른 전체 게시글 수 조회
-    public int getTotalCount() throws Exception {
+    public int getTotalCount(int categoryNum) throws Exception {
         // mapper.xml에서 지정한 SQL 쿼리를 실행하여 전체 게시글 수를 조회합니다.
         return sqlSession.selectOne("mapper.board.getTotalCount");
     }
+   
     
 	@Override
 	// 검색 게시글 수 조회
-    public int getSelectTotalCount(String searchType, String keyword) throws Exception {
+    public int getSelectTotalCount(String searchType, String keyword, int categoryNum) throws Exception {
         // 검색 조건과 키워드를 매개변수로 받아와서 파라미터 맵에 담습니다.
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("searchType", searchType);
         parameters.put("keyword", keyword);
+        parameters.put("categoryNum", categoryNum);
 
         // mapper.xml에서 지정한 SQL 쿼리를 실행하여 검색 조건에 맞는 카테고리 수를 조회합니다.
         return sqlSession.selectOne("mapper.board.getSelectTotalCount", parameters);
@@ -103,6 +93,17 @@ public class BoardDAOImpl implements BoardDAO {
 	 @Override
 	    public void increaseViews(int post_num) {
 	        sqlSession.update("mapper.board.increaseViews", post_num);
+	    }
+	 
+	 //추천
+	 @Override
+	    public void increaseGoodCount(int post_num) {
+	        sqlSession.update("mapper.board.updateGoodCount", post_num);
+	    }
+	 //비추천
+	    @Override
+	    public void increaseBadCount(int post_num) {
+	        sqlSession.update("mapper.board.updateBadCount", post_num);
 	    }
 	 
 	

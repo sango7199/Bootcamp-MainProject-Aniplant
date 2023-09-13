@@ -20,10 +20,10 @@ public interface BoardService {
 	public int getTotalCount(Integer categoryNum) throws Exception;
 
     // 검색 조건과 키워드를 이용하여 게시글 검색
-	public List<BoardVO> searchArticles(String searchType, String keyword, int page, int perPageNum) throws Exception;
+	public List<BoardVO> searchArticles(String searchType, String keyword, int page, int perPageNum, int categoryNum) throws Exception;
 
     // 검색 게시글 수 조회
-	public int getSelectTotalCount(String searchType, String keyword) throws Exception;
+	public int getSelectTotalCount(String searchType, String keyword, int categoryNum) throws Exception;
  
 	
 	public BoardVO viewArticle(int post_num) throws Exception;
@@ -40,13 +40,17 @@ public interface BoardService {
 	void updateBoard(BoardVO board);
 
 
-	
-
-
 	void deleteBoard(int post_num);
 
 
 	void increaseViews(int post_num);
+	
+//	추천
+	void increaseGoodCount(int post_num);
+//    비추천
+	void increaseBadCount(int post_num);
+	
+
 
 
 

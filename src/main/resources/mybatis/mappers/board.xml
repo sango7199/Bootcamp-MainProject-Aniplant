@@ -46,7 +46,7 @@
 	<!-- 검색 쿼리 -->
 	<select id="searchArticles" resultMap="boardResultMap">
 		SELECT * FROM TB_BOARD
-		WHERE Is_Deleted = 0 AND Category_Num = #{categoryNum}
+		WHERE Is_Deleted = 0  AND Category_Num = #{categoryNum}
 		AND ${searchType} LIKE CONCAT('%', #{keyword}, '%')
 		ORDER BY Post_Num DESC
 		LIMIT #{perPageNum} OFFSET #{startRow}
@@ -109,5 +109,19 @@
 	        #{postNum}
 	    </foreach>
 	</select>
+	
+	<!-- 추천 -->
+	<update id="updateGoodCount">
+    	UPDATE TB_BOARD
+    	SET good = good + 1
+    	WHERE post_num = #{post_num}
+	</update>
+	
+	<!-- 비추천 -->
+	<update id="updateBadCount">
+    	UPDATE TB_BOARD
+    	SET bad = bad + 1
+    	WHERE post_num = #{post_num}
+	</update>
 
 </mapper>

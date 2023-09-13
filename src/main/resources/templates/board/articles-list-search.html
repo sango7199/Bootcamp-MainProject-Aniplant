@@ -73,6 +73,10 @@
 			<input type="hidden" name="page" th:value="1">
 			<input type="hidden" name="categoryNum" th:value="${category.category_num}">
 
+			<input type="text" name="categoryNum" th:value="${paging.cri.page}">
+			<input type="text" name="categoryNum" th:value="${paging.totalPage}">
+			<input type="text" name="categoryNum" th:value="${paging.startPage}">
+
 			<button type="submit">검색</button>
 		</form>
 
@@ -100,7 +104,12 @@
 				<tr th:each="board, rowStat : ${articlesList}">
 				    <td th:text="${(paging.getCurrent() - 1) * paging.getPerPageNumVal() + (rowStat.index + 1)}"></td>
 				    <td th:text="${board.post_num}"></td>
-				    <td><a th:href="@{/board/view-board-detail.do(postNum=${board.post_num})}" th:text="${board.title}"></a></td>
+				    <td><a class="cls1" th:href="@{/board/viewArticle.do(post_num=${board.post_num})}" th:text="${board.title}"></a></td>
+					<td th:text="${board.created_user_num}"></td>
+					<td th:text="${board.views}"></td>
+					<td th:text="${board.good}"></td>
+					<td th:text="${board.bad}"></td>
+					<td th:text="${#dates.format(board.created_at, 'yyyy-MM-dd')}"></td>
 				</tr>
 			</table>
 		</div>
@@ -111,36 +120,36 @@
 			<ul>
 				<!-- 처음으로 이동하는 링크 -->
 				<li th:if="${paging.cri.page > 1}"><a
-					th:href="@{/board/articles-list-search.do(page=1, searchType=${searchType}, keyword=${keyword}, newPerPageNum=${paging.perPageNumVal})}">처음</a></li>
+					th:href="@{/board/articles-list-search.do(categoryNum=${category.category_num}, page=1, searchType=${searchType}, keyword=${keyword}, newPerPageNum=${paging.perPageNumVal})}">처음</a></li>
 				<!-- 10페이지 이전 페이지 링크 -->
 				<li th:if="${paging.startPage - paging.pageCount > 0}"><a
-					th:href="@{/board/articles-list-search.do(page=${paging.startPage - 10}, searchType=${searchType}, keyword=${keyword}, newPerPageNum=${paging.perPageNumVal})}">
+					th:href="@{/board/articles-list-search.do(categoryNum=${category.category_num}, page=${paging.startPage - 10}, searchType=${searchType}, keyword=${keyword}, newPerPageNum=${paging.perPageNumVal})}">
 						<< </a></li>
 				<!-- 1페이지 이전 페이지 링크 -->
 				<li th:if="${paging.cri.page - 1 > 0}"><a
-					th:href="@{/board/articles-list-search.do(page=${paging.getPrev()}, searchType=${searchType}, keyword=${keyword}, newPerPageNum=${paging.perPageNumVal})}">
+					th:href="@{/board/articles-list-search.do(categoryNum=${category.category_num}, page=${paging.getPrev()}, searchType=${searchType}, keyword=${keyword}, newPerPageNum=${paging.perPageNumVal})}">
 						<span th:if="${paging.cri.page != 1}">이전</span>
 				</a></li>
 				<!-- 페이지 번호 링크 반복 -->
 				<li th:each="num : ${pageNumbers}"
 					th:class="${num == paging.cri.page ? 'active' : ''}"><a
 					th:if="${num <= paging.totalPage}"
-					th:href="@{/board/articles-list-search.do(page=${num}, searchType=${searchType}, keyword=${keyword}, newPerPageNum=${paging.perPageNumVal})}"
+					th:href="@{/board/articles-list-search.do(categoryNum=${category.category_num}, page=${num}, searchType=${searchType}, keyword=${keyword}, newPerPageNum=${paging.perPageNumVal})}"
 					th:text="${num}"></a></li>
 				<!-- 1페이지 다음 페이지 링크 -->
 				<li th:if="${paging.cri.page + 1 <= paging.totalPage}"><a
-					th:href="@{/board/articles-list-search.do(page=${paging.getNext()}, searchType=${searchType}, keyword=${keyword}, newPerPageNum=${paging.perPageNumVal})}">
+					th:href="@{/board/articles-list-search.do(categoryNum=${category.category_num}, page=${paging.getNext()}, searchType=${searchType}, keyword=${keyword}, newPerPageNum=${paging.perPageNumVal})}">
 						다음 </a></li>
 				<!-- 10페이지 다음 페이지 링크 -->
 				<li th:if="${paging.endPage + paging.pageCount <= paging.totalPage}">
 					<a
-					th:href="@{/board/articles-list-search.do(page=${paging.endPage + 1}, searchType=${searchType}, keyword=${keyword}, newPerPageNum=${paging.perPageNumVal})}">
+					th:href="@{/board/articles-list-search.do(categoryNum=${category.category_num}, page=${paging.endPage + 1}, searchType=${searchType}, keyword=${keyword}, newPerPageNum=${paging.perPageNumVal})}">
 						>> </a>
 				</li>
 				<!-- 마지막 페이지로 이동하는 링크 -->
 				<li th:if="${paging.endPage + paging.pageCount <= paging.totalPage}">
 					<a
-					th:href="@{/board/articles-list-search.do(page=${paging.totalPage}, searchType=${searchType}, keyword=${keyword}, newPerPageNum=${paging.perPageNumVal})}">
+					th:href="@{/board/articles-list-search.do(categoryNum=${category.category_num}, page=${paging.totalPage}, searchType=${searchType}, keyword=${keyword}, newPerPageNum=${paging.perPageNumVal})}">
 						마지막 </a>
 				</li>
 			</ul>

@@ -8,7 +8,60 @@
 <th:block layout:fragment="css">
 	<!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
 	<link rel="stylesheet" th:href="@{/css/category.css}" >
-	<!-- 기타 추가된 CSS 파일들도 포함시키세요 -->
+	<style>
+		#register-btn-area {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+		
+		#registerError {
+			font-size: 14px;
+			font-weight: 600;
+		}
+		
+		/* Input & Select Styles */
+		input[type="text"], input[type="number"], select {
+		    padding: 5px;
+		    font-size: 12px;
+		    border: 1px solid #ccc;
+		    border-radius: 5px;
+		    outline: none;
+		    transition: border-color 0.2s ease-in-out;
+		}
+		
+		input[type="text"]:focus, input[type="number"]:focus, select:focus {
+		    border-color: #007bff; /* 원하는 포커스 색상으로 변경하세요 */
+		}
+		
+		
+		/* Form Element Styles */
+		form {
+		    display: inline-block; /* form 요소를 인라인 블록으로 설정하여 옆으로 붙임 */
+		    margin-right: 10px; /* form 요소 사이의 간격을 조정 (원하는 간격으로 조정) */
+		}
+		
+		/* Optional: 추가적인 스타일링을 원하는 경우 아래 코드를 사용하세요 */
+		
+		/* 셀렉트 박스 화살표 아이콘 스타일링 */
+		select {
+		    appearance: none;
+		    background-image: url('/img/arrow-down-bold.png'); /* 적절한 화살표 아이콘 경로를 지정하세요 */
+		    background-repeat: no-repeat;
+		    background-position: right center;
+		    background-position: right 10px center; /* 화살표 아이콘을 우측으로 10px 이동 */
+		    padding-right: 30px; /* 화살표 아이콘 공간 확보 */
+		    padding-left: 20px; /* 화살표 아이콘 공간 확보 */
+		    background-size: 15px 15px; /* 너비와 높이를 원하는 크기로 조정 */
+		    cursor: pointer;
+		}
+		
+		/* 셀렉트 박스 드롭다운 스타일링 */
+		select::-ms-expand {
+		    display: none; /* IE에서 드롭다운 화살표 숨기기 */
+		}
+	</style>
+	
 	<!-- <link rel="stylesheet" th:href="@{/css/page/home.css}" > -->
 </th:block>
 <!-- index.html 고유 스크립트 추가 -->
@@ -64,15 +117,16 @@
 				<option value="Category_Num">카테고리 번호</option>
 				<option value="Parent_Category_Num">상위 카테고리 번호</option>
 				<option value="Name">카테고리 이름</option>
-			</select> <input type="text" name="keyword" placeholder="검색어를 입력하세요">
+			</select> <input class="table-search-area" type="text" name="keyword" placeholder="검색어를 입력하세요">
 			<input type="hidden" name="page" th:value="${paging.getCurrent()}">
 					
-			<button type="submit">검색</button>
+
+			<div id="register-btn-area" style="margin-bottom: 10px; display: inline-block;"><span id="registerError" class="error"></span><button type="submit" id="pet-modal-register-btn">검색</button></div>
 		</form>
 		
 		<div class="content">
 			<form action="/category/add-category-form.do"	method="get">
-				<button type="submit">등록하기</button>
+				<div id="register-btn-area" style="margin-bottom: 10px;"><span id="registerError" class="error"></span><button type="submit" id="pet-modal-register-btn">카테고리 등록</button></div>
 			</form>
 			<table class="category-table">
 				<tr>

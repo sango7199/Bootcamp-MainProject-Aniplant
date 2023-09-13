@@ -8,6 +8,7 @@
     <div th:fragment="articleSidebar" class="sidebar">
         <ul class="sidebar-menu">
             <a><b>게시판</b></a>
+
            <li><a th:href="@{/board/articles-list.do(categoryNum=3)}" id="animalLink">동물 게시판</a>
                 <ul>
                     <li><a href="/board/articles-list.do?categoryNum=3">강아지</a></li>

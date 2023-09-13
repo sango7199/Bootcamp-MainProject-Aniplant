@@ -69,6 +69,13 @@
 			<input type="hidden" name="page" th:value="${paging.getCurrent()}">
 			<input type="hidden" name="categoryNum" th:value="${category.category_num}">
 
+				
+			<!--  <input type="text" name="categoryNum" th:value="${paging.getCurrent()}">	 -->
+			<input type="text" name="categoryNum" th:value="${paging.cri.page}">
+			<input type="text" name="categoryNum" th:value="${paging.totalPage}">
+			<input type="text" name="categoryNum" th:value="${paging.startPage}">
+		
+			
 			<button type="submit">검색</button>
 		</form>
 		

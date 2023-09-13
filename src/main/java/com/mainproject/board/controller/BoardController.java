@@ -17,12 +17,12 @@ public interface BoardController {
 	// 카테고리 목록을 조회하는 메서드
     // 페이지 번호와 페이지당 아이템 수를 받아와서 처리합니다.
     // ModelAndView를 반환하여 모델과 뷰를 설정합니다.
-    public ModelAndView listArticles(HttpServletRequest request, HttpServletResponse response, int page, int perPageNum, boolean isSearch, Integer newPerPageNum, Integer categoryNum) throws Exception;
+    public ModelAndView listArticles(HttpServletRequest request, HttpServletResponse response, int page, int perPageNum, boolean isSearch, Integer newPerPageNum, int categoryNum) throws Exception;
 
     // 카테고리를 검색하는 메서드
     // 검색 유형, 검색어, 페이지 번호와 페이지당 아이템 수를 받아와서 처리합니다.
     // ModelAndView를 반환하여 모델과 뷰를 설정합니다.
-    public ModelAndView searchArticles(String searchType, String keyword, int page, int perPageNum, boolean isSearch, Integer newPerPageNum, Integer categoryNum) throws Exception;
+    public ModelAndView searchArticles(String searchType, String keyword, int page, int perPageNum, boolean isSearch, Integer newPerPageNum, int categoryNum) throws Exception;
     
 	public String listArticles(int categoryNum, Model model);
 	

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mainproject.board.service.BoardService;
@@ -48,7 +50,7 @@ public class BoardControllerImpl implements BoardController{
             @RequestParam(defaultValue = "10") int perPageNum,
             @RequestParam(defaultValue = "false") boolean isSearch,
             @RequestParam(required = false) Integer newPerPageNum,
-            @RequestParam("categoryNum") Integer categoryNum) throws Exception {
+            @RequestParam("categoryNum") int categoryNum) throws Exception {
 
         String viewName = (String) request.getAttribute("viewName");
         List<BoardVO> articlesList;
@@ -98,7 +100,7 @@ public class BoardControllerImpl implements BoardController{
             @RequestParam(defaultValue = "10") int perPageNum,
             @RequestParam(defaultValue = "false") boolean isSearch,
             @RequestParam(required = false) Integer newPerPageNum,
-            @RequestParam("categoryNum") Integer categoryNum) throws Exception{
+            @RequestParam("categoryNum") int categoryNum) throws Exception{
        
         String viewName = (String) request.getAttribute("viewName");
 
@@ -111,7 +113,7 @@ public class BoardControllerImpl implements BoardController{
         CategoryVO category = getCategoryByCategoryNum(categoryNum);
         
         // 검색 결과에 따른 아이템 총 개수를 조회
-        int totalCount = boardService.getSelectTotalCount(searchType, keyword);
+        int totalCount = boardService.getSelectTotalCount(searchType, keyword, categoryNum);
 
         // 검색 결과에 따른 페이징 정보 생성
         PagingVO paging = PagingUtils.createPaging(page, perPageNum, totalCount, true);
@@ -121,7 +123,7 @@ public class BoardControllerImpl implements BoardController{
         List<Integer> blockPageNumbers = PagingUtils.calculateBlockPageNumbers(paging.getCurrentBlock(), paging.getPageCount(), paging.getTotalPage());
 
         // 검색 결과에 따른 카테고리 목록 조회
-        List<BoardVO> articlesList = boardService.searchArticles(searchType, keyword, page, perPageNum);
+        List<BoardVO> articlesList = boardService.searchArticles(searchType, keyword, page, perPageNum, categoryNum);
         
 
         // ModelAndView 객체 생성 및 데이터 설정
@@ -223,6 +225,22 @@ public class BoardControllerImpl implements BoardController{
     public String deleteBoard(@PathVariable int post_num) {
         boardService.deleteBoard(post_num);
         return "redirect:/board/articles-list.do?categoryNum=" + boardVO.getCategory_num();
+    }
+    
+    //추천
+    @PostMapping("/board/increaseGoodCount")
+    @ResponseBody
+    public ResponseEntity<String> increaseGoodCount(@RequestParam("post_num") int post_num) {
+        boardService.increaseGoodCount(post_num);
+        return ResponseEntity.ok("추천이 반영되었습니다.");
+    }
+    
+    //비추천
+    @PostMapping("/board/increaseBadCount")
+    @ResponseBody
+    public ResponseEntity<String> increaseBadCount(@RequestParam("post_num") int post_num) {
+        boardService.increaseBadCount(post_num);
+        return ResponseEntity.ok("비추천이 반영되었습니다.");
     }
 
 

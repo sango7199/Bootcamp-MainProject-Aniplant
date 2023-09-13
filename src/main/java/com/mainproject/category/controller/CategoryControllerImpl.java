@@ -203,6 +203,7 @@ public class CategoryControllerImpl implements CategoryController {
 		mav.addObject("selectedcategory", selectedcategory);
 		return mav;
 	}
+	
 
 	// 카테고리 정보 수정 페이지
 	@Override

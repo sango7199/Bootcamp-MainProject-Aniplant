@@ -15,8 +15,9 @@
 		<result property="adopted_at" column="adopted_at" />
 		<result property="is_deleted" column="is_deleted" />
 		<result property="deleted_user_num" column="deleted_user_num" />
-		<result property="deleted_at" column="deleted_at" />
+		<result property="deleted_at" column="deleted_at" /> 
 		<result property="profile_picture" column="profile_picture" />
+		
 	</resultMap>
 
 	<insert id="registerPet" parameterType="petVO">
