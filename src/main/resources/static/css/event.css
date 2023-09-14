@@ -4,22 +4,21 @@
     display: inline-block; /* 요소를 인라인 블록으로 표시 */
     white-space: nowrap; /* 텍스트 줄 바꿈 금지 */
     max-width: 100%; /* 요소의 최대 너비 설정 */
-    	
-} 
+    
+    	 
+}  
+ 
 
+ 
 table {
-	
   border-collapse: separate;
   border-spacing: 0;
-  width: 100%; 
-  table-layout: fixed;
-  
+  width: 100%;  
+  table-layout: fixed; 
 }
 
-tr:first-child th:first-child {
-  border-top-left-radius: 6px;
-} 
 
+ 
 td {
   padding: 6px 15px;
   overflow: hidden;
@@ -75,22 +74,8 @@ tbody tr:not(.detail-content-row):nth-child(even):hover td {
 tbody tr.detail-content-row:hover td {
   background-color: #fff !important;
 }
-    .button {
-        display: inline-block; 
-        padding: 5px 20px;  
-        background-color: #888888; 
-        color: white;   
-        text-decoration: none;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px; 
-        float: right; /* 오른쪽으로 띄우기 */
-        position: absolute; /* 절대적인 위치 설정 */ 
-        margin-top: 30px; /* 버튼 위쪽 여백 조정 */               
-        left: 1350px; /* 왼쪽으로 정렬 */              
-        background-color: #14a6b8;      
-    }   
-     
+   
+        
     
 /* Table Top Wrapper */
 .table-top-wrapper {

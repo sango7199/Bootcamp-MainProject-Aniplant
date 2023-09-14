@@ -23,6 +23,7 @@ public class BoardVO {
 	private String author;
 	
 	
+	
 	public BoardVO() {
 		
 	}

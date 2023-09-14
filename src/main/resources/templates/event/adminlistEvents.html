@@ -21,13 +21,33 @@
 <div layout:fragment="content" class="container">
 <div th:replace="sidebar/privacy-admin :: userManagementSidebar"></div> 
 <div class="content"></div> 
+ <style> 
  
-
+   .button {
+        display: inline-block; 
+        padding: 5px 20px;  
+        background-color: #888888; 
+        color: white;   
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px; 
+        float: right; /* 오른쪽으로 띄우기 */
+        position: absolute; /* 절대적인 위치 설정 */ 
+        margin-top: 40px; /* 버튼 위쪽 여백 조정 */                 
+        left: 1350px; /* 왼쪽으로 정렬 */              
+        background-color: #14a6b8;      
+    }    
     
-<h2>일정 관리</h2>             
-<table style="margin-top: 75px; margin-left: -105px; ">                                   
-    <thead>    
-        <tr>   
+    .button:hover { 
+  background-color: #2980b9; /* 호버 상태에서 배경색 변경 */
+}    
+      
+         
+    </style>   
+      
+<h2>일정 관리</h2>              
+<table style="margin-top: 85px; margin-left: -115px; ">      
             
             <th>제목</th>
             <th>장소</th>
