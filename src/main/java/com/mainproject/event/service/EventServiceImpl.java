@@ -36,26 +36,8 @@ public class EventServiceImpl implements EventService {
             throw new IllegalArgumentException("Event title cannot be null or empty.");
         }  
     } 
-   
-      
-  
-	@Override
-    public List<EventVO> listEventsForUserNum(int userNum) {
-        return eventDAO.selectEventsForUserNum(userNum);
-    }  
-      
     
-	@Override
-	public EventVO getEventByTitle(String eventTitle) {
-		return eventDAO.getEventByTitle(eventTitle);
-    }
-
-	
-	@Override
-    public EventVO getEventById(int eventId) {
-        return eventDAO.getEventById(eventId); 
-    }
-	
+	 
 	 
 	@Override
 	public void updateEventByEventNum(int eventNum, EventVO updatedEvent) {
@@ -73,20 +55,7 @@ public class EventServiceImpl implements EventService {
 	        throw new IllegalArgumentException("�̺�Ʈ�� ã�� �� ���ų� �̺�Ʈ ��ȣ�� ��ġ���� �ʽ��ϴ�.");
 	    }
 	}
-	@Override
-	@Transactional
-	public void updateEvent(EventVO event) {
-		 eventDAO.updateEvent(event);
-		 
-	} 
 
-
-	@Override
-	public EventVO getEventByEventNum(int eventNum) throws DataAccessException {
-	    return eventDAO.getEventByEventNum(eventNum);
-	}
-	    
-	  
 	@Override
 	@Transactional
 	public void markEventAsDeleted(int eventNum) {
@@ -98,62 +67,90 @@ public class EventServiceImpl implements EventService {
 	        throw new IllegalArgumentException("�̺�Ʈ�� ã�� �� ���ų� �̺�Ʈ ��ȣ�� ��ġ���� �ʽ��ϴ�.");
 	    }
 	} 
-
-	@Override
-	public void deleteEvent(int eventId) {
-		
-		
-	}
-
-	@Override
-	public void updateEventByTitle(String title, EventVO existingEvent) {
+    
 	
-		
-	}
-
-	@Override
-	public void updateEventByIdAndTitle(int eventId, String eventTitle, EventVO updatedEvent) {
 	
-		
-	}
-
-	@Override
-	public List<EventVO> listEventsWithPaging(int page, int perPageNum) {
-		
-		return null;
-	}
+	 @Override
+		public int getLastEventOrderForUser(int userNum) {
+		 
+		    int lastEventOrder = eventDAO.getLastEventOrderForUser(userNum); 
+		    return lastEventOrder;
+		}
+		 
  
+
 	@Override
-	public int getTotalEventCount() {
+	@Transactional
+	public void updateEvent(EventVO event) {
+		      eventDAO.updateEvent(event);
+    } 
+
+
+	@Override
+	public EventVO getEventByEventNum(int eventNum) throws DataAccessException {
+	    return eventDAO.getEventByEventNum(eventNum);
+	}
+	    
+	  
+	@Override
+    public List<EventVO> listEventsForUserNum(int userNum) {
+        return eventDAO.selectEventsForUserNum(userNum);
+    }  
+      
+    
+	@Override
+	public EventVO getEventByTitle(String eventTitle) {
+		return eventDAO.getEventByTitle(eventTitle);
+	}  
+
 	
-		return 0;
-	}
-
-
 	@Override
-	public List<EventVO> listEvents() {
-		
-		return null;
-	}
+    public EventVO getEventById(int eventId) {
+        return eventDAO.getEventById(eventId); 
+    }
 
-
-	 
-
-
+  
 	@Override
 	public List<EventVO> listEventsForUserNum(String userNum) {
 		
 		return null;
 	}
-
-
-
+	
+	
 	@Override
-	public int getLastEventOrderForUser(int userNum) {
-	 
-	    int lastEventOrder = eventDAO.getLastEventOrderForUser(userNum); 
-	    return lastEventOrder;
+	public List<EventVO> listEvents() {
+		
+		return null;
 	}
+	
+	
+	 @Override
+	public void updateEventByTitle(String title, EventVO existingEvent) {
+			
+	}
+
+	    
+	@Override
+	public void updateEventByIdAndTitle(int eventId, String eventTitle, EventVO updatedEvent) {
+		
+	}
+  
+	
+	@Override
+	public void deleteEvent(int eventId) {
+		
+		
+	}
+ 
+
+ 
+
+
+	
+	
+	
+
+
 
  
 

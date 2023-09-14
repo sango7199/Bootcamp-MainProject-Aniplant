@@ -99,5 +99,5 @@ public class MainController {
 		mav.addObject("pet", petInfo);
 		mav.addObject("eventsList", eventsList);
 		return mav;
-	}
+	}  
 }
