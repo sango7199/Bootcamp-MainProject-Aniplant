@@ -1,3 +1,9 @@
+.container {
+    display: flex;
+    flex-direction: row; 
+    align-items: start;
+}
+
 .content {
     font: 14px/24px "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", Sans-Serif;
     width: 840px;
@@ -53,7 +59,7 @@ select::-ms-expand {
 }
 
 /* 버튼 */
-.h2-wrapper div > button, .article-btn {
+.h2-wrapper div > button, .article-btn, .article-register-btn {
     background: linear-gradient(to right, #14B8A6, #43c6b8);
     color: #fff;
     padding: 10px 20px;
@@ -63,11 +69,11 @@ select::-ms-expand {
     transition: background 0.3s, transform 0.3s;
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
-.h2-wrapper div > button:hover, .article-btn:hover {
+.h2-wrapper div > button:hover, .article-btn:hover, .article-register-btn:hover {
     background: linear-gradient(to right, #109385, #14B8A6);
     transform: translateY(-2px);
 }
-.h2-wrapper div > button:active, .article-btn:active{
+.h2-wrapper div > button:active, .article-btn:active, .article-register-btn:active {
     transform: translateY(0);
 }
 #editButton {
@@ -299,4 +305,48 @@ select::-ms-expand {
     cursor: pointer;
     transition: background 0.3s, transform 0.3s;
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* 게시글 등록, 수정 페이지 */
+/* 테이블 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 15px;
+    color: #333;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+table td, table th {
+    padding: 15px;
+    border: 1px solid #e8e8e8;
+}
+table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* 입력 필드 */
+input[type="text"], textarea{
+    outline: #14B8A6;
+    width: 90%;
+    padding: 10px 15px;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    transition: border 0.3s;
+}
+input[type="text"]:focus, textarea:focus {
+    border-color: #14B8A6;
+    background-color: #ffffff;
+}
+
+.article-register-btn {
+    font-size: 16px;
+    margin-right: 10px;
+    
 }

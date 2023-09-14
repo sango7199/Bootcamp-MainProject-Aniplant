@@ -83,6 +83,11 @@ public class BoardDAOImpl implements BoardDAO {
         sqlSession.insert("mapper.board.insertArticle", boardVO);
     }
 	
+	@Override
+	public BoardVO getBoardByPostNum(int post_num) throws DataAccessException {
+		return sqlSession.selectOne("mapper.board.getBoardByPostNum", post_num);
+	}
+	
 	//수정하기
 	 @Override
 	    public void updateBoard(BoardVO board) {

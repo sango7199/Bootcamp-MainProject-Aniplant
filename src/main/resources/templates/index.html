@@ -29,7 +29,7 @@
             <div class="board" id="popular">
                 <div class="title-area"><img th:src="@{/img/main/popularity.png}" class="title-icon" style="margin-right: 8px;"><h2 class="board-title">인기 게시글</h2></div>
                 <div class="board-list">
-                    <div class="board-item" th:each="board, iterStat : ${popularBoardList}" th:if="${iterStat.count <= 4}" th:data-postnum="${board.post_num}">
+                    <div class="board-item" th:each="board, iterStat : ${popularBoardList}" th:if="${iterStat.count <= 10}" th:data-postnum="${board.post_num}">
                         <span class="title" th:text="${board.title}"></span>
                         <span class="author" th:text="${board.author}"></span>
                         <span class="date" th:text="${#dates.format(board.created_at, 'yyyy-MM-dd')}"></span>

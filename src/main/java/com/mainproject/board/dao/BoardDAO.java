@@ -34,6 +34,8 @@ public interface BoardDAO {
 
 	void addNewArticle(BoardVO boardVO);
 
+	public BoardVO getBoardByPostNum(int post_num) throws DataAccessException;
+	
 	void updateBoard(BoardVO board);
 
 	void deleteBoard(int post_num);
@@ -45,10 +47,6 @@ public interface BoardDAO {
     //비추천
 	void increaseBadCount(int post_num);
 	
-	
-
-	
-
 	public List<BoardVO> viewPetBoard() throws DataAccessException;
 	public List<BoardVO> viewPlantBoard() throws DataAccessException;
 	public List<BoardVO> viewPopularBoard() throws DataAccessException;

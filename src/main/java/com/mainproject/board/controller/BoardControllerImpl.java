@@ -181,6 +181,16 @@ public class BoardControllerImpl implements BoardController{
         return "board/articleForm"; 
     }
 
+    // 게시글 수정 페이지
+    @GetMapping("/board/articleEditForm.do")
+    public ModelAndView showArticleEditForm(@RequestParam("post_num") int postNum, Principal principal, HttpServletRequest request) {
+    	String viewName = (String) request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView();
+		BoardVO board = boardService.getBoardByPostNum(postNum);
+		mav.addObject("board", board);
+        return mav;
+    }
+
     @PostMapping("/board/articleForm.do")
     public String endArticle(@ModelAttribute("boardVO") BoardVO boardVO,@ModelAttribute("categoryVO") CategoryVO categoryVO, @RequestParam("categoryNum") int categoryNum, Principal principal, HttpServletRequest request) {
 //    	if (principal == null) {
@@ -235,7 +245,7 @@ public class BoardControllerImpl implements BoardController{
     }
     
     // 게시글 삭제
-    @PostMapping("/board/delete/{post_num}")
+    @PostMapping("/delete/{post_num}")
     public String deleteBoard(@PathVariable int post_num) {
         boardService.deleteBoard(post_num);
         return "redirect:/board/articles-list.do?categoryNum=" + boardVO.getCategory_num();
