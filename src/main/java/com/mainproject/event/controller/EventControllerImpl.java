@@ -55,7 +55,7 @@ public class EventControllerImpl implements EventController {
         model.addAttribute("event", new EventVO());
         return "event/createEventForm";  
     }     
-  
+   
     @PostMapping("/createEvent")
     public void createEvent(@ModelAttribute("event") EventVO eventVO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -107,9 +107,9 @@ public class EventControllerImpl implements EventController {
                
         ModelAndView modelAndView = new ModelAndView("event/listEvents");
         modelAndView.addObject("eventsList", eventService.listEventsForUserNum(userNum));
-        return modelAndView; 
+        return modelAndView;  
     }   
-    
+     
     
       
     @GetMapping("/viewEvent") 
@@ -120,6 +120,7 @@ public class EventControllerImpl implements EventController {
         modelAndView.addObject("eventNum", event.getEvent_num());
         return modelAndView;
     } 
+    
     @GetMapping("/viewEventDetail.do") 
     public ModelAndView viewEventDetail(@RequestParam("event_num") int eventNum, HttpServletRequest request) {
         String viewName = (String) request.getAttribute("viewName");
@@ -176,6 +177,7 @@ public class EventControllerImpl implements EventController {
             return null;  
         }
     }
+    
     @PostMapping("/updateEvent") 
     public String updateEvent(@ModelAttribute EventVO event, @RequestParam("event_num") int eventNum, RedirectAttributes redirectAttributes) {
         try {
@@ -211,11 +213,11 @@ public class EventControllerImpl implements EventController {
 	    }
 	}
 
+    
 	@Override
 	public ModelAndView listEvents() {
-		// TODO Auto-generated method stub
 		return null;
-	} 
+	}  
     
     
     

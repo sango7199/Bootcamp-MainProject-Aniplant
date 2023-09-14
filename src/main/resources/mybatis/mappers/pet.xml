@@ -40,13 +40,13 @@
 		WHERE p.is_deleted = 0
 	</select>
 
-	<select id="searchPet" resultType="PetVO"> SELECT p.*, u.nickname as
+	<select id="searchPet" resultType="PetVO"> SELECT p.*, u.id as
 		owner_name FROM TB_PET p INNER JOIN TB_USER u ON p.adopted_user_num =
 		u.user_num WHERE p.is_deleted = 0 AND <if test='category == "name"'>
 		p.name LIKE #{keyword}
 		</if>
 		<if test='category == "owner_name"'>
-		u.nickname LIKE#{keyword}
+		u.id LIKE#{keyword}
 		</if>
 	</select>
 

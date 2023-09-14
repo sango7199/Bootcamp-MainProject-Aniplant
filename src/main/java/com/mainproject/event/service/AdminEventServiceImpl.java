@@ -3,6 +3,9 @@ package com.mainproject.event.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -18,7 +21,7 @@ import com.mainproject.user.vo.CustomUserDetails;
 
 @Service("adminEventService")
 public class AdminEventServiceImpl implements AdminEventService {
-
+ 
  
 	@Autowired
 	private AdminEventDAO adminEventDAO; 
@@ -38,32 +41,9 @@ public class AdminEventServiceImpl implements AdminEventService {
 	        adminEventDAO.insertEvent(eventVO);
 	    } else {
 	        throw new IllegalArgumentException("Event title cannot be null or empty.");
-	    }
+	    } 
 	} 
-    
-       
-
-
-	public List<EventVO> listEventsForUserNum(int userNum) {
-        return adminEventDAO.selectEventsForUserNum(userNum);
-    }  
-      
-     
-
-	public EventVO getEventByTitle(String eventTitle) {
-		
-		return adminEventDAO.getEventByTitle(eventTitle);
-		
-  }  
-
-	 
 	
-	@Override
-    public EventVO getEventById(int eventId) {
-        return adminEventDAO.getEventById(eventId); 
-    }
-	
-	 
 	
 	public void updateEventByEventNum(int eventNum, EventVO updatedEvent) {
 	    EventVO existingEvent = adminEventDAO.getEventByEventNum(eventNum);
@@ -80,21 +60,7 @@ public class AdminEventServiceImpl implements AdminEventService {
 	        throw new IllegalArgumentException("�̺�Ʈ�� ã�� �� ���ų� �̺�Ʈ ��ȣ�� ��ġ���� �ʽ��ϴ�.");
 	    }
 	}
-	
-	@Override
-	@Transactional
-	public void updateEvent(EventVO event) {
-		 adminEventDAO.updateEvent(event);
-		 
-	} 
-
-
-	
-	public EventVO getEventByEventNum(int eventNum) {
-	    return adminEventDAO.getEventByEventNum(eventNum);
-	}
-	     
-	  
+    
 	
 	@Transactional
 	public void markEventAsDeleted(int eventNum) {
@@ -106,40 +72,88 @@ public class AdminEventServiceImpl implements AdminEventService {
 	        throw new IllegalArgumentException("�̺�Ʈ�� ã�� �� ���ų� �̺�Ʈ ��ȣ�� ��ġ���� �ʽ��ϴ�.");
 	    }
 	} 
-
+	 
+       
 	
-
 	public int getLastEventOrderForUser(int userNum) {
-	   
+		   
 	    int lastEventOrder = adminEventDAO.getLastEventOrderForUser(userNum); 
 	    return lastEventOrder;
 	}
-
+	
+	
+	
+	@Override
+	@Transactional
+	public void updateEvent(EventVO event) {
+		       adminEventDAO.updateEvent(event);
+	} 
+	
 	
 
+	public List<EventVO> listEventsForUserNum(int userNum) {
+        return adminEventDAO.selectEventsForUserNum(userNum);
+    }  
+      
+     
 
+	public EventVO getEventByTitle(String eventTitle) {
+		return adminEventDAO.getEventByTitle(eventTitle);
+    }  
+
+	 
+	
 	@Override
+    public EventVO getEventById(int eventId) {
+        return adminEventDAO.getEventById(eventId); 
+    }
+	
+	 
+	
+	public EventVO getEventByEventNum(int eventNum) {
+	    return adminEventDAO.getEventByEventNum(eventNum);
+	}
+	    
+
+	  
+    @Override
 	public List<EventVO> getAllEvents() {
 	    return adminEventDAO.getAllEvents();
 	}  
 	 
 	
-	
-	@Override
-	public void deleteEvent(int eventId) {	
-		
-	}
-
+    
 	@Override
 	public void updateEventByTitle(String title, EventVO existingEvent) {	
 		
 	}
+	
+	
 
 	@Override
 	public void updateEventByIdAndTitle(int eventId, String eventTitle, EventVO updatedEvent) {
 				
 	}
 
+	
+	@Override
+	public void deleteEvent(int eventId) {	
+		
+	}
+
+ 
+ 
+	
+	
+	
+
+	
+ 
+
+
+
+
+	
 
 
 
@@ -160,3 +174,27 @@ public class AdminEventServiceImpl implements AdminEventService {
 	
 	
 	}
+
+
+
+	
+
+
+
+	
+
+
+
+	
+
+	
+
+
+ 
+	  
+	 
+	
+	
+	
+	
+	
