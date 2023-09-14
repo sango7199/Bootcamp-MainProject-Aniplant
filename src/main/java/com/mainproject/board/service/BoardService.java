@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.dao.DataAccessException;
 
 import com.mainproject.board.vo.BoardVO;
+import com.mainproject.board.vo.VoteVO;
 import com.mainproject.category.vo.CategoryVO;
 
 public interface BoardService {
@@ -50,8 +51,34 @@ public interface BoardService {
 	void increaseGoodCount(int post_num);
 //    비추천
 	void increaseBadCount(int post_num);
+
+	int checkVoteDuplicate(VoteVO voteVO);
+
+	void voteForPost(VoteVO voteVO);
+
+	
+
+	
+
+
+
+
+
+
 	
 	
 
 
+
+
+
+	
+
+
+
+	
+
+
+
+	
 }

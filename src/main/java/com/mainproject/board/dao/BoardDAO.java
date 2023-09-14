@@ -53,4 +53,9 @@ public interface BoardDAO {
 	public List<BoardVO> viewPlantBoard() throws DataAccessException;
 	public List<BoardVO> viewPopularBoard() throws DataAccessException;
 	public List<BoardVO> viewTopOwner() throws DataAccessException;
+
+	int checkVoteDuplicate(VoteVO voteVO);
+
+	void insertVote(VoteVO voteVO);
+
 }

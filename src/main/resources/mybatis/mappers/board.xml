@@ -124,6 +124,20 @@
     	WHERE post_num = #{post_num}
 	</update>
 	
+	 <!-- 게시글의 추천 횟수 증가 -->
+    <update id="incrementGoodCount" parameterType="int">
+        UPDATE TB_BOARD
+        SET Good_Count = Good_Count + 1
+        WHERE Post_Num = #{postNum}
+    </update>
+    
+    <!-- 게시글의 비추천 횟수 증가 -->
+    <update id="incrementBadCount" parameterType="int">
+        UPDATE TB_BOARD
+        SET Bad_Count = Bad_Count + 1
+        WHERE Post_Num = #{postNum}
+    </update>
+	
 	<select id="viewPetBoard" resultType="boardVO">
 	    SELECT * FROM TB_BOARD
 	    WHERE parent_category_num = 1
