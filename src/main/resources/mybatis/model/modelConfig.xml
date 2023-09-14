@@ -12,6 +12,7 @@
         <typeAlias type="com.mainproject.board.vo.BoardVO"  alias="boardVO" />
 		<typeAlias type="com.mainproject.pet.vo.PetVO"  alias="PetVO" />
         <typeAlias type="com.mainproject.event.vo.EventVO"  alias="eventVO" />
+        <typeAlias type="com.mainproject.board.vo.VoteVO"  alias="voteVO" />
     </typeAliases>
 </configuration>
  

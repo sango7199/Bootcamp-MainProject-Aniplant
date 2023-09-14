@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
 
+import com.mainproject.board.vo.BoardVO;
 import com.mainproject.user.vo.UserVO;
 
 public interface UserDAO {
