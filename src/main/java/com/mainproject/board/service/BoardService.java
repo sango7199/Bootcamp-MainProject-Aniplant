@@ -50,8 +50,26 @@ public interface BoardService {
 	void increaseGoodCount(int post_num);
 //    비추천
 	void increaseBadCount(int post_num);
+
+
+
+
+
+
 	
 	
 
 
+
+
+
+	
+
+
+
+	
+
+
+
+	
 }
