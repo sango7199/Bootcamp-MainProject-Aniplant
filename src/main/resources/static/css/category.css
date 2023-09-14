@@ -50,7 +50,7 @@
 }
 
 .category-table th {
-	background-color: #14b8a6;
+	background-color: #14a6b8;
 	color: #fff
 }
 
@@ -59,7 +59,7 @@
 }
 /* 버튼 */
 .h2-wrapper > button, #event-modal-register-btn, .event-update-btn, .pet-update-btn, #pet-modal-register-btn {
-    background: linear-gradient(to right, #14B8A6, #43c6b8);
+    background: linear-gradient(to right, #14A6B8, #43B8C6);
     color: #fff;
     padding: 3px 20px;
     border: none;
@@ -69,7 +69,7 @@
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 .h2-wrapper > button:hover, #event-modal-register-btn:hover, .event-update-btn:hover, .pet-update-btn:hover,#pet-modal-register-btn:hover {
-    background: linear-gradient(to right, #109385, #14B8A6);
+    background: linear-gradient(to right, #108593, #14A6B8);
     transform: translateY(-2px);
 }
 .h2-wrapper > button:active, #event-modal-register-btn:active, .event-update-btn:active, .pet-update-btn:active, #pet-modal-register-btn:active{

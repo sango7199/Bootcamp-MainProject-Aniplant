@@ -126,7 +126,7 @@ header {
     padding: 5px 0;
 }
 .user_btn {
-	background-color: #14a6b8;
+	background: linear-gradient(45deg, #14A6B8, #108593);
 	font-size: 15px;
 	color: #ffffff;
 	width: 110px;
@@ -138,8 +138,9 @@ header {
 	cursor: pointer;
 }
 .user_btn:hover {
-    filter: brightness(0.9);
+    background: linear-gradient(45deg, #108593, #0E737D);
 }
+
 .user_btn img {
     width: 20px; 
     height: 20px; 
