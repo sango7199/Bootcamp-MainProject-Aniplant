@@ -60,24 +60,7 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
        });
    }
 
-    function toggleGoodCount(post_num) {
-        if (!isGoodVoted) {
-            $.ajax({
-                type: "POST",
-                url: "/board/increaseGoodCount",
-                data: { post_num: post_num },
-                success: function (response) {
-                    alert(response);
-                    isGoodVoted = true;
-                },
-                error: function (error) {
-                    alert("오류가 발생했습니다.");
-                },
-            });
-        } else {
-            alert("이미 추천하셨습니다.");
-        }
-    }
+    
    function toggleBadCount(post_num) {
 	   // 이미 클릭된 경우 아무 작업도 수행하지 않습니다.
 	    if (badButtonClicked) {
@@ -236,7 +219,7 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
     </script>
 </th:block>
 
-<span id="curUserNum" th:text="${#authentication.principal.usernum}" style="display: none;"></span>
+
 
 <body>
     <!-- Content -->
@@ -267,6 +250,7 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
                     <div>비추천수 : <span th:text="${board.bad}"></span></div>
                 </div>                
             </div>
+            
             <div id="article-content" th:text="${board.content}"></div>
             <div class="vote-area">
                 <div>
@@ -275,6 +259,7 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
                     </button>
                 </div>
                 <div>
+                	<span id="curUserNum" th:text="${#authentication.principal.usernum}" style="display: none;"></span>
                     <button id="badButton" th:attr="data-post-num=${board.post_num}" onclick="toggleBadCount(this.getAttribute('data-post-num'))">
                         <img class="vote-btn-icon" th:src="@{/img/board/bad-icon.png}"> <span>비추천</span>
                     </button>
