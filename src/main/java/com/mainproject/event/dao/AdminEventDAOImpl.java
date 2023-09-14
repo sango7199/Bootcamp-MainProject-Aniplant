@@ -20,7 +20,7 @@ import com.mainproject.user.vo.CustomUserDetails;
 import com.sun.jdi.event.Event;
 
 
-
+ 
 @Repository
 public class AdminEventDAOImpl implements AdminEventDAO { 
 	
@@ -48,40 +48,8 @@ public class AdminEventDAOImpl implements AdminEventDAO {
  
 	    sqlSession.insert("mapper.event.insertEvent", eventVO);
 	}  
-  
+   
 	
-	@Override
-	public List<EventVO> selectEventsForUserNum(int userNum) {
-	    return sqlSession.selectList("mapper.event.selectEventsForUserNum", userNum);
-	}
-
-        
-	@Override
-    public EventVO getEventByTitle(String eventTitle) {
-        return sqlSession.selectOne("mapper.event.getEventByTitle", eventTitle);
-    }
-		
-	
-	@Override
-	    public void deleteEvent(int eventId) {
-	        sqlSession.delete("mapper.event.deleteEvent", eventId);
-	    }
- 
-	
-	@Override
-    public EventVO getEventById(int eventId) {
-        return sqlSession.selectOne("mapper.event.getEventById", eventId); 
-    }
-
-	
-	 @Override
-	 @Transactional  
-	 public void updateEvent(EventVO event) {
-	      sqlSession.update("mapper.event.updateEvent", event);
-	         
-	 } 
-	 
- 
 	@Override
 	 public void updateEventByEventNum(int eventNum, EventVO updatedEvent) {
 	   
@@ -102,11 +70,39 @@ public class AdminEventDAOImpl implements AdminEventDAO {
 	     }
 	 }
 	
-
+	
+	
 	@Override
-	public void updateEventByTitle(String eventTitle, EventVO updatedEvent) {
-			
-	} 
+	public List<EventVO> selectEventsForUserNum(int userNum) {
+	    return sqlSession.selectList("mapper.event.selectEventsForUserNum", userNum);
+	}
+
+        
+	@Override
+    public EventVO getEventByTitle(String eventTitle) {
+        return sqlSession.selectOne("mapper.event.getEventByTitle", eventTitle);
+    }
+		
+	
+	@Override
+	    public void deleteEvent(int eventId) {
+	        sqlSession.delete("mapper.event.deleteEvent", eventId);
+	}
+ 
+	
+	@Override
+    public EventVO getEventById(int eventId) {
+        return sqlSession.selectOne("mapper.event.getEventById", eventId); 
+    }
+
+	
+	 @Override
+	 @Transactional  
+	 public void updateEvent(EventVO event) {
+	      sqlSession.update("mapper.event.updateEvent", event);
+	         
+    } 
+	 
 	
 	@Override
 	public EventVO getEventByEventNum(int eventNum) {
@@ -124,7 +120,23 @@ public class AdminEventDAOImpl implements AdminEventDAO {
 	public List<EventVO> getAllEvents() {
         return sqlSession.selectList("mapper.event.getAllEvents");
     }
-	 
+	
+	
+    
+    @Override
+	public int getLastEventOrderForUser(int userNum) {
+	    Integer result = sqlSession.selectOne("mapper.event.getLastEventOrderForUser", userNum);
+	    return (result != null) ? result : 0;
+	}
+
+    
+
+	
+	@Override
+	public void updateEventByTitle(String eventTitle, EventVO updatedEvent) {
+			
+	} 
+	
 	
 	@Override
 	public void deleteEvent(Long eventId) {
@@ -146,24 +158,7 @@ public class AdminEventDAOImpl implements AdminEventDAO {
 		
 		return null;
 	}
-	
-
-
-	
-	@Override
-    public List<Event> listEventsForUserNum(int userNum, Criteria criteria) {
-		return null;
-        
-    }
 	 
-	
-
-	@Override
-	public int getLastEventOrderForUser(int userNum) {
-	    Integer result = sqlSession.selectOne("mapper.event.getLastEventOrderForUser", userNum);
-	    return (result != null) ? result : 0;
-	}
-
 	
 	@Override
 	public List<EventVO> listEventsForUserNum(String userNum) {
@@ -178,21 +173,12 @@ public class AdminEventDAOImpl implements AdminEventDAO {
 		return null;
 	}
 
+
+	  
+
 	
-	@Override
-    public List<EventVO> getEventsForPage(int startRow, int itemsPerPage) {
-        Map<String, Integer> params = new HashMap<>();
-        params.put("startRow", startRow);
-        params.put("itemsPerPage", itemsPerPage);
-        return sqlSession.selectList("mapper.event.getEventsForPage", params);
-    }
-
-    @Override
-    public int getTotalEventCount() {
-        return sqlSession.selectOne("mapper.event.getTotalEventCount"); 
-    }
-
-	 
+	
+	  
 	
 	 
 	 
@@ -205,4 +191,6 @@ public class AdminEventDAOImpl implements AdminEventDAO {
  
 	 
 }      
+      
   
+    

@@ -24,7 +24,7 @@ public class PetServiceImpl implements PetService {
 	public List<PetVO> getPetByUserNum(int userNum) throws DataAccessException{
 		return petDAO.getPetByUserNum(userNum);
 	}
-	
+	 
 	
 
 	@Override
@@ -50,5 +50,11 @@ public class PetServiceImpl implements PetService {
 	@Override
 	public List<PetVO> searchPet(String category, String keyword) throws DataAccessException{
 		return petDAO.searchPet(category, keyword);
+	}
+
+	@Override
+	public List<PetVO> getAllPet(int userNum) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

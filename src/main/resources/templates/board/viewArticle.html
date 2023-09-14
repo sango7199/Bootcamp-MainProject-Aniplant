@@ -8,23 +8,21 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <title>게시글 내용 보기</title>
 </head>
 
 <!-- 해당 페이지 고유 CSS 추가 -->
 <th:block layout:fragment="css">
-  <style>
-    .container {
-              display: flex;
-              flex-direction: row; 
-              align-items: start;
-          }
-          
-          
-  </style>
-      <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+    <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+    <style>
+        .container {
+            display: flex;
+            flex-direction: row; 
+            align-items: start;
+        }
+        </style>
 </th:block>
+
 <!-- 해당 페이지 고유 스크립트 추가 -->
 <th:block layout:fragment="script"> 
    <script th:inline="javascript">
@@ -62,6 +60,24 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
        });
    }
 
+    function toggleGoodCount(post_num) {
+        if (!isGoodVoted) {
+            $.ajax({
+                type: "POST",
+                url: "/board/increaseGoodCount",
+                data: { post_num: post_num },
+                success: function (response) {
+                    alert(response);
+                    isGoodVoted = true;
+                },
+                error: function (error) {
+                    alert("오류가 발생했습니다.");
+                },
+            });
+        } else {
+            alert("이미 추천하셨습니다.");
+        }
+    }
    function toggleBadCount(post_num) {
 	   // 이미 클릭된 경우 아무 작업도 수행하지 않습니다.
 	    if (badButtonClicked) {
@@ -111,7 +127,7 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
 </th:block>
 
 <body>
-  <!-- Content -->
+    <!-- Content -->
 <div layout:fragment="content" class="container">
   <!-- sidebar fragment 사용 -->
   <div th:replace="sidebar/article :: articleSidebar"></div>

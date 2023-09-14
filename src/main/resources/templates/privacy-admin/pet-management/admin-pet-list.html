@@ -6,7 +6,7 @@
 	<title>애니플랜트 : 관리자 반려친구 리스트</title>
 </head>
 <th:block layout:fragment="css">
-	<link rel="stylesheet" th:href="@{/css/user-management.css}" />
+	<link rel="stylesheet" th:href="@{/css/pet-management.css}" />
 </th:block>
 <th:block layout:fragment="script">
 	<script th:src="@{/js/pet/pet-list.js}"></script>
@@ -16,7 +16,8 @@
 	<!-- sidebar fragment 사용 -->
 	<div th:replace="sidebar/privacy-admin :: petManagementSidebar"></div>
 	<div class="content">
-		<form th:action="@{/privacy-admin/pet-management/search}" method="get">
+		<h2>반려친구 정보 관리</h2>
+		<form th:action="@{/privacy-admin/pet-management/search}" method="get" class="search-form">
 			<select name="category">
 				<option value="name">이름</option>
 				<option value="owner_name">반려인</option>
@@ -24,35 +25,21 @@
 			<input type="text" name="keyword" placeholder="검색어입력">
 			<button type="submit">검색</button>
 		</form>
-		<h2>반려친구 정보 관리</h2>
 		<table>
-			<div class="table-top-wrapper">
-				<select id="itemsPerPageSelect">
-					<option value="10">10개로 보기</option>
-					<option value="25">25개로 보기</option>
-					<option value="50">50개로 보기</option>
-					<option value="100">100개로 보기</option>
-				</select>
-				<span>반려 친구 전체 리스트</span>
-				<div class="table-search-area">
-					검색 : <input>
-				</div>
-			</div>
+			<div class="table-top-wrapper"> </div>
 			<thead>
 				<tr>
 					<th>이름 <button type="button" class="sort_btn"></button></th>
-					<th>반려인 <button type="button" class="sort_btn"></button></th>
+					<th>반려인 아이디<button type="button" class="sort_btn"></button></th>
 					<th>생일 <button type="button" class="sort_btn"></button></th>
 					<th>입양일 <button type="button" class="sort_btn"></button></th>
 					<th>나이 <button type="button" class="sort_btn"></button></th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="pet: ${petList}">
-					<td>
-						<a th:href="@{/privacy-admin/pet-management/admin-pet-info/{id}.do(id=${pet.pet_no})}"
-							th:text="${pet.name}"></a>
-					</td>
+				<tr th:each="pet: ${petList}"
+					th:onclick="'window.location.href=\'/privacy-admin/pet-management/admin-pet-info/' + ${pet.pet_no} + '.do\''">
+					<td th:text="${pet.name}"></td>
 					<td th:text="${pet.owner_name}"></td>
 					<!-- '생일' 날짜 서식 적용 -->
 					<td th:text="${#dates.format(pet.birth, 'yyyy-MM-dd')}"></td>
@@ -62,6 +49,7 @@
 					<td class="age" th:data-birth="${#dates.format(pet.birth, 'yyyy-MM-dd')}"></td>
 				</tr>
 			</tbody>
+
 		</table>
 	</div>
 </div>

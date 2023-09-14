@@ -14,4 +14,6 @@ public interface PetService {
 	public void deletePet(PetVO petVO) throws DataAccessException;
 	public List<PetVO> getAllPet() throws DataAccessException;
 	public List<PetVO> searchPet(String category, String keyword) throws DataAccessException;
+	public List<PetVO> getAllPet(int userNum);
+	
 }

@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	const agePara = document.querySelector('.age');
 	const birth = agePara.dataset.birth;
 	const age = calculateAge(birth);
-	agePara.innerText = '나이: ' + age + '살';
+	agePara.innerText =   age + '살';
 });
 
 //수정폼을 보여주는 기능

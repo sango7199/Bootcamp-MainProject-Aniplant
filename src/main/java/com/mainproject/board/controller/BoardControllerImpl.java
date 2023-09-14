@@ -106,7 +106,7 @@ public class BoardControllerImpl implements BoardController{
             @RequestParam(defaultValue = "10") int perPageNum,
             @RequestParam(defaultValue = "false") boolean isSearch,
             @RequestParam(required = false) Integer newPerPageNum,
-            @RequestParam("categoryNum") int categoryNum) throws Exception{
+            @RequestParam("categoryNum") int categoryNum) throws Exception {
        
         String viewName = (String) request.getAttribute("viewName");
 
