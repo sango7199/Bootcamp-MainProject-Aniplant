@@ -50,34 +50,8 @@ public interface BoardService {
 	void increaseGoodCount(int post_num);
 //    비추천
 	void increaseBadCount(int post_num);
-
-
-	boolean hasVoted(int postNum, int createdUserNum, boolean voteType);
-
-
-	void vote(int postNum, int createdUserNum, boolean voteType);
-
-
-	void recordVote(int postNum, int createdUserNum, boolean voteType);
-
-
-
-
-
 	
 	
 
 
-
-
-
-	
-
-
-
-	
-
-
-
-	
 }

@@ -45,9 +45,7 @@ public interface BoardDAO {
     //비추천
 	void increaseBadCount(int post_num);
 	
-	boolean hasVoted(int postNum, int createdUserNum, boolean voteType);
-
-    void recordVote(VoteVO voteVO);
+	
 
 	
 
