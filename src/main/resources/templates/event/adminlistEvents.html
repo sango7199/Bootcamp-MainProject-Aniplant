@@ -41,7 +41,7 @@
     
     .button:hover { 
   background-color: #2980b9; /* 호버 상태에서 배경색 변경 */
-}    
+}     
       
          
     </style>   
@@ -63,7 +63,7 @@
             <td><a th:href="@{/event/adminviewEvent(eventTitle=${event.title})}" th:text="${event.title}">일정 보기</a></td>
             <td th:text="${event.location}"></td> 
             <td th:text="${event.event_user_name}"></td>  
-            <td th:text="${#dates.format(event.ended_at, 'yyyy-MM-dd HH:mm')}"></td> 
+            <td th:text="${#dates.format(event.ended_at, 'yyyy-MM-dd')}"></td>  
              
         </tr>  
           

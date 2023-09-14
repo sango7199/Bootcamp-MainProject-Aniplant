@@ -62,7 +62,7 @@ public class AdminEventControllerImpl implements AdminEventController  {
         // 등록 완료 후 adminlistEvents.do로 리다이렉트
         return"redirect:/event/adminlistEvents.do";  
     } 
-    
+     
     
     @GetMapping("/adminlistEvents.do")
     @PreAuthorize("isAuthenticated()")
