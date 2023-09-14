@@ -49,7 +49,7 @@ public class BoardDAOImpl implements BoardDAO {
     // 전체 게시글 수 조회
     public int getTotalCount(int categoryNum) throws Exception {
         // mapper.xml에서 지정한 SQL 쿼리를 실행하여 전체 게시글 수를 조회합니다.
-        return sqlSession.selectOne("mapper.board.getTotalCount");
+        return sqlSession.selectOne("mapper.board.getTotalCount", categoryNum);
     }
    
     

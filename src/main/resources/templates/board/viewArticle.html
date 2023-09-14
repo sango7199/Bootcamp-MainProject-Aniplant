@@ -8,94 +8,91 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <title>게시글 내용 보기</title>
 </head>
 
 <!-- 해당 페이지 고유 CSS 추가 -->
 <th:block layout:fragment="css">
-  <style>
-    .container {
-              display: flex;
-              flex-direction: row; 
-              align-items: start;
-          }
-          
-          
-  </style>
-      <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+    <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+    <style>
+        .container {
+            display: flex;
+            flex-direction: row; 
+            align-items: start;
+        }
+        </style>
 </th:block>
+
 <!-- 해당 페이지 고유 스크립트 추가 -->
 <th:block layout:fragment="script"> 
-   <script th:inline="javascript">
-   
-   var isGoodVoted = false;
-   var isBadVoted = false;
+    <script th:inline="javascript">
 
-   function toggleGoodCount(post_num) {
-       if (!isGoodVoted) {
-           $.ajax({
-               type: "POST",
-               url: "/board/increaseGoodCount",
-               data: { post_num: post_num },
-               success: function (response) {
-                   alert(response);
-                   isGoodVoted = true;
-               },
-               error: function (error) {
-                   alert("오류가 발생했습니다.");
-               },
-           });
-       } else {
-           alert("이미 추천하셨습니다.");
-       }
-   }
+    var isGoodVoted = false;
+    var isBadVoted = false;
 
-   function toggleBadCount(post_num) {
-       if (!isBadVoted) {
-           $.ajax({
-               type: "POST",
-               url: "/board/increaseBadCount",
-               data: { post_num: post_num },
-               success: function (response) {
-                   alert(response);
-                   isBadVoted = true;
-               },
-               error: function (error) {
-                   alert("오류가 발생했습니다.");
-               },
-           });
-       } else {
-           alert("이미 비추천하셨습니다.");
-       }
-   }
-   
-   document.addEventListener("DOMContentLoaded", function() {
-         var editButton = document.getElementById("editButton");
-         var titleInput = document.getElementById("titleInput");
-         var contentTextarea = document.getElementById("contentTextarea");
-         var deleteButton = document.getElementById("deleteButton"); // 추가
-       	 var goodButton = document.getElementById("goodButton");
-         var badButton = document.getElementById("badButton");
-         
-         editButton.addEventListener("click", function() {
-          topLevelSelect.removeAttribute("disabled");
-           titleInput.removeAttribute("disabled");
-           contentTextarea.removeAttribute("disabled");
-           editButton.style.display = "none";
-           resetButton.style.display = "inline";
-           saveButton.style.display = "inline";
-           deleteButton.style.display = "none";
-           goodButton.style.display = "none";
-           badButton.style.display = "none";
-         });         
-       });
-   </script>
-   
+    function toggleGoodCount(post_num) {
+        if (!isGoodVoted) {
+            $.ajax({
+                type: "POST",
+                url: "/board/increaseGoodCount",
+                data: { post_num: post_num },
+                success: function (response) {
+                    alert(response);
+                    isGoodVoted = true;
+                },
+                error: function (error) {
+                    alert("오류가 발생했습니다.");
+                },
+            });
+        } else {
+            alert("이미 추천하셨습니다.");
+        }
+    }
+
+    function toggleBadCount(post_num) {
+        if (!isBadVoted) {
+            $.ajax({
+                type: "POST",
+                url: "/board/increaseBadCount",
+                data: { post_num: post_num },
+                success: function (response) {
+                    alert(response);
+                    isBadVoted = true;
+                },
+                error: function (error) {
+                    alert("오류가 발생했습니다.");
+                },
+            });
+        } else {
+            alert("이미 비추천하셨습니다.");
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+            var editButton = document.getElementById("editButton");
+            var titleInput = document.getElementById("titleInput");
+            var contentTextarea = document.getElementById("contentTextarea");
+            var deleteButton = document.getElementById("deleteButton"); // 추가
+            var goodButton = document.getElementById("goodButton");
+            var badButton = document.getElementById("badButton");
+            
+            editButton.addEventListener("click", function() {
+            topLevelSelect.removeAttribute("disabled");
+            titleInput.removeAttribute("disabled");
+            contentTextarea.removeAttribute("disabled");
+            editButton.style.display = "none";
+            resetButton.style.display = "inline";
+            saveButton.style.display = "inline";
+            deleteButton.style.display = "none";
+            goodButton.style.display = "none";
+            badButton.style.display = "none";
+            });         
+        });
+    </script>
 </th:block>
 
 <body>
-  <!-- Content -->
+    <!-- Content -->
 <div layout:fragment="content" class="container">
   <!-- sidebar fragment 사용 -->
   <div th:replace="sidebar/article :: articleSidebar"></div>
