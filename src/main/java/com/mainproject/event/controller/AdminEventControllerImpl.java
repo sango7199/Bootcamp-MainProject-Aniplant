@@ -43,26 +43,25 @@ public class AdminEventControllerImpl implements AdminEventController  {
     }     
   
     @PostMapping("/admincreateEvent")
-    public void admincreateEvent(@ModelAttribute("event") EventVO eventVO) {
+    public String admincreateEvent(@ModelAttribute("event") EventVO eventVO, RedirectAttributes redirectAttributes) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
         int userNum = ((CustomUserDetails) userDetails).getUsernum(); // 현재 로그인한 사용자의 번호
         String username = ((CustomUserDetails) userDetails).getUsername();
-          
-        
-        
+
         int lastEventOrder = adminEventService.getLastEventOrderForUser(userNum);
- 
-        // 새로운 일정의 event_order 설정  
+
+        // 새로운 일정의 event_order 설정
         eventVO.setEvent_order(lastEventOrder + 1);
         eventVO.setCreated_user_num(userNum); // 생성자 정보 설정
-        eventVO.setEvent_user_name(username);   
- 
-        adminEventService.createEvent(eventVO); 
-        // 리다이렉트나 뷰 이름 등을 처리하는 로직이 있을 수 있습니다.
-    }  
-     
+        eventVO.setEvent_user_name(username);
+
+        adminEventService.createEvent(eventVO);
+
+        // 등록 완료 후 adminlistEvents.do로 리다이렉트
+        return"redirect:/event/adminlistEvents.do";  
+    } 
     
     
     @GetMapping("/adminlistEvents.do")
