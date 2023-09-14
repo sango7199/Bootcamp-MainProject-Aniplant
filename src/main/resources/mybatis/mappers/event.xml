@@ -24,21 +24,22 @@
  		<result property="url" column="url"/>
    </resultMap>
          
-	
+
+       
 	 <insert id="insertEvent" parameterType="com.mainproject.event.vo.EventVO">
-	    INSERT INTO TB_EVENT (title, started_at, ended_at, location, content, created_user_num, event_order, created_at, event_user_name)
-	    VALUES (#{title}, #{started_at}, #{ended_at}, #{location}, #{content}, #{created_user_num}, #{event_order}, CURRENT_TIMESTAMP, #{event_user_name})
+	    INSERT INTO TB_EVENT (title, started_at, ended_at, location, content, created_user_num, event_order, created_at, event_user_name, allday, url)
+	    VALUES (#{title}, #{started_at}, #{ended_at}, #{location}, #{content}, #{created_user_num}, #{event_order}, CURRENT_TIMESTAMP, #{event_user_name}, #{allday}, #{url})
 	</insert> 
+	 
     <insert id="registerEvent" parameterType="eventVO">
 	    INSERT INTO TB_EVENT (title, started_at, ended_at, location, content, created_user_num, created_at, event_order, event_user_name, allday, url)
 	    VALUES (#{title}, #{started_at}, #{ended_at}, #{location}, #{content}, #{created_user_num}, #{created_at}, #{event_order}, #{event_user_name}, #{allday}, #{url})
 	</insert>
 	
     <select id="selectEventsForUserNum" parameterType="int" resultType="com.mainproject.event.vo.EventVO">
-    	SELECT * FROM TB_EVENT 
-	    WHERE created_user_num = #{userNum} AND is_deleted = 0
-	    ORDER BY started_at ASC
-    </select>
+    SELECT * FROM TB_EVENT WHERE created_user_num = #{userNum} AND is_deleted = 0
+    
+    </select> 
     
     <select id="getEventByTitle" parameterType="String" resultType="com.mainproject.event.vo.EventVO">
         SELECT * FROM TB_EVENT WHERE title = #{eventTitle} 
@@ -56,7 +57,7 @@
         location = #{location}, 
         content = #{content},
         is_deleted = #{is_deleted}, 
-        updated_at = CURRENT_TIMESTAMP 
+        updated_at = CURRENT_TIMESTAMP  
     WHERE event_num = #{event_num}  
     </update>
      
@@ -68,19 +69,11 @@
         SELECT MAX(event_order) FROM TB_EVENT WHERE created_user_num = #{userNum}
     </select> 
     
-    <select id="getAllEvents" resultType="com.mainproject.event.vo.EventVO">
-        SELECT * FROM TB_EVENT
-    </select> 
-    
-    <select id="getEventsForPage" parameterType="map" resultMap="eventResultMap">
+   <select id="getAllEvents" resultType="com.mainproject.event.vo.EventVO">
     SELECT * FROM TB_EVENT
-    LIMIT #{startRow}, #{itemsPerPage}
-    </select> 
- 
-    <select id="getTotalEventCount" resultType="int"> 
-    SELECT COUNT(*) FROM TB_EVENT
-    </select>
-    
+    WHERE Is_Deleted = 0
+</select> 
+  
     <update id="deleteEvent2" parameterType="eventVO">
 	    UPDATE TB_EVENT
 	    SET deleted_user_num = #{deleted_user_num},
