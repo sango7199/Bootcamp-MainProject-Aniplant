@@ -41,10 +41,9 @@ public class BoardControllerImpl implements BoardController{
 	private BoardVO boardVO;
 	
 	@Autowired
-
 	private VoteVO voteVO;
 	
-
+	@Autowired
     private HttpServletRequest request;
 
 	
@@ -250,29 +249,7 @@ public class BoardControllerImpl implements BoardController{
         return ResponseEntity.ok("비추천이 반영되었습니다.");
     }
     
-    @PostMapping("/vote")
-    @ResponseBody
-    public ResponseEntity<String> vote(@RequestParam("post_num") int postNum,
-                                       @RequestParam("created_user_num") int createdUserNum,
-                                       @RequestParam("is_voted") boolean voteType) {
-        // 투표 처리 로직 구현
-        try {
-            // 해당 게시글에 대한 투표 여부 확인
-            boolean hasVoted = boardService.hasVoted(postNum, createdUserNum, voteType);
-
-            if (!hasVoted) {
-                // 해당 게시글에 투표하지 않은 경우
-                boardService.vote(postNum, createdUserNum, voteType); // TB_BOARD 업데이트
-                boardService.recordVote(postNum, createdUserNum, voteType); // TB_VOTE에 기록
-                return ResponseEntity.ok("투표가 반영되었습니다.");
-            } else {
-                // 이미 투표한 경우
-                return ResponseEntity.badRequest().body("이미 투표한 게시글입니다.");
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("투표 처리 중 오류가 발생했습니다.");
-        }
-    }
+   
     
 
 

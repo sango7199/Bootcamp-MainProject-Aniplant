@@ -75,7 +75,7 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
          var titleInput = document.getElementById("titleInput");
          var contentTextarea = document.getElementById("contentTextarea");
          var deleteButton = document.getElementById("deleteButton"); // 추가
-       	 var goodButton = document.getElementById("goodButton");
+           var goodButton = document.getElementById("goodButton");
          var badButton = document.getElementById("badButton");
          
          editButton.addEventListener("click", function() {
@@ -151,18 +151,18 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
 
     
 
-			<form th:action="@{delete/{post_num}(post_num=${board.post_num})}"	method="post">
-				<button type="button" value="수정하기" id="editButton" th:if="${board.created_user_num == #authentication.principal.usernum}">수정하기</button>
 
-				<!-- 삭제하기 버튼을 특정 조건에 따라 보이게 하기 -->
-				<button type="submit" value="삭제하기" id="deleteButton" onclick="return confirm('게시글을 삭제하시겠습니까?')" th:if="${board.created_user_num == #authentication.principal.usernum}">삭제하기</button>
+         <form th:action="@{delete/{post_num}(post_num=${board.post_num})}"   method="post">
+            <button type="button" value="수정하기" id="editButton" th:if="${board.created_user_num == #authentication.principal.usernum}">수정하기</button>
 
-				<input type="hidden" name="categoryNum"	th:value="${board.category_num}" />
-			</form>
+            <!-- 삭제하기 버튼을 특정 조건에 따라 보이게 하기 -->
+            <button type="submit" value="삭제하기" id="deleteButton" onclick="return confirm('게시글을 삭제하시겠습니까?')" th:if="${board.created_user_num == #authentication.principal.usernum}">삭제하기</button>
 
-			<button id="goodButton" th:attr="data-post-num=${board.post_num}" onclick="toggleGoodCount(this.getAttribute('data-post-num'))">추천</button>
-		  	<button id="badButton" th:attr="data-post-num=${board.post_num}" onclick="toggleBadCount(this.getAttribute('data-post-num'))">비추천</button>
+            <input type="hidden" name="categoryNum"   th:value="${board.category_num}" />
+         </form>
 
+               <button id="goodButton" th:attr="data-post-num=${board.post_num}" onclick="toggleGoodCount(this.getAttribute('data-post-num'))">추천</button>
+                <button id="badButton" th:attr="data-post-num=${board.post_num}" onclick="toggleBadCount(this.getAttribute('data-post-num'))">비추천</button>
 
   </div>
 </div>

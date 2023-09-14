@@ -10,19 +10,7 @@
         <result property="is_voted" column="is_voted"/>
         <result property="created_at" column="created_at"/>
     </resultMap>
-    
-     <select id="hasVoted" resultType="java.lang.Boolean">
-        SELECT COUNT(*) > 0
-        FROM TB_VOTE
-        WHERE Post_Num = #{postNum}
-          AND Created_User_Num = #{createdUserNum}
-          AND Is_Voted = #{voteType}
-    </select>
-    
-    <insert id="recordVote">
-        INSERT INTO TB_VOTE (Post_Num, Created_User_Num, Is_Voted, Created_At)
-        VALUES (#{post_num}, #{created_user_num}, #{is_voted}, #{created_at})
-    </insert>
+
     
     
 </mapper>

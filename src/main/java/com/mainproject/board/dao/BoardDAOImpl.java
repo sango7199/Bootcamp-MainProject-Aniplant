@@ -109,18 +109,8 @@ public class BoardDAOImpl implements BoardDAO {
 	    public void increaseBadCount(int post_num) {
 	        sqlSession.update("mapper.board.updateBadCount", post_num);
 	    }
+	    
 
-
-	    @Override
-	    public boolean hasVoted(int postNum, int createdUserNum, boolean voteType) {
-	        int count = sqlSession.selectOne("mapper.vote.hasVoted", postNum);
-	        return count > 0;
-	    }
-
-	    @Override
-	    public void recordVote(VoteVO voteVO) {
-	        sqlSession.insert("mapper.vote.recordVote", voteVO);
-	    }
 	 
 	 @Override
 	 public List<BoardVO> viewPetBoard() throws DataAccessException {
