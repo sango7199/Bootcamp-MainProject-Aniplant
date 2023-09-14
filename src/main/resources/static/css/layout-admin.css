@@ -245,6 +245,7 @@ footer {
     display: block;
     border-radius: 5px;
     transition: background-color 0.3s ease;
+    white-space: nowrap;
 }
 
 .sidebar-menu a:hover, .contact-us a:hover {
