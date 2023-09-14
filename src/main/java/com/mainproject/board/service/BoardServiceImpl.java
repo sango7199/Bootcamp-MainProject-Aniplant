@@ -125,10 +125,19 @@ public class BoardServiceImpl  implements BoardService{
 		      boardDAO.increaseBadCount(post_num);
 		  }
 		  
-		  
-	
-	
+		  @Override
+		    public int checkVoteDuplicate(VoteVO voteVO) {
+		        return boardDAO.checkVoteDuplicate(voteVO);
+		    }
 
-	
+		    @Override
+		    public void voteForPost(VoteVO voteVO) {
+		        int existingVoteCount = boardDAO.checkVoteDuplicate(voteVO);
+		        if (existingVoteCount == 0) {
+		            boardDAO.insertVote(voteVO);
+		        }
+		    }
+		  
+
 
 }

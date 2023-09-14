@@ -4,12 +4,24 @@
 
 <mapper namespace="mapper.vote">
     <resultMap id="voteResultMap" type="voteVO">
-		<result property="vote_num" column="vote_num"/>
+		<result property="user_num" column="vote_num"/>
         <result property="post_num" column="post_num"/>
-        <result property="created_user_num" column="created_user_num"/>
-        <result property="is_voted" column="is_voted"/>
-        <result property="created_at" column="created_at"/>
+        <result property="vote_type" column="vote_type"/>
+
     </resultMap>
+    
+  <select id="checkVoteDuplicate" parameterType="map" resultType="int">
+    SELECT COUNT(*) FROM TB_VOTE
+    WHERE user_num = #{user_num} AND post_num = #{post_num}
+ </select>
+ 
+ <!-- 투표 기록 삽입 -->
+    <insert id="insertVote" parameterType="voteVO">
+        INSERT INTO TB_VOTE (user_num, post_num, vote_type)
+        VALUES (#{user_num}, #{post_num}, #{vote_type})
+    </insert>
+
+    
 
     
     

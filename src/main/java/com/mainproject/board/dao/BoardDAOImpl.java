@@ -110,8 +110,16 @@ public class BoardDAOImpl implements BoardDAO {
 	        sqlSession.update("mapper.board.updateBadCount", post_num);
 	    }
 	    
+	    @Override
+	    public int checkVoteDuplicate(VoteVO voteVO) {
+	        return sqlSession.selectOne("mapper.vote.checkVoteDuplicate", voteVO);
+	    }
 
-	 
+	    @Override
+	    public void insertVote(VoteVO voteVO) {
+	        sqlSession.insert("mapper.vote.insertVote", voteVO);
+	    }
+
 	 @Override
 	 public List<BoardVO> viewPetBoard() throws DataAccessException {
 		 return sqlSession.selectList("mapper.board.viewPetBoard");
