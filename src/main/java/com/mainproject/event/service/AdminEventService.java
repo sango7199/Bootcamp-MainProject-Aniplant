@@ -21,12 +21,5 @@ public interface AdminEventService {
 	EventVO getEventById(int eventId);   
 	EventVO getEventByEventNum(int eventNum);  
 	
-	
-	 
-	 
-	
-
-	
-	
 }
   
