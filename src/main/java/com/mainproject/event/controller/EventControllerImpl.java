@@ -107,9 +107,9 @@ public class EventControllerImpl implements EventController {
                
         ModelAndView modelAndView = new ModelAndView("event/listEvents");
         modelAndView.addObject("eventsList", eventService.listEventsForUserNum(userNum));
-        return modelAndView; 
+        return modelAndView;  
     }   
-    
+     
     
       
     @GetMapping("/viewEvent") 
@@ -120,6 +120,7 @@ public class EventControllerImpl implements EventController {
         modelAndView.addObject("eventNum", event.getEvent_num());
         return modelAndView;
     } 
+    
     @GetMapping("/viewEventDetail.do") 
     public ModelAndView viewEventDetail(@RequestParam("event_num") int eventNum, HttpServletRequest request) {
         String viewName = (String) request.getAttribute("viewName");

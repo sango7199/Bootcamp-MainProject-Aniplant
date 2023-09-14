@@ -37,7 +37,8 @@
         }
  
         .form-container { 
-            margin-top: 40px; /* 조절할 여유값을 설정하세요 */ 
+            margin-top: 70px; /* 조절할 여유값을 설정하세요 */  
+            margin-left: -160px;       
         }
 
         .form-group {
@@ -51,8 +52,8 @@
             align-items: center;
         }
 
-        .date-range input {
-            margin: 0 5px;
+        .date-range input { 
+            margin: 0 5px;   
         }
         /* 폼 외부 컨테이너의 스타일 */
     .info-container {
@@ -76,12 +77,13 @@
     } 
       
     </style>
+    <h2>일정 내용 보기</h2>      
         
     <div th:if="${event != null}">
       
     <div class="form-container"> 
       
-    <label for="info-label">일정 정보</label>
+    <label for="info-label"></label> 
       
     <div style="display: flex; align-items: center;">
     <div style="display: flex; align-items: center; font-size: 13px; margin-bottom: 10px; "> 
@@ -115,6 +117,7 @@
   
         <div class="form-group">
     <label for="started_at">시작일/종료일</label> 
+    
     <div class="date-range">
         <input type="text" th:id="${'started_at_' + event.event_num}" th:name="'started_at_' + ${event.event_num}" th:value="${#dates.format(event.started_at, 'yyyy-MM-dd HH:mm')}" disabled class="styled-input" />
         <span class="date-separator">~</span>

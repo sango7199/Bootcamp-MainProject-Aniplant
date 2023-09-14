@@ -30,6 +30,7 @@ public class EventDAOImpl implements EventDAO {
     private SqlSession sqlSession;
 	private int lastEventOrder;   
   
+	
 	@Override 
 	public void insertEvent(EventVO eventVO) {
 	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -50,56 +51,10 @@ public class EventDAOImpl implements EventDAO {
  
 	    sqlSession.insert("mapper.event.insertEvent", eventVO);
 	}  
-<<<<<<< HEAD
-	
-=======
-	
-	@Override 
-	public void registerEvent(EventVO eventVO) throws DataAccessException {
-		sqlSession.insert("mapper.event.registerEvent", eventVO);
-	}
-	
-	@Override
-	public List<EventVO> selectEventsForUserNum(int userNum) {
-	    return sqlSession.selectList("mapper.event.selectEventsForUserNum", userNum);
-	}
 
-      
-	
+
 	@Override
-    public EventVO getEventByTitle(String eventTitle) {
-        return sqlSession.selectOne("mapper.event.getEventByTitle", eventTitle);
-    }
-		
-	@Override
-	    public void deleteEvent(int eventId) {
-	        sqlSession.delete("mapper.event.deleteEvent", eventId);
-	}
-	
-	@Override
-    public void deleteEvent2(EventVO eventVO) throws DataAccessException {
-        sqlSession.update("mapper.event.deleteEvent2", eventVO);
-	}
->>>>>>> eefbfab78df598cca1ee75837f4ebc4b14501974
-	
-	
-	 @Override
-<<<<<<< HEAD
-=======
-	 @Transactional  
-	 public void updateEvent(EventVO event) {
-	      sqlSession.update("mapper.event.updateEvent", event);
-	         
-	 }
-	 @Override 
-	 public void updateEvent2(EventVO eventVO) throws DataAccessException {
-		 sqlSession.update("mapper.event.updateEvent2", eventVO);
-	 }
-	 
- 
-	 @Override
->>>>>>> eefbfab78df598cca1ee75837f4ebc4b14501974
-	 public void updateEventByEventNum(int eventNum, EventVO updatedEvent) {
+    public void updateEventByEventNum(int eventNum, EventVO updatedEvent) {
 	   
 	     EventVO existingEvent = getEventByEventNum(eventNum);
 
@@ -117,49 +72,6 @@ public class EventDAOImpl implements EventDAO {
 	         throw new IllegalArgumentException("Event not found.");
 	     }
 	 } 
-  
-	@Override
-	public List<EventVO> selectEventsForUserNum(int userNum) {
-	    return sqlSession.selectList("mapper.event.selectEventsForUserNum", userNum);
-	}
-
-      
-	
-	@Override
-    public EventVO getEventByTitle(String eventTitle) {
-        return sqlSession.selectOne("mapper.event.getEventByTitle", eventTitle);
-    }
-		
-	@Override
-	    public void deleteEvent(int eventId) {
-	        sqlSession.delete("mapper.event.deleteEvent", eventId);
-	}
-
-	
-	@Override
-    public EventVO getEventById(int eventId) {
-        return sqlSession.selectOne("mapper.event.getEventById", eventId); 
-    }
-
-	
-	 @Override
-	 @Transactional  
-	 public void updateEvent(EventVO event) {
-	      sqlSession.update("mapper.event.updateEvent", event);
-	         
-	 } 
-	 
-	
-	@Override
-	public EventVO getEventByEventNum(int eventNum) throws DataAccessException {
-	    return sqlSession.selectOne("mapper.event.getEventByEventNum", eventNum);
-	} 
-	 
-	@Transactional 
-	@Override 
-	public void markEventAsDeleted(int eventNum) {
-	    sqlSession.update("mapper.event.markEventAsDeleted", eventNum); 
-	}
 	
 	
 	@Override
@@ -168,6 +80,69 @@ public class EventDAOImpl implements EventDAO {
 	    return (result != null) ? result : 0;
 	}
 
+
+	@Override 
+	public void registerEvent(EventVO eventVO) throws DataAccessException {
+		       sqlSession.insert("mapper.event.registerEvent", eventVO);
+	}
+	
+	
+	@Override
+	public List<EventVO> selectEventsForUserNum(int userNum) {
+	    return sqlSession.selectList("mapper.event.selectEventsForUserNum", userNum);
+	}
+
+      
+	@Override
+    public EventVO getEventByTitle(String eventTitle) {
+        return sqlSession.selectOne("mapper.event.getEventByTitle", eventTitle);
+    }
+	
+	
+	@Override
+	    public void deleteEvent(int eventId) {
+	           sqlSession.delete("mapper.event.deleteEvent", eventId);
+	}
+	
+	
+	@Override
+    public void deleteEvent2(EventVO eventVO) throws DataAccessException {
+               sqlSession.update("mapper.event.deleteEvent2", eventVO);
+	}
+
+	
+	@Override 
+	public void updateEvent2(EventVO eventVO) throws DataAccessException {
+		       sqlSession.update("mapper.event.updateEvent2", eventVO);
+	}
+	
+  
+	@Override
+    public EventVO getEventById(int eventId) {
+        return sqlSession.selectOne("mapper.event.getEventById", eventId); 
+    }
+ 
+	
+	@Override 
+	@Transactional  
+	public void updateEvent(EventVO event) {
+	           sqlSession.update("mapper.event.updateEvent", event);
+	         
+	} 
+	 
+	
+	@Override
+	public EventVO getEventByEventNum(int eventNum) throws DataAccessException {
+	    return sqlSession.selectOne("mapper.event.getEventByEventNum", eventNum);
+	} 
+	 
+	
+	@Transactional 
+	@Override 
+	public void markEventAsDeleted(int eventNum) {
+	           sqlSession.update("mapper.event.markEventAsDeleted", eventNum); 
+	}
+	
 
 	@Override
 	public void updateEventByTitle(String eventTitle, EventVO updatedEvent) {
@@ -178,15 +153,16 @@ public class EventDAOImpl implements EventDAO {
 	@Override
 	public void deleteEvent(Long eventId) {
 		
-		
 	}
 
+ 
 	@Override
 	public List<EventVO> getAllEvents() {
 		
 		return null;
 	}
  
+	 
 	@Override
 	public List<EventVO> selectAllEvents() {
 		
@@ -213,7 +189,9 @@ public class EventDAOImpl implements EventDAO {
 		return null;
 	}
 
-	 
+ 
+
+ 
 	 
 	 
 

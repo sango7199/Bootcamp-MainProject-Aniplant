@@ -503,33 +503,6 @@
 <div layout:fragment="content" class="container">
     <div th:replace="sidebar/mypage :: mypageSidebar"></div>
     <div class="content">
-<<<<<<< HEAD
-        <h2>일정 관리</h2> 
-        <div id="event-btn-area"><a class="button" th:href="@{/event/createEventForm}">일정 등록</a></div>
-        <table>  
-            <thead> 
-                <tr>
-                    <!-- <th>번호</th>  -->
-                    <th>날짜</th>
-                    <th>시간</th>
-                    <th>제목</th>
-                    <th>내용</th>
-                    <th>장소</th>
-                </tr> 
-            </thead> 
-            <tbody>
-                <tr th:each="event : ${eventsList}"> 
-                    <!-- <td th:text="${event.event_num}"></td> -->
-                    <td th:text="${#dates.format(event.ended_at, 'yyyy-MM-dd HH:mm')}"></td> 
-                    <td th:text="${#dates.format(event.ended_at, 'yyyy-MM-dd HH:mm')}"></td>
-                    <td><a th:href="@{/event/viewEvent(eventTitle=${event.title})}" th:text="${event.title}">일정 보기</a></td>
-                    <!-- <td th:text="${#dates.format(event.ended_at, 'yyyy-MM-dd HH:mm')}"></td> -->
-                    <td th:text="${event.location}"></td> 
-                </tr>
-            </tbody> 
-        </table>  
-    </div>
-=======
         <div class="h2-wrapper"><h2>일정 관리</h2><button type="button" id="event-register-btn" class="modal-btn" data-modal-id="event-register-modal">일정 등록</button></div>
         <div class="area-wrapper">
             <div id="calendar-area">
@@ -611,9 +584,7 @@
                 </form>
             </div>
         </div>
-    </div>
-    
->>>>>>> eefbfab78df598cca1ee75837f4ebc4b14501974
+    </div> 
 </div>
 </body>
 </html> 

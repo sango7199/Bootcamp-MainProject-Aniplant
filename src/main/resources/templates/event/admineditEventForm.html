@@ -10,9 +10,9 @@
 
 <!-- 해당 페이지 고유 CSS 추가 -->
 <th:block layout:fragment="css">
-    <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+    <link rel="stylesheet" th:href="@{/css/event.css}">      
 </th:block>
-<!-- 해당 페이지 고유 스크립트 추가 -->
+<!-- 해당 페이지 고유 스크립트 추가 -->      
 <th:block layout:fragment="script">
     <!--    <script th:src="@{/js/page/home.js}"></script>-->
 </th:block>
@@ -21,11 +21,32 @@
 <div layout:fragment="content" class="container">
     <!-- sidebar fragment 사용 -->
     <div th:replace="sidebar/privacy-admin :: userManagementSidebar"></div>  
-    <div class="content">일정 수정</div>  
+    <div class="content"></div>  
     
     <style>
+    
+    
+    
+    .button {
+        display: inline-block; 
+        padding: 5px 20px;  
+        background-color: #888888; 
+        color: white;   
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px; 
+        float: right; /* 오른쪽으로 띄우기 */
+        position: absolute; /* 절대적인 위치 설정 */
+        margin-top: 35px; /* 버튼 위쪽 여백 조정 */           
+        left: 1250px; /* 왼쪽으로 정렬 */           
+             
+    }    
         .form-container {
-            margin-top: 40px; /* 조절할 여유값을 설정하세요 */ 
+             margin-top: 70px; /* 조절할 여유값을 설정하세요 */   
+             margin-left: -100px;   
+            
+             
         }
 
         .form-group {
@@ -43,6 +64,7 @@
             margin: 0 5px;
         }
     </style>
+    <h2>일정 수정</h2>    
 
     <div class="form-container">
         <form th:action="@{/event/adminupdateEvent}" th:object="${event}" method="post">
