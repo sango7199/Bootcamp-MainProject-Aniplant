@@ -241,25 +241,34 @@ public class BoardControllerImpl implements BoardController{
         return "redirect:/board/articles-list.do?categoryNum=" + boardVO.getCategory_num();
     }
     
-    // 추천
-    @PostMapping("/board/increaseGoodCount")
+    // 추천 비추천 중복체크 및 반영 로직
+    @PostMapping("/vote")
     @ResponseBody
-    public ResponseEntity<String> increaseGoodCount(@RequestParam("post_num") int post_num) {
-        boardService.increaseGoodCount(post_num);
-        return ResponseEntity.ok("추천이 반영되었습니다.");
-    }
-    
-    // 비추천
-    @PostMapping("/board/increaseBadCount")
-    @ResponseBody
-    public ResponseEntity<String> increaseBadCount(@RequestParam("post_num") int post_num) {
-        boardService.increaseBadCount(post_num);
-        return ResponseEntity.ok("비추천이 반영되었습니다.");
-    }
-    
-   
-    
+    public ResponseEntity<String> voteForPost(@RequestParam("user_num") int user_num,
+                                              @RequestParam("post_num") int post_num,
+                                              @RequestParam("vote_type") String vote_type) {
+        VoteVO voteVO = new VoteVO();
+        voteVO.setUser_num(user_num);
+        voteVO.setPost_num(post_num);
+        voteVO.setVote_type(vote_type);
 
+        int existingVoteCount = boardService.checkVoteDuplicate(voteVO);
+
+        if (existingVoteCount == 0) {
+            boardService.voteForPost(voteVO);
+
+            // 투표 유형에 따라 게시물의 추천 또는 비추천 수 증가
+            if ("good".equals(vote_type)) {
+                boardService.increaseGoodCount(post_num);
+            } else if ("bad".equals(vote_type)) {
+                boardService.increaseBadCount(post_num);
+            }
+
+            return ResponseEntity.ok("투표가 반영되었습니다.");
+        } else {
+            return ResponseEntity.badRequest().body("이미 투표한 게시물입니다.");
+        }
+    }
 
 }
 	
