@@ -7,7 +7,7 @@
 <!--navAdminFragment 선언-->
 <div class="nav-admin-wrapper" th:fragment="navAdminFragment">
 	<div class="nav-admin-container">
-		<div class="nav-admin-title" th:if="${#authorization.expression('hasAnyRole(''ROLE_ADMIN'', ''ROLE_PRIVACY_ADMIN'')')}"><a href="/admin/main.do">관리자 메뉴</a></div>
+		<div class="nav-admin-title" th:if="${#authorization.expression('hasAnyRole(''ROLE_ADMIN'', ''ROLE_PRIVACY_ADMIN'')')}"><a href="">관리자 메뉴</a></div>
 		<div class="nav-admin-area" th:if="${#authorization.expression('hasAnyRole(''ROLE_ADMIN'', ''ROLE_PRIVACY_ADMIN'')')}">
 			<nav class="nav-admin">
 				<ul>

@@ -3,7 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/adminLayout}">
 
 <head>
-	<title>애니플랜트 : 관리자 반려친구 정보</title>
+	<title>관리자 반려친구 정보</title>
 </head>
 <th:block layout:fragment="css">
 
@@ -29,8 +29,7 @@
 			<div class="contact-info-area">
 				<h2 th:text="${pet.name}"></h2>
 				<div><img id="detail-profile-img" th:src="@{${pet.profile_picture}}"></div>
-				<li><strong>생일 : </strong><span th:text="${#dates.format(pet.birth, 'yyyy-MM-dd')}"></span>
-				</li>
+				<li><strong>생일 : </strong><span th:text="${#dates.format(pet.birth, 'yyyy-MM-dd')}"></span></li>
 				<li><strong>입양일 : </strong><span th:text="${#dates.format(pet.adopted_at, 'yyyy-MM-dd')}"></span></li>
 				<li><strong>나이 : </strong><span class="age"
 						th:data-birth="${#dates.format(pet.birth, 'yyyy-MM-dd')}"></span></li>

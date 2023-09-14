@@ -4,79 +4,49 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/adminLayout}"> 
      
-  
-<th:block layout:fragment="css"></th:block>
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/event.css}">  
+    <link rel="stylesheet" th:href="@{/css/pet-management.css}" /> 
+    <link rel="stylesheet" th:href="@{/css/admin.css}"/>
+</th:block>
 
 <th:block layout:fragment="script">
      
 </th:block>  
        
 <head> 
-  <link rel="stylesheet" th:href="@{/css/event.css}">  
     <meta charset="UTF-8">
     <title>일정 관리</title>       
 </head>   
- 
-<body> 
+
 <div layout:fragment="content" class="container">
-<div th:replace="sidebar/privacy-admin :: userManagementSidebar"></div> 
-<div class="content"></div> 
- <style> 
- 
-   .button {
-        display: inline-block; 
-        padding: 5px 20px;  
-        background-color: #888888; 
-        color: white;   
-        text-decoration: none;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px; 
-        float: right; /* 오른쪽으로 띄우기 */
-        position: absolute; /* 절대적인 위치 설정 */ 
-        margin-top: 40px; /* 버튼 위쪽 여백 조정 */                 
-        left: 1350px; /* 왼쪽으로 정렬 */              
-        background-color: #14a6b8;      
-    }    
-    
-    .button:hover { 
-  background-color: #2980b9; /* 호버 상태에서 배경색 변경 */
-}    
-      
-         
-    </style>   
-      
-<h2>일정 관리</h2>              
-<table style="margin-top: 85px; margin-left: -115px; ">      
-            
-            <th>제목</th>
-            <th>장소</th>
-            <th>작성자</th> 
-            <th>종료일</th> 
-            
-        </tr> 
-    </thead> 
-    <tbody>   
-   
-        <tr th:each="event : ${allEvents}">  
-    
-            <td><a th:href="@{/event/adminviewEvent(eventTitle=${event.title})}" th:text="${event.title}">일정 보기</a></td>
-            <td th:text="${event.location}"></td> 
-            <td th:text="${event.event_user_name}"></td>  
-            <td th:text="${#dates.format(event.ended_at, 'yyyy-MM-dd HH:mm')}"></td> 
-             
-        </tr>  
-          
-        <tr>
-             <a class="button" th:href="@{/event/admincreateEventForm}">일정 등록</a>     
-        </tr>
-    </tbody>  
-    
-</table> 
- 
+    <div th:replace="sidebar/privacy-admin :: eventManagementSidebar"></div>
+    <div class="content">
+        <div class="h2-wrapper"><h2>일정 관리</h2></div>
+        <table>
+            <thead>
+                <tr>
+                    <th>제목</th>
+                    <th>장소</th>
+                    <th>작성자</th>
+                    <th>종료일</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="event : ${allEvents}">
+                    <td><a th:href="@{/event/adminviewEvent(eventTitle=${event.title})}" th:text="${event.title}">일정 보기</a></td>
+                    <td th:text="${event.location}"></td>
+                    <td th:text="${event.event_user_name}"></td>
+                    <td th:text="${#dates.format(event.ended_at, 'yyyy-MM-dd HH:mm')}"></td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <a class="button" th:href="@{/event/admincreateEventForm}">일정 등록</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
-
- 
-</div> 
-</body>
-</html> 
+</html>

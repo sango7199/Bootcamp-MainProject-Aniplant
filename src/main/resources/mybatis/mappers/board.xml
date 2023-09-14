@@ -67,6 +67,10 @@
         VALUES (#{category_num}, #{title}, #{content}, #{views}, #{good}, #{bad}, #{created_user_num}, NOW(),#{author})
     </insert>
     
+    <select id="getBoardByPostNum" parameterType="int" resultType="boardVO">
+    	SELECT * FROM TB_BOARD WHERE post_num = #{post_num}
+    </select>
+    
     <update id="updateBoard" parameterType="boardVO">
 	    UPDATE TB_BOARD
 	    SET category_num = #{category_num},

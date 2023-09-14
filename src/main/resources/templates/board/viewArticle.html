@@ -14,19 +14,19 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
 <!-- 해당 페이지 고유 CSS 추가 -->
 <th:block layout:fragment="css">
     <link rel="stylesheet" th:href="@{/css/board.css}" >
-    <style>
-        .container {
-            display: flex;
-            flex-direction: row; 
-            align-items: start;
-        }
-    </style>
 </th:block>
 
 <!-- 해당 페이지 고유 스크립트 추가 -->
 <th:block layout:fragment="script"> 
    <script th:inline="javascript">
-   
+    // 수정 페이지 메소드
+    function redirectToEditPage(buttonElement) {
+        const postNum = document.getElementById("postNum").textContent;
+        const url = `/board/articleEditForm.do?post_num=${postNum}`;
+        window.location.href = url;
+    }
+
+
    var isGoodVoted = false;
    var isBadVoted = false;
    var goodButtonClicked = false;
@@ -85,26 +85,26 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
        });
    }
    
-   document.addEventListener("DOMContentLoaded", function() {
-         var editButton = document.getElementById("editButton");
-         var titleInput = document.getElementById("titleInput");
-         var contentTextarea = document.getElementById("contentTextarea");
-         var deleteButton = document.getElementById("deleteButton"); // 추가
-           var goodButton = document.getElementById("goodButton");
-         var badButton = document.getElementById("badButton");
+//    document.addEventListener("DOMContentLoaded", function() {
+//          var editButton = document.getElementById("editButton");
+//          var titleInput = document.getElementById("titleInput");
+//          var contentTextarea = document.getElementById("contentTextarea");
+//          var deleteButton = document.getElementById("deleteButton"); // 추가
+//            var goodButton = document.getElementById("goodButton");
+//          var badButton = document.getElementById("badButton");
          
-         editButton.addEventListener("click", function() {
-          topLevelSelect.removeAttribute("disabled");
-           titleInput.removeAttribute("disabled");
-           contentTextarea.removeAttribute("disabled");
-           editButton.style.display = "none";
-           resetButton.style.display = "inline";
-           saveButton.style.display = "inline";
-           deleteButton.style.display = "none";
-           goodButton.style.display = "none";
-           badButton.style.display = "none";
-         });         
-       });
+//         //  editButton.addEventListener("click", function() {
+//         //   topLevelSelect.removeAttribute("disabled");
+//         //    titleInput.removeAttribute("disabled");
+//         //    contentTextarea.removeAttribute("disabled");
+//         //    editButton.style.display = "none";
+//         //    resetButton.style.display = "inline";
+//         //    saveButton.style.display = "inline";
+//         //    deleteButton.style.display = "none";
+//         //    goodButton.style.display = "none";
+//         //    badButton.style.display = "none";
+//         //  });         
+//        });
    </script>
     <script>
         // JavaScript 코드
@@ -228,10 +228,10 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
     <div th:replace="sidebar/article :: articleSidebar"></div>
     
     <div class="content">
-        <div class="h2-wrapper"><h2 th:text="${board.post_num + '. ' + board.title}"></h2>
+        <div class="h2-wrapper"><span id="postNum" th:text="${board.post_num}" style="display: none;"></span><h2 th:text="${board.post_num + '. ' + board.title}"></h2>
             <div id="btn-area">
-                <button type="button" value="수정하기" id="editButton" class="article-btn" th:if="${board.created_user_num == #authentication.principal.usernum}">수정하기</button>
-                <form th:action="@{delete/{post_num}(post_num=${board.post_num})}" method="post">
+                <button type="button" value="수정하기" id="editButton" class="article-btn" th:if="${board.created_user_num == #authentication.principal.usernum}" onclick="redirectToEditPage(this)">수정하기</button>
+                <form th:action="@{/delete/{post_num}(post_num=${board.post_num})}" method="post">
                     <!-- 삭제하기 버튼을 특정 조건에 따라 보이게 하기 -->
                     <button type="submit" value="삭제하기" id="deleteButton" class="article-btn" onclick="return confirm('게시글을 삭제하시겠습니까?')" th:if="${board.created_user_num == #authentication.principal.usernum}">삭제하기</button>
                     <input type="hidden" name="categoryNum" th:value="${board.category_num}"/>

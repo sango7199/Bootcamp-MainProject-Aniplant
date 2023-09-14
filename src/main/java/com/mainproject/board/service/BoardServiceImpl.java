@@ -92,6 +92,12 @@ public class BoardServiceImpl  implements BoardService{
 	    	boardVO.setAuthor(author);
 	    boardDAO.addNewArticle(boardVO);
 	 }
+	 
+	 // 게시글 번호로 게시글 정보 불러오기
+	 @Override
+	 public BoardVO getBoardByPostNum(int post_num) throws DataAccessException {
+		 return boardDAO.getBoardByPostNum(post_num);
+	 }
 	    
 	    //수정하기
 	    
@@ -136,7 +142,5 @@ public class BoardServiceImpl  implements BoardService{
 		            boardDAO.insertVote(voteVO);
 		        }
 		    }
-		  
-
 
 }

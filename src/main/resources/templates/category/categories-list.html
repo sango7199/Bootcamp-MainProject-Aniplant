@@ -8,6 +8,7 @@
 <th:block layout:fragment="css">
 	<!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
 	<link rel="stylesheet" th:href="@{/css/category.css}" >
+	<link rel="stylesheet" th:href="@{/css/admin.css}"/>
 	<style>
 		#register-btn-area {
 			display: flex;
@@ -31,7 +32,7 @@
 		}
 		
 		input[type="text"]:focus, input[type="number"]:focus, select:focus {
-		    border-color: #007bff; /* 원하는 포커스 색상으로 변경하세요 */
+		    border-color: #14a6b8; /* 원하는 포커스 색상으로 변경하세요 */
 		}
 		
 		
@@ -81,53 +82,56 @@
     <!-- sidebar fragment 사용 -->
     <div th:replace="sidebar/category :: categorySidebar"></div>
 	<div class="content">
-		<h2>카테고리 관리</h2>
-		<h3>
-			<a th:href="@{/category/categories-list.do}">카테고리 리스트</a>
-		</h3>
+		<div class="h2-wrapper">
+			<h2>카테고리 관리</h2>
+			<form action="/category/add-category-form.do" method="get">
+				<div id="register-btn-area"><span id="registerError" class="error"></span><button type="submit" id="pet-modal-register-btn" style="height:32px;">카테고리 등록</button></div>
+			</form>
+		</div>
+		<div class="categoty-head">
+			<h3>
+				<a th:href="@{/category/categories-list.do}">카테고리 리스트</a>
+			</h3>
+			<div>
+				<form id="perPageNumSelect" action="/category/categories-list.do" method="get">
+					<select name="newPerPageNum">
+						<option value="10" th:selected="${paging.perPageNumVal == 10}">10개씩
+							보기</option>
+						<option value="20" th:selected="${paging.perPageNumVal == 20}">20개씩
+							보기</option>
+						<option value="50" th:selected="${paging.perPageNumVal == 50}">50개씩
+							보기</option>
+					</select>
+				</form>
+				<script>
+					$(document).ready(function() {
+						// 셀렉트 박스의 변경 이벤트 리스너 등록
+						$('#perPageNumSelect').on('change', function() {
+							// 선택한 값 가져오기
+							var selectedValue = $(this).val();
 
-		<form id="perPageNumSelect" action="/category/categories-list.do" method="get">
-			<select name="newPerPageNum">
-				<option value="10" th:selected="${paging.perPageNumVal == 10}">10개씩
-					보기</option>
-				<option value="20" th:selected="${paging.perPageNumVal == 20}">20개씩
-					보기</option>
-				<option value="50" th:selected="${paging.perPageNumVal == 50}">50개씩
-					보기</option>
-			</select>
-		</form>
-		<script>
-			$(document).ready(function() {
-				// 셀렉트 박스의 변경 이벤트 리스너 등록
-				$('#perPageNumSelect').on('change', function() {
-					// 선택한 값 가져오기
-					var selectedValue = $(this).val();
+							// 페이지당 개수 필드 업데이트
+							$('[name="perPageNum"]').val(selectedValue);
 
-					// 페이지당 개수 필드 업데이트
-					$('[name="perPageNum"]').val(selectedValue);
+							// 폼 제출
+							$('#perPageNumSelect').submit();
+						});
+					});
+				</script>
 
-					// 폼 제출
-					$('#perPageNumSelect').submit();
-				});
-			});
-		</script>
-
-		<form id="searchForm" action="/category/categories-list-search.do"	method="get">
-			<select name="searchType">
-				<option value="Category_Num">카테고리 번호</option>
-				<option value="Parent_Category_Num">상위 카테고리 번호</option>
-				<option value="Name">카테고리 이름</option>
-			</select> <input class="table-search-area" type="text" name="keyword" placeholder="검색어를 입력하세요">
-			<input type="hidden" name="page" th:value="${paging.getCurrent()}">
-					
-
-			<div id="register-btn-area" style="margin-bottom: 10px; display: inline-block;"><span id="registerError" class="error"></span><button type="submit" id="pet-modal-register-btn">검색</button></div>
-		</form>
+				<form id="searchForm" action="/category/categories-list-search.do"	method="get">
+					<select name="searchType">
+						<option value="Category_Num">카테고리 번호</option>
+						<option value="Parent_Category_Num">상위 카테고리 번호</option>
+						<option value="Name">카테고리 이름</option>
+					</select> <input class="table-search-area" type="text" name="keyword" placeholder="검색어를 입력하세요">
+					<input type="hidden" name="page" th:value="${paging.getCurrent()}">
+					<div id="register-btn-area" style="margin-bottom: 10px; display: inline-block;"><span id="registerError" class="error"></span><button type="submit" id="pet-modal-register-btn">검색</button></div>
+				</form>
+			</div>
+		</div>
 		
 		<div class="content">
-			<form action="/category/add-category-form.do"	method="get">
-				<div id="register-btn-area" style="margin-bottom: 10px;"><span id="registerError" class="error"></span><button type="submit" id="pet-modal-register-btn">카테고리 등록</button></div>
-			</form>
 			<table class="category-table">
 				<tr>
 					<th>No.</th>

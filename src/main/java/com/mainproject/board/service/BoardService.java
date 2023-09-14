@@ -38,7 +38,9 @@ public interface BoardService {
 
 	List<BoardVO> getArticlesByCategory(int categoryNum);
 
-
+	// 게시글 번호로 게시글 정보 불러오기
+	public BoardVO getBoardByPostNum(int postNum) throws DataAccessException;
+	
 	void updateBoard(BoardVO board);
 
 

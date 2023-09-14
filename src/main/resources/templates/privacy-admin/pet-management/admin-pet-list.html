@@ -3,11 +3,34 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/adminLayout}">
 
 <head>
-	<title>애니플랜트 : 관리자 반려친구 리스트</title>
+	<title>관리자 반려친구 리스트</title>
 </head>
+
 <th:block layout:fragment="css">
 	<link rel="stylesheet" th:href="@{/css/pet-management.css}" />
+	<link rel="stylesheet" th:href="@{/css/admin.css}"/>
+	<style>
+		#search-btn {
+			background: linear-gradient(to right, #14A6B8, #43B8C6);
+			height: 39px;
+			color: #fff;
+			padding: 3px 20px;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			transition: background 0.3s, transform 0.3s;
+			box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+		}
+		#search-btn:hover {
+			background: linear-gradient(to right, #108593, #14A6B8);
+			transform: translateY(-2px);
+		}
+		#search-btn:active{
+			transform: translateY(0);
+		}
+	</style>
 </th:block>
+
 <th:block layout:fragment="script">
 	<script th:src="@{/js/pet/pet-list.js}"></script>
 </th:block>
@@ -16,15 +39,17 @@
 	<!-- sidebar fragment 사용 -->
 	<div th:replace="sidebar/privacy-admin :: petManagementSidebar"></div>
 	<div class="content">
-		<h2>반려친구 정보 관리</h2>
-		<form th:action="@{/privacy-admin/pet-management/search}" method="get" class="search-form">
-			<select name="category">
-				<option value="name">이름</option>
-				<option value="owner_name">반려인</option>
-			</select>
-			<input type="text" name="keyword" placeholder="검색어입력">
-			<button type="submit">검색</button>
-		</form>
+		<div class="h2-wrapper">
+			<h2>반려친구 정보 관리</h2>
+			<form th:action="@{/privacy-admin/pet-management/search}" method="get" class="search-form">
+				<select name="category">
+					<option value="name">이름</option>
+					<option value="owner_name">반려인</option>
+				</select>
+				<input type="text" name="keyword" placeholder="검색어를 입력해주세요.">
+				<button type="submit" id="search-btn">검색</button>
+			</form>
+		</div>
 		<table>
 			<div class="table-top-wrapper"> </div>
 			<thead>
