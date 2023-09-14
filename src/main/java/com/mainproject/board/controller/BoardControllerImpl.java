@@ -28,6 +28,8 @@ import com.mainproject.category.service.CategoryService;
 import com.mainproject.category.vo.CategoryVO;
 import com.mainproject.paging.PagingUtils;
 import com.mainproject.paging.PagingVO;
+import com.mainproject.user.service.UserService;
+import com.mainproject.user.vo.UserVO;
 
 @Controller("boardController")
 public class BoardControllerImpl implements BoardController{
@@ -36,6 +38,9 @@ public class BoardControllerImpl implements BoardController{
 	
 	@Autowired
     private CategoryService categoryService; // CategoryService 주입
+	
+	@Autowired
+	private UserService userService;
 	
 	@Autowired
 	private BoardVO boardVO;
@@ -208,31 +213,35 @@ public class BoardControllerImpl implements BoardController{
         String viewName = (String) request.getAttribute("viewName");
         boardVO = boardService.viewArticle(post_num);
         
+        int userNum = boardVO.getCreated_user_num();
+        UserVO poster = userService.getUserByUserNum(userNum);
+        
         // 조회수 증가 처리
         boardService.increaseViews(post_num);
         
         ModelAndView mav = new ModelAndView();
         mav.setViewName(viewName);
         mav.addObject("board", boardVO);
-        
+        mav.addObject("poster", poster);
 
         return mav;
     }
     
-    //게시글 수정
+    // 게시글 수정
     @PostMapping("/edit/{post_num}")
     public String editBoard(@PathVariable int post_num, @ModelAttribute BoardVO updatedBoard) {
     	boardService.updateBoard(updatedBoard);
         return "redirect:/board/viewArticle.do?post_num=" + post_num; // 수정된 게시글로 리다이렉트
     }
     
-    //게시글 삭제
+    // 게시글 삭제
     @PostMapping("/board/delete/{post_num}")
     public String deleteBoard(@PathVariable int post_num) {
         boardService.deleteBoard(post_num);
         return "redirect:/board/articles-list.do?categoryNum=" + boardVO.getCategory_num();
     }
     
+    // 추천 비추천 중복체크 및 반영 로직
     @PostMapping("/vote")
     @ResponseBody
     public ResponseEntity<String> voteForPost(@RequestParam("user_num") int user_num,
@@ -260,14 +269,6 @@ public class BoardControllerImpl implements BoardController{
             return ResponseEntity.badRequest().body("이미 투표한 게시물입니다.");
         }
     }
-
-
-    
-
-
-
-    
-
 
 }
 	

@@ -9,13 +9,13 @@
         <ul class="sidebar-menu">
             <a><b>게시판</b></a>
 
-           <li><a th:href="@{/board/articles-list.do(categoryNum=3)}" id="animalLink">동물 게시판</a>
+           <li><a>동물 게시판</a>
                 <ul>
                     <li><a href="/board/articles-list.do?categoryNum=3">강아지</a></li>
                     <li><a href="/board/articles-list.do?categoryNum=4">고양이</a></li>
                 </ul>
             </li>
-            <li><a th:href="@{/board/articles-list.do(categoryNum=5)}" id="plantLink">식물 게시판</a>
+            <li><a>식물 게시판</a>
                 <ul>
                     <li><a href="/board/articles-list.do?categoryNum=5">화초</a></li>
                     <li><a href="/board/articles-list.do?categoryNum=6">작물</a></li>
@@ -24,7 +24,5 @@
         </ul>
         <a href="/board/articles-list.do?categoryNum=7">고객문의</a>
     </div>
-   
-    
 </body>
 </html>

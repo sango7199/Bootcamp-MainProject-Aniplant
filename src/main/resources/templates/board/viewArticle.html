@@ -8,19 +8,19 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>게시글 내용 보기</title>
+  <title th:text="${board.title}"></title>
 </head>
 
 <!-- 해당 페이지 고유 CSS 추가 -->
 <th:block layout:fragment="css">
-    <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+    <link rel="stylesheet" th:href="@{/css/board.css}" >
     <style>
         .container {
             display: flex;
             flex-direction: row; 
             align-items: start;
         }
-        </style>
+    </style>
 </th:block>
 
 <!-- 해당 페이지 고유 스크립트 추가 -->
@@ -123,200 +123,174 @@ layout:decorate="~{layout/defaultLayout}"><!--푸터, 헤더 적용-->
          });         
        });
    </script>
-   
+    <script>
+        // JavaScript 코드
+    
+        // 댓글 데이터를 저장하는 배열
+        let comments = [];
+    
+        // 페이지 로드 시 댓글을 표시하는 함수 호출
+        window.onload = displayComments;
+    
+        // 댓글 표시 함수
+        function displayComments() {
+            const commentsDiv = document.getElementById("comments");
+            commentsDiv.innerHTML = ""; // 이전에 표시된 댓글 제거
+    
+            // 서버에서 댓글 데이터를 가져와야 하지만 여기서는 배열을 사용
+            for (let i = 0; i < comments.length; i++) {
+                const comment = comments[i];
+                const commentDiv = document.createElement("div");
+                commentDiv.className = "comment";
+                commentDiv.innerHTML = `
+                    <div class="comment-content">${comment.content}</div>
+                    <button onclick="editComment(${i})">수정</button>
+                    <button onclick="deleteComment(${i})">삭제</button>
+                    <div id="replies-${i}"></div>
+                    <textarea id="replyInput-${i}" placeholder="대댓글을 작성하세요"></textarea>
+                    <button onclick="addReply(${i})">대댓글 작성</button>
+                `;
+    
+                commentsDiv.appendChild(commentDiv);
+    
+                // 대댓글 표시
+                const replyDiv = document.getElementById(`replies-${i}`);
+                for (let j = 0; j < comment.replies.length; j++) {
+                    const reply = comment.replies[j];
+                    const replyContent = document.createElement("div");
+                    replyContent.className = "reply";
+                    replyContent.innerHTML = `
+                        <div class="reply-content">${reply.content}</div>
+                        <button onclick="editReply(${i}, ${j})">수정</button>
+                        <button onclick="deleteReply(${i}, ${j})">삭제</button>
+                    `;
+                    replyDiv.appendChild(replyContent);
+                }
+            }
+        }
+    
+        // 댓글 작성 함수
+        function addComment() {
+            const commentInput = document.getElementById("commentInput");
+            const content = commentInput.value;
+            if (content.trim() === "") {
+                alert("댓글 내용을 입력하세요.");
+                return;
+            }
+    
+            // 서버에 댓글 데이터 전송 및 저장
+            const newComment = { content, replies: [] };
+            comments.push(newComment);
+            commentInput.value = ""; // 입력 필드 비우기
+            displayComments();
+        }
+    
+        // 댓글 수정 함수
+        function editComment(commentIndex) {
+            const newContent = prompt("댓글을 수정하세요:", comments[commentIndex].content);
+            if (newContent === null) return; // 사용자가 취소 버튼을 누른 경우
+    
+            comments[commentIndex].content = newContent;
+            displayComments();
+        }
+    
+        // 댓글 삭제 함수
+        function deleteComment(commentIndex) {
+            if (confirm("댓글을 삭제하시겠습니까?")) {
+                comments.splice(commentIndex, 1);
+                displayComments();
+            }
+        }
+    
+        // 대댓글 작성 함수
+        function addReply(commentIndex) {
+            const replyInput = document.getElementById(`replyInput-${commentIndex}`);
+            const content = replyInput.value;
+            if (content.trim() === "") {
+                alert("대댓글 내용을 입력하세요.");
+                return;
+            }
+    
+            const newReply = { content };
+            comments[commentIndex].replies.push(newReply);
+            replyInput.value = "";
+            displayComments();
+        }
+    
+        // 대댓글 수정 함수
+        function editReply(commentIndex, replyIndex) {
+            const newContent = prompt("대댓글을 수정하세요:", comments[commentIndex].replies[replyIndex].content);
+            if (newContent === null) return;
+    
+            comments[commentIndex].replies[replyIndex].content = newContent;
+            displayComments();
+        }
+        
+        // 대댓글 삭제 함수
+        function deleteReply(commentIndex, replyIndex) {
+            if (confirm("대댓글을 삭제하시겠습니까?")) {
+                comments[commentIndex].replies.splice(replyIndex, 1);
+                displayComments();
+            }
+        }
+    </script>
 </th:block>
+
+<span id="curUserNum" th:text="${#authentication.principal.usernum}" style="display: none;"></span>
 
 <body>
     <!-- Content -->
-<div layout:fragment="content" class="container">
-  <!-- sidebar fragment 사용 -->
-  <div th:replace="sidebar/article :: articleSidebar"></div>
-  
-  <div class="content">
-    <h3 >게시글 내용 보기</h3>
-    <h4>게시글 정보</h4>
-    <h5>게시글번호 : <span th:text="${board.post_num}"></span>
-       작성자 : <span th:text="${board.created_user_num}"></span>
-       조회수 : <span th:text="${board.views}"></span>
-       추천수 : <span th:text="${board.good}"></span>
-        비추천수 : <span th:text="${board.bad}"></span>
-        작성일 : <span th:text="${board.created_at}"></span>
-        수정일 : <span th:text="${board.updated_at}" id="updated_at" ></span></h5>
+    <div layout:fragment="content" class="container">
+    <!-- sidebar fragment 사용 -->
+    <div th:replace="sidebar/article :: articleSidebar"></div>
     
-    
-    <form id="viewArticle" name="viewArticle" th:action="@{/edit/{post_num}(post_num=${board.post_num})}" th:object="${board}" method="post">
-        
-        <table align="left">
-             <tr>
-                  <td align="left">카테고리</td>
-                    <td colspan="2" >
-                      <select id="topLevelSelect" name="categoryNum" th:field="*{category_num}"disabled>
-                        <option  th:value="3">강아지</option>
-                        <option  th:value="4">고양이</option>
-                        <option th:value="5">화초</option>
-                        <option th:value="6">작물</option>
-                        <option th:value="7">고객문의</option>
-                      </select>
-                      
-                </td>
-            
-           
-            </tr> 
-            <tr>
-                <td align="left">제목 </td>
-                <td colspan="2" ><input id="titleInput"  type="text" size="50" maxlength="60" th:field="*{title}" disabled/></td>
-            </tr>
-            <tr>
-                <td align="left" valign="top"><br>내용 </td>
-                <td colspan="2"><textarea  id="contentTextarea"  name="content" rows="10" cols="65" maxlength="4000" th:field="*{content}" disabled></textarea> </td>
-            </tr>
-            <tr>
-                <td align="left"> </td>
-                <td colspan="2"> 
-                      <button type="reset" value="초기화" id="resetButton" style="display: none;">초기화</button>
-                      <button type="submit" value="저장하기" id="saveButton" style="display: none;" onclick="return confirm('변경내용을 저장하시겠습니까?')">저장하기</button>   
-      
-                </td>
-            </tr>
-        </table>
-    </form>
+    <div class="content">
+        <div class="h2-wrapper"><h2 th:text="${board.post_num + '. ' + board.title}"></h2>
+            <div id="btn-area">
+                <button type="button" value="수정하기" id="editButton" class="article-btn" th:if="${board.created_user_num == #authentication.principal.usernum}">수정하기</button>
+                <form th:action="@{delete/{post_num}(post_num=${board.post_num})}" method="post">
+                    <!-- 삭제하기 버튼을 특정 조건에 따라 보이게 하기 -->
+                    <button type="submit" value="삭제하기" id="deleteButton" class="article-btn" onclick="return confirm('게시글을 삭제하시겠습니까?')" th:if="${board.created_user_num == #authentication.principal.usernum}">삭제하기</button>
+                    <input type="hidden" name="categoryNum" th:value="${board.category_num}"/>
+                </form>
+            </div>
+        </div>
+        <div>
+            <div class="article-info">
+                <div class="article-user-info">
+                    <div><img id="article-poster-rank-img" th:src="${poster.rank.imagePath}"><span th:text="${poster.nickname}"></span></div>
+                    <div th:text="${#dates.format(board.created_at, 'yyyy-MM-dd HH:mm')}"></div>
+                </div>
+                <div class="article-stats">
+                    <div>조회수 : <span th:text="${board.views}"></span></div>
+                    <div>추천수 : <span th:text="${board.good}"></span></div>
+                    <div>비추천수 : <span th:text="${board.bad}"></span></div>
+                </div>                
+            </div>
+            <div id="article-content" th:text="${board.content}"></div>
+            <div class="vote-area">
+                <div>
+                    <button id="goodButton" th:attr="data-post-num=${board.post_num}" onclick="toggleGoodCount(this.getAttribute('data-post-num'))">
+                        <img class="vote-btn-icon" th:src="@{/img/board/good-icon.png}"> <span>추천</span>
+                    </button>
+                </div>
+                <div>
+                    <button id="badButton" th:attr="data-post-num=${board.post_num}" onclick="toggleBadCount(this.getAttribute('data-post-num'))">
+                        <img class="vote-btn-icon" th:src="@{/img/board/bad-icon.png}"> <span>비추천</span>
+                    </button>
+                </div>
+            </div>
+        </div>
 
-    
+            <div id="comments">
+                <!-- 댓글과 대댓글을 표시할 공간 -->
+            </div>
 
-
-         <form th:action="@{delete/{post_num}(post_num=${board.post_num})}"   method="post">
-            <button type="button" value="수정하기" id="editButton" th:if="${board.created_user_num == #authentication.principal.usernum}">수정하기</button>
-
-            <!-- 삭제하기 버튼을 특정 조건에 따라 보이게 하기 -->
-            <button type="submit" value="삭제하기" id="deleteButton" onclick="return confirm('게시글을 삭제하시겠습니까?')" th:if="${board.created_user_num == #authentication.principal.usernum}">삭제하기</button>
-
-            <input type="hidden" name="categoryNum"   th:value="${board.category_num}" />
-         </form>
-				
-				<span id="curUserNum" th:text="${#authentication.principal.usernum}" style="display: none;"></span>
-                <button id="goodButton" th:attr="data-post-num=${board.post_num}" onclick="toggleGoodCount(this.getAttribute('data-post-num'))">추천</button>
-                <button id="badButton" th:attr="data-post-num=${board.post_num}" onclick="toggleBadCount(this.getAttribute('data-post-num'))">비추천</button>
-
-  </div>
-  <div id="comments">
-		<!-- 댓글과 대댓글을 표시할 공간 -->
-	</div>
-	<div id="commentForm">
-		<textarea id="commentInput" placeholder="댓글을 작성하세요"></textarea>
-		<button onclick="addComment()">댓글 작성</button>
-	</div>
-
-	<script>
- // JavaScript 코드
-
- // 댓글 데이터를 저장하는 배열
- let comments = [];
-
- // 페이지 로드 시 댓글을 표시하는 함수 호출
- window.onload = displayComments;
-
- // 댓글 표시 함수
- function displayComments() {
-     const commentsDiv = document.getElementById("comments");
-     commentsDiv.innerHTML = ""; // 이전에 표시된 댓글 제거
-
-     // 서버에서 댓글 데이터를 가져와야 하지만 여기서는 배열을 사용
-     for (let i = 0; i < comments.length; i++) {
-         const comment = comments[i];
-         const commentDiv = document.createElement("div");
-         commentDiv.className = "comment";
-         commentDiv.innerHTML = `
-             <div class="comment-content">${comment.content}</div>
-             <button onclick="editComment(${i})">수정</button>
-             <button onclick="deleteComment(${i})">삭제</button>
-             <div id="replies-${i}"></div>
-             <textarea id="replyInput-${i}" placeholder="대댓글을 작성하세요"></textarea>
-             <button onclick="addReply(${i})">대댓글 작성</button>
-         `;
-
-         commentsDiv.appendChild(commentDiv);
-
-         // 대댓글 표시
-         const replyDiv = document.getElementById(`replies-${i}`);
-         for (let j = 0; j < comment.replies.length; j++) {
-             const reply = comment.replies[j];
-             const replyContent = document.createElement("div");
-             replyContent.className = "reply";
-             replyContent.innerHTML = `
-                 <div class="reply-content">${reply.content}</div>
-                 <button onclick="editReply(${i}, ${j})">수정</button>
-                 <button onclick="deleteReply(${i}, ${j})">삭제</button>
-             `;
-             replyDiv.appendChild(replyContent);
-         }
-     }
- }
-
- // 댓글 작성 함수
- function addComment() {
-     const commentInput = document.getElementById("commentInput");
-     const content = commentInput.value;
-     if (content.trim() === "") {
-         alert("댓글 내용을 입력하세요.");
-         return;
-     }
-
-     // 서버에 댓글 데이터 전송 및 저장
-     const newComment = { content, replies: [] };
-     comments.push(newComment);
-     commentInput.value = ""; // 입력 필드 비우기
-     displayComments();
- }
-
- // 댓글 수정 함수
- function editComment(commentIndex) {
-     const newContent = prompt("댓글을 수정하세요:", comments[commentIndex].content);
-     if (newContent === null) return; // 사용자가 취소 버튼을 누른 경우
-
-     comments[commentIndex].content = newContent;
-     displayComments();
- }
-
- // 댓글 삭제 함수
- function deleteComment(commentIndex) {
-     if (confirm("댓글을 삭제하시겠습니까?")) {
-         comments.splice(commentIndex, 1);
-         displayComments();
-     }
- }
-
- // 대댓글 작성 함수
- function addReply(commentIndex) {
-     const replyInput = document.getElementById(`replyInput-${commentIndex}`);
-     const content = replyInput.value;
-     if (content.trim() === "") {
-         alert("대댓글 내용을 입력하세요.");
-         return;
-     }
-
-     const newReply = { content };
-     comments[commentIndex].replies.push(newReply);
-     replyInput.value = "";
-     displayComments();
- }
-
- // 대댓글 수정 함수
- function editReply(commentIndex, replyIndex) {
-     const newContent = prompt("대댓글을 수정하세요:", comments[commentIndex].replies[replyIndex].content);
-     if (newContent === null) return;
-
-     comments[commentIndex].replies[replyIndex].content = newContent;
-     displayComments();
- }
-
- // 대댓글 삭제 함수
- function deleteReply(commentIndex, replyIndex) {
-     if (confirm("대댓글을 삭제하시겠습니까?")) {
-         comments[commentIndex].replies.splice(replyIndex, 1);
-         displayComments();
-     }
- }
-    </script>
-</div>
+            <div id="commentForm">
+                <textarea id="commentInput" placeholder="댓글창 "></textarea>
+                <button onclick="addComment()" disabled>댓글 작성</button>
+            </div>            
+        </div>
+    </div>
 </body>
 </html>

@@ -47,7 +47,6 @@ public class BoardServiceImpl  implements BoardService{
         paging.setCategoryNum(categoryNum); // categoryNum을 설정합니다.
         return boardDAO.selectArticlesWithPaging(paging);
     }
-
     
     @Override
     // 카테고리 번호에 따른 전체 게시글 수 조회
