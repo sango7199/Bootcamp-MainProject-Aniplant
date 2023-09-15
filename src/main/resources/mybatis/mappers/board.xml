@@ -73,8 +73,7 @@
     
     <update id="updateBoard" parameterType="boardVO">
 	    UPDATE TB_BOARD
-	    SET category_num = #{category_num},
-	        title = #{title},
+	    SET title = #{title},
 	        content = #{content},
 	        updated_at = NOW() -- 현재 시간으로 업데이트
 	    WHERE post_num = #{post_num}
